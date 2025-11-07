@@ -84,5 +84,8 @@ Write-Host ""
 Write-Host "----------------------------------------"
 Write-Host "脚本执行完毕。"
 Write-Host "----------------------------------------"
-Write-Host "按任意键退出..."
-$host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
+for ($i = 5; $i -gt 0; $i--) {
+    Write-Host "`r倒计时 $i 秒后退出... " -NoNewline
+    Start-Sleep -Seconds 1
+}
+Write-Host "`r倒计时结束，已退出。        "
