@@ -3373,9 +3373,9 @@
 		//-------------------------------------------------------------------------------------------------------------
 		"AbilityValues"
 		{
-			"bonus_all_stats"			"7"
+			"bonus_all_stats"			"6"
 			"bonus_health_regen"		"6.5"
-			"bonus_mana_regen"			"2.5"
+			"bonus_mana_regen"			"2.25"
 			"slow"						"30"
 			"bonus_spell_damage"		"150"
 			"slow_duration"				"3" // even if there is no slow, this needs to be above 0.0 so the delayed_damage happens OnIntervalThink
@@ -3444,6 +3444,7 @@
 		"SuggestLategame"				"1"
 		"ItemPurchasable"				"1"
 		"ItemSellable"					"1"
+		"ItemDisassembleRule"			"DOTA_ITEM_DISASSEMBLE_ALWAYS"
 
 		// Special	
 		//-------------------------------------------------------------------------------------------------------------
@@ -8251,7 +8252,7 @@
 			"windwalk_movement_speed"	"25"
 			"windwalk_fade_time"	"0.3"
 			"windwalk_bonus_damage"	"300"
-			"backstab_duration"		"6"
+			"backstab_duration"		"5"
 			"max_movement_speed"	"200"
 			"visibility_radius"		"1025"
 		}
@@ -8811,6 +8812,8 @@
 				"creep_ability_level_increase"			"1"
 				"is_overlord"			"1"
 				"creep_damage_taken_cooldown"			"3"
+				"bounty_pct"					"100"
+
 		}
 	}
 

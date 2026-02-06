@@ -44,13 +44,13 @@
 				"damage"					
 				{
 					"value"					"4 8 12 16"
-					"special_bonus_unique_viper_7"	"+15%"
+					"special_bonus_unique_viper_7"	"+10%"
 				}	
 
 				"movement_speed"			
 				{
 					"value"					"3 6 9 12"
-					"special_bonus_unique_viper_7"	"+15%"
+					"special_bonus_unique_viper_7"	"+10%"
 				}
 				"magic_resistance"			
 				{
@@ -115,12 +115,12 @@
 				"min_damage"			
 				{
 					"value"		"15 25 35 45"
-					"special_bonus_unique_viper_3"	"+40"
+					"special_bonus_unique_viper_3"	"+30"
 				}
 				"max_damage"
 				{
 					"value"			"35 65 95 125"
-					"special_bonus_unique_viper_3"	"+40"
+					"special_bonus_unique_viper_3"	"+30"
 				}
 				"max_duration"			"4"
 				"radius"		
@@ -182,7 +182,7 @@
 			}
 			"damage"
 			{
-				"value"					"8 16 24 32"
+				"value"					"10 15 20 25"
 				"special_bonus_unique_viper_1"	"+20"
 			}
 			"max_range"
@@ -202,7 +202,7 @@
 			}
 			"nethertoxin_bonus_pct"		
 			{
-				"special_bonus_facet_viper_caustic_bath"					"=100"
+				"special_bonus_facet_viper_caustic_bath"					"=75"
 			}
 			"nethertoxin_bonus_pct_max_duration_tooltip"
 			{
@@ -233,7 +233,7 @@
 			"damage_base"				
 			{
 				"value"					"0.15"
-				"special_bonus_unique_viper_predator_damage"		"+0.25"
+				"special_bonus_unique_viper_predator_damage"		"+0.30"
 			}
 			"damage_per_level"			"0.05"
 			"total_damage_per_missing_health"
@@ -291,7 +291,7 @@
 			"damage"
 			{
 				"value"				"70 110 150"
-				"special_bonus_unique_viper_2"	"+80"
+				"special_bonus_unique_viper_2"	"+70"
 			}
 			"bonus_movement_speed"
 			{

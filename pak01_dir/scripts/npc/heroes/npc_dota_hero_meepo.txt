@@ -18,13 +18,13 @@
 
 		// Casting
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCastPoint"				"0"
-		"AbilityCastAnimation"		"ACT_DOTA_CAST_ABILITY_5"
+		"AbilityCastPoint"				"0.3"
+		"AbilityCastAnimation"			"ACT_DOTA_OVERRIDE_ABILITY_4"
 
 		// Time		
 		//-------------------------------------------------------------------------------------------------------------
 		"AbilityCooldown"				"40"
-
+	
 
 		// Cost
 		//-------------------------------------------------------------------------------------------------------------
@@ -105,6 +105,7 @@
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
 		"FightRecapLevel"				"1"
 		"AbilitySound"					"Hero_Meepo.Poof"
+		"HasScepterUpgrade"				"1"
 
 
 		// Casting
@@ -128,7 +129,7 @@
 			"cast_duration"
 			{
 				"value"						"1.5"
-				"special_bonus_unique_meepo_poof_cast_point"			"-1"
+				"special_bonus_unique_meepo_poof_cast_point"			"-.75"
 			}
 
 			"radius"				
@@ -140,7 +141,12 @@
 			"poof_damage"			
 			{
 				"value"			"50 80 110 140"
-				"special_bonus_unique_meepo_2"	"+50"
+				"special_bonus_unique_meepo_2"	"+40"
+			}
+
+			"megameepo_poof_scaling"			
+			{
+				"special_bonus_scepter"			"50"
 			}
 
 		}
@@ -198,13 +204,13 @@
 				{
 					"value"			"9 12 15 18"
 					"DamageTypeTooltip"			"DAMAGE_TYPE_PURE"
-				"special_bonus_unique_meepo_6" "+8"
+				"special_bonus_unique_meepo_6" "+7"
 				}
 				"health_steal_creeps"	
 				{
 					"value"				"3 5 7 9"
 					"DamageTypeTooltip"			"DAMAGE_TYPE_PURE"
-				"special_bonus_unique_meepo_6" "+8"
+					"special_bonus_unique_meepo_6" "+7"
 				}			
 		}
 		"AbilityCastAnimation"		"ACT_DOTA_CAST_ABILITY_3"
