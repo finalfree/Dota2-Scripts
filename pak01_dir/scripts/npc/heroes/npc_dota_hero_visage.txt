@@ -183,6 +183,7 @@
 				"special_bonus_unique_visage_cloak_recovery_time"		"-2"
 			}
 			"minimum_damage"			 "40"
+			"minimum_damage_familiars"	 "0"
 			"radius"
 			{
 				"affected_by_aoe_increase"	"1"
@@ -224,7 +225,6 @@
 		"AbilityDraftExtraAbilities"
 		{
 			"visage_stone_form_self_cast" ""
-			"visage_silent_as_the_grave" "scepter"
 		}
 
 		"AbilitySound"					"Hero_Visage.SummonFamiliars.Cast"
