@@ -172,7 +172,7 @@
 			"hp_threshold_pct"		"40.0"
 			"heal_reduction_pct"	
 			{
-				"value"				"24.5"
+				"value"				"29.5"
 				"hero_levelup"		"+0.5"
 			}
 			"duration"				"5.0"
@@ -274,11 +274,6 @@
 			"ally_threshold_scepter"
 			{
 				"special_bonus_scepter"				"550"
-			}
-			"redirect_range_scepter"
-			{
-				"special_bonus_scepter"				"900"
-				"affected_by_aoe_increase"	"1"
 			}
 			"immolate_damage"
 			{

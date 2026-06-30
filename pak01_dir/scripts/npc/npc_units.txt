@@ -10825,8 +10825,8 @@
 		// Bounty
 		//----------------------------------------------------------------
 		"BountyXP"					"31"		// Experience earn.
-		"BountyGoldMin"				"22"		// Gold earned min.
-		"BountyGoldMax"				"30"		// Gold earned max.
+		"BountyGoldMin"				"20"		// Gold earned min.
+		"BountyGoldMax"				"26"		// Gold earned max.
 
 		// Status
 		//----------------------------------------------------------------
@@ -11677,7 +11677,7 @@
 
 		// Status
 		//----------------------------------------------------------------
-		"StatusHealth"				"300"		// Base health.
+		"StatusHealth"				"325"		// Base health.
 		"StatusHealthRegen"			"2.0"		// Health regeneration rate.
 		"StatusMana"				"0"			// Base mana.
 		"StatusManaRegen"			"0"			// Mana regeneration rate.
@@ -15526,7 +15526,7 @@
 		"Ability5"					"lone_druid_spirit_bear_fetch"
 		"Ability6"					"lone_druid_spirit_bear_demolish"
 		
-		"Ability10"					"special_bonus_movement_speed_20"
+		"Ability10"					"special_bonus_movement_speed_15"
 		"Ability11"					"special_bonus_magic_resistance_10"
 		"Ability12"					"special_bonus_unique_lone_druid_spirit_bear_return_cd"
 		"Ability13"					"special_bonus_armor_4"
@@ -15575,7 +15575,7 @@
 		// Status
 		//----------------------------------------------------------------
 		"StatusHealth"				"1500"		// Base health.
-		"StatusHealthRegen"			"3"			// Health regeneration rate.
+		"StatusHealthRegen"			"1.5"			// Health regeneration rate.
 		"StatusMana"				"300"		// Base mana.
 		"StatusManaRegen"			"0.5"		// Mana regeneration rate.		 	
 
@@ -23642,5 +23642,87 @@
 		"BountyXP"					"20"		// Experience earn.
 		"BountyGoldMin"				"20"		// Gold earned min.
 		"BountyGoldMax"				"20"		// Gold earned max.
+	}
+
+	//=================================================================================================================
+	// Dark Carnival Balloon
+	//=================================================================================================================
+	"npc_dota_dark_carnival_balloon"
+	{
+		// General
+		//----------------------------------------------------------------
+		"BaseClass"					"npc_dota_dark_carnival_balloon"
+		"Model"						"models/props_consumables/fatsnake/fatsnake.vmdl"
+		"SoundSet"					"Creep_Good_Melee"
+		"ModelScale"				"1.25"
+		"Level"						"1"
+		"IsSummoned"				"1"
+
+		"precache"
+		{
+			"model"		"models/props_gameplay/pig_balloon.vmdl"
+			"model"		"models/props_consumables/fatsnake/fatsnake.vmdl"
+			"model"		"models/props_gameplay/rat_balloon.vmdl"
+			"model"		"models/props_consumables/balloons/donkey_2022/donkey_2022.vmdl"
+			"model"		"models/props_consumables/balloons/donkey_dire_2022/donkey_dire_2022.vmdl"
+			"model"		"models/props_consumables/balloons/frogling_balloon/frogling_balloon.vmdl"
+		}
+
+		// Abilities
+		//----------------------------------------------------------------
+		"Ability2"					""
+		"Ability3"					""
+		"Ability4"					""
+
+		// Armor
+		//----------------------------------------------------------------
+		"ArmorPhysical"				"0"
+		"MagicalResistance"			"0"
+
+		// Attack
+		//----------------------------------------------------------------
+		"AttackCapabilities"		"DOTA_UNIT_CAP_NO_ATTACK"
+		"AttackDamageMin"			"0"
+		"AttackDamageMax"			"0"
+		"AttackRate"				"1.0"
+		"AttackAnimationPoint"		"0.0"
+		"AttackAcquisitionRange"	"0"
+		"AttackRange"				"0"
+		"ProjectileModel"			""
+		"ProjectileSpeed"			"0"
+
+		// Bounty
+		//----------------------------------------------------------------
+		"BountyXP"					"0"
+		"BountyGoldMin"				"0"
+		"BountyGoldMax"				"0"
+
+		// Bounds
+		//----------------------------------------------------------------
+		"BoundsHullName"			"DOTA_HULL_SIZE_SMALL"
+		"HealthBarOffset"			"120"
+
+		// Movement
+		//----------------------------------------------------------------
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND"
+		"MovementSpeed"				"0"
+		"MovementTurnRate"			"0.4"
+
+		// Status
+		//----------------------------------------------------------------
+		"StatusHealth"				"1"
+		"StatusHealthRegen"			"0"
+		"StatusMana"				"0"
+		"StatusManaRegen"			"0"
+
+		// Team
+		//----------------------------------------------------------------
+		"TeamName"					"DOTA_TEAM_NEUTRALS"
+		"UnitRelationshipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_WARD"
+
+		// Vision
+		//----------------------------------------------------------------
+		"VisionDaytimeRange"		"0"
+		"VisionNighttimeRange"		"0"
 	}
 }
