@@ -258,28 +258,28 @@
 		//-------------------------------------------------------------------------------------------------------------
 		"AbilityValues"
 		{
-			"duration"				"40"
-			
-			"bonus_gold"		"2"			
-			"bonus_gold_tooltip"			
+			"duration"				"120"
+
+			"bonus_gold"		"3"
+			"bonus_gold_tooltip"
 			{
-				"value"								"2"
+				"value"								"3"
 				"special_bonus_scepter"		"+0"
 				"dynamic_value"				"true"
 			}
-			
-			"bonus_bonus_gold"		"2"
-			"bonus_gold_per_scepter"		"3"
-			"bounty_multiplier"		"2"
+
+			"bonus_bonus_gold"		"3"
+			"bonus_gold_per_scepter"		"6"
+			"bounty_multiplier"		"3"
 			"damage"
 			{
 				"special_bonus_unique_alchemist_7"	"+3"
 			}
 
-			"bonus_gold_cap"		"16"
+			"bonus_gold_cap"		"30"
 			"bonus_gold_cap_tooltip"
 			{
-				"value"								"16"
+				"value"								"30"
 				"special_bonus_scepter"				"+0"
 				"dynamic_value"				"true"
 
@@ -395,7 +395,7 @@
 		{		
 				"max_stacks"				"7 10 13 16"
 				"debuff_duration"			"4.0"
-				"slow_per_stack"			
+				"slow_per_stack"
 				{
 					"value"					"2.5 3 3.5 4"
 					"display_type"			"kDebuffPercentage"

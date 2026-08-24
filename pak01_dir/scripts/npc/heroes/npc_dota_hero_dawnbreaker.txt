@@ -35,7 +35,7 @@
 			
 			"AbilityCooldown"				
 			{
-				"value"					"17 15 13 11"
+				"value"					"14 12 10 8"
 				"special_bonus_unique_dawnbreaker_fire_wreath_cooldown"			"-4"
 			}
 			"duration"					"1.1"
@@ -60,7 +60,7 @@
 			}
 			"movement_speed"				"215"
 			"total_attacks"				"3"
-			"smash_stun_duration"			
+			"smash_stun_duration"
 			{
 				"value" "0.6 0.8 1.0 1.2"
 				"special_bonus_unique_dawnbreaker_fire_wreath_stun_duration" "+0.5"
@@ -105,7 +105,7 @@
 			{
 				"special_bonus_shard"						"50"
 			}
-		}	
+		}
 	}
 
 	//=================================================================================================================
@@ -127,7 +127,7 @@
 
 		// Time		
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCooldown"				"18 16 14 12"
+		"AbilityCooldown"				"8 6 4 2"
 
 		// Cost
 		//-------------------------------------------------------------------------------------------------------------
@@ -137,7 +137,7 @@
 		//-------------------------------------------------------------------------------------------------------------
 		"AbilityValues"
 		{
-			"hammer_damage"			
+			"hammer_damage"
 			{
 				"value"				"50 80 110 140"
 				"special_bonus_unique_dawnbreaker_celestial_hammer_damage"		"+40%"
@@ -171,7 +171,7 @@
 				"value"			"0"
 				"special_bonus_unique_dawnbreaker_celestial_hammer_targets_allies"		"+1"
 			}
-			"burn_damage"						
+			"burn_damage"
 			{
 				"value"		"20 30 40 50"
 				"special_bonus_unique_dawnbreaker_celestial_hammer_damage"		"+40%"
@@ -187,7 +187,7 @@
 			"return_anim_distance_threshold"						"300"
 			"range"	
 			{
-				"value"								"700 900 1100 1300"
+				"value"								"1200 1400 2600 1800"
 				"special_bonus_unique_dawnbreaker_celestial_hammer_cast_range"				"+80%"
 			}
 			"hammer_solar_guardian_radius"			
@@ -256,7 +256,7 @@
 		{
 				"attack_count"				
 				{
-					"value"		"3"
+					"value"		"2"
 					"special_bonus_unique_dawnbreaker_luminosity_attack_count"		"-1"
   
 				}
@@ -265,12 +265,12 @@
 					"value"		"650"
 					"affected_by_aoe_increase"	"1"	
 				}
-				"heal_pct"					"35 40 45 50"
-				"heal_from_creeps"			"40"
+				"heal_pct"					"100"
+				"heal_from_creeps"			"10"
 				"bonus_damage"				
 				{
 					"value"		"125 150 175 200"
-					"special_bonus_unique_dawnbreaker_luminosity_crit"		"+25"
+					"special_bonus_unique_dawnbreaker_luminosity_crit"		"+100"
 
 					// "damage" in attribute name but it's a percentage-based effect
 					"CalculateSpellDamageTooltip"	"0"
@@ -281,7 +281,7 @@
 				"cooldown_reduction"		
 				{
 					"value"									"0"
-					"special_bonus_facet_dawnbreaker_solar_charged"		"0.8"				
+					"special_bonus_facet_dawnbreaker_solar_charged"		"1.8"
 				}
 				"triggered_by_celestial_hammer"
 				{
@@ -330,8 +330,8 @@
 		{
 			"AbilityCooldown"				
 			{
-				"value"				"110 100 90"
-				"special_bonus_unique_dawnbreaker_solar_guardian_cooldown"			"-20"
+				"value"				"60 30 20"
+				"special_bonus_unique_dawnbreaker_solar_guardian_cooldown"			"-15"
 			}
 
 			"scepter_aura_duration"
@@ -363,7 +363,7 @@
 				"value"			"130 160 190"
 				"CalculateSpellDamageTooltip" "1"
 			}
-			"land_stun_duration"			"1.2 1.4 1.6"
+			"land_stun_duration"			"1.4 1.6 1.8"
 			"max_offset_distance"			"350"
 			"scepter_channel_time"				
 			{
@@ -431,7 +431,7 @@
 			{
 				"dynamic_value"					"true"
 			}
-			
+
 			"heal_amp"
 			{
 				"value"					"0"

@@ -239,8 +239,8 @@
 			"animation_rate"		"1.5"
 			"AbilityChannelTime"			
 			{
-				"value"				"2.75 2.75 2.75"
-				"special_bonus_unique_pudge_6"	"+0.75"
+				"value"				"2.75 3.75 4.75"
+				"special_bonus_unique_pudge_6"	"+4.75"
 			}
 			
 			"AbilityCooldown"				

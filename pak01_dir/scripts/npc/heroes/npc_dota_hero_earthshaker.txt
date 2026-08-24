@@ -47,17 +47,17 @@
 			"stun_duration"				"1.0 1.2 1.4 1.6"
 			"fissure_damage"
 			{
-				"value"				"100 160 220 280"
-				"special_bonus_unique_earthshaker_4"		"+75"
+				"value"				"200 360 420 580"
+				"special_bonus_unique_earthshaker_4"		"+475"
 			}
 			"AbilityCooldown"
 			{
-				"value"			"18 17 16 15"
+				"value"			"18 14 10 6"
 				"special_bonus_shard"		"-2"
 			}
 			"shard_aftershock_stun_duration_pct"
 			{
-				"special_bonus_shard"				"=50"
+				"special_bonus_shard"				"=100"
 			}
 			"free_pathing_linger_duration"
 			{
@@ -76,7 +76,7 @@
 			"echoes_damage_multiplier"
 			{
 				"value" "0"
-				"special_bonus_facet_earthshaker_reverberating_ridge" "=60"
+				"special_bonus_facet_earthshaker_reverberating_ridge" "=100"
 			}
 		}
 		"AbilityCastAnimation"		"ACT_DOTA_CAST_ABILITY_1"
@@ -124,16 +124,16 @@
 			{
 				"value"		"100 200 300 400"
 				"CalculateSpellDamageTooltip"	"0"
-				"special_bonus_unique_earthshaker_totem_damage"	"+65"
+				"special_bonus_unique_earthshaker_totem_damage"	"+200"
 			}
 			"distance_scepter"			
 			{
-				"special_bonus_scepter"		"950"
+				"special_bonus_scepter"		"1950"
 			}
 			"AbilityCooldown"
 			{
-				"value"			"5.0"
-				"special_bonus_unique_earthshaker"			"-1.5"
+				"value"			"4.0"
+				"special_bonus_unique_earthshaker"			"-2.5"
 
 			}
 			"scepter_height"			"950"
@@ -180,7 +180,7 @@
 
 		// Time		
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityDuration"				"1.0 1.1 1.2 1.3"
+		"AbilityDuration"				"1.0 1.3 1.6 2"
 
 		// Damage.
 		//-------------------------------------------------------------------------------------------------------------
@@ -195,13 +195,13 @@
 		{
 				"aftershock_range"			
 				{
-					"value"		"350"
+					"value"		"450"
 					"affected_by_aoe_increase"	"1"
 				}
 				"aftershock_damage"			
 				{
-					"value"		"65 90 115 140"
-					"special_bonus_unique_earthshaker_6"		"+50"
+					"value"		"65 110 175 240"
+					"special_bonus_unique_earthshaker_6"		"+250"
 				}				
 		}
 		"AbilityCastAnimation"		"ACT_DOTA_CAST_ABILITY_3"
@@ -257,10 +257,10 @@
 				}
 				"echo_slam_echo_damage"		
 				{
-					"value"				"70 90 110"
-					"special_bonus_unique_earthshaker_2" "+50"
+					"value"				"170 290 310"
+					"special_bonus_unique_earthshaker_2" "+150"
 				}
-				"echo_slam_initial_damage"		"100 140 180"
+				"echo_slam_initial_damage"		"100 240 380"
 				"AbilityCooldown"
 				{
 					"value"										"130.0 120.0 110.0"
@@ -286,7 +286,7 @@
 		//-------------------------------------------------------------------------------------------------------------
 		"AbilityValues"
 		{
-				"fissure_radius"			"75"
+				"fissure_radius"			"175"
 		}
 	}
 
@@ -312,7 +312,7 @@
 			}
 			"projectile_body_initial_impact_radius"
 			{
-				"value"		"225"
+				"value"		"425"
 			}
 			"projectile_body_speed"
 			{
@@ -320,36 +320,36 @@
 			}
 			"projectile_body_distance"
 			{
-				"value"		"1200"
+				"value"		"3200"
 			}
 			"projectile_body_width_creep"
 			{
-				"value"		"175"
+				"value"		"375"
 				"affected_by_aoe_increase"	"1"
 			}
 			"projectile_body_width_hero"
 			{
-				"value"		"175"
+				"value"		"375"
 				"affected_by_aoe_increase"	"1"
 			}
 			"projectile_body_vision"
 			{
-				"value"		"175"
+				"value"		"375"
 				"affected_by_aoe_increase"	"1"
 			}
 			"projectile_body_damage_creep"
 			{
-				"value"			"27"
-				"hero_levelup"	"3"
+				"value"			"127"
+				"hero_levelup"	"10"
 			}
 			"projectile_body_damage_hero"
 			{
-				"value"			"135"
-				"hero_levelup"	"15"
+				"value"			"435"
+				"hero_levelup"	"50"
 			}
 			"projectile_body_damage_additional_percent_health"
 			{
-				"value"		"7"
+				"value"		"17"
 			}
 		}
 	}	

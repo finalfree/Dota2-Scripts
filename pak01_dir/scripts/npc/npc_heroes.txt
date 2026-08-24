@@ -794,7 +794,7 @@
 				"SlotText"		"#LoadoutSlot_Taunt"
 				"CanEquipFromSlotType"
 				{
-					"4" 
+					"4"
 					{
 						"SlotTypeName"	"taunt"
 						"ItemDefExclusions"	"0000"
@@ -3985,7 +3985,7 @@
 				"SlotText"		"#LoadoutSlot_Taunt"
 				"CanEquipFromSlotType"
 				{
-					"5" 
+					"5"
 					{
 						"SlotTypeName"	"taunt"
 						"ItemDefExclusions"	"0000"
@@ -9871,7 +9871,7 @@
 		{
 			"Horns"			"1"
 			"Bearded"		"1"
-			"Purple"		"1"	
+			"Purple"		"1"
 		}
 		"PickSound"		"riki_riki_spawn_01"
 		"BanSound"		"riki_riki_anger_04"
@@ -10197,7 +10197,7 @@
 			"Nose"			"0"
 			"NicePecs"		"1"
 			"Flying"		"1"
-			"Purple"		"1"	
+			"Purple"		"1"
 		}
 		"LastHitChallengeRival"		"npc_dota_hero_bane"
 		"HeroSelectSoundEffect"		"Hero_Enigma.Pick"
@@ -19230,8 +19230,8 @@
 			"Arachnophobic"	"1"
 			"Flying"		"1"
 			"Fiery"			"1"
-			"Red"			"1"	
-			"Yellow"		"1"	
+			"Red"			"1"
+			"Yellow"		"1"
 		}
 		"LastHitChallengeRival"		"npc_dota_hero_lina"
 		"HeroSelectSoundEffect"		"Hero_Batrider.Pick"
@@ -27630,7 +27630,7 @@
 		"AttackRange"		"150"
 		"AttackSpeedActivityModifiers"
 		{
-			"fast"		"180"		
+			"fast"		"180"
 		}
 		"AttributePrimary"		"DOTA_ATTRIBUTE_STRENGTH"
 		"AttributeBaseStrength"		"22"
@@ -27803,7 +27803,7 @@
 				"SlotText"		"#LoadoutSlot_Taunt"
 				"CanEquipFromSlotType"
 				{
-					"6" 
+					"6"
 					{
 						"SlotTypeName"	"taunt"
 						"ItemDefExclusions"	"0000"
@@ -28625,17 +28625,17 @@
 		"AttackDamageMin"		"22"
 		"AttackDamageMax"		"32"
 		"BaseAttackSpeed"		"100"
-		"AttackRate"		"1.500000"
+		"AttackRate"		"1.400000"
 		"AttackAnimationPoint"		"0.560000"
 		"AttackAcquisitionRange"		"600"
-		"AttackRange"		"150"
+		"AttackRange"		"300"
 		"AttributePrimary"		"DOTA_ATTRIBUTE_ALL"
 		"AttributeBaseStrength"		"21"
-		"AttributeStrengthGain"		"2.6"
+		"AttributeStrengthGain"		"3.6"
 		"AttributeBaseAgility"		"22"
-		"AttributeAgilityGain"		"1.5"
+		"AttributeAgilityGain"		"2.5"
 		"AttributeBaseIntelligence"		"19"
-		"AttributeIntelligenceGain"		"2.0"
+		"AttributeIntelligenceGain"		"3.0"
 		"StatusManaRegen"	"0"
 		"StatusHealthRegen"		"1"
 		"MovementSpeed"		"325"
@@ -29262,7 +29262,7 @@
 				"SlotText"		"#LoadoutSlot_Taunt"
 				"CanEquipFromSlotType"
 				{
-					"6" 
+					"6"
 					{
 						"SlotTypeName"	"taunt"
 						"ItemDefExclusions"	"0000"
@@ -30492,7 +30492,7 @@
 				"SlotText"		"#LoadoutSlot_Taunt"
 				"CanEquipFromSlotType"
 				{
-					"4" 
+					"4"
 					{
 						"SlotTypeName"	"taunt"
 						"ItemDefExclusions"	"0000"

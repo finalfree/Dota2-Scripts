@@ -65,7 +65,7 @@
 
 		// Stats		
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCooldown"				"3.5"
+		"AbilityCooldown"				"3.0"
 		"AbilityCastRange"				"175 175 175 175"
 		"AbilityCastPoint"				"0.25"
 
@@ -97,11 +97,11 @@
 			}
 			"shard_str_duration"
 			{
-				"special_bonus_shard"		"+12"
+				"special_bonus_shard"		"+3000"
 			}
 			"shard_max_stacks"
 			{
-				"special_bonus_shard"		"+5"
+				"special_bonus_shard"		"+50"
 			}
 			"shard_movement_slow"
 			{
@@ -109,7 +109,7 @@
 			}
 			"shard_movement_slow_duration"
 			{
-				"special_bonus_shard"		"+2"
+				"special_bonus_shard"		"+8"
 			}
 		}
 		"AbilityCastAnimation"		"ACT_DOTA_CAST_ABILITY_2"
@@ -137,11 +137,11 @@
 		{
 				"return_damage"				
 				{
-					"value"	"15 25 35 45"
-					"special_bonus_unique_centaur_3"	"+45"	
+					"value"	"30 50 70 90"
+					"special_bonus_unique_centaur_3"	"+90"
 					"CalculateSpellDamageTooltip"	"1"
 				}
-				"return_damage_str"			"14 21 28 35"
+				"return_damage_str"			"32 48 64 100"
 				"aura_radius"				
 				{
 					"value"		"1200"

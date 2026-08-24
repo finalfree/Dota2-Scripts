@@ -31,8 +31,8 @@
 		{
 				"AbilityCastRange"				
 				{
-					"value"		"600"
-					"special_bonus_unique_tiny_4" "+150"
+					"value"		"1200"
+					"special_bonus_unique_tiny_4" "+200"
 				}
 				"radius"
 				{
@@ -49,7 +49,7 @@
 					"value"				"90 180 270 360"
 					"special_bonus_unique_tiny"			"+90"
 				}
-				
+
 				"AbilityCooldown"
 				{
 					"value"							"23 20 17 14"
@@ -72,11 +72,11 @@
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"	
 		"FightRecapLevel"				"1"
 		//"HasShardUpgrade"				"1"
-		
-		
+
+
 		// Casting
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCastRange"				"800 900 1000 1100"
+		"AbilityCastRange"				"2800 3900 4000 20000"
 		"AbilityCastPoint"				"0.0 0.0 0.0 0.0"
 
 		// Time		
@@ -112,19 +112,19 @@
 					"CalculateSpellDamageTooltip"	"1"
 				}
 				"toss_land_damage_pct"
-				{	
+				{
 					"value"							"0"
 					"RequiresShard"						"1"
 					"DamageTypeTooltip"				"DAMAGE_TYPE_MAGICAL"
 					"special_bonus_shard"				"20"
 				}
-				"AbilityCharges"		
+				"AbilityCharges"
 				{
 					"value"				""
 					"special_bonus_unique_tiny_2" "+2"
 				}
 
-				
+
 		}
 		"AbilityCastAnimation"		"ACT_DOTA_CAST_ABILITY_2"
 	}
@@ -175,7 +175,7 @@
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
 		"SpellDispellableType"			"SPELL_DISPELLABLE_NO"
 		"AbilitySound"					"Hero_Tiny.CraggyExterior.Stun"
-		"LinkedAbility"					"tiny_toss_tree"        
+		"LinkedAbility"					"tiny_toss_tree"
 		"MaxLevel"						"4"
 
 		"AbilityDraftExtraAbilities"
@@ -205,7 +205,7 @@
 		//-------------------------------------------------------------------------------------------------------------
 		"AbilityValues"
 		{
-			"attack_count"				
+			"attack_count"
 			{
 				"value" 								"5 6 7 8"
 				"special_bonus_unique_tiny_6" "+2"
@@ -270,7 +270,7 @@
 			"range"		"1000"
 			"bonus_damage"				
 			{
-				"value"							"10 20 30 40"				
+				"value"							"10 20 30 40"
 				"special_bonus_unique_tiny_7"		"+60"
 				"special_bonus_shard"			"+50"
 				"CalculateSpellDamageTooltip"	"0"
@@ -323,12 +323,12 @@
 		{
 			"speed"		"1000.0"
 			"range"		"1200"
-			"splash_radius"				
+			"splash_radius"
 			{
 				"value"		"400"
 				"affected_by_aoe_increase"	"1"
 			}
-			"tree_grab_radius"		
+			"tree_grab_radius"
 			{
 				"value"		"700"
 				"affected_by_aoe_increase"	"1"
@@ -357,14 +357,14 @@
 		"AbilityValues"
 		{
 			"bonus_armor"				"5 10 15"
-			"bonus_damage"			
+			"bonus_damage"
 			{
 				"value"					"60 120 180"
 				"CalculateSpellDamageTooltip"	"0"
 			}
-			"attack_speed_reduction"	
+			"attack_speed_reduction"
 			{
-				"value"		"-35"
+				"value"		"+35"
 			}
 			"toss_bonus_damage"
 			{
@@ -383,26 +383,26 @@
 				"RequiresShard"						"1"
 				"special_bonus_shard"				"45"
 			}
-			
-			
+
+
 			"land_debuff_duration"
 			{
 				"RequiresShard"						"1"
 				"special_bonus_shard"				"=3.0"
 			}
 
-			"land_radius_tooltip"	
+			"land_radius_tooltip"
 			{
 				"RequiresShard"						"1"
 				"special_bonus_shard"				"125"
 			}
-			"land_toss_damage_tooltip"	
+			"land_toss_damage_tooltip"
 			{
 				"RequiresShard"						"1"
 				"special_bonus_shard"				"20"
 				"DamageTypeTooltip"		"DAMAGE_TYPE_MAGICAL"
 			}
-			"land_tree_damage_tooltip"	
+			"land_tree_damage_tooltip"
 			{
 				"RequiresShard"						"1"
 				"special_bonus_shard"				"50"

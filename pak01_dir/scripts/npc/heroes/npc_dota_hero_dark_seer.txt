@@ -20,18 +20,18 @@
 
 		// Time		
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCooldown"				"10"
+		"AbilityCooldown"				"2"
 
 		// Special
 		//-------------------------------------------------------------------------------------------------------------
 		"AbilityValues"
 		{
 				"max_stun"					"1.25"
-				"recent_duration"			"3.0"
-				"max_distance"			"1100"
-				"knockback_distance"			"350"
-				"illusion_duration"			"6.0"
-				"max_damage"					"400"
+				"recent_duration"			"5.0"
+				"max_distance"			"400"
+				"knockback_distance"			"550"
+				"illusion_duration"			"12"
+				"max_damage"					"800"
 				"normal_punch_illusion_delay"   "0.25"
 		}
 		"AbilityCastAnimation"		"ACT_DOTA_CAST_ABILITY_3"
@@ -58,7 +58,7 @@
 
 		// Time		
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCooldown"				"60 50 40 30"
+		"AbilityCooldown"				"30 20 10 5"
 		
 		// Cost
 		//-------------------------------------------------------------------------------------------------------------
@@ -168,7 +168,7 @@
 		// Casting
 		//-------------------------------------------------------------------------------------------------------------
 		"AbilityCastRange"				"600"
-		"AbilityCastPoint"				"0.4"
+		"AbilityCastPoint"				"0.1"
 		
 		// Time		
 		//-------------------------------------------------------------------------------------------------------------
@@ -187,13 +187,13 @@
 		{
 			"AbilityCooldown"
 			{
-				"value"								"24 19 14 9"
+				"value"								"14 10 8 4"
 				"special_bonus_unique_dark_seer_6"	"-1.5"
 			}
 
-			"duration"				
+			"duration"
 			{
-				"value" 	"3 4 5 6"
+				"value" 	"5 7 9 12"
 			}
 				
 			"speed_boost"				"550"
@@ -253,7 +253,7 @@
 
 		// Time		
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCooldown"				"100.0 100.0 100.0"
+		"AbilityCooldown"				"60.0 60.0 60.0"
 
 		// Cost
 		//-------------------------------------------------------------------------------------------------------------
@@ -277,7 +277,7 @@
 				"replica_damage_incoming"	"100"
 				"tooltip_replica_total_damage_incoming"	
 				{
-					"value"		"200"
+					"value"		"100"
 					"CalculateSpellDamageTooltip"	"0"
 					"DamageTypeTooltip"		"DAMAGE_TYPE_NONE"
 				}				
@@ -389,7 +389,7 @@
 				"dynamic_value"						"true"
 			}
 
-			"heal_pct"					
+			"heal_pct"
 			{
 				"value"								"8.5"
 				"hero_levelup"						"+1.5"

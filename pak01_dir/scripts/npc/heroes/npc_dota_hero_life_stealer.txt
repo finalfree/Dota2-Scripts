@@ -33,8 +33,8 @@
 		
 			"duration"
 			{
-				"value"				"3.0 4.0 5.0 6.0"
-				"special_bonus_unique_lifestealer"	"+1.0"
+				"value"				"5.0 7.0 9.0 11.0"
+				"special_bonus_unique_lifestealer"	"+6.0"
 			}
 			"magic_resist"
 			{
@@ -136,10 +136,10 @@
 					"special_bonus_unique_lifestealer_3"	"+1.0"
 					"CalculateSpellDamageTooltip"	"0"
 				}
-				"creep_deny_percent"		"50"
+				"creep_deny_percent"		"100"
 
-				"bonus_hp_per_hero"				"10"
-				"bonus_hp_per_creep"			"1"
+				"bonus_hp_per_hero"				"20 30 40 50"
+				"bonus_hp_per_creep"			"5"
 
 				"bonus_hp_total"
 				{
@@ -174,7 +174,7 @@
 		
 		// Time		
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCooldown"				"30 25 20 15"
+		"AbilityCooldown"				"15 12 10 5"
 		
 		// Cost
 		//-------------------------------------------------------------------------------------------------------------
@@ -184,7 +184,7 @@
 		//-------------------------------------------------------------------------------------------------------------
 		"AbilityValues"
 		{
-				"duration"				"7"
+				"duration"				"17"
 				"slow_steps"			
 				{
 					"value"		"-50 -50 -40 -30 -20 -10 -10 -10"
@@ -250,8 +250,8 @@
 				"hero_levelup"				"+0.3"
 			}
 			"attack_speed_bonus"
-			{			
-				"hero_levelup"				"+4"
+			{
+				"hero_levelup"				"+5"
 			}
 		}
 	}
