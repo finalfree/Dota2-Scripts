@@ -110,7 +110,7 @@
 			"bonus_reduction_per_kill"
 			{
 				"value"	"0"
-				"special_bonus_facet_tidehunter_kraken_swell"  "1 2 3 4"				
+				"special_bonus_facet_tidehunter_kraken_swell"  "1 2 3 8"
 			}
 			"creep_reduction_penalty_pct"					"50.0"
 			"active_pct_effectiveness"						"200.0"		// "double" is in the loc file. if changing this amount, update the ability description
@@ -121,7 +121,7 @@
 			"damage_reset_interval"	"7.0"
 			"smash_on_purge"
 			{
-				"special_bonus_unique_tidehunter_smash_on_blubber"		"50"
+				"special_bonus_unique_tidehunter_smash_on_blubber"		"100"
 			}
 		}
 		"AbilityCastAnimation"		"ACT_DOTA_CAST_ABILITY_2"
@@ -172,7 +172,7 @@
 				"DamageTypeTooltip"							"DAMAGE_TYPE_NONE"
 			}
 
-			"reduction_duration"							"6.0 6.0 6.0 6.0"
+			"reduction_duration"							"60.0 60.0 60.0 60.0"
 
 			"targets_buildings"
 			{
@@ -190,7 +190,7 @@
 			}
 			"additional_range"
 			{
-				"value"				"225"
+				"value"				"425"
 				"affected_by_aoe_increase"	"1"
 			}
 		}
@@ -242,7 +242,7 @@
 				"value"				"150.0 145.0 140.0"
 				"special_bonus_unique_tidehunter_ravage_cooldown" "-15"
 			}
-			"radius"			
+			"radius"
 			{
 				"value"		"1250"
 				"affected_by_aoe_increase"	"1"
@@ -320,14 +320,14 @@
 
 		// Casting
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCastRange"				"350"
+		"AbilityCastRange"				"1350"
 		"AbilityCastPoint"				"0.3"
 		"AbilityCastAnimation"			"ACT_DOTA_CAST_ABILITY_5"
 		"AbilityCastGestureSlot"		"DEFAULT"
 		
 		// Time		
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCooldown"				"35"
+		"AbilityCooldown"				"10"
 
 		// Damage.
 		"AbilityDamage"					"0"
@@ -344,7 +344,7 @@
 			"attacks_to_destroy"			"4"
 			"max_movement_speed"			"100"
 			"chain_length"					"350"
-			"duration"						"10"
+			"duration"						"20"
 			"projectile_speed"				"1000"
 		}
 	}
@@ -379,11 +379,11 @@
 				"value"						"0"
 			}
 
-			"fish_duration"					"30"
-			"fish_strength_gain"			"0"
-			"fish_attack_range"				"2"
-			"fish_damage_block"				"1"
-			"fish_health_bonus"				"3"
+			"fish_duration"					"300"
+			"fish_strength_gain"			"4"
+			"fish_attack_range"				"4"
+			"fish_damage_block"				"2"
+			"fish_health_bonus"				"30"
 			"fish_model_scale"				"1.1"
 			"max_fish_spawn_distance"		"200"
 
@@ -423,13 +423,13 @@
 		{
 			"damage_cleanse"
 			{
-				"value"		"450"
+				"value"		"50"
 			}
 			"smash_on_purge"
 			{
 				"special_bonus_unique_tidehunter_smash_on_blubber"		"50"
 			}
-			"damage_reset_interval"	"7.0"
+			"damage_reset_interval"	"60.0"
 		}
 		"AbilityCastAnimation"		"ACT_DOTA_CAST_ABILITY_2"
 	}

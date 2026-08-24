@@ -16,7 +16,7 @@
 		// Casting
 		//-------------------------------------------------------------------------------------------------------------
 		"AbilityCastPoint"				"0.15"
-		"AbilityCastRange"				"575 650 725 800"
+		"AbilityCastRange"				"700 900 1100 1300"
 		
 		// Time		
 		//-------------------------------------------------------------------------------------------------------------
@@ -31,14 +31,14 @@
 		{
 				"AbilityCooldown"				
 				{	
-					"value"				"19 16 13 10"
-					"special_bonus_unique_pangolier_4"	"-2"
+					"value"				"14 10 8 6"
+					"special_bonus_unique_pangolier_4"	"-4"
 				}
-				"dash_range"			"575 650 725 800"
+				"dash_range"			"700 900 1100 1300"
 				"range"					
 				{
-					"value"			"850"
-					"special_bonus_unique_pangolier"	"+200"
+					"value"			"700"
+					"special_bonus_unique_pangolier"	"+700"
 				}
 				"damage"				
 				{
@@ -48,7 +48,7 @@
 				"attack_damage"
 				{
 					"value"				"0"
-					"special_bonus_unique_pangolier_3"	"+20"
+					"special_bonus_unique_pangolier_3"	"+100"
 				}
 				"dash_speed"			"2000"
 				"attack_interval"		"0.1 0.1 0.1 0.1"
@@ -64,7 +64,7 @@
 				}
 				"strikes"				
 				{
-					"value"			"3"				
+					"value"			"5"
 				}
 				"procs_onhit_effects"			"1"
 				"slow_duration"		"0.6"
@@ -134,7 +134,7 @@
 			}
 			"AbilityCooldown"				
 			{
-				"value"													"15 12 9 6"
+				"value"													"12 10 8 4"
 				"special_bonus_unique_pangolier_shield_crash_cooldown"	"-1.5"
 			}
 			"min_damage_increase_pct"				
@@ -260,7 +260,7 @@
 			"damage_pct"				"80"
 			"AbilityCooldown"				
 			{	
-				"value"			"100 90 80"
+				"value"			"45 30 20"
 				"special_bonus_unique_pangolier_5"	"-15"
 			}
 			"cast_time_tooltip"		"1.2"
@@ -271,7 +271,7 @@
 				"special_bonus_facet_pangolier_thunderbolt"	"+115"
 			}
 			"move_speed_ramp_up_time"	"1.0"		// 0 disables
-			"turn_rate_boosted"		
+			"turn_rate_boosted"
 			{
 				"value"			"165"
 				"special_bonus_facet_pangolier_thunderbolt"	"+40%"
@@ -300,12 +300,12 @@
 			}			
 			"duration"				
 			{
-				"value"		"10 11 12"
+				"value"		"20"
 				"special_bonus_unique_pangolier_6"	"+2"
 				"special_bonus_facet_pangolier_thunderbolt"	"-1"
 			}
 			"jump_recover_time"		"0.25"
-			"magic_resistance"				"80"				
+			"magic_resistance"				"80"
 		}
 	}
 
@@ -328,7 +328,7 @@
 				"value"		"1200"
 				"affected_by_aoe_increase"	"1"
 			}
-			"chance_reduce"				"-50"			
+			"chance_reduce"				"-50"
 		}
 	}
 

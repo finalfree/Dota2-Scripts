@@ -77,7 +77,7 @@
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
 		
-		"AbilityCastRange"				"650"
+		"AbilityCastRange"				"1200"
 		"AbilityCastPoint"				"0"
 		"FightRecapLevel"				"1"
 		

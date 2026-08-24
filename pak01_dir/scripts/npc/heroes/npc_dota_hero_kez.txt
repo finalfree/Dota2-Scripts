@@ -23,8 +23,8 @@
 		"AbilityValues"
 		{			
 			"katana_base_ms"									"0"
-			"katana_attack_range"								"225"
-			"katana_base_attack_time"							"1.9"
+			"katana_attack_range"								"300"
+			"katana_base_attack_time"							"1.5"
 			"katana_agility_bonus_base_damage"					
 			{
 				"value" 											"12"
@@ -38,7 +38,7 @@
 			}
 		
 			"sai_base_ms"										"0"
-			"sai_attack_range"									"150"
+			"sai_attack_range"									"200"
 			"sai_base_attack_time"								"1.5"
 			"sai_swap_bonus_movement_speed"
 			{
@@ -53,7 +53,7 @@
 				"value"											"8"
 				"hero_levelup"									"-0.25"
 			}
-			"scepter_cooldown_timer"							"3"
+			"scepter_cooldown_timer"							"25"
 		}
 	}
 
@@ -102,8 +102,8 @@
 			}
 			"katana_strikes"			
 			{
-				"value"  												"2"
-				"special_bonus_unique_kez_echo_slash_strike_count"		"+1"
+				"value"  												"3"
+				"special_bonus_unique_kez_echo_slash_strike_count"		"+2"
 			}
 			"strike_interval"			
 			{		
@@ -138,14 +138,14 @@
 		"FightRecapLevel"				"1"
 		"AbilitySound"					"Hero_Kez.GrapplingClaw.Katana.Cast"
 		"LinkedAbility"					"kez_talon_toss"
-		
+
 
 		// Casting
 		//-------------------------------------------------------------------------------------------------------------
 		"AbilityCastPoint"				"0.0"
 		"AbilityCastGestureSlot"		"DEFAULT"
 		"AbilityCastAnimation"		"ACT_DOTA_CAST_ABILITY_2"
-		"AbilityCastRange"				"650 750 850 950"	
+		"AbilityCastRange"				"650 750 850 1950"
 		
 		// Cost
 		//-------------------------------------------------------------------------------------------------------------
@@ -186,7 +186,7 @@
 		"FightRecapLevel"				"1"
 		"LinkedAbility"					"kez_shodo_sai"
 		"HasShardUpgrade"				"1"
-		
+
 		"AbilitySound"					"Hero_Kez.Katana.Impale.Start"
 
 		// Casting
@@ -204,10 +204,10 @@
 		//-------------------------------------------------------------------------------------------------------------
 		"AbilityValues"
 		{
-			"katana_bleed_duration"												"7" 
+			"katana_bleed_duration"												"7"
 			"katana_bleed_attack_damage_pct"						
 			{
-				"value" 														"3 6 9 12"   
+				"value" 														"3 6 9 12"
 				"DamageTypeTooltip"												"DAMAGE_TYPE_PHYSICAL"	
 				"special_bonus_unique_kez_kazura_katana_bleed_damage"			"+4.0"
 			}	
@@ -229,12 +229,12 @@
 				"value" 	"0"
 				"special_bonus_shard" "+40"
 			}
-			"max_stacks"				
+			"max_stacks"
 			{
 				"value"				  	"500"
 				"special_bonus_shard"	"+500"
 			}
-			"backstab_angle"			
+			"backstab_angle"
 			{
 				"value"						"0"
 				"special_bonus_shard"		"+105"
@@ -346,26 +346,26 @@
 		//-------------------------------------------------------------------------------------------------------------
 		"AbilityValues"
 		{
-			"rush_range"					"525"			
-			"rush_speed"					"850"
-			"base_echo_damage"				
+			"rush_range"					"1200"
+			"rush_speed"					"1200"
+			"base_echo_damage"
 			{
-				"value"												"30 35 40 45"
+				"value"												"60 70 80 100"
 				"DamageTypeTooltip"			"DAMAGE_TYPE_PHYSICAL"
 			}
-			"slow_resist"					"15 30 45 60"
+			"slow_resist"					"15 30 45 100"
 			"duration"					
 			{
-				"value" 												"3.75 4.5 5.25 6.0"
-				"special_bonus_unique_kez_falcon_rush_duration"			"+2.0"
+				"value" 												"3.75 7.5 9.25 60"
+				"special_bonus_unique_kez_falcon_rush_duration"			"+120.0"
 			}	
-		
+
 			"break_range"			"825"
 			"bonus_attack_speed"
 			{
 				"special_bonus_unique_kez_falcon_rush_attack_speed"			"=40"
 			}
-			"echo_proc_chance_reduction"			"50"
+			"echo_proc_chance_reduction"			"0"
 		}
 	}
 
@@ -464,7 +464,7 @@
 		{
 			"sai_proc_vuln_chance"									"20"
 			
-			
+
 			"base_crit_pct"										
 			{
 				"value"												"125 150 175 200"
@@ -475,7 +475,7 @@
 			"stun_duration"											"0.5 0.6 0.7 0.8"
 
 			"vuln_duration"											"8.0"
-			// Parry below here                   
+			// Parry below here
 			"forward_angle"											"180"				
 			"speed_penalty"											"25"
 			"parry_duration"										"1.5"
@@ -484,7 +484,7 @@
 				"value"												"0"
 				"special_bonus_shard"								"+50"
 			}
-			"parry_bonus_stun_duration"						
+			"parry_bonus_stun_duration"
 			{
 				"value"												"0"
 				"special_bonus_shard"								"+0.2"
@@ -563,11 +563,11 @@
 			"blind_duration"										"4.0"
 			"bonus_ms"												"15 25 35"
 			"slow"													"0"
-			"basic_dispel"											
+			"basic_dispel"
 			{
 				"value"												"1"
 				//"special_bonus_unique_kez_ravens_dispel"			"+1"
-			}										
+			}
 			"fade_delay"											"0.0"
 			"apply_parry_bonus"										
 			{

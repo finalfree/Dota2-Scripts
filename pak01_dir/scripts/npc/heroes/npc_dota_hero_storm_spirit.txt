@@ -26,7 +26,7 @@
 		
 		// Time		
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCooldown"				"30"
+		"AbilityCooldown"				"10"
 	
 		// Cost
 		//-------------------------------------------------------------------------------------------------------------
@@ -38,11 +38,11 @@
 		{
 				"radius"				
 				{
-					"value"		"750"
+					"value"		"1750"
 					"affected_by_aoe_increase"	"1"
 				}
-				"charges"				"3"
-				"duration"				"12"
+				"charges"				"10"
+				"duration"				"60"
 		}
 	}
 
@@ -65,7 +65,7 @@
 
 		// Time		
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityDuration"				"12.0"
+		"AbilityDuration"				"120"
 
 		// Cost
 		//-------------------------------------------------------------------------------------------------------------
@@ -77,12 +77,12 @@
 		{
 				"static_remnant_radius"
 				{
-					"value" "235"
+					"value" "300"
 					"affected_by_aoe_increase"	"1"	
 				}	
 				"static_remnant_damage_radius"	
 				{
-					"value"			"300"
+					"value"			"600"
 					"DamageTypeTooltip"			"DAMAGE_TYPE_NONE"
 					"affected_by_aoe_increase"	"1"
 				}
@@ -96,7 +96,7 @@
 				"static_remnant_damage"			
 				{
 					"value"		"100 160 220 280"
-					"special_bonus_unique_storm_spirit_5"	"+60"
+					"special_bonus_unique_storm_spirit_5"	"+260"
 				}
 				"is_point_targeted"
 				{
@@ -104,20 +104,20 @@
 				}
 				"AbilityCastRange"
 				{
-					"value"													"800"
+					"value"													"2800"
 				}
 				"static_remnant_travel_speed"
 				{
-					"value"													"300"
+					"value"													"600"
 				}
 				"static_remnant_vision_radius_day"
 				{
-					"value"													"100"
+					"value"													"1000"
 					"affected_by_aoe_increase"	"1"
 				}
 				"static_remnant_vision_radius_night"
 				{
-					"value"													"100"
+					"value"													"1000"
 					"affected_by_aoe_increase"	"1"
 				}
 		}
@@ -143,11 +143,11 @@
 		// Casting
 		//-------------------------------------------------------------------------------------------------------------
 		"AbilityCastPoint"				"0.3 0.3 0.3 0.3"
-		"AbilityCastRange"				"300"
+		"AbilityCastRange"				"600"
 
 		// Time		
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCooldown"				"20 18 16 14"
+		"AbilityCooldown"				"18 16 14 6"
 	
 		// Cost
 		//-------------------------------------------------------------------------------------------------------------
@@ -168,7 +168,7 @@
 				}
 				"radius_scepter"	
 				{
-					"special_bonus_scepter"		"475"
+					"special_bonus_scepter"		"800"
 					"affected_by_aoe_increase"	"1"
 				}
 
@@ -207,36 +207,36 @@
 		{
 			"overload_aoe"
 			{
-				"value"			"300"		
+				"value"			"600"
 				"affected_by_aoe_increase"	"1"
 			}
 			"overload_move_slow"			
 			{
 				"value"						"-80"
-				"special_bonus_unique_storm_spirit_overload_aspd"		"-25.0"				
+				"special_bonus_unique_storm_spirit_overload_aspd"		"-25.0"
 			}
 			"overload_attack_slow"
 			{
 				"value"						"-90"
-				"special_bonus_unique_storm_spirit_overload_aspd"		"-25.0"				
+				"special_bonus_unique_storm_spirit_overload_aspd"		"-25.0"
 			}			
 			"overload_damage"
 			{
-				"value"			"25 50 75 100"
+				"value"			"50 100 200 300"
 				
 			}
 			"shard_activation_radius"
 			{
-				"special_bonus_shard"				"750"
+				"special_bonus_shard"				"1150"
 				"affected_by_aoe_increase"	"1"
 			}	
 			"shard_activation_charges"
 			{
-				"special_bonus_shard"				"3"
+				"special_bonus_shard"				"10"
 			}	
 			"shard_activation_duration"
 			{
-				"special_bonus_shard"				"12"
+				"special_bonus_shard"				"120"
 			}	
 			"shard_manacost"
 			{
@@ -244,11 +244,11 @@
 			}
 			"shard_cooldown"
 			{
-				"special_bonus_shard"				"30"
+				"special_bonus_shard"				"10"
 			}	
 			"shard_attack_speed_bonus"
 			{
-				"special_bonus_shard"				"40"
+				"special_bonus_shard"				"80"
 			}																	
 			"overload_cast_range"
 			{
@@ -256,11 +256,11 @@
 			}
 			"overload_bounces"
 			{
-				"special_bonus_unique_storm_spirit_7"	"=2"
+				"special_bonus_unique_storm_spirit_7"	"=4"
 			}
 			"overload_damage_pct"
 			{
-				"special_bonus_unique_storm_spirit_7"	"=50"
+				"special_bonus_unique_storm_spirit_7"	"=100"
 			}
 		}
 		"AbilityCastAnimation"		"ACT_DOTA_CAST_ABILITY_3"
@@ -289,32 +289,32 @@
 		
 		// Damage.
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityDamage"					"6 10 14"
+		"AbilityDamage"					"14 28 50"
 
 		// Special
 		//-------------------------------------------------------------------------------------------------------------
 		"AbilityValues"
 		{
-				"ball_lightning_initial_mana_percentage"		"7.5"		
-				"ball_lightning_initial_mana_base"				"25"		
+				"ball_lightning_initial_mana_percentage"		"0"
+				"ball_lightning_initial_mana_base"				"15"
 				"ball_lightning_move_speed"			"1400 1850 2300"		
 				"ball_lightning_aoe"				
 				{
-					"value"			"200"		
+					"value"			"800"
 					"affected_by_aoe_increase"	"1"
 				}
-				"ball_lightning_travel_cost_base"	"10"		
-				"ball_lightning_travel_cost_percent"	"0.65"		
+				"ball_lightning_travel_cost_base"	"5"
+				"ball_lightning_travel_cost_percent"	"0"
 				"ball_lightning_vision_radius"
 				{
-					"value"			"400"		
+					"value"			"800"
 					"affected_by_aoe_increase"	"1"
 				}		
 				"blocker_duration"			"5"		
 				"scepter_remnant_interval"			"300"
 				"auto_remnant_interval"
 				{
-					"special_bonus_unique_storm_spirit_4"		"450"
+					"special_bonus_unique_storm_spirit_4"		"250"
 				}
 		}
 	}
@@ -334,14 +334,14 @@
 
 		"AbilityValues"
 		{
-			"perma_mp_per_kill"		"0.1"
-			"mp_per_kill"			"0.2"
+			"perma_mp_per_kill"		"1"
+			"mp_per_kill"			"2"
 			"aoe"					
 			{
-				"value"		"1200"
+				"value"		"2200"
 				"affected_by_aoe_increase"	"1"
 			}
-			"charges_per_death"		"2"
+			"charges_per_death"		"0"
 			"level_divisor"				"3"
 		}
 	}

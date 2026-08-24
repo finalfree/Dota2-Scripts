@@ -180,7 +180,7 @@
 			{
 				"value"					"18 27 36 45"
 				
-				"special_bonus_unique_muerta_gunslinger_double_shot_chance"	"+20"
+				"special_bonus_unique_muerta_gunslinger_double_shot_chance"	"+55"
 			}
 			"target_search_bonus_range"	"175"
 			"bonus_damage"
@@ -219,7 +219,7 @@
 
 		// Time		
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCooldown"				"75 60 45"
+		"AbilityCooldown"				"30 20 10"
 
 		// Cost
 		//-------------------------------------------------------------------------------------------------------------
@@ -232,7 +232,7 @@
 			"duration"
 			{
 				"value"													"8"
-				"special_bonus_unique_muerta_pierce_the_veil_duration"	"+2"
+				"special_bonus_unique_muerta_pierce_the_veil_duration"	"+7"
 			}
 			"transform_duration"		"0.35"
 			"base_damage_percent"		"70 85 100"
@@ -312,7 +312,7 @@
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
-		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"	
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
 		"SpellDispellableType"			"SPELL_DISPELLABLE_YES"
 		"MaxLevel"						"1"
@@ -324,14 +324,14 @@
 		"AbilityCastPoint"				"0.2"
 		"AbilityCastAnimation"			"ACT_DOTA_CAST_ABILITY_5"
 
-		// Time		
+		// Time
 		//-------------------------------------------------------------------------------------------------------------
 		"AbilityCooldown"				"12"
 
 		// Cost
 		//-------------------------------------------------------------------------------------------------------------
 		"AbilityManaCost"				"75"
-		
+
 		// Special
 		//-------------------------------------------------------------------------------------------------------------
 		"AbilityValues"
@@ -342,7 +342,7 @@
 			"knockback_duration"		"0.2"
 			"duration"					"3.0"
 			"slow_pct"					"-30"
-			"bonus_spell_damage_pct"	
+			"bonus_spell_damage_pct"
 			{
 				"value"		"-20"
 				"DamageTypeTooltip"			"DAMAGE_TYPE_MAGICAL"

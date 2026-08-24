@@ -39,7 +39,7 @@
 			"stun_duration"
 			{
 				"value"										"0.7 0.9 1.1 1.3"
-				"special_bonus_unique_monkey_king_9"		"+0.2"
+				"special_bonus_unique_monkey_king_9"		"+0.7"
 			}
 			"strike_crit_mult"
 			{
@@ -51,7 +51,7 @@
 			
 			"AbilityCooldown"				
 			{
-				"value"					"24 21 18 15"	
+				"value"					"12 10 8 6"
 			}
 			"strike_radius"				
 			{
@@ -60,11 +60,11 @@
 			}
 			"AbilityCastRange"
 			{
-				"value"									"1100"
+				"value"									"1500"
 			}
 			"strike_cast_range"
 			{
-				"value"									"1100"
+				"value"									"1500"
 			}
 			"soldier_spawn_duration"		"0"
 			"acceleration_z"					"5000"
@@ -114,7 +114,7 @@
 				"value"					"24.5"
 				"hero_levelup"			"-0.5"
 			}
-			
+
 			"invul_duration"			
 			{
 				"value"										"0.1"
@@ -171,8 +171,8 @@
 
 		// Casting
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCastRange"				"900"
-		"AbilityCastPoint"				"0.2"
+		"AbilityCastRange"				"1800"
+		"AbilityCastPoint"				"0.1"
 
 		// Time
 		//-------------------------------------------------------------------------------------------------------------
@@ -186,21 +186,21 @@
 		//-------------------------------------------------------------------------------------------------------------
 		"AbilityValues"
 		{
-			"leap_speed"				"600"
+			"leap_speed"				"1700"
 
 			// this should belong to Spring ability but for how it gets called it's simpler to have Tree Jump own it
-			"spring_leap_speed"			"1300"
+			"spring_leap_speed"			"2300"
 
-			"give_up_distance"				"1850"
+			"give_up_distance"				"3850"
 			"ground_jump_distance"
 			{
-				"value"									"900"
-				"special_bonus_unique_monkey_king_7"	"+300"
+				"value"									"1800"
+				"special_bonus_unique_monkey_king_7"	"+950"
 			}
 			"perched_jump_distance"
 			{
-				"value"						"900"
-				"special_bonus_unique_monkey_king_7"	"+300"
+				"value"						"1800"
+				"special_bonus_unique_monkey_king_7"	"+950"
 			}
 			"jump_damage_cooldown"
 			{
@@ -210,8 +210,8 @@
 				"CalculateSpellDamageTooltip"	"0"
 				"DamageTypeTooltip"	"DAMAGE_TYPE_NONE"
 			}
-			"perched_day_vision"			"700"
-			"perched_night_vision"			"500"
+			"perched_day_vision"			"2700"
+			"perched_night_vision"			"2000"
 			"perched_spot_height"			"192.0"
 			"unperched_stunned_duration"	"3.0"
 			"top_level_height"				"500"
@@ -328,7 +328,7 @@
 
 		// Time		
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCooldown"				"100 90 80"
+		"AbilityCooldown"				"60 40 20"
 
 		// Cost
 		//-------------------------------------------------------------------------------------------------------------
@@ -357,14 +357,14 @@
 				"num_second_soldiers"				"9"
 				"num_third_soldiers"
 				{
-					"special_bonus_unique_monkey_king_6"	"=7"
+					"special_bonus_unique_monkey_king_6"	"=14"
 				}
 				"move_speed"						"700"
 				"bonus_armor"						
 				{
 					"value"			"15 20 25"
 				}
-				"attack_speed"						"1.1"
+				"attack_speed"						"0.5"
 				"attack_speed_pct"					"0"
 				"damage_pct"						"0"
 				"duration"							
@@ -394,11 +394,11 @@
 				}
 				"scepter_spawn_interval"
 				{
-					"special_bonus_scepter"			"4"
+					"special_bonus_scepter"			"2"
 				}
 				"scepter_spawn_duration"			
 				{
-					"special_bonus_scepter"		"15"
+					"special_bonus_scepter"		"60"
 				}
 		}
 	}
@@ -429,18 +429,18 @@
 		{
 				"required_hits"				
 				{
-					"value"			"4"
+					"value"			"3"
 					"special_bonus_unique_monkey_king_11"	"-1"
 				}
-				"counter_duration"			"5.5 7.0 8.5 10.0"
-				"charges"	"4"
+				"counter_duration"			"60"
+				"charges"	"10"
 				"bonus_damage"
 				{
 					"value"						"30 80 130 180"
 					"CalculateSpellDamageTooltip"	"0"
 				"special_bonus_unique_monkey_king_2" "+110"
 				}
-				"lifesteal"					"20 40 60 80"
+				"lifesteal"					"100"
 				"max_duration"				"35"
 				"buff_is_undispellable"
 				{
@@ -475,7 +475,7 @@
 		"AbilityCooldown"				"5"
 		// Cost
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityManaCost"				"0"		
+		"AbilityManaCost"				"0"
 
 		// Special
 		//-------------------------------------------------------------------------------------------------------------

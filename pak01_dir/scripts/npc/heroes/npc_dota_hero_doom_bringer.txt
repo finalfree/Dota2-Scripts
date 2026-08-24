@@ -102,7 +102,7 @@
 			{
 				"value"							"10"
 			}
-			
+
 			"damage_debuff_duration"			"2.5"
 			"spread_radius"
 			{
@@ -138,7 +138,7 @@
 
 		// Cost
 		//-------------------------------------------------------------------------------------------------------------
-		
+
 
 		// Special
 		//-------------------------------------------------------------------------------------------------------------
@@ -154,14 +154,14 @@
 				"value"							"60 70 80 90"
 				"special_bonus_unique_doom_11"				"-100%"
 
-			}	
-			"damage_per_second"		
+			}
+			"damage_per_second"
 			{
 				"value"			"20 30 40 50"
 			}
 			"bonus_health_regen"				
 			{ 
-				"value"			"6.66"
+				"value"			"66"
 			}
 			"radius"				
 			{
@@ -171,7 +171,7 @@
 			"bonus_movement_speed_pct"	
 			{
 				"value"			"7 8 9 10"
-				"special_bonus_unique_doom_6"	"+7"	
+				"special_bonus_unique_doom_6"	"+7"
 			}
 			"duration"				"10.0 12.0 14.0 16.0"
 			"is_permanent"
@@ -278,7 +278,7 @@
 			"deniable_pct"			"25 25 25"
 			"AbilityCooldown"
 			{
-				"value"								"140 130 120"
+				"value"								"40 33 25"
 				"special_bonus_unique_doom_9"	"-10"
 
 			}
@@ -295,7 +295,7 @@
 			"scepter_aura_radius"
 			{
 				"value"										"0"
-				"special_bonus_scepter"						"+350"
+				"special_bonus_scepter"						"+650"
 				"affected_by_aoe_increase"	"1"
 			}
 			"applies_dispel_to_self"

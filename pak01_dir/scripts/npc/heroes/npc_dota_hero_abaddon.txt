@@ -20,7 +20,7 @@
 
 		// Casting
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCastRange"				"625"
+		"AbilityCastRange"				"925"
 		"AbilityCastPoint"				"0.25"
 		
 		// Time		
@@ -48,16 +48,16 @@
 				"CalculateSpellDamageTooltip"				"0"
 			}
 			"missile_speed"			"1300"
-			"damage_heal"			
+			"damage_heal"
 			{
-				"value"								"95 170 245 320"	
+				"value"								"95 170 245 320"
 				"special_bonus_unique_abaddon_2"	"+35"
-			}		
+			}
 			
 			"effect_radius"
 			{
 				"value"				"0"
-				"special_bonus_unique_abaddon_4"	"+350"
+				"special_bonus_unique_abaddon_4"	"+550"
 				"affected_by_aoe_increase"	"1"
 			}
 			
@@ -116,18 +116,18 @@
 
 			"duration"			
 			{
-				"value"				"12.0"
+				"value"				"25.0"
 
 			}	
 			"radius"				
 			{
-				"value"	"675"
+				"value"	"975"
 				"affected_by_aoe_increase"	"1"
 			}
 			"damage_absorb"
 			{
-				"value"			"120 150 180 210"
-				"special_bonus_unique_abaddon"		"+80"				
+				"value"			"220 350 480 610"
+				"special_bonus_unique_abaddon"		"+680"
 				"DamageTypeTooltip"		"DAMAGE_TYPE_NONE"
 			}
 			"regen"
@@ -200,27 +200,27 @@
 		//-------------------------------------------------------------------------------------------------------------
 		"AbilityValues"
 		{
-			"slow_duration"				"2"
+			"slow_duration"				"12"
 			"hit_count"
 			{
 				"value"					"1"
 			}
-			"curse_duration"			"2.0"
+			"curse_duration"			"12.0"
 			"curse_slow"				
 			{
-				"value"									"10 15 20 25"
+				"value"									"20 30 40 50"
 				
 			}
 			"curse_attack_speed"		
 			{
-				"value"				"10 20 30 40"
-				"special_bonus_unique_abaddon_3" "+65"
+				"value"				"20 40 60 80"
+				"special_bonus_unique_abaddon_3" "+105"
 			}
 				
 			"curse_dps"					
 			{
-				"value" 							"15 25 35 45"
-				"special_bonus_unique_abaddon_5"	"+30"
+				"value" 							"30 50 70 90"
+				"special_bonus_unique_abaddon_5"	"+80"
 			}
 			"tower_dps_pct"				"100"
 			"curse_interval"			"0.5"
@@ -262,13 +262,13 @@
 		{
 			"AbilityCooldown"				
 			{
-				"value"								"85 75 65"
+				"value"								"45 40 30"
 				"special_bonus_unique_abaddon_borrowed_time_cd"		"-10"
 			}
 			"hp_threshold"							"400"
 			"duration"
 			{
-				"value"		"4.0 5.0 6.0"
+				"value"		"5.0 6.0 7.0"
 				"special_bonus_scepter"	"+3"
 			}
 			"ally_threshold_scepter"

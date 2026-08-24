@@ -123,7 +123,7 @@
 				"value"		"200"
 				"affected_by_aoe_increase"	"1"	
 			}
-			"step_distance"				"140"
+			"step_distance"				"50"
 			"base_damage"
 			{
 				"value"							"15 30 45 60"			
@@ -132,7 +132,7 @@
 			"duration"					"5.5"
 			"attack_damage"
 			{
-				"value"					"35"
+				"value"					"80"
 				"special_bonus_unique_primal_beast_trample_attack_damage"	"+20"
 			}
 			"bonus_magic_resistance"

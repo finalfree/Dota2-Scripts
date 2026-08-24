@@ -78,7 +78,7 @@
 				{
 					"special_bonus_unique_rubick_8"		"300"
 				}
-				
+
 		}
 		"AbilityCastAnimation"		"ACT_DOTA_CAST_ABILITY_1"
 	}	
@@ -173,7 +173,7 @@
 					"CalculateSpellDamageTooltip"	"0"
 					"DamageTypeTooltip"			"DAMAGE_TYPE_NONE"
 				}
-				"damage_reduction"	
+				"damage_reduction"
 				{
 					"value"			"6 12 18 24"
 					"special_bonus_unique_rubick_fade_bolt_spell_reduction" "+12"
@@ -244,11 +244,11 @@
 		//-------------------------------------------------------------------------------------------------------------
 		"AbilityValues"
 		{
-			"cast_range"					"60 120 180 240"
-			"spell_amp"						
+			"cast_range"					"120 180 240 900"
+			"spell_amp"
 			{
-				"value"												"11 16 21 26"
-				"special_bonus_unique_rubick_arcane_supremacy"		"+7"
+				"value"												"16 41 82 100"
+				"special_bonus_unique_rubick_arcane_supremacy"		"+70"
 			}
 		}
 	}
@@ -271,7 +271,7 @@
 		"AbilityValues"
 		{
 			"aoe_bonus"					"15"
-			"magic_resist_bonus"		"0"	
+			"magic_resist_bonus"		"0"
 			"aoe_bonus_duration"		"20"
 		}
 	}
@@ -295,7 +295,7 @@
 			"curiosity_per_spell_cast"				"2"
 			"curiosity_duration"					"20"
 			"curiosity_per_level"					"1"
-			
+
 
 			"curiosity_attack_damage"				"1"
 			"curiosity_modifier_amp"					"0.3"
@@ -303,13 +303,13 @@
 
 			"curiosity_per_kill"					"1"
 			"grace_period"							"3"
-			"curiosity_factor"				
+			"curiosity_factor"
 			{
 				"value"															"0"
 				"special_bonus_unique_rubick_curiosity_factor"			"+1.5"
 			}
 
-			"charge_radius"			
+			"charge_radius"
 			{
 				"value"		"1200"
 				"affected_by_aoe_increase"	"1"
@@ -379,27 +379,27 @@
 			}
 			"projectile_speed"				"1500"
 			"stolen_debuff_amp"				"0"
-			"stolen_mana_reduction"			
+			"stolen_mana_reduction"
 			{
 				"value"									"0"
-				"special_bonus_unique_rubick_6"			"+40"	
+				"special_bonus_unique_rubick_6"			"+50"
 			}
-	
+
 			"stolen_spell_cooldown_percent"
 			{
 				"value"									"10 20 30"
-				
+
 			}
 			"spell_amp_percent"
 			{
-				"special_bonus_unique_rubick_5"			"40"
+				"special_bonus_unique_rubick_5"			"100"
 			}
 			"duration"
 			{
-				"value"									"180 240 300"
+				"value"									"6000 6000 6000"
 			}
 
-			"curiosity_steal_factor"			
+			"curiosity_steal_factor"
 			{
 				"value"						"1"
 			}

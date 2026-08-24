@@ -124,8 +124,8 @@
 
 		// Time		
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCooldown"				"19 16 13 10"
-		"AbilityCastRange"				"675 700 725 750"
+		"AbilityCooldown"				"10 8 6 4"
+		"AbilityCastRange"				"675 700 725 1200"
 		"AbilityCastPoint"				"0.2"
 		"AbilityManaCost"				"70 80 90 100"
 
@@ -141,23 +141,23 @@
 				}
 				"base_damage_pct"		
 				{
-					"value"		"80"
+					"value"		"100"
 					"CalculateSpellDamageTooltip"	"0"
 				}
 				"bounce_count"			
 				{
-					"value"			"2 3 4 5"
+					"value"			"4 6 7 8"
 					"special_bonus_unique_hoodwink_acorn_shot_bounces" "+2"
 				}
 				"bounce_range"			
 				{
-					"value"		"525"
+					"value"		"1000"
 					"affected_by_aoe_increase"	"1"	
 				}
 				"debuff_duration"		"0.3"
 				"slow"					"100"
 				"bounce_delay"			"0.1"
-				"projectile_speed"			"2200"
+				"projectile_speed"			"4200"
 				"can_bounce_off_of_trees"
 				{
 					"value"									"0"
@@ -190,7 +190,7 @@
 
 		// Casting
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCastRange"				"1100"
+		"AbilityCastRange"				"1400"
 		"AbilityCastPoint"				"0.2"
 		"AbilityCastAnimation"			"ACT_DOTA_CAST_ABILITY_2"
 
@@ -204,7 +204,7 @@
 		{
 			"trap_radius"		
 			{
-				"value"		"265"
+				"value"		"365"
 				"affected_by_aoe_increase"	"1"	
 			}
 			"debuff_duration"		"1.5 1.7 1.9 2.1"
@@ -220,7 +220,7 @@
 			
 			"AbilityCooldown"
 			{
-				"value"												"15 14 13 12"
+				"value"												"12 10 8 6"
 				"special_bonus_unique_hoodwink_bushwhack_cooldown"	"-2"
 			}
 		}
@@ -258,7 +258,7 @@
 			"movement_speed_pct"		"15 20 25 30"
 			"duration"
 			{
-				"value"						"3.5 4.0 4.5 5.0"
+				"value"						"12"
 				"special_bonus_unique_hoodwink_scurry_duration" "+1"
 			}
 			"AbilityCharges"				
@@ -266,13 +266,13 @@
 				"value"											"2"
 				"special_bonus_unique_hoodwink_scurry_charges"	"+1"		// NOTE: If changing this, change the charges added in OnAbilityUpgrade
 			}
-			"radius"						
+			"radius"
 			{
 				"value"		"275"
 				"affected_by_aoe_increase"	"1"	
 			}
 			"evasion_multiplier"		"2"
-			
+
 		}
 		"AbilityCastAnimation"		"ACT_DOTA_CAST_ABILITY_3"
 	}
@@ -436,7 +436,7 @@
 	{
 		// General
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE | DOTA_ABILITY_BEHAVIOR_SKIP_FOR_KEYBINDS | DOTA_ABILITY_BEHAVIOR_INNATE_UI"		
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE | DOTA_ABILITY_BEHAVIOR_SKIP_FOR_KEYBINDS | DOTA_ABILITY_BEHAVIOR_INNATE_UI"
 		"Innate"						"1"
  		"MaxLevel"						"1"
 		"IsBreakable"					"1"
@@ -472,11 +472,11 @@
  		"AbilityValues"
  		{
  			"search_radius"				"1200"
- 			"trail_history_duration"	
+ 			"trail_history_duration"
  			{
  				"value"					"15"
  				"hero_levelup"			"+0.5"
- 			}		
+ 			}
  			"trail_duration"			"0.5"
  			"trail_interval"			"0.2"
  		}
@@ -495,24 +495,24 @@
 		"Innate"						"1"
  		"MaxLevel"						"1"
 		"IsBreakable"					"1"
-		
-		
+
+
 		"AbilityChannelTime"			"1"
 		"HasSubAbility"					"1"
 		"SubAbilityNames"				"item_hoodwink_health_acorn;item_hoodwink_agility_acorn;item_hoodwink_mana_acorn"
-					
-		
-		// Special	
+
+
+		// Special
 		//-------------------------------------------------------------------------------------------------------------
 		"AbilityValues"
 		{
-			"AbilityCooldown"				
-			{	
+			"AbilityCooldown"
+			{
 				"value" 			"88"
 				"hero_levelup"		"-1"
 			}
-			"gold_amount"				
-			{				
+			"gold_amount"
+			{
 				"hero_levelup"			"+5"
 			}
 			"radius"					"1200"

@@ -47,8 +47,8 @@
 			}
 			"AbilityCastRange"
 			{
-				"value"				"700 775 850 925"
-				"special_bonus_unique_morphling_1"	"+250"
+				"value"				"700 1075 1450 1925"
+				"special_bonus_unique_morphling_1"	"+1950"
 			}			
 			"AbilityCooldown"
 			{
@@ -81,7 +81,7 @@
 
 		// Casting
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCastRange"				"600 675 750 825"
+		"AbilityCastRange"				"600 1075 1350 1825"
 		"AbilityCastPoint"				"0.25"
  		"AbilityCastAnimation"			"ACT_DOTA_CAST_ABILITY_2"
 
@@ -513,12 +513,12 @@
 				"value"					"25"
 			}		
 
-			"attack_range_per_agi"			"25"
-			"move_speed_per_agi"			"15"
-			"cast_range_per_str"			"25"
-			"slow_resist_per_str"			"25"
+			"attack_range_per_agi"			"200"
+			"move_speed_per_agi"			"100"
+			"cast_range_per_str"			"200"
+			"slow_resist_per_str"			"100"
 			"model_scale_min"				"0"
-			"model_scale_max"				"20"
+			"model_scale_max"				"40"
 		}
 	}
 }

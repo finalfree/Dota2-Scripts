@@ -229,14 +229,14 @@
 		{
 			"AbilityCooldown"
 			{
-				"value"					"21 19 17 15"
+				"value"					"15 14 13 12"
 				"special_bonus_unique_dark_willow_5"		"-2"
 			}
 			
 			"duration"
 			{
-				"value"						"5"
-				"special_bonus_unique_dark_willow_1"			"+1.5"
+				"value"						"8"
+				"special_bonus_unique_dark_willow_1"			"+4"
 			}
 			"fade_time"					"0.3"			
 			"damage"						"120 200 280 360"
