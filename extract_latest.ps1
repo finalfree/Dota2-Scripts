@@ -5,3 +5,4 @@ $SourceVPK = "E:\SteamLibrary\steamapps\common\dota 2 beta\game\dota\pak01_dir.v
 
 
 vpkeditcli --extract "scripts/npc/" -o "./pak01_dir/scripts/npc/" $SourceVPK
+vpkeditcli --extract "scripts/shops.txt" -o "./pak01_dir/scripts/shops.txt" $SourceVPK
