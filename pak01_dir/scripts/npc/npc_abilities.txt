@@ -1,3 +1,4 @@
+#base "lv/lv_items.txt"
 "DOTAAbilities"
 {
 	"Version"		"1"

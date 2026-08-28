@@ -1,3 +1,7 @@
 # Paths relative to pak01_dir. One file per line; no wildcards or directories.
-# Keep the main baseline generic. Customize this list on feature branches.
-scripts/npc/items.txt
+# addons: upgraded Octarine Core, recipe, explicit loader and localization.
+scripts/npc/npc_abilities.txt
+scripts/npc/lv/lv_items.txt
+scripts/shops.txt
+resource/localization/abilities_english.txt
+resource/localization/abilities_schinese.txt

@@ -1,0 +1,54 @@
+"DOTAAbilities"
+{
+	"Version"		"1"
+
+	//=================================================================================================================
+	// Recipe: Upgraded Octarine Core
+	//=================================================================================================================
+	"item_recipe_lv_octarine_core"
+	{
+		"ID"							"10001"
+		"BaseClass"					"item_datadriven"
+		"AbilityTextureName"			"item_recipe_octarine_core"
+		"Model"							"models/props_gameplay/recipe.vmdl"
+
+		"ItemCost"						"3000"
+		"ItemShopTags"					""
+		"ItemPurchasable"				"1"
+
+		"ItemRecipe"						"1"
+		"ItemResult"						"item_lv_octarine_core"
+		"ItemRequirements"
+		{
+			"01"						"item_octarine_core"
+		}
+	}
+
+	//=================================================================================================================
+	// Upgraded Octarine Core
+	//=================================================================================================================
+	"item_lv_octarine_core"
+	{
+		"ID"							"10002"
+		"BaseClass"					"item_octarine_core"
+		"AbilityTextureName"			"item_octarine_core"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+
+		"ItemCost"						"7900"
+		"ItemShopTags"					"move_speed;boost_mana;mana_pool;mana"
+		"ItemQuality"					"rare"
+		"ItemPurchasable"				"1"
+		"ItemSellable"					"1"
+		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_TO_SPECTATORS"
+		"SuggestLategame"				"1"
+
+		"AbilityValues"
+		{
+			"bonus_cooldown"			"80"
+			"bonus_health"				"450"
+			"bonus_mana"				"450"
+			"bonus_health_regen"		"0"
+			"bonus_mana_regen"			"20"
+		}
+	}
+}
