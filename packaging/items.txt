@@ -1,0 +1,3 @@
+# Paths relative to pak01_dir. One file per line; no wildcards or directories.
+# Keep the main baseline generic. Customize this list on feature branches.
+scripts/npc/items.txt
