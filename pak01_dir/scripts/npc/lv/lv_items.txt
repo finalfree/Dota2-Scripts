@@ -2,6 +2,72 @@
 {
 	"Version"		"1"
 
+	// Experimental: Gem + recipe -> automatic, permanent True Sight.
+	"item_recipe_lv_gem"
+	{
+		"ID"                    "10003"
+		"BaseClass"             "item_datadriven"
+		"AbilityTextureName"    "item_recipe_ultimate_scepter_2"
+		"Model"                 "models/props_gameplay/recipe.vmdl"
+		"ItemCost"              "800"
+		"ItemPurchasable"       "1"
+		"ItemRecipe"            "1"
+		"ItemResult"            "item_lv_gem"
+		"ItemRequirements"
+		{
+			"01"                "item_gem"
+		}
+	}
+
+	"item_lv_gem"
+	{
+		"ID"                    "10004"
+		"BaseClass"             "item_datadriven"
+		"AbilityTextureName"    "item_gem"
+		"AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"Model"                 "models/props_gameplay/gem01.vmdl"
+		"ItemCost"              "1700"
+		"ItemShopTags"          "see_invis"
+		"ItemQuality"           "consumable"
+		"ItemPurchasable"       "1"
+		"ItemSellable"          "1"
+		"ItemShareability"      "ITEM_NOT_SHAREABLE"
+		"ItemDisassembleRule"   "DOTA_ITEM_DISASSEMBLE_NEVER"
+		"AllowedInBackpack"     "0"
+		"IsTempestDoubleClonable" "0"
+		"SpeciallyBannedFromNeutralSlot" "1"
+		"AbilityValues"
+		{
+			"radius"            "1800"
+		}
+		"Modifiers"
+		{
+			"modifier_item_lv_gem_pending"
+			{
+				"Passive"       "1"
+				"IsHidden"      "1"
+				"IsPurgable"    "0"
+				"ThinkInterval" "0.25"
+				"OnCreated"
+				{
+					"RunScript"
+					{
+						"ScriptFile" "scripts/vscripts/lv/item_lv_gem.lua"
+						"Function"   "LVGemTryAbsorb"
+					}
+				}
+				"OnIntervalThink"
+				{
+					"RunScript"
+					{
+						"ScriptFile" "scripts/vscripts/lv/item_lv_gem.lua"
+						"Function"   "LVGemTryAbsorb"
+					}
+				}
+			}
+		}
+	}
+
 	//=================================================================================================================
 	// Recipe: Upgraded Octarine Core
 	//=================================================================================================================

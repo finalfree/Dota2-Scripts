@@ -1,7 +1,9 @@
 # Paths relative to pak01_dir. One file per line; no wildcards or directories.
-# addons: upgraded Octarine Core, recipe, explicit loader and localization.
+# addons: upgraded Octarine Core and experimental automatic Gem absorption.
 scripts/npc/npc_abilities.txt
 scripts/npc/lv/lv_items.txt
+scripts/vscripts/lv/item_lv_gem.lua
+scripts/vscripts/lv/modifier_lv_gem_consumed.lua
 scripts/shops.txt
 resource/localization/abilities_english.txt
 resource/localization/abilities_schinese.txt
