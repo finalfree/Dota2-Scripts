@@ -1,0 +1,2179 @@
+"DOTAAbilities"
+{
+	"Version"		"1"
+
+	//=================================================================================
+	// Upgrade: item_abyssal_blade
+	//=================================================================================
+	"item_lv_abyssal_blade"
+	{
+		"ID"				"10006"
+		"BaseClass"			"item_abyssal_blade"		// 继承原物品全部行为，无需 lua
+		"AbilityTextureName"		"item_abyssal_blade"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityUnitTargetFlags"			"DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
+		"FightRecapLevel"			"1"
+		"SpellDispellableType"			"SPELL_DISPELLABLE_YES_STRONG"
+		"AbilityCastRange"			"150"
+		"AbilityCastPoint"			"0.0"
+		"ItemShopTags"			"damage;str;hard_to_tag;disable"
+		"ItemQuality"			"epic"
+		"ItemDeclarations"			"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		"SuggestLategame"			"1"
+		"ItemPurchasable"		"1"		// 出现在原物品的商店升级树中
+		"ItemCost"			"7250"		// 6250 原物品 + 1000 卷轴
+		"AbilityCooldown"			"15"
+		"AbilityManaCost"			"5"
+
+		"AbilityValues"
+		{
+			"bonus_damage"		"105"
+			"bonus_strength"		"56"
+			"slow_resistance"		"55"
+			"hp_regen_amp"		"20"
+			"bash_chance_melee"		"25"
+			"bash_chance_ranged"		"25"
+			"bash_duration"		"1.2"
+			"bash_cooldown"		"0"
+			"bonus_chance_damage"		"120"
+			"stun_duration"		"1.6"
+		}
+	}
+
+	"item_recipe_lv_abyssal_blade"
+	{
+		"ID"				"10005"
+		"BaseClass"			"item_datadriven"
+		"AbilityTextureName"		"item_recipe_ultimate_scepter_2"
+		"Model"				"models/props_gameplay/recipe.vmdl"
+		"ItemCost"			"1000"
+		"ItemPurchasable"		"1"
+		"ItemRecipe"			"1"
+		"ItemResult"			"item_lv_abyssal_blade"
+		"ItemRequirements"
+		{
+			"01"				"item_abyssal_blade"
+		}
+	}
+
+	//=================================================================================
+	// Upgrade: item_aether_lens
+	//=================================================================================
+	"item_lv_aether_lens"
+	{
+		"ID"				"10008"
+		"BaseClass"			"item_aether_lens"		// 继承原物品全部行为，无需 lua
+		"AbilityTextureName"		"item_aether_lens"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"ItemShopTags"			"int;regen_mana;hard_to_tag"
+		"ItemQuality"			"rare"
+		"ItemDeclarations"			"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		"SuggestLategame"			"1"
+		"ItemPurchasable"		"1"		// 出现在原物品的商店升级树中
+		"ItemCost"			"3275"		// 2275 原物品 + 1000 卷轴
+
+		"AbilityValues"
+		{
+			"bonus_mana"		"300"
+			"bonus_mana_regen"		"2.5"
+			"cast_range_bonus"		"800"
+		}
+	}
+
+	"item_recipe_lv_aether_lens"
+	{
+		"ID"				"10007"
+		"BaseClass"			"item_datadriven"
+		"AbilityTextureName"		"item_recipe_ultimate_scepter_2"
+		"Model"				"models/props_gameplay/recipe.vmdl"
+		"ItemCost"			"1000"
+		"ItemPurchasable"		"1"
+		"ItemRecipe"			"1"
+		"ItemResult"			"item_lv_aether_lens"
+		"ItemRequirements"
+		{
+			"01"				"item_aether_lens"
+		}
+	}
+
+	//=================================================================================
+	// Upgrade: item_angels_demise
+	//=================================================================================
+	"item_lv_angels_demise"
+	{
+		"ID"				"10010"
+		"BaseClass"			"item_angels_demise"		// 继承原物品全部行为，无需 lua
+		"AbilityTextureName"		"item_angels_demise"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO"
+		"FightRecapLevel"			"1"
+		"SpellDispellableType"			"SPELL_DISPELLABLE_YES"
+		"ItemShopTags"			"hard_to_tag;magic_dmg"
+		"ItemQuality"			"common"
+		"SuggestLategame"			"1"
+		"ItemSellable"			"1"
+		"ItemDisassembleRule"			"DOTA_ITEM_DISASSEMBLE_ALWAYS"
+		"ItemPurchasable"		"1"		// 出现在原物品的商店升级树中
+		"ItemCost"			"6600"		// 5600 原物品 + 1000 卷轴
+		"AbilityCooldown"			"4"
+
+		"AbilityValues"
+		{
+			"bonus_health"		"450"
+			"bonus_mana"		"450"
+			"bonus_all_stats"		"8"
+			"bonus_health_regen"		"7"
+			"bonus_mana_regen"		"38"
+			"slow"		"50"
+			"slow_duration"		"8"
+			"bonus_spell_damage"		"250"
+		}
+	}
+
+	"item_recipe_lv_angels_demise"
+	{
+		"ID"				"10009"
+		"BaseClass"			"item_datadriven"
+		"AbilityTextureName"		"item_recipe_ultimate_scepter_2"
+		"Model"				"models/props_gameplay/recipe.vmdl"
+		"ItemCost"			"1000"
+		"ItemPurchasable"		"1"
+		"ItemRecipe"			"1"
+		"ItemResult"			"item_lv_angels_demise"
+		"ItemRequirements"
+		{
+			"01"				"item_angels_demise"
+		}
+	}
+
+	//=================================================================================
+	// Upgrade: item_arcane_blink
+	//=================================================================================
+	"item_lv_arcane_blink"
+	{
+		"ID"				"10012"
+		"BaseClass"			"item_arcane_blink"		// 继承原物品全部行为，无需 lua
+		"AbilityTextureName"		"item_arcane_blink"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_DIRECTIONAL | DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES | DOTA_ABILITY_BEHAVIOR_OVERSHOOT"
+		"AbilityCastRange"			"1400"
+		"AbilityCastPoint"			"0.0"
+		"AbilityManaCost"			"0"
+		"AbilitySharedCooldown"			"blink"
+		"ItemShopTags"			"teleport;mobility;escape;magic_dmg"
+		"ItemQuality"			"component"
+		"ItemDeclarations"			"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		"SuggestLategame"			"1"
+		"ItemPurchasable"		"1"		// 出现在原物品的商店升级树中
+		"ItemCost"			"7800"		// 6800 原物品 + 1000 卷轴
+		"AbilityCooldown"			"5.0"
+
+		"AbilityValues"
+		{
+			"blink_range"		"1400"
+			"blink_damage_cooldown"		"0"
+			"blink_range_clamp"		"1120"
+			"bonus_intellect"		"200"
+			"heal_amount"		"250"
+			"mana_amount"		"300"
+			"debuff_amp"		"0"
+			"duration"		"0"
+		}
+	}
+
+	"item_recipe_lv_arcane_blink"
+	{
+		"ID"				"10011"
+		"BaseClass"			"item_datadriven"
+		"AbilityTextureName"		"item_recipe_ultimate_scepter_2"
+		"Model"				"models/props_gameplay/recipe.vmdl"
+		"ItemCost"			"1000"
+		"ItemPurchasable"		"1"
+		"ItemRecipe"			"1"
+		"ItemResult"			"item_lv_arcane_blink"
+		"ItemRequirements"
+		{
+			"01"				"item_arcane_blink"
+		}
+	}
+
+	//=================================================================================
+	// Upgrade: item_assault
+	//=================================================================================
+	"item_lv_assault"
+	{
+		"ID"				"10014"
+		"BaseClass"			"item_assault"		// 继承原物品全部行为，无需 lua
+		"AbilityTextureName"		"item_assault"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityCastRange"			"1200"
+		"SpellImmunityType"			"SPELL_IMMUNITY_ENEMIES_YES"
+		"ItemShopTags"			"attack_speed;armor;hard_to_tag;teamfight;tank"
+		"ItemQuality"			"epic"
+		"ItemDeclarations"			"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		"SuggestLategame"			"1"
+		"ItemPurchasable"		"1"		// 出现在原物品的商店升级树中
+		"ItemCost"			"6125"		// 5125 原物品 + 1000 卷轴
+
+		"AbilityValues"
+		{
+			"bonus_attack_speed"		"130"
+			"bonus_armor"		"60"
+			"aura_radius"
+			{
+				"value"		"1200"
+				"affected_by_aoe_increase"		"1"
+			}
+			"aura_attack_speed"		"50"
+			"aura_positive_armor"		"15"
+			"aura_negative_armor"		"-15"
+		}
+	}
+
+	"item_recipe_lv_assault"
+	{
+		"ID"				"10013"
+		"BaseClass"			"item_datadriven"
+		"AbilityTextureName"		"item_recipe_ultimate_scepter_2"
+		"Model"				"models/props_gameplay/recipe.vmdl"
+		"ItemCost"			"1000"
+		"ItemPurchasable"		"1"
+		"ItemRecipe"			"1"
+		"ItemResult"			"item_lv_assault"
+		"ItemRequirements"
+		{
+			"01"				"item_assault"
+		}
+	}
+
+	//=================================================================================
+	// Upgrade: item_bfury
+	//=================================================================================
+	"item_lv_bfury"
+	{
+		"ID"				"10016"
+		"BaseClass"			"item_bfury"		// 继承原物品全部行为，无需 lua
+		"AbilityTextureName"		"item_bfury"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_TREE | DOTA_UNIT_TARGET_CUSTOM"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_CUSTOM"
+		"AbilityCastRange"			"350"
+		"AbilityCastPoint"			"0.0"
+		"ItemShopTags"			"damage;health_regen;mana_regen;hard_to_tag;farming;dps"
+		"ItemQuality"			"epic"
+		"ItemDeclarations"			"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		"SuggestLategame"			"1"
+		"ItemPurchasable"		"1"		// 出现在原物品的商店升级树中
+		"ItemCost"			"4900"		// 3900 原物品 + 1000 卷轴
+		"AbilityCooldown"			"2.0"
+
+		"AbilityValues"
+		{
+			"bonus_damage"		"50"
+			"bonus_health_regen"		"7.5"
+			"bonus_mana_regen"		"2.75"
+			"cleave_damage_percent"		"100"
+			"cleave_damage_percent_creep"		"100"
+			"quelling_bonus"		"10"
+			"quelling_bonus_ranged"		"5"
+			"cleave_starting_width"
+			{
+				"value"		"250"
+				"affected_by_aoe_increase"		"1"
+			}
+			"cleave_ending_width"
+			{
+				"value"		"560"
+				"affected_by_aoe_increase"		"1"
+			}
+			"cleave_distance"		"750"
+			"upgraded_cleave_bonus"		"25"
+			"upgraded_damage_bonus"		"15"
+		}
+	}
+
+	"item_recipe_lv_bfury"
+	{
+		"ID"				"10015"
+		"BaseClass"			"item_datadriven"
+		"AbilityTextureName"		"item_recipe_ultimate_scepter_2"
+		"Model"				"models/props_gameplay/recipe.vmdl"
+		"ItemCost"			"1000"
+		"ItemPurchasable"		"1"
+		"ItemRecipe"			"1"
+		"ItemResult"			"item_lv_bfury"
+		"ItemRequirements"
+		{
+			"01"				"item_bfury"
+		}
+	}
+
+	//=================================================================================
+	// Upgrade: item_bloodthorn
+	//=================================================================================
+	"item_lv_bloodthorn"
+	{
+		"ID"				"10018"
+		"BaseClass"			"item_bloodthorn"		// 继承原物品全部行为，无需 lua
+		"AbilityTextureName"		"item_bloodthorn"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"FightRecapLevel"			"1"
+		"SpellDispellableType"			"SPELL_DISPELLABLE_YES"
+		"AbilityCastRange"			"900"
+		"AbilityCastPoint"			"0.0"
+		"AbilitySharedCooldown"			"orchid"
+		"AbilityManaCost"			"150"
+		"ItemShopTags"			"int;attack_speed;damage;regen_mana;damage;hard_to_tag;dps;disable"
+		"ItemQuality"			"epic"
+		"ItemDeclarations"			"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		"SuggestLategame"			"1"
+		"ItemPurchasable"		"1"		// 出现在原物品的商店升级树中
+		"ItemCost"			"7400"		// 6400 原物品 + 1000 卷轴
+		"AbilityCooldown"			"7"
+
+		"AbilityValues"
+		{
+			"bonus_intellect"		"50"
+			"bonus_attack_speed"		"195"
+			"bonus_mana_regen"		"13"
+			"bonus_health_regen"		"15"
+			"silence_duration"		"5"
+			"silence_damage_percent"		"60"
+			"bonus_damage"		"20"
+			"duration"		"6"
+			"spell_amp_debuff"		"35"
+			"proc_damage_heroes"		"50"
+			"proc_damage_creeps"		"25"
+			"passive_proc_damage"		"60"
+			"proc_chance"		"40"
+		}
+	}
+
+	"item_recipe_lv_bloodthorn"
+	{
+		"ID"				"10017"
+		"BaseClass"			"item_datadriven"
+		"AbilityTextureName"		"item_recipe_ultimate_scepter_2"
+		"Model"				"models/props_gameplay/recipe.vmdl"
+		"ItemCost"			"1000"
+		"ItemPurchasable"		"1"
+		"ItemRecipe"			"1"
+		"ItemResult"			"item_lv_bloodthorn"
+		"ItemRequirements"
+		{
+			"01"				"item_bloodthorn"
+		}
+	}
+
+	//=================================================================================
+	// Upgrade: item_butterfly
+	//=================================================================================
+	"item_lv_butterfly"
+	{
+		"ID"				"10020"
+		"BaseClass"			"item_butterfly"		// 继承原物品全部行为，无需 lua
+		"AbilityTextureName"		"item_butterfly"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"ItemShopTags"			"agi;damage;evasion;attack_speed;dps;tank"
+		"ItemQuality"			"epic"
+		"ItemDeclarations"			"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		"SuggestLategame"			"1"
+		"ItemPurchasable"		"1"		// 出现在原物品的商店升级树中
+		"ItemCost"			"6450"		// 5450 原物品 + 1000 卷轴
+
+		"AbilityValues"
+		{
+			"bonus_agility"		"100"
+			"bonus_evasion"		"85"
+			"bonus_attack_speed_pct"		"30"
+			"bonus_damage"		"150"
+		}
+	}
+
+	"item_recipe_lv_butterfly"
+	{
+		"ID"				"10019"
+		"BaseClass"			"item_datadriven"
+		"AbilityTextureName"		"item_recipe_ultimate_scepter_2"
+		"Model"				"models/props_gameplay/recipe.vmdl"
+		"ItemCost"			"1000"
+		"ItemPurchasable"		"1"
+		"ItemRecipe"			"1"
+		"ItemResult"			"item_lv_butterfly"
+		"ItemRequirements"
+		{
+			"01"				"item_butterfly"
+		}
+	}
+
+	//=================================================================================
+	// Upgrade: item_dagon
+	//=================================================================================
+	"item_lv_dagon"
+	{
+		"ID"				"10022"
+		"BaseClass"			"item_dagon"		// 继承原物品全部行为，无需 lua
+		"AbilityTextureName"		"item_dagon"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"FightRecapLevel"			"1"
+		"AbilityCastRange"			"640"
+		"AbilityCastPoint"			"0.0"
+		"AbilitySharedCooldown"			"dagon"
+		"MaxUpgradeLevel"			"5"
+		"ItemBaseLevel"			"1"
+		"ItemDeclarations"			"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		"AbilityManaCost"			"120 140 160 180 200"
+		"ItemShopTags"			"damage;int;str;agi;hard_to_tag;magic_dmg"
+		"ItemQuality"			"rare"
+		"UpgradesItems"			"item_dagon;item_dagon_2;item_dagon_3;item_dagon_4"
+		"UpgradeRecipe"			"item_recipe_dagon"
+		"ItemPurchasable"		"1"		// 出现在原物品的商店升级树中
+		"ItemCost"			"4000"		// 3000 原物品 + 1000 卷轴
+		"AbilityCooldown"			"27 24 21 18 5"
+
+		"AbilityValues"
+		{
+			"bonus_all_stats"		"6 7 8 9 100"
+			"bonus_health"		"200 210 220 230 240"
+			"bonus_mana"		"350 375 400 425 450"
+			"damage"		"400 500 600 700 1800"
+			"damage_delay"		"0"
+			"mana_cost_tooltip"		"120 140 160 180 200"
+			"cast_range_bonus"		"60 90 120 150 580"
+		}
+	}
+
+	"item_recipe_lv_dagon"
+	{
+		"ID"				"10021"
+		"BaseClass"			"item_datadriven"
+		"AbilityTextureName"		"item_recipe_ultimate_scepter_2"
+		"Model"				"models/props_gameplay/recipe.vmdl"
+		"ItemCost"			"1000"
+		"ItemPurchasable"		"1"
+		"ItemRecipe"			"1"
+		"ItemResult"			"item_lv_dagon"
+		"ItemRequirements"
+		{
+			"01"				"item_dagon"
+		}
+	}
+
+	//=================================================================================
+	// Upgrade: item_dagon_5
+	//=================================================================================
+	"item_lv_dagon_5"
+	{
+		"ID"				"10024"
+		"BaseClass"			"item_dagon_5"		// 继承原物品全部行为，无需 lua
+		"AbilityTextureName"		"item_dagon_5"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"FightRecapLevel"			"1"
+		"AbilityCastRange"			"640"
+		"AbilityCastPoint"			"0.0"
+		"AbilitySharedCooldown"			"dagon"
+		"MaxUpgradeLevel"			"5"
+		"ItemBaseLevel"			"5"
+		"ItemDeclarations"			"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		"AbilityManaCost"			"120 140 160 180 200"
+		"ItemShopTags"			"damage;int;str;agi;hard_to_tag;magic_dmg"
+		"ItemQuality"			"rare"
+		"SuggestLategame"			"1"
+		"ItemPurchasable"		"1"		// 出现在原物品的商店升级树中
+		"ItemCost"			"8400"		// 7400 原物品 + 1000 卷轴
+		"AbilityCooldown"			"27 24 21 18 5"
+
+		"AbilityValues"
+		{
+			"bonus_all_stats"		"6 7 8 9 100"
+			"bonus_health"		"200 210 220 230 240"
+			"bonus_mana"		"350 375 400 425 450"
+			"damage"		"400 500 600 700 1800"
+			"damage_delay"		"0"
+			"mana_cost_tooltip"		"120 140 160 180 200"
+			"cast_range_bonus"		"60 90 120 150 580"
+		}
+	}
+
+	"item_recipe_lv_dagon_5"
+	{
+		"ID"				"10023"
+		"BaseClass"			"item_datadriven"
+		"AbilityTextureName"		"item_recipe_ultimate_scepter_2"
+		"Model"				"models/props_gameplay/recipe.vmdl"
+		"ItemCost"			"1000"
+		"ItemPurchasable"		"1"
+		"ItemRecipe"			"1"
+		"ItemResult"			"item_lv_dagon_5"
+		"ItemRequirements"
+		{
+			"01"				"item_dagon_5"
+		}
+	}
+
+	//=================================================================================
+	// Upgrade: item_desolator
+	//=================================================================================
+	"item_lv_desolator"
+	{
+		"ID"				"10026"
+		"BaseClass"			"item_desolator"		// 继承原物品全部行为，无需 lua
+		"AbilityTextureName"		"item_desolator"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"ItemShopTags"			"damage;unique;dps"
+		"ItemQuality"			"artifact"
+		"ItemDeclarations"			"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		"SpellDispellableType"			"SPELL_DISPELLABLE_YES"
+		"SuggestLategame"			"1"
+		"SpellImmunityType"			"SPELL_IMMUNITY_ENEMIES_YES"
+		"ItemPurchasable"		"1"		// 出现在原物品的商店升级树中
+		"ItemCost"			"4500"		// 3500 原物品 + 1000 卷轴
+
+		"AbilityValues"
+		{
+			"bonus_damage"		"55"
+			"corruption_armor"		"-16"
+			"corruption_duration"		"17"
+			"bonus_damage_per_kill"		"10"
+			"bonus_damage_per_assist"		"5"
+			"max_damage"		"3000"
+		}
+	}
+
+	"item_recipe_lv_desolator"
+	{
+		"ID"				"10025"
+		"BaseClass"			"item_datadriven"
+		"AbilityTextureName"		"item_recipe_ultimate_scepter_2"
+		"Model"				"models/props_gameplay/recipe.vmdl"
+		"ItemCost"			"1000"
+		"ItemPurchasable"		"1"
+		"ItemRecipe"			"1"
+		"ItemResult"			"item_lv_desolator"
+		"ItemRequirements"
+		{
+			"01"				"item_desolator"
+		}
+	}
+
+	//=================================================================================
+	// Upgrade: item_devastator
+	//=================================================================================
+	"item_lv_devastator"
+	{
+		"ID"				"10028"
+		"BaseClass"			"item_devastator"		// 继承原物品全部行为，无需 lua
+		"AbilityTextureName"		"item_devastator"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"SpellImmunityType"			"SPELL_IMMUNITY_ENEMIES_YES"
+		"ItemShopTags"			"int;hard_to_tag;dps;magic_dmg"
+		"ItemQuality"			"rare"
+		"ItemDeclarations"			"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		"SuggestLategame"			"1"
+		"ItemPurchasable"		"1"		// 出现在原物品的商店升级树中
+		"ItemCost"			"6975"		// 5975 原物品 + 1000 卷轴
+		"AbilityCooldown"			"2"
+
+		"AbilityValues"
+		{
+			"bonus_intellect"		"100"
+			"bonus_attack_speed"		"100"
+			"bonus_armor"		"28"
+			"bonus_mana_regen"		"10"
+			"projectile_speed"		"500"
+			"int_damage_multiplier"		"1"
+			"slow"		"25"
+			"slow_duration"		"4"
+			"active_mres_reduction"		"50"
+			"passive_cooldown"		"4"
+		}
+	}
+
+	"item_recipe_lv_devastator"
+	{
+		"ID"				"10027"
+		"BaseClass"			"item_datadriven"
+		"AbilityTextureName"		"item_recipe_ultimate_scepter_2"
+		"Model"				"models/props_gameplay/recipe.vmdl"
+		"ItemCost"			"1000"
+		"ItemPurchasable"		"1"
+		"ItemRecipe"			"1"
+		"ItemResult"			"item_lv_devastator"
+		"ItemRequirements"
+		{
+			"01"				"item_devastator"
+		}
+	}
+
+	//=================================================================================
+	// Upgrade: item_disperser
+	//=================================================================================
+	"item_lv_disperser"
+	{
+		"ID"				"10030"
+		"BaseClass"			"item_disperser"		// 继承原物品全部行为，无需 lua
+		"AbilityTextureName"		"item_disperser"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_AOE"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_BOTH"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"FightRecapLevel"			"1"
+		"SpellDispellableType"			"SPELL_DISPELLABLE_YES"
+		"AbilityCastRange"			"600"
+		"AbilityCastPoint"			"0.0"
+		"AbilitySharedCooldown"			"diffusal"
+		"ItemDeclarations"			"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		"ItemShopTags"			"agi;int;unique;hard_to_tag"
+		"ItemQuality"			"artifact"
+		"ItemPermanent"			"1"
+		"UpgradesItems"			"item_diffusal_blade"
+		"UpgradeRecipe"			"item_recipe_diffusal_blade"
+		"SuggestLategame"			"1"
+		"ItemPurchasable"		"1"		// 出现在原物品的商店升级树中
+		"ItemCost"			"7100"		// 6100 原物品 + 1000 卷轴
+		"AbilityCooldown"			"5.0"
+		"AbilityManaCost"			"5"
+
+		"AbilityValues"
+		{
+			"bonus_agility"		"100"
+			"bonus_intellect"		"100"
+			"feedback_mana_burn"		"100"
+			"feedback_mana_burn_illusion_melee"		"0"
+			"feedback_mana_burn_illusion_ranged"		"0"
+			"purge_rate"		"5"
+			"purge_root_duration"		"3.0"
+			"damage_per_burn"		"1.0"
+			"enemy_effect_duration"		"10.0"
+			"ally_effect_duration"		"10.0"
+			"movement_speed_buff_rate"		"5"
+			"phase_movement_speed"		"100"
+			"slow_resist"		"40"
+		}
+	}
+
+	"item_recipe_lv_disperser"
+	{
+		"ID"				"10029"
+		"BaseClass"			"item_datadriven"
+		"AbilityTextureName"		"item_recipe_ultimate_scepter_2"
+		"Model"				"models/props_gameplay/recipe.vmdl"
+		"ItemCost"			"1000"
+		"ItemPurchasable"		"1"
+		"ItemRecipe"			"1"
+		"ItemResult"			"item_lv_disperser"
+		"ItemRequirements"
+		{
+			"01"				"item_disperser"
+		}
+	}
+
+	//=================================================================================
+	// Upgrade: item_eternal_shroud
+	//=================================================================================
+	"item_lv_eternal_shroud"
+	{
+		"ID"				"10032"
+		"BaseClass"			"item_eternal_shroud"		// 继承原物品全部行为，无需 lua
+		"AbilityTextureName"		"item_eternal_shroud"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"IsObsolete"			"1"
+		"ItemShopTags"			"regen_health;magic_resist;tank"
+		"ItemQuality"			"epic"
+		"ItemDeclarations"			"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_TO_SPECTATORS"
+		"SuggestLategame"			"1"
+		"ItemPurchasable"		"1"		// 出现在原物品的商店升级树中
+		"ItemCost"			"4900"		// 3900 原物品 + 1000 卷轴
+
+		"AbilityValues"
+		{
+			"bonus_spell_resist"		"40"
+			"bonus_strength"		"10"
+			"bonus_health"		"250"
+			"stack_threshold"		"300"
+			"stack_duration"		"5"
+			"stack_resist"		"3.5"
+			"mana_restore_pct"		"50"
+			"max_stacks"		"6"
+		}
+	}
+
+	"item_recipe_lv_eternal_shroud"
+	{
+		"ID"				"10031"
+		"BaseClass"			"item_datadriven"
+		"AbilityTextureName"		"item_recipe_ultimate_scepter_2"
+		"Model"				"models/props_gameplay/recipe.vmdl"
+		"ItemCost"			"1000"
+		"ItemPurchasable"		"1"
+		"ItemRecipe"			"1"
+		"ItemResult"			"item_lv_eternal_shroud"
+		"ItemRequirements"
+		{
+			"01"				"item_eternal_shroud"
+		}
+	}
+
+	//=================================================================================
+	// Upgrade: item_ethereal_blade
+	//=================================================================================
+	"item_lv_ethereal_blade"
+	{
+		"ID"				"10034"
+		"BaseClass"			"item_ethereal_blade"		// 继承原物品全部行为，无需 lua
+		"AbilityTextureName"		"item_ethereal_blade"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY | DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_CREEP"
+		"FightRecapLevel"			"1"
+		"SpellDispellableType"			"SPELL_DISPELLABLE_YES"
+		"AbilityCastRange"			"800"
+		"AbilityCastPoint"			"0.0"
+		"AbilitySharedCooldown"			"ethereal"
+		"AbilityManaCost"			"100"
+		"ItemShopTags"			"agi;str;int;hard_to_tag;escape;save;magic_dmg"
+		"ItemQuality"			"epic"
+		"ItemDeclarations"			"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_TO_SPECTATORS"
+		"SuggestLategame"			"1"
+		"ItemPurchasable"		"1"		// 出现在原物品的商店升级树中
+		"ItemCost"			"6200"		// 5200 原物品 + 1000 卷轴
+		"AbilityCooldown"			"10.0"
+
+		"AbilityValues"
+		{
+			"bonus_agility"		"50"
+			"bonus_strength"		"50"
+			"bonus_intellect"		"50"
+			"blast_movement_slow"		"-80"
+			"duration"		"4.0"
+			"blast_stat_multiplier"		"3.0"
+			"blast_damage_base"		"50"
+			"duration_ally"		"4.0"
+			"ethereal_damage_bonus"		"-30"
+			"projectile_speed"		"1400"
+		}
+	}
+
+	"item_recipe_lv_ethereal_blade"
+	{
+		"ID"				"10033"
+		"BaseClass"			"item_datadriven"
+		"AbilityTextureName"		"item_recipe_ultimate_scepter_2"
+		"Model"				"models/props_gameplay/recipe.vmdl"
+		"ItemCost"			"1000"
+		"ItemPurchasable"		"1"
+		"ItemRecipe"			"1"
+		"ItemResult"			"item_lv_ethereal_blade"
+		"ItemRequirements"
+		{
+			"01"				"item_ethereal_blade"
+		}
+	}
+
+	//=================================================================================
+	// Upgrade: item_greater_crit
+	//=================================================================================
+	"item_lv_greater_crit"
+	{
+		"ID"				"10036"
+		"BaseClass"			"item_greater_crit"		// 继承原物品全部行为，无需 lua
+		"AbilityTextureName"		"item_greater_crit"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"ItemShopTags"			"damage;crit;dps"
+		"ItemQuality"			"epic"
+		"ItemDeclarations"			"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		"SuggestLategame"			"1"
+		"ItemPurchasable"		"1"		// 出现在原物品的商店升级树中
+		"ItemCost"			"6100"		// 5100 原物品 + 1000 卷轴
+
+		"AbilityValues"
+		{
+			"bonus_damage"		"188"
+			"crit_chance"		"100"
+			"crit_multiplier"		"300"
+		}
+	}
+
+	"item_recipe_lv_greater_crit"
+	{
+		"ID"				"10035"
+		"BaseClass"			"item_datadriven"
+		"AbilityTextureName"		"item_recipe_ultimate_scepter_2"
+		"Model"				"models/props_gameplay/recipe.vmdl"
+		"ItemCost"			"1000"
+		"ItemPurchasable"		"1"
+		"ItemRecipe"			"1"
+		"ItemResult"			"item_lv_greater_crit"
+		"ItemRequirements"
+		{
+			"01"				"item_greater_crit"
+		}
+	}
+
+	//=================================================================================
+	// Upgrade: item_gungir
+	//=================================================================================
+	"item_lv_gungir"
+	{
+		"ID"				"10038"
+		"BaseClass"			"item_gungir"		// 继承原物品全部行为，无需 lua
+		"AbilityTextureName"		"item_gungir"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"FightRecapLevel"			"1"
+		"SpellDispellableType"			"SPELL_DISPELLABLE_YES"
+		"AbilitySharedCooldown"			"atos"
+		"AbilityCastRange"			"1100"
+		"AbilityCastPoint"			"0.0"
+		"ItemShopTags"			"damage;attack_speed;unique;magic_dmg;disable"
+		"ItemQuality"			"artifact"
+		"ItemDeclarations"			"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		"SuggestLategame"			"1"
+		"ItemPurchasable"		"1"		// 出现在原物品的商店升级树中
+		"ItemCost"			"5650"		// 4650 原物品 + 1000 卷轴
+		"AbilityCooldown"			"6"
+		"AbilityManaCost"			"50"
+
+		"AbilityValues"
+		{
+			"bonus_hp"		"450"
+			"bonus_mana"		"200"
+			"bonus_intellect"		"100"
+			"bonus_aoe"		"375"
+			"radius"
+			{
+				"value"		"325"
+				"affected_by_aoe_increase"		"1"
+			}
+			"radius_tooltip"
+			{
+				"value"		"400"
+				"affected_by_aoe_increase"		"1"
+			}
+			"duration"		"2.0"
+		}
+	}
+
+	"item_recipe_lv_gungir"
+	{
+		"ID"				"10037"
+		"BaseClass"			"item_datadriven"
+		"AbilityTextureName"		"item_recipe_ultimate_scepter_2"
+		"Model"				"models/props_gameplay/recipe.vmdl"
+		"ItemCost"			"1000"
+		"ItemPurchasable"		"1"
+		"ItemRecipe"			"1"
+		"ItemResult"			"item_lv_gungir"
+		"ItemRequirements"
+		{
+			"01"				"item_gungir"
+		}
+	}
+
+	//=================================================================================
+	// Upgrade: item_gunpowder_gauntlets
+	//=================================================================================
+	"item_lv_gunpowder_gauntlets"
+	{
+		"ID"				"10040"
+		"BaseClass"			"item_gunpowder_gauntlets"		// 继承原物品全部行为，无需 lua
+		"AbilityTextureName"		"item_gunpowder_gauntlets"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"ItemIsNeutralActiveDrop"			"1"
+		"ItemSellable"			"0"
+		"Model"			"models/props_gameplay/neutral_box.vmdl"
+		"ItemPurchasable"		"1"		// 出现在原物品的商店升级树中
+		"ItemCost"			"1000"		// 0 原物品 + 1000 卷轴
+		"AbilityCooldown"			"0"
+
+		"AbilityValues"
+		{
+			"bonus_damage"
+			{
+				"value"		"10"
+				"apply_curio_bonus"		"1"
+			}
+			"splash_radius"
+			{
+				"value"		"450"
+				"affected_by_aoe_increase"		"1"
+			}
+			"splash_pct"		"100"
+		}
+	}
+
+	"item_recipe_lv_gunpowder_gauntlets"
+	{
+		"ID"				"10039"
+		"BaseClass"			"item_datadriven"
+		"AbilityTextureName"		"item_recipe_ultimate_scepter_2"
+		"Model"				"models/props_gameplay/recipe.vmdl"
+		"ItemCost"			"1000"
+		"ItemPurchasable"		"1"
+		"ItemRecipe"			"1"
+		"ItemResult"			"item_lv_gunpowder_gauntlets"
+		"ItemRequirements"
+		{
+			"01"				"item_gunpowder_gauntlets"
+		}
+	}
+
+	//=================================================================================
+	// Upgrade: item_harpoon
+	//=================================================================================
+	"item_lv_harpoon"
+	{
+		"ID"				"10042"
+		"BaseClass"			"item_harpoon"		// 继承原物品全部行为，无需 lua
+		"AbilityTextureName"		"item_harpoon"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY | DOTA_UNIT_TARGET_TEAM_CUSTOM"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC | DOTA_UNIT_TARGET_CUSTOM | DOTA_UNIT_TARGET_TREE"
+		"FightRecapLevel"			"1"
+		"AbilityCastPoint"			"0.0"
+		"Model"			"models/props_gameplay/neutral_box.vmdl"
+		"SuggestLategame"			"1"
+		"ItemPurchasable"		"1"		// 出现在原物品的商店升级树中
+		"ItemCost"			"5700"		// 4700 原物品 + 1000 卷轴
+		"AbilityCastRange"			"1700"
+		"AbilityCooldown"			"9.0"
+		"AbilityManaCost"			"25"
+
+		"AbilityValues"
+		{
+			"bonus_damage"		"125"
+			"bonus_strength"		"75"
+			"bonus_agility"		"75"
+			"bonus_intellect"		"100"
+			"bonus_mana_regen"		"10"
+			"passive_cooldown"		"2"
+			"movement_slow"		"100"
+			"slow_duration"		"1.0"
+			"pull_duration"		"0.3"
+			"pull_distance_pct"		"70"
+			"min_distance"		"100"
+			"max_distance"		"2000"
+			"cast_range_enemy"		"1700"
+			"push_length"		"600"
+			"projectile_speed"		"2000"
+		}
+	}
+
+	"item_recipe_lv_harpoon"
+	{
+		"ID"				"10041"
+		"BaseClass"			"item_datadriven"
+		"AbilityTextureName"		"item_recipe_ultimate_scepter_2"
+		"Model"				"models/props_gameplay/recipe.vmdl"
+		"ItemCost"			"1000"
+		"ItemPurchasable"		"1"
+		"ItemRecipe"			"1"
+		"ItemResult"			"item_lv_harpoon"
+		"ItemRequirements"
+		{
+			"01"				"item_harpoon"
+		}
+	}
+
+	//=================================================================================
+	// Upgrade: item_heart
+	//=================================================================================
+	"item_lv_heart"
+	{
+		"ID"				"10044"
+		"BaseClass"			"item_heart"		// 继承原物品全部行为，无需 lua
+		"AbilityTextureName"		"item_heart"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"ItemShopTags"			"str;regen_health;health_pool;tank"
+		"ItemQuality"			"epic"
+		"ItemDeclarations"			"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		"SuggestLategame"			"1"
+		"ItemPurchasable"		"1"		// 出现在原物品的商店升级树中
+		"ItemCost"			"6200"		// 5200 原物品 + 1000 卷轴
+
+		"AbilityValues"
+		{
+			"bonus_strength"		"100"
+			"hp_regen"		"2"
+			"missing_health_regen"		"1.5"
+		}
+	}
+
+	"item_recipe_lv_heart"
+	{
+		"ID"				"10043"
+		"BaseClass"			"item_datadriven"
+		"AbilityTextureName"		"item_recipe_ultimate_scepter_2"
+		"Model"				"models/props_gameplay/recipe.vmdl"
+		"ItemCost"			"1000"
+		"ItemPurchasable"		"1"
+		"ItemRecipe"			"1"
+		"ItemResult"			"item_lv_heart"
+		"ItemRequirements"
+		{
+			"01"				"item_heart"
+		}
+	}
+
+	//=================================================================================
+	// Upgrade: item_hurricane_pike
+	//=================================================================================
+	"item_lv_hurricane_pike"
+	{
+		"ID"				"10046"
+		"BaseClass"			"item_hurricane_pike"		// 继承原物品全部行为，无需 lua
+		"AbilityTextureName"		"item_hurricane_pike"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_BOTH | DOTA_UNIT_TARGET_TEAM_CUSTOM"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC | DOTA_UNIT_TARGET_CUSTOM"
+		"FightRecapLevel"			"1"
+		"AbilityCastRange"			"650"
+		"AbilityCastPoint"			"0.0"
+		"AbilitySharedCooldown"			"force"
+		"ItemShopTags"			"int;damage;attack_speed;hard_to_tag;mobility;escape;save"
+		"ItemQuality"			"epic"
+		"ItemDeclarations"			"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_TO_SPECTATORS"
+		"SuggestLategame"			"1"
+		"ItemPurchasable"		"1"		// 出现在原物品的商店升级树中
+		"ItemCost"			"5450"		// 4450 原物品 + 1000 卷轴
+		"AbilityCooldown"			"10.0"
+		"AbilityManaCost"			"10"
+
+		"AbilityValues"
+		{
+			"bonus_intellect"		"55"
+			"bonus_health"		"200"
+			"bonus_agility"		"60"
+			"bonus_strength"		"55"
+			"base_attack_range"		"750"
+			"push_length"		"1600"
+			"enemy_length"		"450"
+			"range_duration"		"16"
+			"cast_range_enemy"		"450"
+			"max_attacks"		"15"
+			"bonus_attack_speed"		"100"
+			"push_time"		"0.5"
+			"dizzy_duration"		"0"
+			"dizzy_distance_pct"		"0"
+		}
+	}
+
+	"item_recipe_lv_hurricane_pike"
+	{
+		"ID"				"10045"
+		"BaseClass"			"item_datadriven"
+		"AbilityTextureName"		"item_recipe_ultimate_scepter_2"
+		"Model"				"models/props_gameplay/recipe.vmdl"
+		"ItemCost"			"1000"
+		"ItemPurchasable"		"1"
+		"ItemRecipe"			"1"
+		"ItemResult"			"item_lv_hurricane_pike"
+		"ItemRequirements"
+		{
+			"01"				"item_hurricane_pike"
+		}
+	}
+
+	//=================================================================================
+	// Upgrade: item_hydras_breath
+	//=================================================================================
+	"item_lv_hydras_breath"
+	{
+		"ID"				"10048"
+		"BaseClass"			"item_hydras_breath"		// 继承原物品全部行为，无需 lua
+		"AbilityTextureName"		"item_hydras_breath"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityCooldown"			"0"
+		"AbilityCastRange"			"0"
+		"AbilityManaCost"			"0"
+		"ItemShopTags"			"agi;damage;attack_speed;hard_to_tag;"
+		"ItemQuality"			"rare"
+		"ItemDeclarations"			"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_TO_SPECTATORS"
+		"SuggestLategame"			"1"
+		"ItemPurchasable"		"1"		// 出现在原物品的商店升级树中
+		"ItemCost"			"6900"		// 5900 原物品 + 1000 卷轴
+
+		"AbilityValues"
+		{
+			"strength"		"15"
+			"agility"		"30"
+			"damage"		"25"
+			"base_count"		"0"
+			"count"		"10"
+			"secondary_target_range_bonus"		"150"
+			"secondary_target_angle"		"360"
+			"proc_chance"		"100"
+			"proc_dmg_pct"		"100"
+			"proc_dmg_pct_primary_tooltip"		"100"
+			"base_proc_dmg"		"20"
+			"base_attack_range"		"650"
+			"poison_duration"		"3"
+			"poison_base_damage"		"0"
+			"poison_damage_per_second"		"2.5"
+		}
+	}
+
+	"item_recipe_lv_hydras_breath"
+	{
+		"ID"				"10047"
+		"BaseClass"			"item_datadriven"
+		"AbilityTextureName"		"item_recipe_ultimate_scepter_2"
+		"Model"				"models/props_gameplay/recipe.vmdl"
+		"ItemCost"			"1000"
+		"ItemPurchasable"		"1"
+		"ItemRecipe"			"1"
+		"ItemResult"			"item_lv_hydras_breath"
+		"ItemRequirements"
+		{
+			"01"				"item_hydras_breath"
+		}
+	}
+
+	//=================================================================================
+	// Upgrade: item_lotus_orb
+	//=================================================================================
+	"item_lv_lotus_orb"
+	{
+		"ID"				"10052"
+		"BaseClass"			"item_lotus_orb"		// 继承原物品全部行为，无需 lua
+		"AbilityTextureName"		"item_lotus_orb"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO"
+		"FightRecapLevel"			"1"
+		"AbilityCastRange"			"900"
+		"ItemShopTags"			"regen_health;regen_mana;str;agi;int;hard_to_tag;teamfight;save"
+		"ItemQuality"			"epic"
+		"ItemDeclarations"			"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		"SuggestLategame"			"1"
+		"ItemPurchasable"		"1"		// 出现在原物品的商店升级树中
+		"ItemCost"			"4850"		// 3850 原物品 + 1000 卷轴
+		"AbilityCooldown"			"5.0"
+		"AbilityManaCost"			"25"
+
+		"AbilityValues"
+		{
+			"bonus_armor"		"10"
+			"bonus_health_regen"		"6.5"
+			"bonus_mana_regen"		"4.0"
+			"bonus_mana"		"250"
+			"active_duration"		"3600"
+		}
+	}
+
+	"item_recipe_lv_lotus_orb"
+	{
+		"ID"				"10051"
+		"BaseClass"			"item_datadriven"
+		"AbilityTextureName"		"item_recipe_ultimate_scepter_2"
+		"Model"				"models/props_gameplay/recipe.vmdl"
+		"ItemCost"			"1000"
+		"ItemPurchasable"		"1"
+		"ItemRecipe"			"1"
+		"ItemResult"			"item_lv_lotus_orb"
+		"ItemRequirements"
+		{
+			"01"				"item_lotus_orb"
+		}
+	}
+
+	//=================================================================================
+	// Upgrade: item_manta
+	//=================================================================================
+	"item_lv_manta"
+	{
+		"ID"				"10054"
+		"BaseClass"			"item_manta"		// 继承原物品全部行为，无需 lua
+		"AbilityTextureName"		"item_manta"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"
+		"AbilityCooldown"			"34.0"
+		"AbilityCastPoint"			"0.0"
+		"AbilityManaCost"			"125"
+		"ItemShopTags"			"agi;str;int;attack_speed;move_speed;hard_to_tag;farming"
+		"ItemQuality"			"epic"
+		"ItemDeclarations"			"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		"SuggestLategame"			"1"
+		"ItemPurchasable"		"1"		// 出现在原物品的商店升级树中
+		"ItemCost"			"5650"		// 4650 原物品 + 1000 卷轴
+
+		"AbilityValues"
+		{
+			"bonus_strength"		"100"
+			"bonus_agility"		"100"
+			"bonus_intellect"		"100"
+			"bonus_attack_speed"		"30"
+			"bonus_movement_speed"		"25"
+			"images_count"		"2"
+			"illusion_duration"		"18"
+			"images_do_damage_percent_melee"		"-67"
+			"tooltip_damage_outgoing_melee"		"33"
+			"images_take_damage_percent"		"200"
+			"tooltip_damage_incoming_total_pct"		"300"
+			"images_do_damage_percent_ranged"		"-72"
+			"tooltip_damage_outgoing_ranged"		"28"
+			"invuln_duration"		"0.1"
+			"vision_radius"		"1000"
+		}
+	}
+
+	"item_recipe_lv_manta"
+	{
+		"ID"				"10053"
+		"BaseClass"			"item_datadriven"
+		"AbilityTextureName"		"item_recipe_ultimate_scepter_2"
+		"Model"				"models/props_gameplay/recipe.vmdl"
+		"ItemCost"			"1000"
+		"ItemPurchasable"		"1"
+		"ItemRecipe"			"1"
+		"ItemResult"			"item_lv_manta"
+		"ItemRequirements"
+		{
+			"01"				"item_manta"
+		}
+	}
+
+	//=================================================================================
+	// Upgrade: item_mjollnir
+	//=================================================================================
+	"item_lv_mjollnir"
+	{
+		"ID"				"10056"
+		"BaseClass"			"item_mjollnir"		// 继承原物品全部行为，无需 lua
+		"AbilityTextureName"		"item_mjollnir"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"SpellDispellableType"			"SPELL_DISPELLABLE_YES"
+		"AbilityCastRange"			"800"
+		"AbilityCastPoint"			"0.0"
+		"ItemShopTags"			"damage;attack_speed;unique;farming;dps"
+		"ItemQuality"			"artifact"
+		"ItemDeclarations"			"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		"SuggestLategame"			"1"
+		"ItemPurchasable"		"1"		// 出现在原物品的商店升级树中
+		"ItemCost"			"6500"		// 5500 原物品 + 1000 卷轴
+		"AbilityCooldown"			"5.0"
+		"AbilityManaCost"			"5"
+
+		"AbilityValues"
+		{
+			"bonus_damage"		"25"
+			"bonus_attack_speed"		"180"
+			"static_duration"		"360"
+			"static_chance"		"100"
+			"static_strikes"		"4"
+			"static_damage"		"525"
+			"static_primary_radius"		"600"
+			"static_seconary_radius"		"900"
+			"static_radius"		"900"
+			"static_cooldown"		"1.0"
+			"chain_chance"		"100"
+			"chain_damage"		"380"
+			"chain_strikes"		"12"
+			"chain_radius"		"650"
+			"chain_delay"		"0.25"
+			"chain_cooldown"		"0.2"
+			"max_charges"		"0"
+			"illusion_multiplier_pct"		"100"
+		}
+	}
+
+	"item_recipe_lv_mjollnir"
+	{
+		"ID"				"10055"
+		"BaseClass"			"item_datadriven"
+		"AbilityTextureName"		"item_recipe_ultimate_scepter_2"
+		"Model"				"models/props_gameplay/recipe.vmdl"
+		"ItemCost"			"1000"
+		"ItemPurchasable"		"1"
+		"ItemRecipe"			"1"
+		"ItemResult"			"item_lv_mjollnir"
+		"ItemRequirements"
+		{
+			"01"				"item_mjollnir"
+		}
+	}
+
+	//=================================================================================
+	// Upgrade: item_monkey_king_bar
+	//=================================================================================
+	"item_lv_monkey_king_bar"
+	{
+		"ID"				"10058"
+		"BaseClass"			"item_monkey_king_bar"		// 继承原物品全部行为，无需 lua
+		"AbilityTextureName"		"item_monkey_king_bar"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"ItemShopTags"			"damage;attack_speed;hard_to_tag;dps"
+		"ItemQuality"			"epic"
+		"ItemDeclarations"			"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		"SuggestLategame"			"1"
+		"ItemPurchasable"		"1"		// 出现在原物品的商店升级树中
+		"ItemCost"			"6000"		// 5000 原物品 + 1000 卷轴
+
+		"AbilityValues"
+		{
+			"bonus_damage"		"150"
+			"bonus_attack_speed"		"150"
+			"bonus_chance"		"100"
+			"bonus_chance_damage"		"100"
+			"melee_attack_range"		"200"
+		}
+	}
+
+	"item_recipe_lv_monkey_king_bar"
+	{
+		"ID"				"10057"
+		"BaseClass"			"item_datadriven"
+		"AbilityTextureName"		"item_recipe_ultimate_scepter_2"
+		"Model"				"models/props_gameplay/recipe.vmdl"
+		"ItemCost"			"1000"
+		"ItemPurchasable"		"1"
+		"ItemRecipe"			"1"
+		"ItemResult"			"item_lv_monkey_king_bar"
+		"ItemRequirements"
+		{
+			"01"				"item_monkey_king_bar"
+		}
+	}
+
+	//=================================================================================
+	// Upgrade: item_moon_shard
+	//=================================================================================
+	"item_lv_moon_shard"
+	{
+		"ID"				"10060"
+		"BaseClass"			"item_moon_shard"		// 继承原物品全部行为，无需 lua
+		"AbilityTextureName"		"item_moon_shard"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_CUSTOM"
+		"AbilityUnitTargetFlags"			"DOTA_UNIT_TARGET_FLAG_INVULNERABLE | DOTA_UNIT_TARGET_FLAG_OUT_OF_WORLD"
+		"ItemShopTags"			"attack_speed"
+		"ItemQuality"			"consumable"
+		"SuggestLategame"			"1"
+		"ItemPurchasable"		"1"		// 出现在原物品的商店升级树中
+		"ItemCost"			"5000"		// 4000 原物品 + 1000 卷轴
+
+		"AbilityValues"
+		{
+			"bonus_attack_speed"		"140"
+			"bonus_night_vision"		"400"
+			"consumed_bonus"		"200"
+			"consumed_bonus_night_vision"		"600"
+		}
+	}
+
+	"item_recipe_lv_moon_shard"
+	{
+		"ID"				"10059"
+		"BaseClass"			"item_datadriven"
+		"AbilityTextureName"		"item_recipe_ultimate_scepter_2"
+		"Model"				"models/props_gameplay/recipe.vmdl"
+		"ItemCost"			"1000"
+		"ItemPurchasable"		"1"
+		"ItemRecipe"			"1"
+		"ItemResult"			"item_lv_moon_shard"
+		"ItemRequirements"
+		{
+			"01"				"item_moon_shard"
+		}
+	}
+
+	//=================================================================================
+	// Upgrade: item_nullifier
+	//=================================================================================
+	"item_lv_nullifier"
+	{
+		"ID"				"10062"
+		"BaseClass"			"item_nullifier"		// 继承原物品全部行为，无需 lua
+		"AbilityTextureName"		"item_nullifier"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityUnitTargetFlags"			"DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
+		"FightRecapLevel"			"1"
+		"AbilityCooldown"			"10.0"
+		"AbilityCastRange"			"900"
+		"AbilityManaCost"			"0"
+		"ItemShopTags"			"teamfight;disable"
+		"ItemQuality"			"epic"
+		"ItemDeclarations"			"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		"SuggestLategame"			"1"
+		"ItemPurchasable"		"1"		// 出现在原物品的商店升级树中
+		"ItemCost"			"5350"		// 4350 原物品 + 1000 卷轴
+
+		"AbilityValues"
+		{
+			"bonus_damage"		"75"
+			"bonus_armor"		"10"
+			"bonus_regen"		"6"
+			"mute_duration"		"20"
+			"projectile_speed"		"4800"
+			"slow_pct"		"10"
+			"slow_interval_duration"		"0.5"
+		}
+	}
+
+	"item_recipe_lv_nullifier"
+	{
+		"ID"				"10061"
+		"BaseClass"			"item_datadriven"
+		"AbilityTextureName"		"item_recipe_ultimate_scepter_2"
+		"Model"				"models/props_gameplay/recipe.vmdl"
+		"ItemCost"			"1000"
+		"ItemPurchasable"		"1"
+		"ItemRecipe"			"1"
+		"ItemResult"			"item_lv_nullifier"
+		"ItemRequirements"
+		{
+			"01"				"item_nullifier"
+		}
+	}
+
+	//=================================================================================
+	// Upgrade: item_overwhelming_blink
+	//=================================================================================
+	"item_lv_overwhelming_blink"
+	{
+		"ID"				"10066"
+		"BaseClass"			"item_overwhelming_blink"		// 继承原物品全部行为，无需 lua
+		"AbilityTextureName"		"item_overwhelming_blink"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_DIRECTIONAL | DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES | DOTA_ABILITY_BEHAVIOR_OVERSHOOT"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
+		"AbilityCastRange"			"1200"
+		"AbilityCastPoint"			"0.0"
+		"AbilityManaCost"			"0"
+		"AbilitySharedCooldown"			"blink"
+		"ItemShopTags"			"teleport;mobility;escape"
+		"ItemQuality"			"component"
+		"ItemDeclarations"			"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		"SuggestLategame"			"1"
+		"ItemPurchasable"		"1"		// 出现在原物品的商店升级树中
+		"ItemCost"			"7800"		// 6800 原物品 + 1000 卷轴
+		"AbilityCooldown"			"7.0"
+
+		"AbilityValues"
+		{
+			"blink_range"		"1200"
+			"blink_damage_cooldown"		"0"
+			"blink_range_clamp"		"960"
+			"bonus_strength"		"85"
+			"radius"
+			{
+				"value"		"800"
+				"affected_by_aoe_increase"		"1"
+			}
+			"movement_slow"		"50"
+			"attack_slow"		"50"
+			"duration"		"6"
+			"damage_base"		"100"
+			"damage_pct_instant"		"50"
+			"damage_pct_over_time"		"100"
+		}
+	}
+
+	"item_recipe_lv_overwhelming_blink"
+	{
+		"ID"				"10065"
+		"BaseClass"			"item_datadriven"
+		"AbilityTextureName"		"item_recipe_ultimate_scepter_2"
+		"Model"				"models/props_gameplay/recipe.vmdl"
+		"ItemCost"			"1000"
+		"ItemPurchasable"		"1"
+		"ItemRecipe"			"1"
+		"ItemResult"			"item_lv_overwhelming_blink"
+		"ItemRequirements"
+		{
+			"01"				"item_overwhelming_blink"
+		}
+	}
+
+	//=================================================================================
+	// Upgrade: item_radiance
+	//=================================================================================
+	"item_lv_radiance"
+	{
+		"ID"				"10068"
+		"BaseClass"			"item_radiance"		// 继承原物品全部行为，无需 lua
+		"AbilityTextureName"		"item_radiance"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_TOGGLE | DOTA_ABILITY_BEHAVIOR_DONT_PROC_OTHER_ABILITIES | DOTA_ABILITY_BEHAVIOR_IGNORE_CHANNEL | DOTA_ABILITY_BEHAVIOR_IGNORE_INVISIBLE"
+		"ItemShopTags"			"damage;farming;dps"
+		"ItemQuality"			"epic"
+		"ItemDeclarations"			"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		"SuggestLategame"			"1"
+		"ItemDisassembleRule"			"DOTA_ITEM_DISASSEMBLE_ALWAYS"
+		"ItemPurchasable"		"1"		// 出现在原物品的商店升级树中
+		"ItemCost"			"5700"		// 4700 原物品 + 1000 卷轴
+
+		"AbilityValues"
+		{
+			"bonus_damage"		"100"
+			"aura_damage"		"160"
+			"aura_damage_illusions"		"100"
+			"upgrade_day_vision"		"250"
+			"evasion"		"25"
+			"blind_pct"		"0"
+			"aura_radius"
+			{
+				"value"		"850"
+				"affected_by_aoe_increase"		"1"
+			}
+			"illusion_multiplier_pct"		"100"
+		}
+	}
+
+	"item_recipe_lv_radiance"
+	{
+		"ID"				"10067"
+		"BaseClass"			"item_datadriven"
+		"AbilityTextureName"		"item_recipe_ultimate_scepter_2"
+		"Model"				"models/props_gameplay/recipe.vmdl"
+		"ItemCost"			"1000"
+		"ItemPurchasable"		"1"
+		"ItemRecipe"			"1"
+		"ItemResult"			"item_lv_radiance"
+		"ItemRequirements"
+		{
+			"01"				"item_radiance"
+		}
+	}
+
+	//=================================================================================
+	// Upgrade: item_rapier
+	//=================================================================================
+	"item_lv_rapier"
+	{
+		"ID"				"10070"
+		"BaseClass"			"item_rapier"		// 继承原物品全部行为，无需 lua
+		"AbilityTextureName"		"item_rapier"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_TOGGLE"
+		"Model"			"models/props_gameplay/divine_rapier.vmdl"
+		"ModelAlternate"			"models/props_gameplay/divine_rapier_spell.vmdl"
+		"ItemShopTags"			"damage;dps;magic_dmg"
+		"ItemQuality"			"epic"
+		"ItemShareability"			"ITEM_NOT_SHAREABLE"
+		"ItemKillable"			"0"
+		"ItemDeclarations"			"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_TO_SPECTATORS | DECLARE_PURCHASES_IN_SPEECH"
+		"ItemContributesToNetWorthWhenDropped"			"0"
+		"AllowedInBackpack"			"0"
+		"IsTempestDoubleClonable"			"0"
+		"ItemDisassembleRule"			"DOTA_ITEM_DISASSEMBLE_NEVER"
+		"AbilityCooldown"			"6"
+		"SpeciallyBannedFromNeutralSlot"			"1"
+		"ItemPurchasable"		"1"		// 出现在原物品的商店升级树中
+		"ItemCost"			"6600"		// 5600 原物品 + 1000 卷轴
+		"ItemSellable"			"1"
+
+		"AbilityValues"
+		{
+			"bonus_spell_amp"		"100"
+			"bonus_damage"		"550"
+			"bonus_damage_base"		"500"
+		}
+	}
+
+	"item_recipe_lv_rapier"
+	{
+		"ID"				"10069"
+		"BaseClass"			"item_datadriven"
+		"AbilityTextureName"		"item_recipe_ultimate_scepter_2"
+		"Model"				"models/props_gameplay/recipe.vmdl"
+		"ItemCost"			"1000"
+		"ItemPurchasable"		"1"
+		"ItemRecipe"			"1"
+		"ItemResult"			"item_lv_rapier"
+		"ItemRequirements"
+		{
+			"01"				"item_rapier"
+		}
+	}
+
+	//=================================================================================
+	// Upgrade: item_revenants_brooch
+	//=================================================================================
+	"item_lv_revenants_brooch"
+	{
+		"ID"				"10072"
+		"BaseClass"			"item_revenants_brooch"		// 继承原物品全部行为，无需 lua
+		"AbilityTextureName"		"item_revenants_brooch"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"SpellImmunityType"			"SPELL_IMMUNITY_ENEMIES_NO"
+		"ItemShopTags"			"int;hard_to_tag;crit;dps"
+		"ItemQuality"			"rare"
+		"ItemDeclarations"			"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		"SuggestLategame"			"1"
+		"ItemPurchasable"		"1"		// 出现在原物品的商店升级树中
+		"ItemCost"			"4300"		// 3300 原物品 + 1000 卷轴
+
+		"AbilityValues"
+		{
+			"bonus_damage"		"135"
+			"spell_lifesteal"		"34"
+			"crit_chance"		"45"
+			"crit_multiplier"		"150"
+		}
+	}
+
+	"item_recipe_lv_revenants_brooch"
+	{
+		"ID"				"10071"
+		"BaseClass"			"item_datadriven"
+		"AbilityTextureName"		"item_recipe_ultimate_scepter_2"
+		"Model"				"models/props_gameplay/recipe.vmdl"
+		"ItemCost"			"1000"
+		"ItemPurchasable"		"1"
+		"ItemRecipe"			"1"
+		"ItemResult"			"item_lv_revenants_brooch"
+		"ItemRequirements"
+		{
+			"01"				"item_revenants_brooch"
+		}
+	}
+
+	//=================================================================================
+	// Upgrade: item_royale_with_cheese
+	//=================================================================================
+	"item_lv_royale_with_cheese"
+	{
+		"ID"				"10074"
+		"BaseClass"			"item_royale_with_cheese"		// 继承原物品全部行为，无需 lua
+		"AbilityTextureName"		"item_royale_with_cheese"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO"
+		"AbilityCastPoint"			"0.0"
+		"SpellDispellableType"			"SPELL_DISPELLABLE_NO"
+		"AbilityCooldown"			"40.0"
+		"ItemShopTags"			""
+		"ItemQuality"			"consumable"
+		"ItemStackable"			"1"
+		"ItemShareability"			"ITEM_FULLY_SHAREABLE"
+		"ItemInitialCharges"			"1"
+		"ItemDeclarations"			"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_TO_SPECTATORS"
+		"ItemContributesToNetWorthWhenDropped"			"0"
+		"IsTempestDoubleClonable"			"0"
+		"SpeciallyBannedFromNeutralSlot"			"1"
+		"ItemPurchasable"		"1"		// 出现在原物品的商店升级树中
+		"ItemCost"			"1002"		// 2 原物品 + 1000 卷轴
+		"ItemPermanent"			"1"
+
+		"AbilityValues"
+		{
+			"shield"		"1000"
+			"regen"		"100"
+			"idle"		"0"
+			"duration"		"50"
+			"health_restore"		"3000"
+			"mana_restore"		"2000"
+		}
+	}
+
+	"item_recipe_lv_royale_with_cheese"
+	{
+		"ID"				"10073"
+		"BaseClass"			"item_datadriven"
+		"AbilityTextureName"		"item_recipe_ultimate_scepter_2"
+		"Model"				"models/props_gameplay/recipe.vmdl"
+		"ItemCost"			"1000"
+		"ItemPurchasable"		"1"
+		"ItemRecipe"			"1"
+		"ItemResult"			"item_lv_royale_with_cheese"
+		"ItemRequirements"
+		{
+			"01"				"item_royale_with_cheese"
+		}
+	}
+
+	//=================================================================================
+	// Upgrade: item_satanic
+	//=================================================================================
+	"item_lv_satanic"
+	{
+		"ID"				"10078"
+		"BaseClass"			"item_satanic"		// 继承原物品全部行为，无需 lua
+		"AbilityTextureName"		"item_satanic"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"FightRecapLevel"			"2"
+		"SpellDispellableType"			"SPELL_DISPELLABLE_NO"
+		"ItemShopTags"			"damage;str;armor;unique;hard_to_tag;dps"
+		"ItemQuality"			"artifact"
+		"ItemDeclarations"			"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		"SuggestLategame"			"1"
+		"ItemPurchasable"		"1"		// 出现在原物品的商店升级树中
+		"ItemCost"			"6050"		// 5050 原物品 + 1000 卷轴
+		"AbilityCooldown"			"5.0"
+
+		"AbilityValues"
+		{
+			"bonus_strength"		"75"
+			"bonus_damage"		"25"
+			"lifesteal_percent"		"30"
+			"unholy_lifesteal_percent"		"145"
+			"unholy_lifesteal_total_tooltip"		"175"
+			"unholy_duration"		"6.0"
+		}
+	}
+
+	"item_recipe_lv_satanic"
+	{
+		"ID"				"10077"
+		"BaseClass"			"item_datadriven"
+		"AbilityTextureName"		"item_recipe_ultimate_scepter_2"
+		"Model"				"models/props_gameplay/recipe.vmdl"
+		"ItemCost"			"1000"
+		"ItemPurchasable"		"1"
+		"ItemRecipe"			"1"
+		"ItemResult"			"item_lv_satanic"
+		"ItemRequirements"
+		{
+			"01"				"item_satanic"
+		}
+	}
+
+	//=================================================================================
+	// Upgrade: item_sheepstick
+	//=================================================================================
+	"item_lv_sheepstick"
+	{
+		"ID"				"10080"
+		"BaseClass"			"item_sheepstick"		// 继承原物品全部行为，无需 lua
+		"AbilityTextureName"		"item_sheepstick"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"FightRecapLevel"			"2"
+		"SpellDispellableType"			"SPELL_DISPELLABLE_YES_STRONG"
+		"AbilityCastPoint"			"0.0"
+		"ItemShopTags"			"int;regen_mana;agi;hard_to_tag;disable"
+		"ItemQuality"			"rare"
+		"ItemDeclarations"			"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		"SuggestLategame"			"1"
+		"ItemPurchasable"		"1"		// 出现在原物品的商店升级树中
+		"ItemCost"			"6200"		// 5200 原物品 + 1000 卷轴
+		"AbilityCastRange"			"1800"
+		"AbilityCooldown"			"10.0"
+		"AbilityManaCost"			"50"
+
+		"AbilityValues"
+		{
+			"bonus_intellect"		"150"
+			"bonus_mana_regen"		"18"
+			"sheep_duration"		"5"
+			"sheep_movement_speed"		"140"
+			"upgrade_radius"		"200"
+		}
+	}
+
+	"item_recipe_lv_sheepstick"
+	{
+		"ID"				"10079"
+		"BaseClass"			"item_datadriven"
+		"AbilityTextureName"		"item_recipe_ultimate_scepter_2"
+		"Model"				"models/props_gameplay/recipe.vmdl"
+		"ItemCost"			"1000"
+		"ItemPurchasable"		"1"
+		"ItemRecipe"			"1"
+		"ItemResult"			"item_lv_sheepstick"
+		"ItemRequirements"
+		{
+			"01"				"item_sheepstick"
+		}
+	}
+
+	//=================================================================================
+	// Upgrade: item_shivas_guard
+	//=================================================================================
+	"item_lv_shivas_guard"
+	{
+		"ID"				"10082"
+		"BaseClass"			"item_shivas_guard"		// 继承原物品全部行为，无需 lua
+		"AbilityTextureName"		"item_shivas_guard"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IGNORE_CHANNEL"
+		"FightRecapLevel"			"1"
+		"SpellDispellableType"			"SPELL_DISPELLABLE_YES"
+		"AbilityCooldown"			"27"
+		"AbilityManaCost"			"75"
+		"ItemShopTags"			"armor;hard_to_tag;teamfight;tank;magic_dmg"
+		"ItemQuality"			"epic"
+		"ItemDeclarations"			"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		"SuggestLategame"			"1"
+		"ItemPurchasable"		"1"		// 出现在原物品的商店升级树中
+		"ItemCost"			"5500"		// 4500 原物品 + 1000 卷轴
+
+		"AbilityValues"
+		{
+			"bonus_hp_regen"		"0"
+			"bonus_armor"		"17"
+			"bonus_aoe"		"375"
+			"aura_radius"
+			{
+				"value"		"1200"
+				"affected_by_aoe_increase"		"1"
+			}
+			"aura_attack_speed"		"-40"
+			"blast_damage"		"260"
+			"blast_movement_speed"		"-40"
+			"blast_debuff_duration"		"4.0"
+			"blast_radius"
+			{
+				"value"		"825"
+				"affected_by_aoe_increase"		"1"
+			}
+			"blast_speed"		"400"
+		}
+	}
+
+	"item_recipe_lv_shivas_guard"
+	{
+		"ID"				"10081"
+		"BaseClass"			"item_datadriven"
+		"AbilityTextureName"		"item_recipe_ultimate_scepter_2"
+		"Model"				"models/props_gameplay/recipe.vmdl"
+		"ItemCost"			"1000"
+		"ItemPurchasable"		"1"
+		"ItemRecipe"			"1"
+		"ItemResult"			"item_lv_shivas_guard"
+		"ItemRequirements"
+		{
+			"01"				"item_shivas_guard"
+		}
+	}
+
+	//=================================================================================
+	// Upgrade: item_silver_edge
+	//=================================================================================
+	"item_lv_silver_edge"
+	{
+		"ID"				"10084"
+		"BaseClass"			"item_silver_edge"		// 继承原物品全部行为，无需 lua
+		"AbilityTextureName"		"item_silver_edge"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IGNORE_CHANNEL"
+		"FightRecapLevel"			"1"
+		"AbilitySharedCooldown"			"shadow_blade"
+		"AbilityManaCost"			"75"
+		"ItemShopTags"			"damage;attack_speed;movespeed;hard_to_tag;dps"
+		"ItemQuality"			"epic"
+		"ItemDeclarations"			"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		"SuggestLategame"			"1"
+		"ItemPurchasable"		"1"		// 出现在原物品的商店升级树中
+		"ItemCost"			"6700"		// 5700 原物品 + 1000 卷轴
+		"AbilityCooldown"			"10"
+
+		"AbilityValues"
+		{
+			"bonus_damage"		"140"
+			"bonus_attack_speed"		"90"
+			"bonus_strength"		"30"
+			"bonus_intellect"		"30"
+			"bonus_mana_regen"		"10"
+			"windwalk_duration"		"60"
+			"windwalk_movement_speed"		"25"
+			"windwalk_fade_time"		"0.3"
+			"windwalk_bonus_damage"		"300"
+			"backstab_duration"		"16"
+			"max_movement_speed"		"200"
+			"visibility_radius"		"1025"
+		}
+	}
+
+	"item_recipe_lv_silver_edge"
+	{
+		"ID"				"10083"
+		"BaseClass"			"item_datadriven"
+		"AbilityTextureName"		"item_recipe_ultimate_scepter_2"
+		"Model"				"models/props_gameplay/recipe.vmdl"
+		"ItemCost"			"1000"
+		"ItemPurchasable"		"1"
+		"ItemRecipe"			"1"
+		"ItemResult"			"item_lv_silver_edge"
+		"ItemRequirements"
+		{
+			"01"				"item_silver_edge"
+		}
+	}
+
+	//=================================================================================
+	// Upgrade: item_skadi
+	//=================================================================================
+	"item_lv_skadi"
+	{
+		"ID"				"10086"
+		"BaseClass"			"item_skadi"		// 继承原物品全部行为，无需 lua
+		"AbilityTextureName"		"item_skadi"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"ItemShopTags"			"agi;str;int;hard_to_tag;mana_pool;health_pool;unique;tank"
+		"ItemQuality"			"artifact"
+		"ItemDeclarations"			"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		"SuggestLategame"			"1"
+		"ItemPurchasable"		"1"		// 出现在原物品的商店升级树中
+		"ItemCost"			"6900"		// 5900 原物品 + 1000 卷轴
+
+		"AbilityValues"
+		{
+			"bonus_all_stats"		"100"
+			"bonus_health"		"0"
+			"bonus_mana"		"0"
+			"cold_slow_melee"		"-25"
+			"cold_attack_slow_melee"		"-25"
+			"cold_slow_ranged"		"-50"
+			"cold_attack_slow_ranged"		"-25"
+			"cold_duration"		"3.0"
+			"restoration_reduction"		"50"
+		}
+	}
+
+	"item_recipe_lv_skadi"
+	{
+		"ID"				"10085"
+		"BaseClass"			"item_datadriven"
+		"AbilityTextureName"		"item_recipe_ultimate_scepter_2"
+		"Model"				"models/props_gameplay/recipe.vmdl"
+		"ItemCost"			"1000"
+		"ItemPurchasable"		"1"
+		"ItemRecipe"			"1"
+		"ItemResult"			"item_lv_skadi"
+		"ItemRequirements"
+		{
+			"01"				"item_skadi"
+		}
+	}
+
+	//=================================================================================
+	// Upgrade: item_sphere
+	//=================================================================================
+	"item_lv_sphere"
+	{
+		"ID"				"10088"
+		"BaseClass"			"item_sphere"		// 继承原物品全部行为，无需 lua
+		"AbilityTextureName"		"item_sphere"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO"
+		"FightRecapLevel"			"1"
+		"AbilityCastRange"			"700"
+		"ItemShopTags"			"regen_health;regen_mana;str;agi;int;hard_to_tag;teamfight;save"
+		"ItemQuality"			"epic"
+		"ItemDeclarations"			"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		"ActiveDescriptionLine"			"2"
+		"SuggestLategame"			"1"
+		"ItemPurchasable"		"1"		// 出现在原物品的商店升级树中
+		"ItemCost"			"5800"		// 4800 原物品 + 1000 卷轴
+		"AbilityCooldown"			"7.0"
+
+		"AbilityValues"
+		{
+			"bonus_all_stats"		"56"
+			"bonus_health_regen"		"15"
+			"bonus_mana_regen"		"10"
+			"block_cooldown"		"5.0"
+			"upgrade_absorb_duration"		"10.0"
+			"damage_absorb"		"300"
+		}
+	}
+
+	"item_recipe_lv_sphere"
+	{
+		"ID"				"10087"
+		"BaseClass"			"item_datadriven"
+		"AbilityTextureName"		"item_recipe_ultimate_scepter_2"
+		"Model"				"models/props_gameplay/recipe.vmdl"
+		"ItemCost"			"1000"
+		"ItemPurchasable"		"1"
+		"ItemRecipe"			"1"
+		"ItemResult"			"item_lv_sphere"
+		"ItemRequirements"
+		{
+			"01"				"item_sphere"
+		}
+	}
+
+	//=================================================================================
+	// Upgrade: item_swift_blink
+	//=================================================================================
+	"item_lv_swift_blink"
+	{
+		"ID"				"10090"
+		"BaseClass"			"item_swift_blink"		// 继承原物品全部行为，无需 lua
+		"AbilityTextureName"		"item_swift_blink"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_DIRECTIONAL | DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES | DOTA_ABILITY_BEHAVIOR_OVERSHOOT"
+		"AbilityCastRange"			"1200"
+		"AbilityCastPoint"			"0.0"
+		"AbilityManaCost"			"0"
+		"AbilitySharedCooldown"			"blink"
+		"ItemShopTags"			"teleport;mobility;escape"
+		"ItemQuality"			"component"
+		"ItemDeclarations"			"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		"SuggestLategame"			"1"
+		"ItemPurchasable"		"1"		// 出现在原物品的商店升级树中
+		"ItemCost"			"7800"		// 6800 原物品 + 1000 卷轴
+		"AbilityCooldown"			"7.0"
+
+		"AbilityValues"
+		{
+			"blink_range"		"1200"
+			"blink_damage_cooldown"		"0"
+			"blink_range_clamp"		"960"
+			"bonus_agility"		"85"
+			"bonus_movement"		"40"
+			"bonus_agi_active"		"35"
+			"duration"		"6"
+		}
+	}
+
+	"item_recipe_lv_swift_blink"
+	{
+		"ID"				"10089"
+		"BaseClass"			"item_datadriven"
+		"AbilityTextureName"		"item_recipe_ultimate_scepter_2"
+		"Model"				"models/props_gameplay/recipe.vmdl"
+		"ItemCost"			"1000"
+		"ItemPurchasable"		"1"
+		"ItemRecipe"			"1"
+		"ItemResult"			"item_lv_swift_blink"
+		"ItemRequirements"
+		{
+			"01"				"item_swift_blink"
+		}
+	}
+
+	//=================================================================================
+	// Upgrade: item_trident
+	//=================================================================================
+	"item_lv_trident"
+	{
+		"ID"				"10096"
+		"BaseClass"			"item_datadriven"
+		"AbilityTextureName"		"item_trident"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"Model"			"models/props_gameplay/neutral_box.vmdl"
+		"ItemPurchasable"		"1"		// 通过 1 金配方进入商店合成树
+		"ItemCost"			"6301"		// 三把 2100 金单剑 + 1 金卷轴
+		"ItemSellable"			"1"
+
+		"AbilityValues"
+		{
+			"bonus_strength"		"100"
+			"bonus_agility"		"100"
+			"bonus_intellect"		"200"
+			"status_resistance"		"80"
+			"bonus_attack_speed"		"60"
+			"movement_speed_percent_bonus"		"33"
+			"hp_regen_amp"		"100"
+			"mana_regen_multiplier"		"100"
+			"spell_amp"		"100"
+			"magic_damage_attack"		"100"
+			"cast_speed_pct"		"50"
+			"manacost_reduction"		"75"
+			"slow_resistance"		"100"
+		}
+
+		"Modifiers"
+		{
+			"modifier_item_lv_trident_controller"
+			{
+				"Passive"		"1"
+				"IsHidden"		"1"
+				"IsPurgable"		"0"
+				"RemoveOnDeath"	"0"
+				"OnCreated"
+				{
+					"RunScript"
+					{
+						"ScriptFile"	"scripts/vscripts/lv/item_lv_trident.lua"
+						"Function"	"LVTridentApplyModifiers"
+					}
+				}
+				"OnDestroy"
+				{
+					"RunScript"
+					{
+						"ScriptFile"	"scripts/vscripts/lv/item_lv_trident.lua"
+						"Function"	"LVTridentRemoveModifiers"
+					}
+				}
+			}
+		}
+	}
+
+	"item_recipe_lv_trident"
+	{
+		"ID"				"10095"
+		"BaseClass"			"item_datadriven"
+		"AbilityTextureName"		"item_recipe_trident"
+		"Model"				"models/props_gameplay/recipe.vmdl"
+		"ItemCost"			"1"
+		"ItemPurchasable"		"1"
+		"ItemSellable"			"1"
+		"ItemRecipe"			"1"
+		"ItemResult"			"item_lv_trident"
+		"ItemRequirements"
+		{
+			"01"				"item_kaya;item_sange;item_yasha;"
+			"02"				"item_kaya_and_sange;item_yasha;"
+			"03"				"item_sange_and_yasha;item_kaya;"
+			"04"				"item_yasha_and_kaya;item_sange;"
+		}
+	}
+
+	//=================================================================================
+	// Upgrade: item_wind_waker
+	//=================================================================================
+	"item_lv_wind_waker"
+	{
+		"ID"				"10098"
+		"BaseClass"			"item_wind_waker"		// 继承原物品全部行为，无需 lua
+		"AbilityTextureName"		"item_wind_waker"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_CUSTOM"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_CUSTOM"
+		"FightRecapLevel"			"1"
+		"SpellDispellableType"			"SPELL_DISPELLABLE_YES"
+		"AbilityCastRange"			"550"
+		"AbilityCastPoint"			"0.0"
+		"AbilitySharedCooldown"			"cyclone"
+		"ItemShopTags"			"int;regen_mana;move_speed;hard_to_tag;escape;save;disable"
+		"ItemQuality"			"rare"
+		"ItemDeclarations"			"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		"SuggestLategame"			"1"
+		"ItemPurchasable"		"1"		// 出现在原物品的商店升级树中
+		"ItemCost"			"7800"		// 6800 原物品 + 1000 卷轴
+		"AbilityCooldown"			"7.0"
+		"AbilityManaCost"			"25"
+
+		"AbilityValues"
+		{
+			"bonus_movement_speed"		"60"
+			"bonus_mana_regen"		"10.0"
+			"bonus_intellect"		"200"
+			"cyclone_duration"		"2.5"
+			"tooltip_drop_damage"		"50"
+			"tornado_speed"		"300"
+		}
+	}
+
+	"item_recipe_lv_wind_waker"
+	{
+		"ID"				"10097"
+		"BaseClass"			"item_datadriven"
+		"AbilityTextureName"		"item_recipe_ultimate_scepter_2"
+		"Model"				"models/props_gameplay/recipe.vmdl"
+		"ItemCost"			"1000"
+		"ItemPurchasable"		"1"
+		"ItemRecipe"			"1"
+		"ItemResult"			"item_lv_wind_waker"
+		"ItemRequirements"
+		{
+			"01"				"item_wind_waker"
+		}
+	}
+
+}

@@ -1,0 +1,292 @@
+{
+ "item_abyssal_blade": {
+  "AbilityCooldown": "15",
+  "AbilityManaCost": "5",
+  "AbilityValues.bash_chance_ranged": "25",
+  "AbilityValues.bash_cooldown": "0",
+  "AbilityValues.bonus_damage": "105",
+  "AbilityValues.bonus_strength": "56",
+  "AbilityValues.hp_regen_amp": "20",
+  "AbilityValues.slow_resistance": "55"
+ },
+ "item_aether_lens": {
+  "AbilityValues.cast_range_bonus": "800"
+ },
+ "item_angels_demise": {
+  "AbilityCooldown": "4",
+  "AbilityValues.bonus_mana_regen": "38",
+  "AbilityValues.slow": "50",
+  "AbilityValues.slow_duration": "8"
+ },
+ "item_arcane_blink": {
+  "AbilityCooldown": "5.0",
+  "AbilityValues.blink_damage_cooldown": "0",
+  "AbilityValues.bonus_intellect": "200",
+  "AbilityValues.mana_amount": "300"
+ },
+ "item_assault": {
+  "AbilityValues.aura_attack_speed": "50",
+  "AbilityValues.aura_negative_armor": "-15",
+  "AbilityValues.aura_positive_armor": "15",
+  "AbilityValues.bonus_armor": "60",
+  "AbilityValues.bonus_attack_speed": "130"
+ },
+ "item_bfury": {
+  "AbilityCooldown": "2.0",
+  "AbilityValues.cleave_damage_percent": "100",
+  "AbilityValues.cleave_damage_percent_creep": "100",
+  "AbilityValues.cleave_distance": "750",
+  "AbilityValues.cleave_ending_width.value": "560",
+  "AbilityValues.cleave_starting_width.value": "250"
+ },
+ "item_bloodthorn": {
+  "AbilityCooldown": "7",
+  "AbilityValues.bonus_attack_speed": "195",
+  "AbilityValues.bonus_health_regen": "15",
+  "AbilityValues.bonus_intellect": "50",
+  "AbilityValues.bonus_mana_regen": "13"
+ },
+ "item_butterfly": {
+  "AbilityValues.bonus_agility": "100",
+  "AbilityValues.bonus_attack_speed_pct": "30",
+  "AbilityValues.bonus_damage": "150",
+  "AbilityValues.bonus_evasion": "85"
+ },
+ "item_dagon": {
+  "AbilityCooldown": "27 24 21 18 5",
+  "AbilityValues.bonus_all_stats": "6 7 8 9 100",
+  "AbilityValues.cast_range_bonus": "60 90 120 150 580",
+  "AbilityValues.damage": "400 500 600 700 1800"
+ },
+ "item_dagon_5": {
+  "AbilityCooldown": "27 24 21 18 5",
+  "AbilityValues.bonus_all_stats": "6 7 8 9 100",
+  "AbilityValues.cast_range_bonus": "60 90 120 150 580",
+  "AbilityValues.damage": "400 500 600 700 1800"
+ },
+ "item_desolator": {
+  "AbilityValues.bonus_damage_per_assist": "5",
+  "AbilityValues.bonus_damage_per_kill": "10",
+  "AbilityValues.corruption_armor": "-16",
+  "AbilityValues.corruption_duration": "17",
+  "AbilityValues.max_damage": "3000"
+ },
+ "item_devastator": {
+  "AbilityCooldown": "2",
+  "AbilityValues.active_mres_reduction": "50",
+  "AbilityValues.bonus_armor": "28",
+  "AbilityValues.bonus_attack_speed": "100",
+  "AbilityValues.bonus_intellect": "100",
+  "AbilityValues.bonus_mana_regen": "10",
+  "AbilityValues.int_damage_multiplier": "1",
+  "AbilityValues.projectile_speed": "500"
+ },
+ "item_disperser": {
+  "AbilityCooldown": "5.0",
+  "AbilityManaCost": "5",
+  "AbilityValues.ally_effect_duration": "10.0",
+  "AbilityValues.bonus_agility": "100",
+  "AbilityValues.bonus_intellect": "100",
+  "AbilityValues.enemy_effect_duration": "10.0",
+  "AbilityValues.feedback_mana_burn": "100",
+  "AbilityValues.movement_speed_buff_rate": "5"
+ },
+ "item_eternal_shroud": {
+  "AbilityValues.bonus_spell_resist": "40",
+  "AbilityValues.mana_restore_pct": "50"
+ },
+ "item_ethereal_blade": {
+  "AbilityCooldown": "10.0",
+  "AbilityValues.blast_stat_multiplier": "3.0",
+  "AbilityValues.bonus_agility": "50",
+  "AbilityValues.bonus_cast_range": "650",
+  "AbilityValues.bonus_intellect": "50",
+  "AbilityValues.bonus_strength": "50"
+ },
+ "item_greater_crit": {
+  "AbilityValues.bonus_damage": "188",
+  "AbilityValues.crit_chance": "100",
+  "AbilityValues.crit_multiplier": "300"
+ },
+ "item_gungir": {
+  "AbilityCooldown": "6",
+  "AbilityManaCost": "50",
+  "AbilityValues.bonus_aoe": "375",
+  "AbilityValues.bonus_intellect": "100"
+ },
+ "item_gunpowder_gauntlets": {
+  "AbilityCooldown": "0",
+  "AbilityValues.bonus_damage.value": "10",
+  "AbilityValues.splash_pct": "100",
+  "AbilityValues.splash_radius.value": "450"
+ },
+ "item_harpoon": {
+  "AbilityCastRange": "1700",
+  "AbilityCooldown": "9.0",
+  "AbilityManaCost": "25",
+  "AbilityValues.bonus_agility": "75",
+  "AbilityValues.bonus_damage": "125",
+  "AbilityValues.bonus_intellect": "100",
+  "AbilityValues.bonus_mana_regen": "10",
+  "AbilityValues.bonus_strength": "75",
+  "AbilityValues.cast_range_enemy": "1700",
+  "AbilityValues.max_distance": "2000",
+  "AbilityValues.passive_cooldown": "2",
+  "AbilityValues.pull_distance_pct": "70"
+ },
+ "item_heart": {
+  "AbilityValues.bonus_strength": "100",
+  "AbilityValues.hp_regen": "2"
+ },
+ "item_hurricane_pike": {
+  "AbilityCooldown": "10.0",
+  "AbilityManaCost": "10",
+  "AbilityValues.base_attack_range": "750",
+  "AbilityValues.bonus_agility": "60",
+  "AbilityValues.bonus_intellect": "55",
+  "AbilityValues.bonus_strength": "55",
+  "AbilityValues.cast_range_enemy": "450",
+  "AbilityValues.enemy_length": "450",
+  "AbilityValues.max_attacks": "15",
+  "AbilityValues.push_length": "1600",
+  "AbilityValues.range_duration": "16"
+ },
+ "item_hydras_breath": {
+  "AbilityValues.base_attack_range": "650",
+  "AbilityValues.count": "10",
+  "AbilityValues.proc_chance": "100",
+  "AbilityValues.proc_dmg_pct": "100",
+  "AbilityValues.secondary_target_angle": "360"
+ },
+ "item_lotus_orb": {
+  "AbilityCooldown": "5.0",
+  "AbilityManaCost": "25",
+  "AbilityValues.active_duration": "3600"
+ },
+ "item_manta": {
+  "AbilityValues.bonus_agility": "100",
+  "AbilityValues.bonus_attack_speed": "30",
+  "AbilityValues.bonus_intellect": "100",
+  "AbilityValues.bonus_movement_speed": "25",
+  "AbilityValues.bonus_strength": "100"
+ },
+ "item_mjollnir": {
+  "AbilityCooldown": "5.0",
+  "AbilityManaCost": "5",
+  "AbilityValues.bonus_attack_speed": "180",
+  "AbilityValues.chain_chance": "100",
+  "AbilityValues.chain_damage": "380",
+  "AbilityValues.static_chance": "100",
+  "AbilityValues.static_damage": "525",
+  "AbilityValues.static_duration": "360"
+ },
+ "item_monkey_king_bar": {
+  "AbilityValues.bonus_attack_speed": "150",
+  "AbilityValues.bonus_chance": "100",
+  "AbilityValues.bonus_chance_damage": "100",
+  "AbilityValues.bonus_damage": "150",
+  "AbilityValues.melee_attack_range": "200"
+ },
+ "item_moon_shard": {
+  "AbilityValues.consumed_bonus": "200",
+  "AbilityValues.consumed_bonus_night_vision": "600"
+ },
+ "item_nullifier": {
+  "AbilityValues.bonus_regen": "6",
+  "AbilityValues.mute_duration": "20",
+  "AbilityValues.projectile_speed": "4800"
+ },
+ "item_overwhelming_blink": {
+  "AbilityCooldown": "7.0",
+  "AbilityValues.blink_damage_cooldown": "0",
+  "AbilityValues.bonus_strength": "85"
+ },
+ "item_radiance": {
+  "AbilityValues.aura_damage": "160",
+  "AbilityValues.aura_damage_illusions": "100",
+  "AbilityValues.aura_radius.value": "850",
+  "AbilityValues.bonus_damage": "100"
+ },
+ "item_rapier": {
+  "AbilityValues.bonus_damage": "550",
+  "AbilityValues.bonus_damage_base": "500",
+  "AbilityValues.bonus_spell_amp": "100",
+  "ItemSellable": "1"
+ },
+ "item_revenants_brooch": {
+  "AbilityValues.bonus_damage": "135",
+  "AbilityValues.crit_chance": "45",
+  "AbilityValues.crit_multiplier": "150",
+  "AbilityValues.spell_lifesteal": "34"
+ },
+ "item_royale_with_cheese": {
+  "AbilityValues.duration": "50",
+  "AbilityValues.idle": "0",
+  "AbilityValues.shield": "1000",
+  "ItemPermanent": "1"
+ },
+ "item_satanic": {
+  "AbilityCooldown": "5.0",
+  "AbilityValues.bonus_strength": "75"
+ },
+ "item_sheepstick": {
+  "AbilityCastRange": "1800",
+  "AbilityCooldown": "10.0",
+  "AbilityManaCost": "50",
+  "AbilityValues.bonus_intellect": "150",
+  "AbilityValues.bonus_mana_regen": "18",
+  "AbilityValues.sheep_duration": "5"
+ },
+ "item_shivas_guard": {
+  "AbilityValues.bonus_aoe": "375"
+ },
+ "item_silver_edge": {
+  "AbilityCooldown": "10",
+  "AbilityValues.backstab_duration": "16",
+  "AbilityValues.bonus_attack_speed": "90",
+  "AbilityValues.bonus_damage": "140",
+  "AbilityValues.bonus_intellect": "30",
+  "AbilityValues.bonus_mana_regen": "10",
+  "AbilityValues.bonus_strength": "30",
+  "AbilityValues.windwalk_duration": "60",
+  "AbilityValues.windwalk_movement_speed": "25"
+ },
+ "item_skadi": {
+  "AbilityValues.bonus_all_stats": "100"
+ },
+ "item_sphere": {
+  "AbilityCooldown": "7.0",
+  "AbilityValues.block_cooldown": "5.0",
+  "AbilityValues.bonus_all_stats": "56",
+  "AbilityValues.bonus_health_regen": "15",
+  "AbilityValues.bonus_mana_regen": "10"
+ },
+ "item_swift_blink": {
+  "AbilityCooldown": "7.0",
+  "AbilityValues.blink_damage_cooldown": "0",
+  "AbilityValues.bonus_agility": "85"
+ },
+ "item_trident": {
+  "AbilityValues.bonus_agility": "100",
+  "AbilityValues.bonus_attack_speed": "60",
+  "AbilityValues.bonus_intellect": "200",
+  "AbilityValues.bonus_strength": "100",
+  "AbilityValues.cast_speed_pct": "50",
+  "AbilityValues.hp_regen_amp": "100",
+  "AbilityValues.magic_damage_attack": "100",
+  "AbilityValues.mana_regen_multiplier": "100",
+  "AbilityValues.manacost_reduction": "75",
+  "AbilityValues.movement_speed_percent_bonus": "33",
+  "AbilityValues.slow_resistance": "100",
+  "AbilityValues.spell_amp": "100",
+  "AbilityValues.status_resistance": "80",
+  "ItemSellable": "1"
+ },
+ "item_wind_waker": {
+  "AbilityCooldown": "7.0",
+  "AbilityManaCost": "25",
+  "AbilityValues.bonus_intellect": "200",
+  "AbilityValues.bonus_mana_regen": "10.0",
+  "AbilityValues.bonus_movement_speed": "60"
+ }
+}

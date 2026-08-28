@@ -1,10 +1,15 @@
 # Paths relative to pak01_dir. One file per line; no wildcards or directories.
-# addons: upgraded Octarine Core and experimental automatic Gem absorption.
-scripts/npc/npc_abilities.txt
+# addons: upgraded Octarine Core, experimental Gem absorption, and item upgrade scrolls.
+# items.txt carries the #base lines for lv_items.txt / lv_upgrades.txt, so it must ship.
+# npc_abilities.txt is deliberately NOT listed: item definitions load through items.txt,
+# so the game can keep using the official npc_abilities.txt.
+scripts/npc/items.txt
 scripts/npc/lv/lv_items.txt
+scripts/npc/lv/lv_upgrades.txt
 scripts/vscripts/lv/item_lv_gem.lua
 scripts/vscripts/lv/modifier_lv_gem_consumed.lua
 scripts/vscripts/lv/item_lv_octarine_core.lua
+scripts/vscripts/lv/item_lv_trident.lua
 scripts/shops.txt
 resource/localization/abilities_english.txt
 resource/localization/abilities_schinese.txt
