@@ -16399,11 +16399,12 @@
 		"DOTA_Tooltip_ability_item_octarine_core_bonus_cooldown"				"%+$cooldown_reduction"
 		"DOTA_Tooltip_ability_item_octarine_core_Lore"						"At the core of spellcraft are spectrums only the very gifted can sense."
 
-		"DOTA_Tooltip_ability_item_lv_octarine_core_Description"			"<h1>Passive: Cooldown Reduction</h1>Reduces the cooldown time of all spells and items."
+		"DOTA_Tooltip_ability_item_lv_octarine_core_Description"			"<h1>Passive: Cooldown Reduction</h1>Reduces the cooldown time of all spells and items.<br><br><h1>Passive: Cast Range</h1>Increases spell and item cast range by %cast_range_bonus%."
 		"DOTA_Tooltip_ability_item_lv_octarine_core_bonus_mana_regen"		"+$mana_regen"
 		"DOTA_Tooltip_ability_item_lv_octarine_core_bonus_health"			"+$health"
 		"DOTA_Tooltip_ability_item_lv_octarine_core_bonus_mana"			"+$mana"
 		"DOTA_Tooltip_ability_item_lv_octarine_core_bonus_cooldown"			"%+$cooldown_reduction"
+		"DOTA_Tooltip_ability_item_lv_octarine_core_cast_range_bonus"		"+$cast_range"
 		"DOTA_Tooltip_ability_item_lv_octarine_core_Lore"				"An Octarine Core refined beyond the limits of ordinary spellcraft."
 		
 		"DOTA_Tooltip_ability_item_famango_Description"					"<h1>Use: Eat Lotus</h1> Instantly restores %replenish_amount% health and mana."

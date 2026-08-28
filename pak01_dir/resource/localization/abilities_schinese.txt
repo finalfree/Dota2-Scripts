@@ -16346,11 +16346,12 @@
 		"DOTA_Tooltip_ability_item_octarine_core_bonus_cooldown"				"%+$cooldown_reduction"
 		"DOTA_Tooltip_ability_item_octarine_core_Lore"						"位于法术技艺核心的，是只有身负异能之人才能感知的光带。"
 
-		"DOTA_Tooltip_ability_item_lv_octarine_core_Description"			"<h1>被动：冷却时间减少</h1>减少所有技能和物品的冷却时间。"
+		"DOTA_Tooltip_ability_item_lv_octarine_core_Description"			"<h1>被动：冷却时间减少</h1>减少所有技能和物品的冷却时间。<br><br><h1>被动：施法距离</h1>技能和物品的施法距离增加%cast_range_bonus%。"
 		"DOTA_Tooltip_ability_item_lv_octarine_core_bonus_mana_regen"		"+$mana_regen"
 		"DOTA_Tooltip_ability_item_lv_octarine_core_bonus_health"			"+$health"
 		"DOTA_Tooltip_ability_item_lv_octarine_core_bonus_mana"			"+$mana"
 		"DOTA_Tooltip_ability_item_lv_octarine_core_bonus_cooldown"			"%+$cooldown_reduction"
+		"DOTA_Tooltip_ability_item_lv_octarine_core_cast_range_bonus"		"+$cast_range"
 		"DOTA_Tooltip_ability_item_lv_octarine_core_Lore"				"经由更高层次的法术技艺淬炼而成的玲珑心。"
 		
 		"DOTA_Tooltip_ability_item_famango_Description"					"<h1>使用：吞食莲花</h1>立刻回复%replenish_amount%点生命和魔法。"

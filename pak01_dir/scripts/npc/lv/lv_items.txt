@@ -78,7 +78,7 @@
 		"AbilityTextureName"			"item_recipe_octarine_core"
 		"Model"							"models/props_gameplay/recipe.vmdl"
 
-		"ItemCost"						"3000"
+		"ItemCost"						"1000"
 		"ItemShopTags"					""
 		"ItemPurchasable"				"1"
 
@@ -96,11 +96,11 @@
 	"item_lv_octarine_core"
 	{
 		"ID"							"10002"
-		"BaseClass"					"item_octarine_core"
+		"BaseClass"					"item_datadriven"
 		"AbilityTextureName"			"item_octarine_core"
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 
-		"ItemCost"						"7900"
+		"ItemCost"						"5900"
 		"ItemShopTags"					"move_speed;boost_mana;mana_pool;mana"
 		"ItemQuality"					"rare"
 		"ItemPurchasable"				"1"
@@ -115,6 +115,40 @@
 			"bonus_mana"				"450"
 			"bonus_health_regen"		"0"
 			"bonus_mana_regen"			"20"
+			"cast_range_bonus"			"600"
+		}
+
+		"Modifiers"
+		{
+			"modifier_item_lv_octarine_core"
+			{
+				"Passive"       "1"
+				"IsHidden"      "1"
+				"IsPurgable"    "0"
+				"RemoveOnDeath" "0"
+				"OnCreated"
+				{
+					"RunScript"
+					{
+						"ScriptFile" "scripts/vscripts/lv/item_lv_octarine_core.lua"
+						"Function"   "LVOctarineApplyNativeRange"
+					}
+				}
+				"OnDestroy"
+				{
+					"RunScript"
+					{
+						"ScriptFile" "scripts/vscripts/lv/item_lv_octarine_core.lua"
+						"Function"   "LVOctarineRemoveNativeRange"
+					}
+				}
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_HEALTH_BONUS"           "%bonus_health"
+					"MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT" "%bonus_health_regen"
+					"MODIFIER_PROPERTY_COOLDOWN_PERCENTAGE"   "%bonus_cooldown"
+				}
+			}
 		}
 	}
 }

@@ -4,6 +4,7 @@ scripts/npc/npc_abilities.txt
 scripts/npc/lv/lv_items.txt
 scripts/vscripts/lv/item_lv_gem.lua
 scripts/vscripts/lv/modifier_lv_gem_consumed.lua
+scripts/vscripts/lv/item_lv_octarine_core.lua
 scripts/shops.txt
 resource/localization/abilities_english.txt
 resource/localization/abilities_schinese.txt
