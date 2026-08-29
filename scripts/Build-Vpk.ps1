@@ -77,7 +77,9 @@ if ($All) {
         ForEach-Object { $_.Trim() } | Where-Object { $_ -and -not $_.StartsWith('#') })
 }
 if ($entries.Count -eq 0) { throw 'The package file list is empty.' }
-$expected = @{}
+# VPK paths are case-insensitive, but must not use culture-sensitive comparison:
+# legacy mod filenames can contain characters that a culture-aware Hashtable treats as equivalent.
+$expected = [System.Collections.Generic.Dictionary[string,string]]::new([StringComparer]::OrdinalIgnoreCase)
 $normalized = [System.Collections.Generic.List[string]]::new()
 $totalBytes = 0L
 foreach ($entry in $entries) {
@@ -105,7 +107,9 @@ $candidate = Join-Path $outputDirectory ('.vpkedit-' + $buildId + '.vpk')
 # Only this tiny UTF-8/LF file lives in SourceRoot; no resources are copied.
 $responsePath = Join-Path $sourcePath ('.vpkedit-' + $buildId + '.rsp')
 try {
-    [IO.File]::WriteAllText($responsePath, (($normalized | Sort-Object) -join "`n") + "`n", [Text.UTF8Encoding]::new($false))
+    $responseEntries = [string[]]$normalized
+    [Array]::Sort($responseEntries, [StringComparer]::Ordinal)
+    [IO.File]::WriteAllText($responsePath, ($responseEntries -join "`n") + "`n", [Text.UTF8Encoding]::new($false))
     Write-Host "Packing $($normalized.Count) files directly from $sourcePath (VPK v1, single file)."
     Invoke-VpkEdit @('--no-progress', '--type', 'vpk', '--version', '1', '--single-file', '--output', $candidate, ('@' + $responsePath))
     if (-not (Test-Path -LiteralPath $candidate -PathType Leaf)) { throw 'VPKEdit did not create the output package.' }

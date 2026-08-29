@@ -46,7 +46,7 @@ try {
                 if ($extension -ne ' ') { $entryPath += '.' + $extension }
                 if ($directory -ne ' ') { $entryPath = $directory + '/' + $entryPath }
                 if (-not $seen.Add($entryPath)) { throw "Duplicate VPK entry: $entryPath" }
-                if (-not $ExpectedFiles.Contains($entryPath)) { throw "Unexpected VPK entry: $entryPath" }
+                if (-not $ExpectedFiles.ContainsKey($entryPath)) { throw "Unexpected VPK entry: $entryPath" }
 
                 $preload = $reader.ReadBytes($preloadSize)
                 $nextEntry = $stream.Position

@@ -36,6 +36,8 @@
 
 全量默认输出仓库根目录 `pak01_dir.vpk`。`Merge Mods.bat` 调用全量脚本的 `-PackageOnly` 模式，不部署。三个入口共用 `scripts/Build-Vpk.ps1`。
 
+将持续更新的天地星 `pak02_dir.vpk` 与本项目 LV 物品合并时，不使用上述增量或全量入口；运行 `Merge-Pak02WithLvItems.ps1`。它以作者包为底包重新构建并保留天地星商店，详见 [pak02 合并说明](pak02-lv-merge.md)。
+
 ## 为什么仍有一个临时清单
 
 VPKEdit 的 [response file 实现](https://github.com/craftablescience/VPKEdit/pull/268/files) 支持 `@文件清单`，清单行同时决定磁盘相对路径和包内路径，且**相对于清单所在目录**，而不是当前工作目录。其 [CLI 源码](https://github.com/craftablescience/VPKEdit/blob/main/src/cli/Main.cpp) 可用于核对版本差异。

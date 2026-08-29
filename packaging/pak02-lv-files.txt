@@ -1,0 +1,8 @@
+# Files copied from pak01_dir into a fresh pak02 extraction.
+# npc_abilities.txt and localization are merged separately by Merge-Pak02WithLvItems.ps1.
+scripts/npc/lv/lv_items.txt
+scripts/npc/lv/lv_upgrades.txt
+scripts/vscripts/lv/item_lv_gem.lua
+scripts/vscripts/lv/modifier_lv_gem_consumed.lua
+scripts/vscripts/lv/item_lv_octarine_core.lua
+scripts/vscripts/lv/item_lv_trident.lua
