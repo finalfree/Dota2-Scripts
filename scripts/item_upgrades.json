@@ -118,7 +118,7 @@
   "AbilityCooldown": "0",
   "AbilityValues.bonus_damage.value": "10",
   "AbilityValues.splash_pct": "100",
-  "AbilityValues.splash_radius.value": "450"
+  "AbilityValues.splash_radius.value": "500"
  },
  "item_harpoon": {
   "AbilityCastRange": "1700",
@@ -265,22 +265,6 @@
   "AbilityCooldown": "7.0",
   "AbilityValues.blink_damage_cooldown": "0",
   "AbilityValues.bonus_agility": "85"
- },
- "item_trident": {
-  "AbilityValues.bonus_agility": "100",
-  "AbilityValues.bonus_attack_speed": "60",
-  "AbilityValues.bonus_intellect": "200",
-  "AbilityValues.bonus_strength": "100",
-  "AbilityValues.cast_speed_pct": "50",
-  "AbilityValues.hp_regen_amp": "100",
-  "AbilityValues.magic_damage_attack": "100",
-  "AbilityValues.mana_regen_multiplier": "100",
-  "AbilityValues.manacost_reduction": "75",
-  "AbilityValues.movement_speed_percent_bonus": "33",
-  "AbilityValues.slow_resistance": "100",
-  "AbilityValues.spell_amp": "100",
-  "AbilityValues.status_resistance": "80",
-  "ItemSellable": "1"
  },
  "item_wind_waker": {
   "AbilityCooldown": "7.0",

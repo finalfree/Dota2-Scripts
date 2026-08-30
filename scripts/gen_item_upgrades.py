@@ -13,8 +13,7 @@
 * 默认 --full-copy：把原物品的 AbilityValues 整块抄全、只替换目标值。
   这样无论引擎的 KV 继承是「递归合并」还是「整体替换」，结果都正确。
 * 只覆盖数值，不新增原物品没有的 key（新增 key 在 override 模式下不生效）。
-* 三叉戟是特例：由三把剑（或双剑 + 剩余单剑）和 1 金卷轴直接合成，
-  原版属性交给原生 modifier，三个新增属性由 Lua modifier 提供。
+* 三叉戟是手工维护的重做物品，定义在 lv_items.txt，不属于本文件生成范围。
 """
 
 import argparse
@@ -35,29 +34,17 @@ UPGRADES = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)
 
 ID_START = 10005
 
-# 已发布过的条目即使退役也保留 ID 槽位，避免后续物品 ID 整体漂移。
-RETIRED_ID_SLOTS = {
+# 已发布过的条目、以及移到 lv_items.txt 手工维护的条目，都保留 ID 槽位，
+# 避免后续自动生成物品的 ID 整体漂移。
+RESERVED_ID_SLOTS = {
     'item_kaya_and_sange',
     'item_octarine_core',
     'item_sange_and_yasha',
     'item_travel_boots',
     'item_travel_boots_2',
+    'item_trident',
     'item_yasha_and_kaya',
 }
-
-TRIDENT_EXTRA_VALUES = {
-    'cast_speed_pct',
-    'manacost_reduction',
-    'slow_resistance',
-}
-
-TRIDENT_REQUIREMENTS = (
-    'item_kaya;item_sange;item_yasha;',
-    'item_kaya_and_sange;item_yasha;',
-    'item_sange_and_yasha;item_kaya;',
-    'item_yasha_and_kaya;item_sange;',
-)
-
 
 # ---------------------------------------------------------------- KV 解析
 
@@ -207,9 +194,6 @@ SKIP_COPY = {
 
 def gen_item(name, src_block, overrides, item_id, recipe_id, full_copy=True, scroll_cost=1000):
     """返回一个物品的 (recipe_text, item_text)"""
-    if name == 'item_trident':
-        return gen_trident(src_block, overrides, item_id, recipe_id)
-
     short = name[5:]  # 去掉 item_ 前缀
     av_overrides = {k[len('AbilityValues.'):]: v
                     for k, v in overrides.items() if k.startswith('AbilityValues.')}
@@ -291,101 +275,6 @@ def gen_item(name, src_block, overrides, item_id, recipe_id, full_copy=True, scr
     return '\n'.join(rlines), '\n'.join(lines)
 
 
-def gen_trident(src_block, overrides, item_id, recipe_id):
-    """生成可购买的三叉戟替代品：三把剑 + 1 金卷轴 -> item_lv_trident。"""
-    av = next((v for k, v in src_block if k == 'AbilityValues' and isinstance(v, list)), [])
-    av = [(k, [list(x) for x in v] if isinstance(v, list) else v) for k, v in av]
-    top_overrides = {k: v for k, v in overrides.items()
-                     if not k.startswith('AbilityValues.')}
-
-    for key, value in ((k[len('AbilityValues.'):], v)
-                       for k, v in overrides.items()
-                       if k.startswith('AbilityValues.')):
-        if set_nested(av, key.split('.'), value):
-            continue
-        if key in TRIDENT_EXTRA_VALUES:
-            av.append((key, value))
-            continue
-        print('  ! item_trident 缺少未获 Lua 支持的字段: %s' % key, file=sys.stderr)
-
-    copied = [(k, v) for k, v in src_block
-              if not isinstance(v, list)
-              and k not in SKIP_COPY
-              and k not in top_overrides
-              and k != 'ItemIsNeutralActiveDrop'
-              and v is not None]
-
-    lines = [
-        '\t"item_lv_trident"',
-        '\t{',
-        '\t\t"ID"\t\t\t\t"%d"' % item_id,
-        '\t\t"BaseClass"\t\t\t"item_datadriven"',
-        '\t\t"AbilityTextureName"\t\t"item_trident"',
-    ]
-    for k, v in copied:
-        lines.append('\t\t"%s"\t\t\t"%s"' % (k, v))
-    lines.extend([
-        '\t\t"ItemPurchasable"\t\t"1"\t\t// 通过 1 金配方进入商店合成树',
-        '\t\t"ItemCost"\t\t\t"6301"\t\t// 三把 2100 金单剑 + 1 金卷轴',
-    ])
-    for k, v in sorted(top_overrides.items()):
-        lines.append('\t\t"%s"\t\t\t"%s"' % (k, v))
-
-    lines.extend([
-        '',
-        render([('AbilityValues', av)], indent=2),
-        '',
-        '\t\t"Modifiers"',
-        '\t\t{',
-        '\t\t\t"modifier_item_lv_trident_controller"',
-        '\t\t\t{',
-        '\t\t\t\t"Passive"\t\t"1"',
-        '\t\t\t\t"IsHidden"\t\t"1"',
-        '\t\t\t\t"IsPurgable"\t\t"0"',
-        '\t\t\t\t"RemoveOnDeath"\t"0"',
-        '\t\t\t\t"OnCreated"',
-        '\t\t\t\t{',
-        '\t\t\t\t\t"RunScript"',
-        '\t\t\t\t\t{',
-        '\t\t\t\t\t\t"ScriptFile"\t"scripts/vscripts/lv/item_lv_trident.lua"',
-        '\t\t\t\t\t\t"Function"\t"LVTridentApplyModifiers"',
-        '\t\t\t\t\t}',
-        '\t\t\t\t}',
-        '\t\t\t\t"OnDestroy"',
-        '\t\t\t\t{',
-        '\t\t\t\t\t"RunScript"',
-        '\t\t\t\t\t{',
-        '\t\t\t\t\t\t"ScriptFile"\t"scripts/vscripts/lv/item_lv_trident.lua"',
-        '\t\t\t\t\t\t"Function"\t"LVTridentRemoveModifiers"',
-        '\t\t\t\t\t}',
-        '\t\t\t\t}',
-        '\t\t\t}',
-        '\t\t}',
-        '\t}',
-    ])
-
-    rlines = [
-        '\t"item_recipe_lv_trident"',
-        '\t{',
-        '\t\t"ID"\t\t\t\t"%d"' % recipe_id,
-        '\t\t"BaseClass"\t\t\t"item_datadriven"',
-        '\t\t"AbilityTextureName"\t\t"item_recipe_trident"',
-        '\t\t"Model"\t\t\t\t"models/props_gameplay/recipe.vmdl"',
-        '\t\t"ItemCost"\t\t\t"1"',
-        '\t\t"ItemPurchasable"\t\t"1"',
-        '\t\t"ItemSellable"\t\t\t"1"',
-        '\t\t"ItemRecipe"\t\t\t"1"',
-        '\t\t"ItemResult"\t\t\t"item_lv_trident"',
-        '\t\t"ItemRequirements"',
-        '\t\t{',
-    ]
-    for i, requirement in enumerate(TRIDENT_REQUIREMENTS, 1):
-        rlines.append('\t\t\t"%02d"\t\t\t\t"%s"' % (i, requirement))
-    rlines.extend(['\t\t}', '\t}'])
-
-    return '\n'.join(rlines), '\n'.join(lines)
-
-
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--item', help='只生成某一个（item_ 前缀可省略）')
@@ -398,7 +287,7 @@ def main():
 
     items = find_items(Parser(open(ITEMS_TXT, encoding='utf-8-sig', errors='replace').read()).root())
 
-    id_slots = sorted(set(UPGRADES) | RETIRED_ID_SLOTS)
+    id_slots = sorted(set(UPGRADES) | RESERVED_ID_SLOTS)
     targets = sorted(UPGRADES)
     if args.item:
         key = args.item if args.item.startswith('item_') else 'item_' + args.item

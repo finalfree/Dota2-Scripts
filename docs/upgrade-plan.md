@@ -16,6 +16,10 @@
 > `item_lv_octarine_core` 的同名重复定义。实际保留的是 ID `10001/10002`、提供
 > 600 施法距离并由 `item_lv_octarine_core.lua` 补充原生施法距离 modifier 的
 > “玲珑心·精粹”版本。
+>
+> 2026-08-30：`item_trident` 不属于原物品加卷轴的批量升级，改为手工维护在
+> `lv_items.txt`；`item_upgrades.json` 不再包含它。生成器为它保留 ID 槽位，
+> 因此后续自动生成物品的 ID 不会漂移。
 
 ## 一、commit 到底改了什么
 
@@ -431,7 +435,7 @@ python scripts/gen_item_upgrades.py --item sheepstick --preview --no-full-copy
 | `AbilityCooldown` 🔴 | `10` | `0` | **-10** |  |
 | `bonus_damage.value` | `120` | `10` | **-110** | **唯一的下调项**（120→10），本质是"砍攻击力换溅射"，不是升级 |
 | `splash_pct` 🔴 | `50` | `100` | **+50** |  |
-| `splash_radius.value` 🔴 | `250` | `450` | **+200** |  |
+| `splash_radius.value` 🔴 | `250` | `500` | **+250** | 目标值由 450 上调为 500（用户指定） |
 
 ### `item_harpoon` — 鱼叉（Harpoon）
 
@@ -772,8 +776,8 @@ python scripts/gen_item_upgrades.py --item sheepstick --preview --no-full-copy
 
 - 升级物品：`item_lv_trident`（ID `10096`）　升级配方：`item_recipe_lv_trident`（ID `10095`）
 - 当前合成：1 金可购买卷轴 + 三把单剑，或卷轴 + 任意双剑 + 剩余单剑；不再以原版 `item_trident` 为材料
-- 实现：原版已有的 10 项属性由原生 `modifier_item_trident` 提供；新增 3 项由 `item_lv_trident.lua` 提供
-- 来源：商店合成树　分类：Lua 增补属性　字段数：13
+- 实现：原版已有的 10 项属性由原生 `modifier_item_trident` 提供；新增 3 项由 data-driven `Properties` 提供
+- 来源：商店合成树　分类：手工重做物品　字段数：13
 
 | 字段 | 原值 | 目标值 | 增量 | 备注 |
 |---|---|---|---|---|

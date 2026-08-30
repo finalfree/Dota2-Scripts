@@ -99,7 +99,7 @@ class ItemResources(unittest.TestCase):
         self.assertIn("scripts/vscripts/lv/modifier_lv_gem_consumed.lua", self.manifest)
         for path in self.manifest:
             self.assertTrue((RESOURCE / path).is_file(), path)
-        entry = (RESOURCE / "scripts/npc/npc_abilities.txt").read_text(encoding="utf-8-sig")
+        entry = (RESOURCE / "scripts/npc/items.txt").read_text(encoding="utf-8-sig")
         self.assertIn('#base "lv/lv_items.txt"', entry)
 
     def test_matching_localization_without_duplicate_keys(self):
@@ -169,6 +169,18 @@ class ItemResources(unittest.TestCase):
             self.assertEqual(localized[-1][prefix + "cast_range_bonus"], "+$cast_range")
             self.assertIn("%cast_range_bonus%", localized[-1][prefix + "description"])
         self.assertEqual(localized[0].keys(), localized[1].keys())
+
+    def test_trident_is_hand_maintained_in_lv_items(self):
+        lv_items = dict(read_kv(RESOURCE / "scripts/npc/lv/lv_items.txt"))["DOTAAbilities"]
+        self.assertIn("item_lv_trident", dict(lv_items))
+        self.assertIn("item_recipe_lv_trident", dict(lv_items))
+        upgrades = (RESOURCE / "scripts/npc/lv/lv_upgrades.txt").read_text(encoding="utf-8-sig")
+        self.assertNotIn('"item_lv_trident"', upgrades)
+        manifest = (ROOT / "scripts/item_upgrades.json").read_text(encoding="utf-8")
+        self.assertNotIn('"item_trident"', manifest)
+        generator = (ROOT / "scripts/gen_item_upgrades.py").read_text(encoding="utf-8")
+        self.assertNotIn("def gen_trident", generator)
+        self.assertIn("'item_trident'", generator)
 
 
 if __name__ == "__main__":
