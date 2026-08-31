@@ -180,13 +180,6 @@
   "AbilityValues.static_damage": "525",
   "AbilityValues.static_duration": "360"
  },
- "item_monkey_king_bar": {
-  "AbilityValues.bonus_attack_speed": "150",
-  "AbilityValues.bonus_chance": "100",
-  "AbilityValues.bonus_chance_damage": "100",
-  "AbilityValues.bonus_damage": "150",
-  "AbilityValues.melee_attack_range": "200"
- },
  "item_moon_shard": {
   "AbilityValues.consumed_bonus": "200",
   "AbilityValues.consumed_bonus_night_vision": "600"

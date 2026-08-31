@@ -162,7 +162,7 @@
 		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"Model"			"models/props_gameplay/neutral_box.vmdl"
 		"ItemPurchasable"		"1"		// 通过 1 金配方进入商店合成树
-		"ItemCost"			"6301"		// 三把 2100 金单剑 + 1 金卷轴
+		"ItemCost"			"11301"		// 三把 2100 金单剑 + 5000 金金箍棒 + 1 金卷轴
 		"ItemSellable"			"1"
 
 		"AbilityValues"
@@ -171,12 +171,13 @@
 			"bonus_agility"		"100"
 			"bonus_intellect"		"200"
 			"status_resistance"		"80"
-			"bonus_attack_speed"		"60"
+			"bonus_attack_speed"		"100"
 			"movement_speed_percent_bonus"		"33"
 			"hp_regen_amp"		"100"
 			"mana_regen_multiplier"		"100"
 			"spell_amp"		"100"
-			"magic_damage_attack"		"100"
+			"pure_damage_attack"		"100"
+			"stackable_attack_range"		"200"
 			"cast_speed_pct"		"50"
 			"manacost_reduction"		"75"
 			"slow_resistance"		"100"
@@ -190,6 +191,7 @@
 				"IsHidden"		"1"
 				"IsPurgable"		"0"
 				"RemoveOnDeath"	"0"
+				"Attributes"		"MODIFIER_ATTRIBUTE_MULTIPLE"
 				"OnCreated"
 				{
 					"RunScript"
@@ -206,11 +208,24 @@
 						"Function"	"LVTridentRemoveModifiers"
 					}
 				}
+				"OnAttackLanded"
+				{
+					"RunScript"
+					{
+						"ScriptFile"	"scripts/vscripts/lv/item_lv_trident.lua"
+						"Function"	"LVTridentApplyPureAttackDamage"
+					}
+				}
 				"Properties"
 				{
 					"MODIFIER_PROPERTY_SLOW_RESISTANCE_STACKING"       "%slow_resistance"
 					"MODIFIER_PROPERTY_MANACOST_PERCENTAGE_STACKING"   "%manacost_reduction"
 					"MODIFIER_PROPERTY_CASTTIME_PERCENTAGE"            "%cast_speed_pct"
+					"MODIFIER_PROPERTY_ATTACK_RANGE_BONUS"             "%stackable_attack_range"
+				}
+				"States"
+				{
+					"MODIFIER_STATE_CANNOT_MISS"                       "MODIFIER_STATE_VALUE_ENABLED"
 				}
 			}
 		}
@@ -229,10 +244,10 @@
 		"ItemResult"			"item_lv_trident"
 		"ItemRequirements"
 		{
-			"01"				"item_kaya;item_sange;item_yasha;"
-			"02"				"item_kaya_and_sange;item_yasha;"
-			"03"				"item_sange_and_yasha;item_kaya;"
-			"04"				"item_yasha_and_kaya;item_sange;"
+			"01"				"item_kaya;item_sange;item_yasha;item_monkey_king_bar;"
+			"02"				"item_kaya_and_sange;item_yasha;item_monkey_king_bar;"
+			"03"				"item_sange_and_yasha;item_kaya;item_monkey_king_bar;"
+			"04"				"item_yasha_and_kaya;item_sange;item_monkey_king_bar;"
 		}
 	}
 }

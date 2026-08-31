@@ -14,6 +14,7 @@
   这样无论引擎的 KV 继承是「递归合并」还是「整体替换」，结果都正确。
 * 只覆盖数值，不新增原物品没有的 key（新增 key 在 override 模式下不生效）。
 * 三叉戟是手工维护的重做物品，定义在 lv_items.txt，不属于本文件生成范围。
+* 升级金箍棒已取消，普通金箍棒改为三叉戟的合成材料；原 ID 槽位继续保留。
 """
 
 import argparse
@@ -38,6 +39,7 @@ ID_START = 10005
 # 避免后续自动生成物品的 ID 整体漂移。
 RESERVED_ID_SLOTS = {
     'item_kaya_and_sange',
+    'item_monkey_king_bar',
     'item_octarine_core',
     'item_sange_and_yasha',
     'item_travel_boots',

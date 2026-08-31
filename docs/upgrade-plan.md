@@ -20,6 +20,9 @@
 > 2026-08-30：`item_trident` 不属于原物品加卷轴的批量升级，改为手工维护在
 > `lv_items.txt`；`item_upgrades.json` 不再包含它。生成器为它保留 ID 槽位，
 > 因此后续自动生成物品的 ID 不会漂移。
+>
+> 2026-08-31：取消 `item_lv_monkey_king_bar` 及其升级配方；普通金箍棒改为
+> `item_lv_trident` 的额外合成材料。生成器继续为原升级金箍棒保留 ID 槽位。
 
 ## 一、commit 到底改了什么
 
@@ -554,9 +557,9 @@ python scripts/gen_item_upgrades.py --item sheepstick --preview --no-full-copy
 | `static_damage` 🔴 | `225` | `525` | **+300** |  |
 | `static_duration` 🔴 | `15.0` | `360` | **+345** | 15→360 秒 ≈ 全程覆盖，建议降到 60 秒 |
 
-### `item_monkey_king_bar` — 金箍棒（Monkey King Bar）
+### `item_monkey_king_bar` — 金箍棒（升级已取消，仅保留历史差异）
 
-- 升级物品：`item_lv_monkey_king_bar`（ID `10058`）　升级配方：`item_recipe_lv_monkey_king_bar`（ID `10057`）
+- 当前无升级物品或升级配方；普通金箍棒作为升级三叉戟的合成材料。
 - 来源：商店　分类：🔴 含机制字段　字段数：5
 
 | 字段 | 原值 | 目标值 | 增量 | 备注 |

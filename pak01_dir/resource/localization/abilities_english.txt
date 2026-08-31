@@ -18823,16 +18823,6 @@
 		"DOTA_Tooltip_ability_item_lv_mjollnir_bonus_attack_speed"		"+$attack"
 		"DOTA_Tooltip_ability_item_lv_mjollnir_bonus_damage"		"+$damage"
 
-		// item_monkey_king_bar
-		"DOTA_Tooltip_Ability_item_lv_monkey_king_bar"		"Upgraded Monkey King Bar"
-		"DOTA_Tooltip_Ability_item_recipe_lv_monkey_king_bar"		"Upgraded Monkey King Bar Recipe"
-		"DOTA_Tooltip_ability_item_lv_monkey_king_bar_Description"		"<h1>Passive: Pierce</h1>Grants each attack a %bonus_chance%%% chance to pierce through evasion and deal %bonus_chance_damage% bonus magical damage."
-		"DOTA_Tooltip_ability_item_lv_monkey_king_bar_Lore"		"A powerful staff used by a master warrior. Tempered by higher craftsmanship, its power now far exceeds the original."
-		"DOTA_Tooltip_ability_item_lv_monkey_king_bar_bonus_attack_speed"		"+$attack"
-		"DOTA_Tooltip_ability_item_lv_monkey_king_bar_bonus_damage"		"+$damage"
-		"DOTA_Tooltip_ability_item_lv_monkey_king_bar_melee_attack_range"		"+$attack_range_melee"
-		"DOTA_Tooltip_ability_item_lv_monkey_king_bar_melee_attack_range_Note0"		"Attack Range bonuses from Monkey King Bar and Dragon Lance and its upgrades do not stack."
-
 		// item_moon_shard
 		"DOTA_Tooltip_Ability_item_lv_moon_shard"		"Upgraded Moon Shard"
 		"DOTA_Tooltip_Ability_item_recipe_lv_moon_shard"		"Upgraded Moon Shard Recipe"
@@ -18968,14 +18958,15 @@
 		// item_trident
 		"DOTA_Tooltip_Ability_item_lv_trident"		"Upgraded Trident"
 		"DOTA_Tooltip_Ability_item_recipe_lv_trident"		"Upgraded Trident Recipe"
-		"DOTA_Tooltip_ability_item_lv_trident_Description"		"Combines Sange, Yasha and Kaya together."
+		"DOTA_Tooltip_ability_item_lv_trident_Description"		"Combines Sange, Yasha, Kaya and Monkey King Bar together.<br><br><h1>Passive: Pure Strike</h1>Attacks cannot miss, and each attack deals %pure_damage_attack% bonus pure damage. Its attack range bonus stacks with other items and additional copies of this item."
 		"DOTA_Tooltip_ability_item_lv_trident_bonus_agility"		"+$agi"
 		"DOTA_Tooltip_ability_item_lv_trident_bonus_attack_speed"		"+$attack"
 		"DOTA_Tooltip_ability_item_lv_trident_bonus_intellect"		"+$int"
 		"DOTA_Tooltip_ability_item_lv_trident_bonus_strength"		"+$str"
 		"DOTA_Tooltip_ability_item_lv_trident_cast_speed_pct"		"%+Cast Speed Bonus"
 		"DOTA_Tooltip_ability_item_lv_trident_hp_regen_amp"		"%+Health Regen and Lifesteal Amp"
-		"DOTA_Tooltip_ability_item_lv_trident_magic_damage_attack"		"+Magic Damage Attack"
+		"DOTA_Tooltip_ability_item_lv_trident_pure_damage_attack"		"+Pure Damage Attack"
+		"DOTA_Tooltip_ability_item_lv_trident_stackable_attack_range"		"+$attack_range"
 		"DOTA_Tooltip_ability_item_lv_trident_mana_regen_multiplier"		"%+Mana Regen Amplification"
 		"DOTA_Tooltip_ability_item_lv_trident_manacost_reduction"		"%+Mana Cost/Mana Loss Reduction"
 		"DOTA_Tooltip_ability_item_lv_trident_movement_speed_percent_bonus"		"%+$move_speed"

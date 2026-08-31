@@ -172,15 +172,64 @@ class ItemResources(unittest.TestCase):
 
     def test_trident_is_hand_maintained_in_lv_items(self):
         lv_items = dict(read_kv(RESOURCE / "scripts/npc/lv/lv_items.txt"))["DOTAAbilities"]
-        self.assertIn("item_lv_trident", dict(lv_items))
-        self.assertIn("item_recipe_lv_trident", dict(lv_items))
+        custom = dict(lv_items)
+        self.assertIn("item_lv_trident", custom)
+        self.assertIn("item_recipe_lv_trident", custom)
+        trident = dict(custom["item_lv_trident"])
+        recipe = dict(custom["item_recipe_lv_trident"])
+        values = dict(trident["AbilityValues"])
+        controller = dict(dict(trident["Modifiers"])["modifier_item_lv_trident_controller"])
+        properties = dict(controller["Properties"])
+        states = dict(controller["States"])
+        self.assertEqual(values["pure_damage_attack"], "100")
+        self.assertEqual(values["stackable_attack_range"], "200")
+        self.assertEqual(values["bonus_attack_speed"], "100")
+        self.assertNotIn("bonus_damage", values)
+        self.assertNotIn("magic_damage_attack", values)
+        self.assertNotIn("MODIFIER_PROPERTY_PROCATTACK_BONUS_DAMAGE_PURE", properties)
+        self.assertEqual(controller["Attributes"], "MODIFIER_ATTRIBUTE_MULTIPLE")
+        self.assertEqual(properties["MODIFIER_PROPERTY_ATTACK_RANGE_BONUS"],
+                         "%stackable_attack_range")
+        self.assertEqual(states["MODIFIER_STATE_CANNOT_MISS"],
+                         "MODIFIER_STATE_VALUE_ENABLED")
+        callback = dict(dict(controller["OnAttackLanded"])["RunScript"])
+        self.assertEqual(callback["Function"], "LVTridentApplyPureAttackDamage")
+        self.assertIn(callback["ScriptFile"], self.manifest)
+        source = (RESOURCE / callback["ScriptFile"]).read_text()
+        self.assertIn("function LVTridentApplyPureAttackDamage(keys)", source)
+        self.assertIn("ApplyDamage({", source)
+        self.assertIn("damage_type = DAMAGE_TYPE_PURE", source)
+        self.assertNotIn("DOTA_DAMAGE_FLAG_", source)
+        self.assertNotIn("IsIllusion", source)
+        self.assertNotIn("IsBuilding", source)
+        self.assertNotIn("modifier_monkey_king_fur_army_soldier", source)
+        self.assertEqual(trident["ItemCost"], "11301")
+        self.assertEqual(recipe["ItemCost"], "1")
+        self.assertEqual(dict(recipe["ItemRequirements"]), {
+            "01": "item_kaya;item_sange;item_yasha;item_monkey_king_bar;",
+            "02": "item_kaya_and_sange;item_yasha;item_monkey_king_bar;",
+            "03": "item_sange_and_yasha;item_kaya;item_monkey_king_bar;",
+            "04": "item_yasha_and_kaya;item_sange;item_monkey_king_bar;",
+        })
         upgrades = (RESOURCE / "scripts/npc/lv/lv_upgrades.txt").read_text(encoding="utf-8-sig")
         self.assertNotIn('"item_lv_trident"', upgrades)
+        self.assertNotIn('"item_lv_monkey_king_bar"', upgrades)
+        self.assertNotIn('"item_recipe_lv_monkey_king_bar"', upgrades)
         manifest = (ROOT / "scripts/item_upgrades.json").read_text(encoding="utf-8")
         self.assertNotIn('"item_trident"', manifest)
+        self.assertNotIn('"item_monkey_king_bar"', manifest)
         generator = (ROOT / "scripts/gen_item_upgrades.py").read_text(encoding="utf-8")
         self.assertNotIn("def gen_trident", generator)
         self.assertIn("'item_trident'", generator)
+        self.assertIn("'item_monkey_king_bar'", generator)
+
+    def test_removed_monkey_king_bar_upgrade_has_no_localization(self):
+        for language in ("english", "schinese"):
+            root = dict(read_kv(RESOURCE / f"resource/localization/abilities_{language}.txt"))
+            pairs = dict(root["lang"])["Tokens"]
+            self.assertFalse(any("item_lv_monkey_king_bar" in key.lower()
+                                 or "item_recipe_lv_monkey_king_bar" in key.lower()
+                                 for key, _ in pairs))
 
 
 if __name__ == "__main__":

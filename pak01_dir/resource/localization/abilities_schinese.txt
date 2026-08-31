@@ -18758,16 +18758,6 @@
 		"DOTA_Tooltip_ability_item_lv_mjollnir_bonus_attack_speed"		"+$attack"
 		"DOTA_Tooltip_ability_item_lv_mjollnir_bonus_damage"		"+$damage"
 
-		// item_monkey_king_bar
-		"DOTA_Tooltip_Ability_item_lv_monkey_king_bar"		"金箍棒·升级"
-		"DOTA_Tooltip_Ability_item_recipe_lv_monkey_king_bar"		"金箍棒·升级配方"
-		"DOTA_Tooltip_ability_item_lv_monkey_king_bar_Description"		"<h1>被动：穿刺</h1>每次攻击均有%bonus_chance%%%几率无视闪避，并造成额外%bonus_chance_damage%点魔法伤害。"
-		"DOTA_Tooltip_ability_item_lv_monkey_king_bar_Lore"		"一位大师级战士使用的强力棍棒。经由更高层次的技艺淬炼后，它的力量已远非昔日可比。"
-		"DOTA_Tooltip_ability_item_lv_monkey_king_bar_bonus_attack_speed"		"+$attack"
-		"DOTA_Tooltip_ability_item_lv_monkey_king_bar_bonus_damage"		"+$damage"
-		"DOTA_Tooltip_ability_item_lv_monkey_king_bar_melee_attack_range"		"+$attack_range_melee"
-		"DOTA_Tooltip_ability_item_lv_monkey_king_bar_melee_attack_range_Note0"		"来自金箍棒、魔龙枪和升级物品的攻击距离加成不会叠加。"
-
 		// item_moon_shard
 		"DOTA_Tooltip_Ability_item_lv_moon_shard"		"银月之晶·升级"
 		"DOTA_Tooltip_Ability_item_recipe_lv_moon_shard"		"银月之晶·升级配方"
@@ -18903,14 +18893,15 @@
 		// item_trident
 		"DOTA_Tooltip_Ability_item_lv_trident"		"三元重戟·升级"
 		"DOTA_Tooltip_Ability_item_recipe_lv_trident"		"三元重戟·升级配方"
-		"DOTA_Tooltip_ability_item_lv_trident_Description"		"由散华，夜叉和慧光一起合成。"
+		"DOTA_Tooltip_ability_item_lv_trident_Description"		"由散华、夜叉、慧光和金箍棒一起合成。<br><br><h1>被动：纯粹打击</h1>攻击不会落空，并且每次攻击额外造成%pure_damage_attack%点纯粹伤害。攻击距离加成可以与其他装备以及多件本装备叠加。"
 		"DOTA_Tooltip_ability_item_lv_trident_bonus_agility"		"+$agi"
 		"DOTA_Tooltip_ability_item_lv_trident_bonus_attack_speed"		"+$attack"
 		"DOTA_Tooltip_ability_item_lv_trident_bonus_intellect"		"+$int"
 		"DOTA_Tooltip_ability_item_lv_trident_bonus_strength"		"+$str"
 		"DOTA_Tooltip_ability_item_lv_trident_cast_speed_pct"		"%+施法速度加成"
 		"DOTA_Tooltip_ability_item_lv_trident_hp_regen_amp"		"%+生命恢复和吸血增强"
-		"DOTA_Tooltip_ability_item_lv_trident_magic_damage_attack"		"+魔法伤害攻击"
+		"DOTA_Tooltip_ability_item_lv_trident_pure_damage_attack"		"+纯粹伤害攻击"
+		"DOTA_Tooltip_ability_item_lv_trident_stackable_attack_range"		"+$attack_range"
 		"DOTA_Tooltip_ability_item_lv_trident_mana_regen_multiplier"		"%+魔法恢复增强"
 		"DOTA_Tooltip_ability_item_lv_trident_manacost_reduction"		"%+魔法消耗/魔法损失降低"
 		"DOTA_Tooltip_ability_item_lv_trident_movement_speed_percent_bonus"		"%+$move_speed"

@@ -85,6 +85,22 @@
 
 没有轮询、延迟定时器、`ForceRefresh` 或自定义发送数据。原生 modifier 的客户端 HUD 刷新由引擎处理。
 
+### Data-driven 纯粹攻击附伤
+
+2026-08-31 曾在 `item_lv_trident` 的 data-driven modifier `Properties` 中直接使用
+`MODIFIER_PROPERTY_PROCATTACK_BONUS_DAMAGE_PURE`。用户在福王岛实测未生效，战斗日志只有
+普通攻击伤害，没有纯粹伤害记录。当前改用 `OnAttackLanded` 调用服务器端 Lua，并由
+`ApplyDamage` 显式指定 `DAMAGE_TYPE_PURE`。不要只根据 KV 能被解析或打包成功认定该
+modifier property 在普通房间运行时可用。
+
+当前三叉戟实现不设置 `damage_flags`，也不排除幻象、猴子猴孙或建筑，伤害增强、吸血
+及目标适用性均交给引擎默认伤害规则处理；实际交互仍需逐项在游戏中验证。
+
+同日用户在福王岛完成当前三叉戟版本的试玩验证：普通攻击距离 `+200` 及装备间叠加
+表现正常；`MODIFIER_STATE_CANNOT_MISS` 能消除低地攻击高地英雄的落空，但不能消除
+低地攻击高地防御塔的落空；加入普通金箍棒后的四条合成路线、100 攻速，以及取消升级
+金箍棒后的当前版本均测试无问题。该结果不等于所有英雄、幻象、建筑和伤害修正交互均已覆盖。
+
 ## 本地化
 
 在官方 `abilities_*.txt` 的 `Tokens` 块中添加自定义键，简体中文核心示例：

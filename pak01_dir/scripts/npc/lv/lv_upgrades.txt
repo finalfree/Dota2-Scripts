@@ -1304,48 +1304,6 @@
 	}
 
 	//=================================================================================
-	// Upgrade: item_monkey_king_bar
-	//=================================================================================
-	"item_lv_monkey_king_bar"
-	{
-		"ID"				"10058"
-		"BaseClass"			"item_monkey_king_bar"		// 继承原物品全部行为，无需 lua
-		"AbilityTextureName"		"item_monkey_king_bar"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"ItemShopTags"			"damage;attack_speed;hard_to_tag;dps"
-		"ItemQuality"			"epic"
-		"ItemDeclarations"			"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
-		"SuggestLategame"			"1"
-		"ItemPurchasable"		"1"		// 出现在原物品的商店升级树中
-		"ItemCost"			"6000"		// 5000 原物品 + 1000 卷轴
-
-		"AbilityValues"
-		{
-			"bonus_damage"		"150"
-			"bonus_attack_speed"		"150"
-			"bonus_chance"		"100"
-			"bonus_chance_damage"		"100"
-			"melee_attack_range"		"200"
-		}
-	}
-
-	"item_recipe_lv_monkey_king_bar"
-	{
-		"ID"				"10057"
-		"BaseClass"			"item_datadriven"
-		"AbilityTextureName"		"item_recipe_ultimate_scepter_2"
-		"Model"				"models/props_gameplay/recipe.vmdl"
-		"ItemCost"			"1000"
-		"ItemPurchasable"		"1"
-		"ItemRecipe"			"1"
-		"ItemResult"			"item_lv_monkey_king_bar"
-		"ItemRequirements"
-		{
-			"01"				"item_monkey_king_bar"
-		}
-	}
-
-	//=================================================================================
 	// Upgrade: item_moon_shard
 	//=================================================================================
 	"item_lv_moon_shard"
