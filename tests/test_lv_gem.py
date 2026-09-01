@@ -88,16 +88,36 @@ class ItemResources(unittest.TestCase):
 
     def test_passive_callbacks_and_packaged_dependencies(self):
         self.assertEqual(self.item["AbilityBehavior"], "DOTA_ABILITY_BEHAVIOR_PASSIVE")
-        pending = dict(dict(self.item["Modifiers"])["modifier_item_lv_gem_pending"])
+        modifiers = dict(self.item["Modifiers"])
+        pending = dict(modifiers["modifier_item_lv_gem_pending"])
+        status = dict(modifiers["modifier_item_lv_gem_consumed_status"])
         self.assertEqual(pending["Passive"], "1")
         self.assertGreater(float(pending["ThinkInterval"]), 0)
+        self.assertEqual(status, {
+            "IsHidden": "0", "IsDebuff": "0", "IsPurgable": "0",
+            "RemoveOnDeath": "0",
+        })
         for event in ("OnCreated", "OnIntervalThink"):
             callback = dict(dict(pending[event])["RunScript"])
             path = callback["ScriptFile"]
             self.assertIn(path, self.manifest)
             source = (RESOURCE / path).read_text()
             self.assertIn("function " + callback["Function"] + "(keys)", source)
-        self.assertIn("scripts/vscripts/lv/modifier_lv_gem_consumed.lua", self.manifest)
+        self.assertNotIn("scripts/vscripts/lv/modifier_lv_gem_consumed.lua", self.manifest)
+        self.assertFalse((RESOURCE / "scripts/vscripts/lv/modifier_lv_gem_consumed.lua").exists())
+        source = (RESOURCE / "scripts/vscripts/lv/item_lv_gem.lua").read_text()
+        self.assertIn('TRUESIGHT = "modifier_truesight"', source)
+        self.assertIn('"npc_spawned"', source)
+        self.assertIn('"npc_replaced"', source)
+        self.assertIn("FIND_UNITS_EVERYWHERE", source)
+        self.assertIn("AUDIT_INTERVAL = 2.0", source)
+        self.assertIn('CONSUMED_STATUS = "modifier_item_lv_gem_consumed_status"', source)
+        self.assertIn("ApplyDataDrivenModifier", source)
+        self.assertIn("hero:TakeItem(item)", source)
+        self.assertNotIn("hero:RemoveItem(item)", source)
+        self.assertNotIn("UTIL_Remove(item)", source)
+        self.assertNotIn("LinkLuaModifier", source)
+        self.assertNotIn("modifier_lv_gem_consumed", source)
         for path in self.manifest:
             self.assertTrue((RESOURCE / path).is_file(), path)
         entry = (RESOURCE / "scripts/npc/items.txt").read_text(encoding="utf-8-sig")
@@ -113,8 +133,13 @@ class ItemResources(unittest.TestCase):
             self.assertTrue(all(value for _, value in gem))
             localized.append(dict(gem))
         self.assertEqual(localized[0].keys(), localized[1].keys())
-        self.assertIn("dota_tooltip_modifier_lv_gem_consumed_description", localized[0])
-        self.assertIn("%radius%", localized[0]["dota_tooltip_ability_item_lv_gem_description"])
+        self.assertNotIn("dota_tooltip_modifier_lv_gem_consumed_description", localized[0])
+        status_key = "dota_tooltip_modifier_item_lv_gem_consumed_status"
+        self.assertIn(status_key, localized[0])
+        self.assertIn(status_key + "_description", localized[0])
+        self.assertIn("全地图", localized[1][status_key + "_description"])
+        self.assertNotIn("%radius%", localized[0]["dota_tooltip_ability_item_lv_gem_description"])
+        self.assertIn("全地图", localized[1]["dota_tooltip_ability_item_lv_gem_description"])
 
     def test_octarine_recipe_and_preserved_stats(self):
         item = dict(self.custom["item_lv_octarine_core"])

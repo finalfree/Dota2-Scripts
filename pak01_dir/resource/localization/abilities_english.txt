@@ -7,12 +7,11 @@
 		"DOTA_Tooltip_Ability_item_lv_gem" "Eternal Gem of True Sight"
 		"DOTA_Tooltip_Ability_item_recipe_lv_gem" "Eternal Gem of True Sight Recipe"
 		"DOTA_SearchAlias_Ability_item_lv_gem" "gem;true sight;eternal gem"
-		"DOTA_Tooltip_ability_item_lv_gem_Description" "<h1>Passive: Automatic Absorption</h1>Automatically absorbed after assembly when in a living hero's main inventory. No activation required. Permanently grants True Sight in a %radius% radius without occupying an item slot. Inactive while dead; resumes on respawn. Cannot be dispelled."
-		"DOTA_Tooltip_ability_item_lv_gem_Note0" "Only one absorption per hero. Duplicate items are retained, grant no additional True Sight and can be sold. Illusions, clones and couriers cannot absorb it."
-		"DOTA_Tooltip_ability_item_lv_gem_Note1" "Does not retain the original Gem's active Reveal or grant terrain vision. Not absorbed in the stash. Experimental: in-game behavior is not yet verified."
-		"DOTA_Tooltip_ability_item_lv_gem_radius" "TRUE SIGHT RADIUS:"
-		"DOTA_Tooltip_modifier_lv_gem_consumed" "Eternal True Sight"
-		"DOTA_Tooltip_modifier_lv_gem_consumed_Description" "A Gem has been absorbed, granting True Sight in a %dMODIFIER_PROPERTY_TOOLTIP% radius. Persists through death, but is inactive while dead."
+		"DOTA_Tooltip_ability_item_lv_gem_Description" "<h1>Passive: Automatic Absorption</h1>Automatically absorbed after assembly when in a living hero's main inventory. No activation required. Permanently places all enemy heroes and units under your team's True Sight detection without occupying an item slot."
+		"DOTA_Tooltip_ability_item_lv_gem_Note0" "Only one absorption per team. Duplicate items are retained, grant no additional True Sight and can be sold. Illusions, clones and couriers cannot absorb it."
+		"DOTA_Tooltip_ability_item_lv_gem_Note1" "After absorption, the consuming hero gains a permanent status icon. Does not retain the original Gem's active Reveal or grant terrain vision. Enemies in fog remain hidden. Not absorbed in the stash."
+		"DOTA_Tooltip_modifier_item_lv_gem_consumed_status" "Eternal True Sight"
+		"DOTA_Tooltip_modifier_item_lv_gem_consumed_status_Description" "An Eternal Gem of True Sight has been consumed. Your team permanently has global True Sight detection. Does not reveal enemies through the Fog of War."
 		"dota_ability_variable_health"				"Health"					// $health
 		"dota_ability_variable_mana"				"Mana"						// $mana
 		"dota_ability_variable_armor"				"Armor"						// $armor

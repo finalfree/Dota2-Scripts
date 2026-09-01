@@ -2,7 +2,7 @@
 {
 	"Version"		"1"
 
-	// Experimental: Gem + recipe -> automatic, permanent True Sight.
+	// Experimental: Gem + recipe -> automatic, global native True Sight.
 	"item_recipe_lv_gem"
 	{
 		"ID"                    "10003"
@@ -36,12 +36,17 @@
 		"AllowedInBackpack"     "0"
 		"IsTempestDoubleClonable" "0"
 		"SpeciallyBannedFromNeutralSlot" "1"
-		"AbilityValues"
-		{
-			"radius"            "1800"
-		}
 		"Modifiers"
 		{
+			// Applied manually after absorption.  It is display-only; gameplay
+			// continues to use the engine-native modifier_truesight on enemies.
+			"modifier_item_lv_gem_consumed_status"
+			{
+				"IsHidden"      "0"
+				"IsDebuff"      "0"
+				"IsPurgable"    "0"
+				"RemoveOnDeath" "0"
+			}
 			"modifier_item_lv_gem_pending"
 			{
 				"Passive"       "1"

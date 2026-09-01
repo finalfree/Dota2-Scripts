@@ -7,12 +7,11 @@
 		"DOTA_Tooltip_Ability_item_lv_gem" "真视宝石·永恒"
 		"DOTA_Tooltip_Ability_item_recipe_lv_gem" "真视宝石·永恒配方"
 		"DOTA_SearchAlias_Ability_item_lv_gem" "gem;zhenshi;baoshi;yongheng;真视;宝石;永恒"
-		"DOTA_Tooltip_ability_item_lv_gem_Description" "<h1>被动：自动吸收</h1>合成后进入存活英雄的装备栏时自动吸收，无需主动使用。永久获得%radius%范围的真实视域，不再占用物品格。死亡期间暂停，复活后恢复，无法驱散。"
-		"DOTA_Tooltip_ability_item_lv_gem_Note0" "每名英雄只能吸收一次。重复合成的物品不会被消耗，也不叠加真视；可出售。幻象、克隆体和信使不能吸收。"
-		"DOTA_Tooltip_ability_item_lv_gem_Note1" "不保留原宝石的主动现形技能，不额外提供地形视野。储藏处内不吸收。实验功能，实际效果待游戏内验证。"
-		"DOTA_Tooltip_ability_item_lv_gem_radius" "真视范围："
-		"DOTA_Tooltip_modifier_lv_gem_consumed" "永恒真视"
-		"DOTA_Tooltip_modifier_lv_gem_consumed_Description" "已吸收真视宝石，获得%dMODIFIER_PROPERTY_TOOLTIP%范围的真实视域。死亡后保留，死亡期间不生效。"
+		"DOTA_Tooltip_ability_item_lv_gem_Description" "<h1>被动：自动吸收</h1>合成后进入存活英雄的装备栏时自动吸收，无需主动使用。永久使全地图所有敌方英雄和敌方单位处于己方队伍的真视侦测下，不再占用物品格。"
+		"DOTA_Tooltip_ability_item_lv_gem_Note0" "每支队伍只能吸收一次。重复合成的物品不会被消耗，也不叠加真视；可出售。幻象、克隆体和信使不能吸收。"
+		"DOTA_Tooltip_ability_item_lv_gem_Note1" "吸收后，消耗宝石的英雄会获得永久状态图标。不保留原宝石的主动现形技能，不额外提供地形视野；战争迷雾中的敌人仍然不可见。储藏处内不吸收。"
+		"DOTA_Tooltip_modifier_item_lv_gem_consumed_status" "永恒真视"
+		"DOTA_Tooltip_modifier_item_lv_gem_consumed_status_Description" "已消耗一颗真视宝石·永恒。己方队伍永久拥有全地图真视侦测；不会揭开战争迷雾。"
 		"dota_ability_variable_health"				"生命值"					// $health
 		"dota_ability_variable_mana"				"魔法值"						// $mana
 		"dota_ability_variable_armor"				"护甲"						// $armor

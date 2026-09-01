@@ -7,7 +7,6 @@ scripts/npc/items.txt
 scripts/npc/lv/lv_items.txt
 scripts/npc/lv/lv_upgrades.txt
 scripts/vscripts/lv/item_lv_gem.lua
-scripts/vscripts/lv/modifier_lv_gem_consumed.lua
 scripts/vscripts/lv/item_lv_octarine_core.lua
 scripts/vscripts/lv/item_lv_trident.lua
 scripts/vscripts/lv/item_lv_butterfly_crit.lua
