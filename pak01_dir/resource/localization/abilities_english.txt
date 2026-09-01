@@ -18630,16 +18630,6 @@
 		"DOTA_Tooltip_ability_item_lv_bloodthorn_upgrade_bonuses"		"<b><font color='#7d7d7d'>Reward</font></b>: +30% Bloodthorn Critical Damage"
 		"DOTA_Tooltip_ability_item_lv_bloodthorn_upgrade_description"		"Soul Rend 10 enemy heroes."
 
-		// item_butterfly
-		"DOTA_Tooltip_Ability_item_lv_butterfly"		"Upgraded Butterfly"
-		"DOTA_Tooltip_Ability_item_recipe_lv_butterfly"		"Upgraded Butterfly Recipe"
-		"DOTA_Tooltip_ability_item_lv_butterfly_Lore"		"Only the mightiest and most experienced of warriors can wield the Butterfly, but it provides incredible dexterity in combat. Tempered by higher craftsmanship, its power now far exceeds the original."
-		"DOTA_Tooltip_ability_item_lv_butterfly_Note0"		"Stacks diminishingly with other sources of Evasion."
-		"DOTA_Tooltip_ability_item_lv_butterfly_bonus_agility"		"+$agi"
-		"DOTA_Tooltip_ability_item_lv_butterfly_bonus_attack_speed_pct"		"%+$attack_pct"
-		"DOTA_Tooltip_ability_item_lv_butterfly_bonus_damage"		"+$damage"
-		"DOTA_Tooltip_ability_item_lv_butterfly_bonus_evasion"		"%+$evasion"
-
 		// item_dagon
 		"DOTA_Tooltip_Ability_item_lv_dagon"		"Upgraded Dagon"
 		"DOTA_Tooltip_Ability_item_recipe_lv_dagon"		"Upgraded Dagon Recipe"
@@ -18711,14 +18701,6 @@
 		"DOTA_Tooltip_ability_item_lv_ethereal_blade_Note1"		"Ethereal units take %ethereal_damage_bonus%%% bonus magic damage."
 		"DOTA_Tooltip_ability_item_lv_ethereal_blade_bonus_agility"		"+$all"
 		"DOTA_Tooltip_ability_item_lv_ethereal_blade_mana_regen_multiplier"		"%+Mana Regen Amplification"
-
-		// item_greater_crit
-		"DOTA_Tooltip_Ability_item_lv_greater_crit"		"Upgraded Daedalus"
-		"DOTA_Tooltip_Ability_item_recipe_lv_greater_crit"		"Upgraded Daedalus Recipe"
-		"DOTA_Tooltip_ability_item_lv_greater_crit_Description"		"<h1>Passive: Critical Strike</h1>Grants each attack a %crit_chance%%% chance to deal %crit_multiplier%%% damage."
-		"DOTA_Tooltip_ability_item_lv_greater_crit_Lore"		"A weapon of incredible power that is difficult for even the strongest of warriors to control. Tempered by higher craftsmanship, its power now far exceeds the original."
-		"DOTA_Tooltip_ability_item_lv_greater_crit_Note0"		"Critical Strike does not work against buildings."
-		"DOTA_Tooltip_ability_item_lv_greater_crit_bonus_damage"		"+$damage"
 
 		// item_gungir
 		"DOTA_Tooltip_Ability_item_lv_gungir"		"Upgraded Gleipnir"
@@ -18975,6 +18957,20 @@
 		"DOTA_Tooltip_ability_item_lv_trident_spell_lifesteal_amp"		"%+Spell Lifesteal Amplification"
 		"DOTA_Tooltip_ability_item_lv_trident_status_resistance"		"%+Status Resistance"
 		"DOTA_Tooltip_ability_item_lv_trident_Lore"		"Tempered by higher craftsmanship, its power far exceeds the original."
+
+		// item_butterfly + item_greater_crit fusion
+		"DOTA_Tooltip_Ability_item_lv_butterfly_crit"		"Butterfly's Demise"
+		"DOTA_Tooltip_Ability_item_recipe_lv_butterfly_crit"		"Butterfly's Demise Recipe"
+		"DOTA_SearchAlias_Ability_item_lv_butterfly_crit"		"butterfly;daedalus;crit;evasion"
+		"DOTA_Tooltip_ability_item_lv_butterfly_crit_Description"		"Fuses Butterfly and Daedalus together.<br><br><h1>Passive: Perfect Critical Strike</h1>Every attack against a non-building unit has a %crit_chance%%% chance to deal %crit_multiplier%%% damage. Grants %bonus_evasion%%% Evasion."
+		"DOTA_Tooltip_ability_item_lv_butterfly_crit_Lore"		"Emerald wings guide the edge of a weapon whose every stroke is destined to be fatal."
+		"DOTA_Tooltip_ability_item_lv_butterfly_crit_Note0"		"Critical Strike does not work against buildings."
+		"DOTA_Tooltip_ability_item_lv_butterfly_crit_Note1"		"Stacks diminishingly with other sources of Evasion."
+		"DOTA_Tooltip_ability_item_lv_butterfly_crit_bonus_agility"		"+$agi"
+		"DOTA_Tooltip_ability_item_lv_butterfly_crit_bonus_attack_speed_pct"		"%+$attack_pct"
+		"DOTA_Tooltip_ability_item_lv_butterfly_crit_bonus_damage"		"+$damage"
+		"DOTA_Tooltip_ability_item_lv_butterfly_crit_butterfly_bonus_damage"		"+$damage"
+		"DOTA_Tooltip_ability_item_lv_butterfly_crit_bonus_evasion"		"%+$evasion"
 
 		// item_wind_waker
 		"DOTA_Tooltip_Ability_item_lv_wind_waker"		"Upgraded Wind Waker"

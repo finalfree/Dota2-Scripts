@@ -371,47 +371,6 @@
 	}
 
 	//=================================================================================
-	// Upgrade: item_butterfly
-	//=================================================================================
-	"item_lv_butterfly"
-	{
-		"ID"				"10020"
-		"BaseClass"			"item_butterfly"		// 继承原物品全部行为，无需 lua
-		"AbilityTextureName"		"item_butterfly"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"ItemShopTags"			"agi;damage;evasion;attack_speed;dps;tank"
-		"ItemQuality"			"epic"
-		"ItemDeclarations"			"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
-		"SuggestLategame"			"1"
-		"ItemPurchasable"		"1"		// 出现在原物品的商店升级树中
-		"ItemCost"			"6450"		// 5450 原物品 + 1000 卷轴
-
-		"AbilityValues"
-		{
-			"bonus_agility"		"100"
-			"bonus_evasion"		"85"
-			"bonus_attack_speed_pct"		"30"
-			"bonus_damage"		"150"
-		}
-	}
-
-	"item_recipe_lv_butterfly"
-	{
-		"ID"				"10019"
-		"BaseClass"			"item_datadriven"
-		"AbilityTextureName"		"item_recipe_ultimate_scepter_2"
-		"Model"				"models/props_gameplay/recipe.vmdl"
-		"ItemCost"			"1000"
-		"ItemPurchasable"		"1"
-		"ItemRecipe"			"1"
-		"ItemResult"			"item_lv_butterfly"
-		"ItemRequirements"
-		{
-			"01"				"item_butterfly"
-		}
-	}
-
-	//=================================================================================
 	// Upgrade: item_dagon
 	//=================================================================================
 	"item_lv_dagon"
@@ -775,46 +734,6 @@
 		"ItemRequirements"
 		{
 			"01"				"item_ethereal_blade"
-		}
-	}
-
-	//=================================================================================
-	// Upgrade: item_greater_crit
-	//=================================================================================
-	"item_lv_greater_crit"
-	{
-		"ID"				"10036"
-		"BaseClass"			"item_greater_crit"		// 继承原物品全部行为，无需 lua
-		"AbilityTextureName"		"item_greater_crit"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"ItemShopTags"			"damage;crit;dps"
-		"ItemQuality"			"epic"
-		"ItemDeclarations"			"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
-		"SuggestLategame"			"1"
-		"ItemPurchasable"		"1"		// 出现在原物品的商店升级树中
-		"ItemCost"			"6100"		// 5100 原物品 + 1000 卷轴
-
-		"AbilityValues"
-		{
-			"bonus_damage"		"188"
-			"crit_chance"		"100"
-			"crit_multiplier"		"300"
-		}
-	}
-
-	"item_recipe_lv_greater_crit"
-	{
-		"ID"				"10035"
-		"BaseClass"			"item_datadriven"
-		"AbilityTextureName"		"item_recipe_ultimate_scepter_2"
-		"Model"				"models/props_gameplay/recipe.vmdl"
-		"ItemCost"			"1000"
-		"ItemPurchasable"		"1"
-		"ItemRecipe"			"1"
-		"ItemResult"			"item_lv_greater_crit"
-		"ItemRequirements"
-		{
-			"01"				"item_greater_crit"
 		}
 	}
 

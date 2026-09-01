@@ -18565,16 +18565,6 @@
 		"DOTA_Tooltip_ability_item_lv_bloodthorn_upgrade_bonuses"		"<b><font color='#7d7d7d'>奖励</font></b>：+30% 血棘致命一击"
 		"DOTA_Tooltip_ability_item_lv_bloodthorn_upgrade_description"		"灵魂撕裂10名敌方英雄。"
 
-		// item_butterfly
-		"DOTA_Tooltip_Ability_item_lv_butterfly"		"蝴蝶·升级"
-		"DOTA_Tooltip_Ability_item_recipe_lv_butterfly"		"蝴蝶·升级配方"
-		"DOTA_Tooltip_ability_item_lv_butterfly_Lore"		"只有最强大最老练的战士才能携带蝴蝶，但它也提供无可比拟的战斗灵活力作为回报。经由更高层次的技艺淬炼后，它的力量已远非昔日可比。"
-		"DOTA_Tooltip_ability_item_lv_butterfly_Note0"		"与其他闪避效果为非线性叠加。"
-		"DOTA_Tooltip_ability_item_lv_butterfly_bonus_agility"		"+$agi"
-		"DOTA_Tooltip_ability_item_lv_butterfly_bonus_attack_speed_pct"		"%+$attack_pct"
-		"DOTA_Tooltip_ability_item_lv_butterfly_bonus_damage"		"+$damage"
-		"DOTA_Tooltip_ability_item_lv_butterfly_bonus_evasion"		"%+$evasion"
-
 		// item_dagon
 		"DOTA_Tooltip_Ability_item_lv_dagon"		"达贡之神力·升级"
 		"DOTA_Tooltip_Ability_item_recipe_lv_dagon"		"达贡之神力·升级配方"
@@ -18646,14 +18636,6 @@
 		"DOTA_Tooltip_ability_item_lv_ethereal_blade_Note1"		"虚无状态下的单位将额外受到%ethereal_damage_bonus%%%的魔法伤害。"
 		"DOTA_Tooltip_ability_item_lv_ethereal_blade_bonus_agility"		"+$all"
 		"DOTA_Tooltip_ability_item_lv_ethereal_blade_mana_regen_multiplier"		"%+魔法恢复增强"
-
-		// item_greater_crit
-		"DOTA_Tooltip_Ability_item_lv_greater_crit"		"代达罗斯之殇·升级"
-		"DOTA_Tooltip_Ability_item_recipe_lv_greater_crit"		"代达罗斯之殇·升级配方"
-		"DOTA_Tooltip_ability_item_lv_greater_crit_Description"		"<h1>被动：致命一击</h1>普通攻击有%crit_chance%%%几率造成%crit_multiplier%%%伤害。"
-		"DOTA_Tooltip_ability_item_lv_greater_crit_Lore"		"这件武器有着惊人的力量，即使是最强的战士也难以掌控它。经由更高层次的技艺淬炼后，它的力量已远非昔日可比。"
-		"DOTA_Tooltip_ability_item_lv_greater_crit_Note0"		"致命一击对建筑无效。"
-		"DOTA_Tooltip_ability_item_lv_greater_crit_bonus_damage"		"+$damage"
 
 		// item_gungir
 		"DOTA_Tooltip_Ability_item_lv_gungir"		"缚灵索·升级"
@@ -18910,6 +18892,20 @@
 		"DOTA_Tooltip_ability_item_lv_trident_spell_lifesteal_amp"		"%+技能吸血增强"
 		"DOTA_Tooltip_ability_item_lv_trident_status_resistance"		"%+<font color='#b99012'>状态抗性</font>"
 		"DOTA_Tooltip_ability_item_lv_trident_Lore"		"经由更高层次的技艺淬炼而成，它的力量已远非昔日可比。"
+
+		// item_butterfly + item_greater_crit fusion
+		"DOTA_Tooltip_Ability_item_lv_butterfly_crit"		"蝶翼之殇"
+		"DOTA_Tooltip_Ability_item_recipe_lv_butterfly_crit"		"蝶翼之殇配方"
+		"DOTA_SearchAlias_Ability_item_lv_butterfly_crit"		"dieyizhishang;hudie;daidalusizhishang;baoji;shanbi;蝴蝶;代达罗斯之殇;暴击;闪避"
+		"DOTA_Tooltip_ability_item_lv_butterfly_crit_Description"		"由蝴蝶和代达罗斯之殇融合而成。<br><br><h1>被动：必然致命一击</h1>对非建筑单位的每次攻击都有%crit_chance%%%几率造成%crit_multiplier%%%伤害，并提供%bonus_evasion%%%闪避。"
+		"DOTA_Tooltip_ability_item_lv_butterfly_crit_Lore"		"翠绿蝶翼引导着注定致命的锋刃，每一次挥击都通往终结。"
+		"DOTA_Tooltip_ability_item_lv_butterfly_crit_Note0"		"致命一击对建筑无效。"
+		"DOTA_Tooltip_ability_item_lv_butterfly_crit_Note1"		"与其他闪避效果为非线性叠加。"
+		"DOTA_Tooltip_ability_item_lv_butterfly_crit_bonus_agility"		"+$agi"
+		"DOTA_Tooltip_ability_item_lv_butterfly_crit_bonus_attack_speed_pct"		"%+$attack_pct"
+		"DOTA_Tooltip_ability_item_lv_butterfly_crit_bonus_damage"		"+$damage"
+		"DOTA_Tooltip_ability_item_lv_butterfly_crit_butterfly_bonus_damage"		"+$damage"
+		"DOTA_Tooltip_ability_item_lv_butterfly_crit_bonus_evasion"		"%+$evasion"
 
 		// item_wind_waker
 		"DOTA_Tooltip_Ability_item_lv_wind_waker"		"风之杖·升级"

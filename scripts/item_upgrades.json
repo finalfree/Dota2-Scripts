@@ -46,12 +46,6 @@
   "AbilityValues.bonus_intellect": "50",
   "AbilityValues.bonus_mana_regen": "13"
  },
- "item_butterfly": {
-  "AbilityValues.bonus_agility": "100",
-  "AbilityValues.bonus_attack_speed_pct": "30",
-  "AbilityValues.bonus_damage": "150",
-  "AbilityValues.bonus_evasion": "85"
- },
  "item_dagon": {
   "AbilityCooldown": "27 24 21 18 5",
   "AbilityValues.bonus_all_stats": "6 7 8 9 100",
@@ -102,11 +96,6 @@
   "AbilityValues.bonus_cast_range": "650",
   "AbilityValues.bonus_intellect": "50",
   "AbilityValues.bonus_strength": "50"
- },
- "item_greater_crit": {
-  "AbilityValues.bonus_damage": "188",
-  "AbilityValues.crit_chance": "100",
-  "AbilityValues.crit_multiplier": "300"
  },
  "item_gungir": {
   "AbilityCooldown": "6",

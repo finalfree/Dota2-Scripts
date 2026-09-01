@@ -250,4 +250,86 @@
 			"04"				"item_yasha_and_kaya;item_sange;item_monkey_king_bar;"
 		}
 	}
+
+	//=================================================================================
+	// Hand-maintained fusion item: Butterfly + Daedalus
+	//=================================================================================
+	"item_lv_butterfly_crit"
+	{
+		"ID"				"10102"
+		"BaseClass"			"item_datadriven"
+		"AbilityTextureName"		"item_lv_butterfly_crit"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"Model"			"models/props_gameplay/neutral_box.vmdl"
+		"ItemPurchasable"		"1"
+		"ItemCost"			"10551"		// 5450 蝴蝶 + 5100 代达罗斯之殇 + 1 金卷轴
+		"ItemSellable"			"1"
+		"ItemShopTags"			"agi;damage;evasion;attack_speed;crit;dps;tank"
+		"ItemQuality"			"artifact"
+		"ItemDeclarations"		"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		"SuggestLategame"		"1"
+
+		"AbilityValues"
+		{
+			"bonus_agility"			"100"
+			"bonus_attack_speed_pct"		"30"
+			"bonus_damage"			"188"		// 原生代达罗斯 modifier 读取
+			"butterfly_bonus_damage"		"150"		// KV modifier 另行提供
+			"bonus_evasion"			"85"
+			"crit_chance"			"100"
+			"crit_multiplier"			"300"
+		}
+
+		"Modifiers"
+		{
+			"modifier_item_lv_butterfly_crit_controller"
+			{
+				"Passive"		"1"
+				"IsHidden"		"1"
+				"IsPurgable"		"0"
+				"RemoveOnDeath"	"0"
+				"Attributes"		"MODIFIER_ATTRIBUTE_MULTIPLE"
+				"OnCreated"
+				{
+					"RunScript"
+					{
+						"ScriptFile"	"scripts/vscripts/lv/item_lv_butterfly_crit.lua"
+						"Function"	"LVButterflyCritApplyModifier"
+					}
+				}
+				"OnDestroy"
+				{
+					"RunScript"
+					{
+						"ScriptFile"	"scripts/vscripts/lv/item_lv_butterfly_crit.lua"
+						"Function"	"LVButterflyCritRemoveModifier"
+					}
+				}
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_STATS_AGILITY_BONUS"		"%bonus_agility"
+					"MODIFIER_PROPERTY_ATTACKSPEED_PERCENTAGE"		"%bonus_attack_speed_pct"
+					"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE"		"%butterfly_bonus_damage"
+					"MODIFIER_PROPERTY_EVASION_CONSTANT"		"%bonus_evasion"
+				}
+			}
+		}
+	}
+
+	"item_recipe_lv_butterfly_crit"
+	{
+		"ID"				"10101"
+		"BaseClass"			"item_datadriven"
+		"AbilityTextureName"		"item_recipe_butterfly"
+		"Model"				"models/props_gameplay/recipe.vmdl"
+		"ItemCost"			"1"
+		"ItemPurchasable"		"1"
+		"ItemSellable"			"1"
+		"ItemRecipe"			"1"
+		"ItemResult"			"item_lv_butterfly_crit"
+		"ItemRequirements"
+		{
+			"01"				"item_butterfly;item_greater_crit;"
+		}
+	}
 }

@@ -4,6 +4,7 @@ Lua behavior is tested separately by test_lv_gem.lua.  These checks do not
 prove engine loading or in-game behavior.
 """
 from pathlib import Path
+import hashlib
 import re
 import unittest
 
@@ -222,6 +223,93 @@ class ItemResources(unittest.TestCase):
         self.assertNotIn("def gen_trident", generator)
         self.assertIn("'item_trident'", generator)
         self.assertIn("'item_monkey_king_bar'", generator)
+
+    def test_butterfly_daedalus_fusion_values_recipe_and_lua(self):
+        item = dict(self.custom["item_lv_butterfly_crit"])
+        recipe = dict(self.custom["item_recipe_lv_butterfly_crit"])
+        values = dict(item["AbilityValues"])
+        self.assertEqual(item["ID"], "10102")
+        self.assertEqual(recipe["ID"], "10101")
+        self.assertEqual(item["BaseClass"], "item_datadriven")
+        self.assertEqual(item["AbilityTextureName"], "item_lv_butterfly_crit")
+        self.assertEqual(item["ItemCost"], "10551")
+        self.assertEqual(values, {
+            "bonus_agility": "100",
+            "bonus_attack_speed_pct": "30",
+            "bonus_damage": "188",
+            "butterfly_bonus_damage": "150",
+            "bonus_evasion": "85",
+            "crit_chance": "100",
+            "crit_multiplier": "300",
+        })
+        self.assertEqual(recipe["ItemCost"], "1")
+        self.assertEqual(recipe["ItemResult"], "item_lv_butterfly_crit")
+        self.assertEqual(dict(recipe["ItemRequirements"]), {
+            "01": "item_butterfly;item_greater_crit;",
+        })
+
+        controller = dict(dict(item["Modifiers"])[
+            "modifier_item_lv_butterfly_crit_controller"])
+        self.assertEqual(controller["Attributes"], "MODIFIER_ATTRIBUTE_MULTIPLE")
+        self.assertEqual(dict(controller["Properties"]), {
+            "MODIFIER_PROPERTY_STATS_AGILITY_BONUS": "%bonus_agility",
+            "MODIFIER_PROPERTY_ATTACKSPEED_PERCENTAGE": "%bonus_attack_speed_pct",
+            "MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE": "%butterfly_bonus_damage",
+            "MODIFIER_PROPERTY_EVASION_CONSTANT": "%bonus_evasion",
+        })
+        callbacks = {
+            event: dict(dict(controller[event])["RunScript"])
+            for event in ("OnCreated", "OnDestroy")
+        }
+        self.assertEqual(callbacks["OnCreated"]["Function"],
+                         "LVButterflyCritApplyModifier")
+        self.assertEqual(callbacks["OnDestroy"]["Function"],
+                         "LVButterflyCritRemoveModifier")
+        source_path = callbacks["OnCreated"]["ScriptFile"]
+        self.assertIn(source_path, self.manifest)
+        source = (RESOURCE / source_path).read_text(encoding="utf-8")
+        self.assertIn('NATIVE_CRIT_MODIFIER = "modifier_item_greater_crit"', source)
+        self.assertIn("AddNewModifier", source)
+        self.assertNotIn("LinkLuaModifier", source)
+        self.assertNotIn("modifier_item_lv_butterfly_crit_effect", source)
+        self.assertNotIn("class({})", source)
+        self.assertTrue((ROOT / "artwork/item-icons/item_lv_butterfly_crit.png").is_file())
+        self.assertTrue((ROOT / "artwork/item-icons/lv_butterfly_crit.png").is_file())
+        texture = "panorama/images/items/lv_butterfly_crit_png.vtex_c"
+        self.assertIn(texture, self.manifest)
+        compiled_texture = (RESOURCE / texture).read_bytes()
+        self.assertEqual(len(compiled_texture), 7748)
+        self.assertEqual(
+            hashlib.sha256(compiled_texture).hexdigest(),
+            "a8337dec323fdc937278dbed91b7e007e1702f9c7f30502f0fb4112440572218")
+        self.assertNotIn(
+            "resource/flash3/images/items/item_lv_butterfly_crit.png",
+            self.manifest)
+        self.assertFalse((RESOURCE /
+                          "resource/flash3/images/items/item_lv_butterfly_crit.png").exists())
+
+    def test_replaced_butterfly_and_daedalus_upgrades_are_reserved(self):
+        upgrades = (RESOURCE / "scripts/npc/lv/lv_upgrades.txt").read_text(
+            encoding="utf-8-sig")
+        manifest = (ROOT / "scripts/item_upgrades.json").read_text(encoding="utf-8")
+        generator = (ROOT / "scripts/gen_item_upgrades.py").read_text(encoding="utf-8")
+        for name in ("item_butterfly", "item_greater_crit"):
+            self.assertNotIn(f'"item_lv_{name[5:]}"', upgrades)
+            self.assertNotIn(f'"{name}"', manifest)
+            self.assertIn(repr(name), generator)
+
+        for language in ("english", "schinese"):
+            root = dict(read_kv(RESOURCE / f"resource/localization/abilities_{language}.txt"))
+            pairs = dict(root["lang"])["Tokens"]
+            localized = [(key.lower(), value) for key, value in pairs
+                         if "item_lv_butterfly_crit" in key.lower()]
+            self.assertEqual(len(localized), len(dict(localized)))
+            self.assertTrue(localized)
+            self.assertFalse(any(
+                "item_lv_butterfly" in key.lower()
+                and "item_lv_butterfly_crit" not in key.lower()
+                or "item_lv_greater_crit" in key.lower()
+                for key, _ in pairs))
 
     def test_removed_monkey_king_bar_upgrade_has_no_localization(self):
         for language in ("english", "schinese"):

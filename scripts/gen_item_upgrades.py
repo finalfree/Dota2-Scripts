@@ -13,8 +13,8 @@
 * 默认 --full-copy：把原物品的 AbilityValues 整块抄全、只替换目标值。
   这样无论引擎的 KV 继承是「递归合并」还是「整体替换」，结果都正确。
 * 只覆盖数值，不新增原物品没有的 key（新增 key 在 override 模式下不生效）。
-* 三叉戟是手工维护的重做物品，定义在 lv_items.txt，不属于本文件生成范围。
-* 升级金箍棒已取消，普通金箍棒改为三叉戟的合成材料；原 ID 槽位继续保留。
+* 三叉戟和蝶翼之殇是手工维护的融合物品，定义在 lv_items.txt，不属于本文件生成范围。
+* 被融合取代的升级物品从生成清单移除，但原 ID 槽位继续保留。
 """
 
 import argparse
@@ -38,6 +38,8 @@ ID_START = 10005
 # 已发布过的条目、以及移到 lv_items.txt 手工维护的条目，都保留 ID 槽位，
 # 避免后续自动生成物品的 ID 整体漂移。
 RESERVED_ID_SLOTS = {
+    'item_butterfly',
+    'item_greater_crit',
     'item_kaya_and_sange',
     'item_monkey_king_bar',
     'item_octarine_core',

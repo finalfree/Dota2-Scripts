@@ -5,3 +5,5 @@ pak02_dir.vpk
 pak01_dir/.vpkedit-*.rsp
 .workbuddy-ai
 .workbuddy
+__pycache__/
+*.py[cod]

@@ -302,7 +302,8 @@ python scripts/gen_item_upgrades.py --item sheepstick --preview --no-full-copy
 
 ### `item_butterfly` — 蝴蝶（Butterfly）
 
-- 升级物品：`item_lv_butterfly`（ID `10020`）　升级配方：`item_recipe_lv_butterfly`（ID `10019`）
+- 旧升级物品已取消；ID `10019` / `10020` 继续保留，避免后续自动生成 ID 漂移。
+- 目标属性已并入手工维护的融合装备 `item_lv_butterfly_crit`（蝶翼之殇）。
 - 来源：商店　分类：🟢 纯属性　字段数：4
 
 | 字段 | 原值 | 目标值 | 增量 | 备注 |
@@ -407,7 +408,8 @@ python scripts/gen_item_upgrades.py --item sheepstick --preview --no-full-copy
 
 ### `item_greater_crit` — 代达罗斯之殇（Daedalus）
 
-- 升级物品：`item_lv_greater_crit`（ID `10036`）　升级配方：`item_recipe_lv_greater_crit`（ID `10035`）
+- 旧升级物品已取消；ID `10035` / `10036` 继续保留，避免后续自动生成 ID 漂移。
+- 目标属性已并入手工维护的融合装备 `item_lv_butterfly_crit`（蝶翼之殇）。
 - 来源：商店　分类：🔴 含机制字段　字段数：3
 
 | 字段 | 原值 | 目标值 | 增量 | 备注 |

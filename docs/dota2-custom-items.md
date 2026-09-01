@@ -101,6 +101,59 @@ modifier property 在普通房间运行时可用。
 低地攻击高地防御塔的落空；加入普通金箍棒后的四条合成路线、100 攻速，以及取消升级
 金箍棒后的当前版本均测试无问题。该结果不等于所有英雄、幻象、建筑和伤害修正交互均已覆盖。
 
+### 蝶翼之殇：蝴蝶与代达罗斯之殇融合
+
+`item_lv_butterfly_crit` 由原版 `item_butterfly` 和 `item_greater_crit` 加 1 金卷轴合成，
+总价 10551。旧的两件独立升级版不再生成，但 `10019/10020` 与 `10035/10036` ID 槽位
+继续保留；融合物品使用新 ID `10102`，配方使用 `10101`。
+
+融合属性为两件旧升级版目标值的完整组合：100 敏捷、30% 攻击速度、338 攻击力、
+85% 闪避，以及对非建筑单位 100% 触发的 300% 致命一击。
+
+首版曾用 `LinkLuaModifier` 创建 `modifier_item_lv_butterfly_crit_effect`，并把全部属性放在
+这个自定义 Lua modifier 中。用户在斧王岛测试正常，但在普通自定义房间合成装备时，
+客户端于 2026-08-31 13:49 和 13:53 两次崩溃。两个 access-violation 转储中都有同一条
+直接证据：
+
+```text
+Filename lv/item_lv_butterfly_crit of modifier modifier_item_lv_butterfly_crit_effect was not found!
+```
+
+结论：`dota_lv` 基础覆盖包中的服务器端 `RunScript` 能执行，不代表普通自定义房间的
+客户端也能从当前地图的 addon VScript 搜索路径加载该文件。持久 modifier 一旦同步到
+客户端，找不到 `LinkLuaModifier` 指定的 Lua 文件可能直接造成客户端崩溃。斧王岛通过
+不能代替普通自定义房间验证。
+
+此类基础覆盖物品禁止再向英雄挂载需要客户端加载的自定义 Lua modifier。优先使用：
+
+- 游戏内置 C++ modifier，例如 `modifier_item_greater_crit`；
+- 直接写在物品 KV `Modifiers` 中的 data-driven modifier；
+- 只在服务器端完成一次性逻辑的 Lua 回调，例如 `ApplyDamage` 或挂载原生 modifier。
+
+蝶翼之殇现已按安全方案重写：原生 `modifier_item_greater_crit` 提供 188 攻击力、100% 暴击
+与 300% 倍率；KV modifier 另行提供 150 攻击力、100 敏捷、30% 攻速和 85% 闪避。
+不能同时直接挂载原生蝴蝶与原生代达罗斯 modifier，因为两者会从同一物品读取同名
+`bonus_damage`，导致攻击力重复或错算。重写版不再包含 `LinkLuaModifier` 或任何自定义
+Lua modifier；是否解决普通自定义房间崩溃以及全部属性是否生效，仍须重新实测。
+
+高清 3D 图标原稿位于 `artwork/item-icons/item_lv_butterfly_crit.png`，蝴蝶与代达罗斯之殇
+作为两个完整、独立的物体交叉叠放，不再采用融合造型。当前构图专门面向 88×64 缩略图：
+两件武器放大填满画面，红色晶体使用明显的大色块，背景简化为明亮黄绿色。
+
+运行图使用 `panorama/images/items/lv_butterfly_crit_png.vtex_c`，物品字段保持
+`AbilityTextureName = item_lv_butterfly_crit`。2026-08-31 15:58 的游戏内截图已确认这一版能够
+显示两件装备；其画面背景偏黑，但比此前的粉白像素块版本稳定。后续尝试把 88×64 PNG 直接
+放进 `resource/flash3/images/items/`，在 `dota_lv` 基础覆盖模式中只显示黑色，因此已经回退。
+
+这份 `.vtex_c` 直接从 16:03:56 的部署前备份恢复，SHA256 为
+`A8337DEC323FDC937278DBED91B7E007E1702F9C7F30502F0FB4112440572218`。不要重新用手写 `.vtex`
+覆盖它；不同编译尝试曾分别造成黑色空白、粉白像素块和明显色偏。
+
+旧高清原稿本身所有像素均为完全不透明，但背景接近纯黑；首次缩放到 88×64 时，重采样还在
+边缘产生了 Alpha 221–254 的半透明像素。游戏用黑色物品面板合成这些像素后，视觉上会像
+透明素材直接漂在背景上。当前原稿改为左侧翡翠绿、右侧橄榄金黄的较明亮渐变背景；运行时
+图在编译前仍强制 Alpha 为 255，避免继续依赖界面底色。
+
 ## 本地化
 
 在官方 `abilities_*.txt` 的 `Tokens` 块中添加自定义键，简体中文核心示例：
@@ -147,6 +200,8 @@ modifier property 在普通房间运行时可用。
 - [ ] 在中英文官方本地化基线上增加对应键，不替换成仅含自定义键的文件。
 - [ ] 默认不改 `shops.txt`；通过合成关系树提供购买入口。
 - [ ] 核对打包清单，避免漏掉 `#base` 引入的文件或 Lua 依赖。
+- [ ] 基础覆盖物品不得给英雄挂载自定义 Lua modifier；使用原生 modifier、KV modifier
+      或纯服务器端 Lua，并在普通自定义房间验证客户端不会报 `Filename ... was not found`。
 - [ ] 获得部署授权、确认游戏退出，核验包内容与部署哈希。
 - [ ] 由用户在游戏中检查升级树、配方购买、合成、描述和图标。
 - [ ] 分别检查实际属性数值生效；不要把文本显示当作行为验证。
