@@ -213,19 +213,8 @@ python scripts/gen_item_upgrades.py --item sheepstick --preview --no-full-copy
 
 ### `item_abyssal_blade` — 深渊之刃（Abyssal Blade）
 
-- 升级物品：`item_lv_abyssal_blade`（ID `10006`）　升级配方：`item_recipe_lv_abyssal_blade`（ID `10005`）
-- 来源：商店　分类：🔴 含机制字段　字段数：8
-
-| 字段 | 原值 | 目标值 | 增量 | 备注 |
-|---|---|---|---|---|
-| `AbilityCooldown` 🔴 | `35` | `15` | **-20** |  |
-| `AbilityManaCost` 🔴 | `75` | `5` | **-70** |  |
-| `bash_chance_ranged` 🔴 | `10` | `25` | **+15** |  |
-| `bash_cooldown` 🔴 | `2.3` | `0` | **-2.3** |  |
-| `bonus_damage` | `35` | `105` | **+70** |  |
-| `bonus_strength` | `30` | `56` | **+26** |  |
-| `hp_regen_amp` | `16` | `20` | **+4** |  |
-| `slow_resistance` | `30` | `55` | **+25** |  |
+- 独立升级物品与配方已取消；原 ID `10005/10006` 保留不用。
+- 原版深渊之刃现与原版斯嘉蒂之眼直接合成 `item_lv_abyssal_skadi`。
 
 ### `item_aether_lens` — 以太透镜（Aether Lens）
 
@@ -730,12 +719,8 @@ python scripts/gen_item_upgrades.py --item sheepstick --preview --no-full-copy
 
 ### `item_skadi` — 斯嘉蒂之眼（Eye of Skadi）
 
-- 升级物品：`item_lv_skadi`（ID `10086`）　升级配方：`item_recipe_lv_skadi`（ID `10085`）
-- 来源：商店　分类：🟢 纯属性　字段数：1
-
-| 字段 | 原值 | 目标值 | 增量 | 备注 |
-|---|---|---|---|---|
-| `bonus_all_stats` | `35` | `100` | **+65** |  |
+- 独立升级物品与配方已取消；原 ID `10085/10086` 保留不用。
+- 原版斯嘉蒂之眼现与原版深渊之刃直接合成 `item_lv_abyssal_skadi`。
 
 ### `item_sphere` — 林肯法球（Linken's Sphere）
 

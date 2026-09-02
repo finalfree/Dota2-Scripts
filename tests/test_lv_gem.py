@@ -403,6 +403,123 @@ class ItemResources(unittest.TestCase):
             hashlib.sha256(compiled_texture).hexdigest(),
             "7666f5f422a42bdf4dcb8391c17f18212b185c8841fae07fe526022f186bacee")
 
+    def test_abyssal_skadi_fusion_values_recipe_and_lua(self):
+        item = dict(self.custom["item_lv_abyssal_skadi"])
+        recipe = dict(self.custom["item_recipe_lv_abyssal_skadi"])
+        values = dict(item["AbilityValues"])
+
+        self.assertEqual(item["ID"], "10108")
+        self.assertEqual(recipe["ID"], "10107")
+        self.assertEqual(item["BaseClass"], "item_datadriven")
+        self.assertEqual(item["AbilityTextureName"], "item_lv_abyssal_skadi")
+        self.assertEqual(item["AbilityBehavior"], "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET")
+        self.assertEqual(item["AbilityCooldown"], "15")
+        self.assertEqual(item["AbilityManaCost"], "5")
+        self.assertEqual(item["ItemCost"], "12151")
+        self.assertEqual(values, {
+            "bonus_damage": "105",
+            # Skadi supplies +100 Strength through bonus_all_stats. The native
+            # Abyssal modifier must not add its old +56 Strength on top.
+            "bonus_strength": "0",
+            "slow_resistance": "100",
+            "hp_regen_amp": "20",
+            "bash_chance_melee": "25",
+            "bash_chance_ranged": "25",
+            "bash_duration": "1.2",
+            "bash_cooldown": "0",
+            "bonus_chance_damage": "120",
+            "bonus_all_stats": "100",
+            "bonus_health": "0",
+            "bonus_mana": "0",
+            "cold_slow_melee": "-25",
+            "cold_attack_slow_melee": "-25",
+            "cold_slow_ranged": "-50",
+            "cold_attack_slow_ranged": "-25",
+            "cold_duration": "3.0",
+            "restoration_reduction": "50",
+            "stun_duration": "1.6",
+        })
+        self.assertEqual(recipe["ItemCost"], "1")
+        self.assertEqual(recipe["ItemResult"], "item_lv_abyssal_skadi")
+        self.assertEqual(dict(recipe["ItemRequirements"]), {
+            "01": "item_abyssal_blade;item_skadi;",
+        })
+
+        controller = dict(dict(item["Modifiers"])[
+            "modifier_item_lv_abyssal_skadi_controller"])
+        self.assertEqual(controller["Attributes"], "MODIFIER_ATTRIBUTE_MULTIPLE")
+        self.assertNotIn("Properties", controller)
+        callbacks = {
+            event: dict(dict(controller[event])["RunScript"])
+            for event in ("OnCreated", "OnDestroy")
+        }
+        self.assertEqual(callbacks["OnCreated"]["Function"],
+                         "LVAbyssalSkadiApplyModifiers")
+        self.assertEqual(callbacks["OnDestroy"]["Function"],
+                         "LVAbyssalSkadiRemoveModifiers")
+        spell = dict(dict(item["OnSpellStart"])["RunScript"])
+        self.assertEqual(spell["Function"], "LVAbyssalSkadiOverwhelm")
+        self.assertEqual(spell["ScriptFile"], callbacks["OnCreated"]["ScriptFile"])
+
+        source_path = spell["ScriptFile"]
+        self.assertIn(source_path, self.manifest)
+        source = (RESOURCE / source_path).read_text(encoding="utf-8")
+        for native in ("modifier_item_abyssal_blade", "modifier_item_skadi",
+                       "modifier_bashed"):
+            self.assertIn('"%s"' % native, source)
+        self.assertIn("TriggerSpellAbsorb", source)
+        self.assertIn("DOTA_Item.AbyssalBlade.Activate", source)
+        self.assertIn("particles/items_fx/abyssal_blink_start.vpcf", source)
+        self.assertIn("particles/items_fx/abyssal_blade.vpcf", source)
+        self.assertNotIn("LinkLuaModifier", source)
+        self.assertNotIn("class({})", source)
+
+        self.assertTrue((ROOT / "artwork/item-icons/item_lv_abyssal_skadi.png").is_file())
+        self.assertTrue((ROOT / "artwork/item-icons/lv_abyssal_skadi.png").is_file())
+        texture = "panorama/images/items/lv_abyssal_skadi_png.vtex_c"
+        self.assertIn(texture, self.manifest)
+        compiled_texture = RESOURCE / texture
+        self.assertTrue(compiled_texture.is_file())
+        self.assertEqual(compiled_texture.stat().st_size, 7748)
+        self.assertEqual(
+            hashlib.sha256(compiled_texture.read_bytes()).hexdigest(),
+            "0f8644a1ed923e2ca50ded0e7799d297076f95e1334a8bb3e6d038e7751e3c96")
+
+        localized = []
+        for language in ("english", "schinese"):
+            root = dict(read_kv(
+                RESOURCE / f"resource/localization/abilities_{language}.txt"))
+            pairs = dict(root["lang"])["Tokens"]
+            fusion = [(key.lower(), value) for key, value in pairs
+                      if "item_lv_abyssal_skadi" in key.lower()]
+            self.assertEqual(len(fusion), len(dict(fusion)))
+            self.assertTrue(all(value for _, value in fusion))
+            localized.append(dict(fusion))
+        self.assertEqual(localized[0].keys(), localized[1].keys())
+
+    def test_replaced_abyssal_and_skadi_upgrades_are_reserved(self):
+        upgrades = (RESOURCE / "scripts/npc/lv/lv_upgrades.txt").read_text(
+            encoding="utf-8-sig")
+        manifest = (ROOT / "scripts/item_upgrades.json").read_text(encoding="utf-8")
+        generator = (ROOT / "scripts/gen_item_upgrades.py").read_text(encoding="utf-8")
+        for name in ("item_abyssal_blade", "item_skadi"):
+            short = name[5:]
+            self.assertNotIn(f'"item_lv_{short}"', upgrades)
+            self.assertNotIn(f'"item_recipe_lv_{short}"', upgrades)
+            self.assertNotIn(f'"{name}"', manifest)
+            self.assertIn(repr(name), generator)
+
+        for language in ("english", "schinese"):
+            root = dict(read_kv(
+                RESOURCE / f"resource/localization/abilities_{language}.txt"))
+            pairs = dict(root["lang"])["Tokens"]
+            stale = [key for key, _ in pairs
+                     if "item_lv_abyssal_blade" in key.lower()
+                     or "item_recipe_lv_abyssal_blade" in key.lower()
+                     or "item_lv_skadi" in key.lower()
+                     or "item_recipe_lv_skadi" in key.lower()]
+            self.assertEqual([], stale)
+
     def test_consumable_zero_cooldown_mirror_shield(self):
         item = dict(self.custom["item_lv_mirror_shield"])
         recipe = dict(self.custom["item_recipe_lv_mirror_shield"])

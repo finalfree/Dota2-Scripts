@@ -12,8 +12,10 @@ scripts/vscripts/lv/item_lv_trident.lua
 scripts/vscripts/lv/item_lv_butterfly_crit.lua
 scripts/vscripts/lv/item_lv_satanic_heart.lua
 scripts/vscripts/lv/item_lv_mirror_shield.lua
+scripts/vscripts/lv/item_lv_abyssal_skadi.lua
 panorama/images/items/lv_butterfly_crit_png.vtex_c
 panorama/images/items/lv_satanic_heart_png.vtex_c
+panorama/images/items/lv_abyssal_skadi_png.vtex_c
 scripts/shops.txt
 resource/localization/abilities_english.txt
 resource/localization/abilities_schinese.txt

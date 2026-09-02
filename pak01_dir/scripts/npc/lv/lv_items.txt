@@ -516,4 +516,119 @@
 			"01"				"item_sphere;item_lotus_orb;"
 		}
 	}
+
+	//=================================================================================
+	// Fusion: Abyssal Blade + Eye of Skadi
+	//
+	// Both passive packages are provided by engine-native modifiers installed from
+	// server Lua.  bonus_strength is deliberately zero: modifier_item_skadi grants
+	// 100 of every attribute, so allowing the Abyssal modifier to add Strength again
+	// would produce 156 Strength instead of the requested 100/100/100.
+	//=================================================================================
+	"item_lv_abyssal_skadi"
+	{
+		"ID"				"10108"
+		"BaseClass"			"item_datadriven"
+		"AbilityTextureName"		"item_lv_abyssal_skadi"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityUnitTargetFlags"			"DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
+		"FightRecapLevel"			"1"
+		"SpellDispellableType"			"SPELL_DISPELLABLE_YES_STRONG"
+		"AbilityCastRange"			"150"
+		"AbilityCastPoint"			"0.0"
+		"AbilityCooldown"			"15"
+		"AbilityManaCost"			"5"
+		"Model"				"models/props_gameplay/neutral_box.vmdl"
+		"ItemPurchasable"		"1"
+		"ItemCost"			"12151"		// 6250 深渊之刃 + 5900 斯嘉蒂之眼 + 1 金卷轴
+		"ItemSellable"			"1"
+		"ItemShopTags"			"damage;agi;str;int;hard_to_tag;disable;unique;tank"
+		"ItemQuality"			"artifact"
+		"ItemDeclarations"		"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		"SuggestLategame"		"1"
+
+		"AbilityValues"
+		{
+			// modifier_item_abyssal_blade
+			"bonus_damage"			"105"
+			"bonus_strength"		"0"
+			"slow_resistance"		"100"
+			"hp_regen_amp"			"20"
+			"bash_chance_melee"		"25"
+			"bash_chance_ranged"		"25"
+			"bash_duration"			"1.2"
+			"bash_cooldown"			"0"
+			"bonus_chance_damage"		"120"
+
+			// modifier_item_skadi
+			"bonus_all_stats"		"100"
+			"bonus_health"			"0"
+			"bonus_mana"			"0"
+			"cold_slow_melee"		"-25"
+			"cold_attack_slow_melee"	"-25"
+			"cold_slow_ranged"		"-50"
+			"cold_attack_slow_ranged"	"-25"
+			"cold_duration"			"3.0"
+			"restoration_reduction"		"50"
+
+			// Rebuilt Abyssal Blade active
+			"stun_duration"			"1.6"
+		}
+
+		"Modifiers"
+		{
+			"modifier_item_lv_abyssal_skadi_controller"
+			{
+				"Passive"		"1"
+				"IsHidden"		"1"
+				"IsPurgable"		"0"
+				"RemoveOnDeath"		"0"
+				"Attributes"		"MODIFIER_ATTRIBUTE_MULTIPLE"
+				"OnCreated"
+				{
+					"RunScript"
+					{
+						"ScriptFile"	"scripts/vscripts/lv/item_lv_abyssal_skadi.lua"
+						"Function"	"LVAbyssalSkadiApplyModifiers"
+					}
+				}
+				"OnDestroy"
+				{
+					"RunScript"
+					{
+						"ScriptFile"	"scripts/vscripts/lv/item_lv_abyssal_skadi.lua"
+						"Function"	"LVAbyssalSkadiRemoveModifiers"
+					}
+				}
+			}
+		}
+
+		"OnSpellStart"
+		{
+			"RunScript"
+			{
+				"ScriptFile"	"scripts/vscripts/lv/item_lv_abyssal_skadi.lua"
+				"Function"	"LVAbyssalSkadiOverwhelm"
+			}
+		}
+	}
+
+	"item_recipe_lv_abyssal_skadi"
+	{
+		"ID"				"10107"
+		"BaseClass"			"item_datadriven"
+		"AbilityTextureName"		"item_recipe_ultimate_scepter_2"
+		"Model"				"models/props_gameplay/recipe.vmdl"
+		"ItemCost"			"1"
+		"ItemPurchasable"		"1"
+		"ItemSellable"			"1"
+		"ItemRecipe"			"1"
+		"ItemResult"			"item_lv_abyssal_skadi"
+		"ItemRequirements"
+		{
+			"01"				"item_abyssal_blade;item_skadi;"
+		}
+	}
 }

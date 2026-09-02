@@ -1,14 +1,4 @@
 {
- "item_abyssal_blade": {
-  "AbilityCooldown": "15",
-  "AbilityManaCost": "5",
-  "AbilityValues.bash_chance_ranged": "25",
-  "AbilityValues.bash_cooldown": "0",
-  "AbilityValues.bonus_damage": "105",
-  "AbilityValues.bonus_strength": "56",
-  "AbilityValues.hp_regen_amp": "20",
-  "AbilityValues.slow_resistance": "55"
- },
  "item_aether_lens": {
   "AbilityValues.cast_range_bonus": "800"
  },
@@ -224,9 +214,6 @@
   "AbilityValues.bonus_strength": "30",
   "AbilityValues.windwalk_duration": "60",
   "AbilityValues.windwalk_movement_speed": "25"
- },
- "item_skadi": {
-  "AbilityValues.bonus_all_stats": "100"
  },
  "item_sphere": {
   "AbilityCooldown": "7.0",

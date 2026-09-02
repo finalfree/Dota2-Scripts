@@ -8,6 +8,8 @@ Sub-commands
   pnginfo   <file.png>
   crop      <in.png> <out.png> <new_width>
   vtexread  <in.vtex_c> <out.png>        decode a compiled texture to PNG
+  vtexreplace <template.vtex_c> <in.png> <out.vtex_c>
+                                         replace a one-mip DXT5 payload
   diff      <a.png> <b.png>              report per-channel differences
   recolor   <in.png> <out.png> <preset>  HSV-based recolor (magma|cursed|indigo|purple)
 
@@ -391,6 +393,46 @@ def cmd_diff(a_path, b_path):
     return 0
 
 
+def cmd_vtexreplace(template_path, png_path, output_path):
+    """Reuse a compiled texture's structural blocks and replace only mip0.
+
+    The resource compiler bundled with the current Dota build does not apply
+    ConvertToYCoCg even when the .vtex requests it.  A known-good one-mip DXT5
+    panorama texture therefore supplies the Source 2 header/RED2/DATA blocks,
+    while this tool encodes the replacement pixels in the channel layout that
+    Dota's panorama material expects.
+    """
+    width, height, rgba = png_read(png_path)
+    tw, th, _template_pixels, meta = vtex_read(template_path)
+    if (width, height) != (tw, th):
+        raise ValueError("size mismatch: PNG is %dx%d; template is %dx%d"
+                         % (width, height, tw, th))
+    if meta["fmt"] != "DXT5" or meta["mips"] != 1:
+        raise ValueError("template must be one-mip DXT5, got %s with %d mips"
+                         % (meta["fmt"], meta["mips"]))
+
+    # Inventory icons are composited over a dark UI panel.  Force a fully
+    # opaque runtime payload so resampling fringes cannot turn into black halos.
+    for i in range(3, len(rgba), 4):
+        rgba[i] = 255
+    encoded = encode_dxt5(width, height, rgba_srgb_to_ycocg_bytes(rgba))
+
+    with open(template_path, "rb") as fh:
+        blob = bytearray(fh.read())
+    start = meta["payload"]
+    end = start + len(encoded)
+    if end > len(blob):
+        raise ValueError("template payload is too short: need %d bytes at %d"
+                         % (len(encoded), start))
+    blob[start:end] = encoded
+    with open(output_path, "wb") as fh:
+        fh.write(blob)
+    print("OK %s + %s -> %s  %dx%d  YCoCg-DXT5 %d bytes"
+          % (template_path, png_path, output_path,
+             width, height, len(blob)))
+    return 0
+
+
 def main(argv):
     if len(argv) < 2:
         print(__doc__)
@@ -423,6 +465,9 @@ def main(argv):
               % (src, dst, w, h, meta["fmt"], meta["mips"],
                  meta["extra_count"], meta["payload"], meta["file_size"]))
         return 0
+
+    if cmd == "vtexreplace":
+        return cmd_vtexreplace(argv[2], argv[3], argv[4])
 
     if cmd == "diff":
         return cmd_diff(argv[2], argv[3])

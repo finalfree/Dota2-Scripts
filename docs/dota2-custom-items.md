@@ -263,6 +263,41 @@ VPKEdit v1 单文件包共 14 个清单文件，CRC、逐文件源码 SHA256 与
 用户随后在普通本地房间反馈“没问题”，据此确认当前组合版本能够完成合成、吸收并产生预期的
 零冷却镜盾效果；未逐项覆盖所有技能、同帧多次施法、英雄和游戏模式，不扩大验证范围。
 
+### 深渊冰眼：两件升级装备的二次融合
+
+`item_lv_abyssal_skadi` 由原版 `item_abyssal_blade` 和 `item_skadi` 加 1 金卷轴合成，
+总价 12151（6250 + 5900 + 1）；物品与配方使用 ID `10108/10107`。旧升级物品
+`item_lv_abyssal_blade`、`item_lv_skadi` 及其配方不再生成，对应的 `10005/10006`、
+`10085/10086` ID 槽位继续保留，防止其他自动生成物品的 ID 漂移。
+
+成品为 `item_datadriven`，服务器端控制器挂载引擎内置的
+`modifier_item_abyssal_blade` 与 `modifier_item_skadi`。前者继续提供 105 攻击力、20% 生命
+恢复增强、重击和减速抗性；后者继续提供三维属性及霜冻攻击。`bonus_strength` 特意写成 `0`，
+由 `bonus_all_stats = 100` 统一提供力量、敏捷、智力各 100；否则深渊 modifier 会在冰眼的
+100 全属性之上再增加力量。`slow_resistance` 单独提升到 100。
+
+原版 `CDOTA_Item_AbyssalBlade::OnSpellStart` 不会被 `item_datadriven` 自动执行，因此主动
+强击由纯服务器端 Lua 重建。对本机 2026-08-30 的 `server.dll` 反查确认，该函数依次涉及：
+
+- 先进行目标法术抵挡检查；被抵挡时直接结束；
+- 播放 `particles/items_fx/abyssal_blink_start.vpcf` 与
+  `particles/items_fx/abyssal_blade.vpcf`；
+- 读取 `stun_duration`，向目标施加内置 `modifier_bashed`；
+- 播放 `DOTA_Item.AbyssalBlade.Activate`。
+
+当前 Lua 按以上语义重建，不含 `LinkLuaModifier` 或自定义 Lua modifier 类。静态 KV/ID/资源
+集成检查及 Lua 控制流替身测试已通过；这些检查不能证明两个原生 modifier 的全部属性、
+减益免疫交互、法术抵挡/反弹、粒子附着及合成树在普通本地房间中均正确，部署后仍须实测。
+
+新图标把完整斯嘉蒂之眼置于后层，完整深渊之刃斜向叠放在前层，以青色冰光和暗红火光
+区分两件装备。ImageGen 高分辨率原稿位于
+`artwork/item-icons/item_lv_abyssal_skadi.png`，88×64 运行源图位于
+`artwork/item-icons/lv_abyssal_skadi.png`，游戏资源为
+`panorama/images/items/lv_abyssal_skadi_png.vtex_c`，SHA256 为
+`0F8644A1ED923E2CA50DED0E7799D297076F95E1334A8BB3E6D038E7751E3C96`。运行图使用
+`scripts/icon_tool.py vtexreplace` 编码成 YCoCg-DXT5，并强制 Alpha 为 255；该命令复用现有 88×64 单 mip
+编译纹理的 Source 2 结构块，只替换像素 payload。
+
 ## 本地化
 
 在官方 `abilities_*.txt` 的 `Tokens` 块中添加自定义键，简体中文核心示例：

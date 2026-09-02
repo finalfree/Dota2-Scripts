@@ -3,62 +3,6 @@
 	"Version"		"1"
 
 	//=================================================================================
-	// Upgrade: item_abyssal_blade
-	//=================================================================================
-	"item_lv_abyssal_blade"
-	{
-		"ID"				"10006"
-		"BaseClass"			"item_abyssal_blade"		// 继承原物品全部行为，无需 lua
-		"AbilityTextureName"		"item_abyssal_blade"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
-		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
-		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
-		"AbilityUnitTargetFlags"			"DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
-		"FightRecapLevel"			"1"
-		"SpellDispellableType"			"SPELL_DISPELLABLE_YES_STRONG"
-		"AbilityCastRange"			"150"
-		"AbilityCastPoint"			"0.0"
-		"ItemShopTags"			"damage;str;hard_to_tag;disable"
-		"ItemQuality"			"epic"
-		"ItemDeclarations"			"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
-		"SuggestLategame"			"1"
-		"ItemPurchasable"		"1"		// 出现在原物品的商店升级树中
-		"ItemCost"			"7250"		// 6250 原物品 + 1000 卷轴
-		"AbilityCooldown"			"15"
-		"AbilityManaCost"			"5"
-
-		"AbilityValues"
-		{
-			"bonus_damage"		"105"
-			"bonus_strength"		"56"
-			"slow_resistance"		"55"
-			"hp_regen_amp"		"20"
-			"bash_chance_melee"		"25"
-			"bash_chance_ranged"		"25"
-			"bash_duration"		"1.2"
-			"bash_cooldown"		"0"
-			"bonus_chance_damage"		"120"
-			"stun_duration"		"1.6"
-		}
-	}
-
-	"item_recipe_lv_abyssal_blade"
-	{
-		"ID"				"10005"
-		"BaseClass"			"item_datadriven"
-		"AbilityTextureName"		"item_recipe_ultimate_scepter_2"
-		"Model"				"models/props_gameplay/recipe.vmdl"
-		"ItemCost"			"1000"
-		"ItemPurchasable"		"1"
-		"ItemRecipe"			"1"
-		"ItemResult"			"item_lv_abyssal_blade"
-		"ItemRequirements"
-		{
-			"01"				"item_abyssal_blade"
-		}
-	}
-
-	//=================================================================================
 	// Upgrade: item_aether_lens
 	//=================================================================================
 	"item_lv_aether_lens"
@@ -1689,52 +1633,6 @@
 		"ItemRequirements"
 		{
 			"01"				"item_silver_edge"
-		}
-	}
-
-	//=================================================================================
-	// Upgrade: item_skadi
-	//=================================================================================
-	"item_lv_skadi"
-	{
-		"ID"				"10086"
-		"BaseClass"			"item_skadi"		// 继承原物品全部行为，无需 lua
-		"AbilityTextureName"		"item_skadi"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"ItemShopTags"			"agi;str;int;hard_to_tag;mana_pool;health_pool;unique;tank"
-		"ItemQuality"			"artifact"
-		"ItemDeclarations"			"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
-		"SuggestLategame"			"1"
-		"ItemPurchasable"		"1"		// 出现在原物品的商店升级树中
-		"ItemCost"			"6900"		// 5900 原物品 + 1000 卷轴
-
-		"AbilityValues"
-		{
-			"bonus_all_stats"		"100"
-			"bonus_health"		"0"
-			"bonus_mana"		"0"
-			"cold_slow_melee"		"-25"
-			"cold_attack_slow_melee"		"-25"
-			"cold_slow_ranged"		"-50"
-			"cold_attack_slow_ranged"		"-25"
-			"cold_duration"		"3.0"
-			"restoration_reduction"		"50"
-		}
-	}
-
-	"item_recipe_lv_skadi"
-	{
-		"ID"				"10085"
-		"BaseClass"			"item_datadriven"
-		"AbilityTextureName"		"item_recipe_ultimate_scepter_2"
-		"Model"				"models/props_gameplay/recipe.vmdl"
-		"ItemCost"			"1000"
-		"ItemPurchasable"		"1"
-		"ItemRecipe"			"1"
-		"ItemResult"			"item_lv_skadi"
-		"ItemRequirements"
-		{
-			"01"				"item_skadi"
 		}
 	}
 
