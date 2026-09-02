@@ -77,7 +77,7 @@
 在仓库根目录执行；`python` 应替换为本机可用 Python 路径：
 
 ```powershell
-python tests/test_lv_gem.py
+python tests/test_item_resources.py
 # 有 Lua 5.1/LuaJIT 时：
 lua tests/test_lv_gem.lua
 # 本机测试依赖隔离在忽略目录 bin/lua-test-runtime，不写入游戏包：

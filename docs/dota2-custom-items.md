@@ -136,23 +136,21 @@ Filename lv/item_lv_butterfly_crit of modifier modifier_item_lv_butterfly_crit_e
 `bonus_damage`，导致攻击力重复或错算。重写版不再包含 `LinkLuaModifier` 或任何自定义
 Lua modifier；是否解决普通自定义房间崩溃以及全部属性是否生效，仍须重新实测。
 
-高清 3D 图标原稿位于 `artwork/item-icons/item_lv_butterfly_crit.png`，蝴蝶与代达罗斯之殇
-作为两个完整、独立的物体交叉叠放，不再采用融合造型。当前构图专门面向 88×64 缩略图：
-两件武器放大填满画面，红色晶体使用明显的大色块，背景简化为明亮黄绿色。
+高清图标原稿位于 `artwork/item-icons/item_lv_butterfly_crit.png`。2026-09-02 依据用户选定的
+构图参考重绘：蝴蝶在前、代达罗斯之殇在后，两件完整武器对角交叉；蝴蝶保留绿色宝石、
+叶翼护手和发光长刃，代达罗斯之殇保留白金弓臂、红色晶体和深色握柄。背景使用左侧翡翠绿、
+右侧暖金色的简洁烟雾渐变，使两件武器缩到 88×64 后仍能靠轮廓与色块分开辨认。
 
 运行图使用 `panorama/images/items/lv_butterfly_crit_png.vtex_c`，物品字段保持
-`AbilityTextureName = item_lv_butterfly_crit`。2026-08-31 15:58 的游戏内截图已确认这一版能够
-显示两件装备；其画面背景偏黑，但比此前的粉白像素块版本稳定。后续尝试把 88×64 PNG 直接
-放进 `resource/flash3/images/items/`，在 `dota_lv` 基础覆盖模式中只显示黑色，因此已经回退。
+`AbilityTextureName = item_lv_butterfly_crit`。高清原稿先用 Lanczos 缩放，再以 `gamma=1.25`、
+`brightness=0.04`、`contrast=1.05`、`saturation=1.15` 做轻度预补偿，并强制 Alpha 为 255；
+随后通过 `scripts/icon_tool.py vtexreplace` 复用已知可用的 Source 2 纹理结构，只替换 mip0 的
+YCoCg-DXT5 图像数据。对最终 `.vtex_c` 回读得到的 88×64 PNG 已完成目视检查，SHA256 为
+`6578AE2F1B2FF8FEB5ACDC2CB9F6F94CC663C59A6646034885DDF64F4A630698`。
 
-这份 `.vtex_c` 直接从 16:03:56 的部署前备份恢复，SHA256 为
-`A8337DEC323FDC937278DBED91B7E007E1702F9C7F30502F0FB4112440572218`。不要重新用手写 `.vtex`
-覆盖它；不同编译尝试曾分别造成黑色空白、粉白像素块和明显色偏。
-
-旧高清原稿本身所有像素均为完全不透明，但背景接近纯黑；首次缩放到 88×64 时，重采样还在
-边缘产生了 Alpha 221–254 的半透明像素。游戏用黑色物品面板合成这些像素后，视觉上会像
-透明素材直接漂在背景上。当前原稿改为左侧翡翠绿、右侧橄榄金黄的较明亮渐变背景；运行时
-图在编译前仍强制 Alpha 为 255，避免继续依赖界面底色。
+2026-08-31 15:58 的游戏内截图只验证了上一版图标能够显示两件装备；2026-09-02 的本次重绘
+尚需游戏内实测，不能把纹理解码检查或部署成功视为显示效果已经确认。此前把 88×64 PNG 直接
+放进 `resource/flash3/images/items/` 的做法在 `dota_lv` 基础覆盖模式中只显示黑色，仍不采用。
 
 ### 不洁魔心：撒旦之邪力与恐鳌之心融合
 
@@ -215,14 +213,16 @@ Script_Purge
 `RunScript` 挂/卸两个原生 modifier，规避 datadriven `Properties` 只有约 94/409 个键真正
 生效的坑。Lua 文件同样不含 `LinkLuaModifier` 或任何自定义 Lua modifier。
 
-图标沿用官方撒旦图标换色（magma 岩浆红）而非重画，源图
-`artwork/item-icons/lv_satanic_heart.png`（87×64），运行图
-`panorama/images/items/lv_satanic_heart_png.vtex_c`，SHA256
-`7666F5F422A42BDF4DCB8391C17F18212B185C8841FAE07FE526022F186BACEE`。
-官方 panorama 图标是 **YCoCg-DXT5**，但本机新版 `resourcecompiler` 不再生成该编码
-（有 `ConvertToYCoCg` 字符串却不执行，实测输出直 RGB DXT5），因此这份 `.vtex_c` 由
-`scripts/icon_tool.py` 自研编码器把 mip0 编码后 splice 回编译模板。详见
-`scripts/icon_tool.py` 与 `scripts/vtex_inspect.py`。
+2026-09-02 图标重绘为两个清晰主体：巨兽之心位于中央前景，完整的银黑色撒旦月牙刃从
+后方环抱。高清原稿为 `artwork/item-icons/item_lv_satanic_heart.png`（1470×1070），运行时
+源图为 `artwork/item-icons/lv_satanic_heart.png`（87×64）。缩放后采用 `gamma=1.45`、
+`brightness=0.08`、`contrast=1.08`、`saturation=1.28` 做显示预补偿并强制 Alpha 为 255。
+
+运行图 `panorama/images/items/lv_satanic_heart_png.vtex_c` 通过
+`scripts/icon_tool.py vtexreplace` 复用已知可用的 Source 2 纹理结构并替换 mip0 的
+YCoCg-DXT5 数据；回读图已完成目视检查，SHA256 为
+`028F3C6CDF3AC700D761C32AEC58BC064D3246B893F3D1D60CE9225D62874228`。用户随后自行部署并
+完成游戏内测试，确认本次重绘显示正常、未发现问题；该结论只覆盖当前图标版本的显示效果。
 
 **游戏内验证进度（2026-09-02 自定义房间实测）：** 150 力量、30% 吸血、主动后 175%
 吸血、6 秒时长、5 秒冷却、2% 最大生命恢复、1.5% 缺失生命恢复**全部正确**，且自定义

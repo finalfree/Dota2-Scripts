@@ -28,7 +28,7 @@ def ability_entries(path):
 
     Imported lazily so this module also works when run directly.
     """
-    from test_lv_gem import read_kv
+    from test_item_resources import read_kv
 
     root = dict(read_kv(path))["DOTAAbilities"]
     for name, block in root:

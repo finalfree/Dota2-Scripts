@@ -1,6 +1,6 @@
-"""Static resource integration checks; run with Python's standard library.
+"""Static item-resource integration checks; run with Python's standard library.
 
-Lua behavior is tested separately by test_lv_gem.lua.  These checks do not
+Gem Lua behavior is tested separately by test_lv_gem.lua.  These checks do not
 prove engine loading or in-game behavior.
 """
 from pathlib import Path
@@ -306,7 +306,7 @@ class ItemResources(unittest.TestCase):
         self.assertEqual(len(compiled_texture), 7748)
         self.assertEqual(
             hashlib.sha256(compiled_texture).hexdigest(),
-            "a8337dec323fdc937278dbed91b7e007e1702f9c7f30502f0fb4112440572218")
+            "6578ae2f1b2ff8feb5acdc2cb9f6f94cc663c59a6646034885ddf64f4a630698")
         self.assertNotIn(
             "resource/flash3/images/items/item_lv_butterfly_crit.png",
             self.manifest)
@@ -394,6 +394,7 @@ class ItemResources(unittest.TestCase):
         self.assertNotIn("LinkLuaModifier", source)
         self.assertNotIn("modifier_item_lv_satanic_heart_effect", source)
         self.assertNotIn("class({})", source)
+        self.assertTrue((ROOT / "artwork/item-icons/item_lv_satanic_heart.png").is_file())
         self.assertTrue((ROOT / "artwork/item-icons/lv_satanic_heart.png").is_file())
         texture = "panorama/images/items/lv_satanic_heart_png.vtex_c"
         self.assertIn(texture, self.manifest)
@@ -401,7 +402,7 @@ class ItemResources(unittest.TestCase):
         self.assertEqual(len(compiled_texture), 7748)
         self.assertEqual(
             hashlib.sha256(compiled_texture).hexdigest(),
-            "7666f5f422a42bdf4dcb8391c17f18212b185c8841fae07fe526022f186bacee")
+            "028f3c6cdf3ac700d761c32aec58bc064d3246b893f3d1d60ce9225d62874228")
 
     def test_abyssal_skadi_fusion_values_recipe_and_lua(self):
         item = dict(self.custom["item_lv_abyssal_skadi"])
