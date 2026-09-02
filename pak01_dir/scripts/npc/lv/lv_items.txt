@@ -430,4 +430,90 @@
 			"01"				"item_satanic;item_heart;"
 		}
 	}
+
+	//=================================================================================
+	// Consumable fusion: Linken's Sphere + Lotus Orb -> permanent zero-CD Mirror Shield
+	//
+	// The item is automatically hidden after its native Mirror Shield modifier and a
+	// data-driven status icon have been installed.  The hidden item entity stays alive
+	// as the native modifier's AbilityValues provider; no custom Lua modifier is used.
+	//=================================================================================
+	"item_lv_mirror_shield"
+	{
+		"ID"				"10106"
+		"BaseClass"			"item_datadriven"
+		"AbilityTextureName"		"item_mirror_shield"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"Model"				"models/props_gameplay/neutral_box.vmdl"
+		"ItemPurchasable"		"1"
+		"ItemCost"			"8651"		// 4800 林肯 + 3850 莲花 + 1 金卷轴
+		"ItemSellable"			"1"
+		"ItemShopTags"			"unique;hard_to_tag;teamfight;save"
+		"ItemQuality"			"artifact"
+		"ItemDeclarations"		"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		"ItemShareability"		"ITEM_NOT_SHAREABLE"
+		"ItemDisassembleRule"		"DOTA_ITEM_DISASSEMBLE_NEVER"
+		"AllowedInBackpack"		"0"
+		"IsTempestDoubleClonable"	"0"
+		"SpeciallyBannedFromNeutralSlot"	"1"
+
+		"AbilityValues"
+		{
+			"reflect_chance"		"100"
+			"block_cooldown"		"0"
+		}
+
+		"Modifiers"
+		{
+			// Display only. Gameplay is provided by the engine-native
+			// modifier_item_mirror_shield applied from server Lua.
+			"modifier_item_lv_mirror_shield_consumed_status"
+			{
+				"IsHidden"		"0"
+				"IsDebuff"		"0"
+				"IsPurgable"		"0"
+				"RemoveOnDeath"		"0"
+			}
+			"modifier_item_lv_mirror_shield_pending"
+			{
+				"Passive"		"1"
+				"IsHidden"		"1"
+				"IsPurgable"		"0"
+				"ThinkInterval"		"0.25"
+				"OnCreated"
+				{
+					"RunScript"
+					{
+						"ScriptFile"	"scripts/vscripts/lv/item_lv_mirror_shield.lua"
+						"Function"	"LVMirrorShieldTryAbsorb"
+					}
+				}
+				"OnIntervalThink"
+				{
+					"RunScript"
+					{
+						"ScriptFile"	"scripts/vscripts/lv/item_lv_mirror_shield.lua"
+						"Function"	"LVMirrorShieldTryAbsorb"
+					}
+				}
+			}
+		}
+	}
+
+	"item_recipe_lv_mirror_shield"
+	{
+		"ID"				"10105"
+		"BaseClass"			"item_datadriven"
+		"AbilityTextureName"		"item_recipe_ultimate_scepter_2"
+		"Model"				"models/props_gameplay/recipe.vmdl"
+		"ItemCost"			"1"
+		"ItemPurchasable"		"1"
+		"ItemSellable"			"1"
+		"ItemRecipe"			"1"
+		"ItemResult"			"item_lv_mirror_shield"
+		"ItemRequirements"
+		{
+			"01"				"item_sphere;item_lotus_orb;"
+		}
+	}
 }

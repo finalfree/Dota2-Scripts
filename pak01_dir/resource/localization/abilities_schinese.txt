@@ -18901,6 +18901,16 @@
 		"DOTA_Tooltip_ability_item_lv_satanic_heart_hp_regen"		"%+最大生命值恢复"
 		"DOTA_Tooltip_ability_item_lv_satanic_heart_missing_health_regen"		"%+缺失生命值恢复"
 
+		// item_sphere + item_lotus_orb consumable fusion
+		"DOTA_Tooltip_Ability_item_lv_mirror_shield"		"无间神镜盾"
+		"DOTA_Tooltip_Ability_item_recipe_lv_mirror_shield"		"无间神镜盾配方"
+		"DOTA_SearchAlias_Ability_item_lv_mirror_shield"		"wujianshenjingdun;shenjingdun;linken;lotus;mirror;林肯法球;清莲宝珠;神镜盾"
+		"DOTA_Tooltip_ability_item_lv_mirror_shield_Description"		"由林肯法球和清莲宝珠融合而成。进入存活英雄的主装备栏后自动吸收，不再占用物品格，也不保留两件材料的属性。<br><br><h1>永久被动：无间回音坚盾</h1>抵挡并反弹大多数指向性技能给施法者。此效果没有冷却时间。"
+		"DOTA_Tooltip_ability_item_lv_mirror_shield_Lore"		"球体吞没了宝珠的回音，只留下永不沉寂的镜面。"
+		"DOTA_Tooltip_ability_item_lv_mirror_shield_Note0"		"无法触发原版法术抵挡或法术反弹的技能仍不会触发本效果。"
+		"DOTA_Tooltip_modifier_item_lv_mirror_shield_consumed_status"		"无间回音坚盾"
+		"DOTA_Tooltip_modifier_item_lv_mirror_shield_consumed_status_Description"		"永久抵挡并反弹大多数指向性技能，没有冷却时间。"
+
 		// item_wind_waker
 		"DOTA_Tooltip_Ability_item_lv_wind_waker"		"风之杖·升级"
 		"DOTA_Tooltip_Ability_item_recipe_lv_wind_waker"		"风之杖·升级配方"

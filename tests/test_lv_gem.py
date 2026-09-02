@@ -403,6 +403,76 @@ class ItemResources(unittest.TestCase):
             hashlib.sha256(compiled_texture).hexdigest(),
             "7666f5f422a42bdf4dcb8391c17f18212b185c8841fae07fe526022f186bacee")
 
+    def test_consumable_zero_cooldown_mirror_shield(self):
+        item = dict(self.custom["item_lv_mirror_shield"])
+        recipe = dict(self.custom["item_recipe_lv_mirror_shield"])
+        official = dict(dict(read_kv(
+            RESOURCE / "scripts/npc/items.txt"))["DOTAAbilities"])
+
+        self.assertEqual(item["ID"], "10106")
+        self.assertEqual(recipe["ID"], "10105")
+        self.assertEqual(item["BaseClass"], "item_datadriven")
+        self.assertEqual(item["AbilityTextureName"], "item_mirror_shield")
+        self.assertEqual(item["AbilityBehavior"], "DOTA_ABILITY_BEHAVIOR_PASSIVE")
+        self.assertEqual(dict(item["AbilityValues"]), {
+            "reflect_chance": "100",
+            "block_cooldown": "0",
+        })
+        self.assertEqual(recipe["ItemCost"], "1")
+        self.assertEqual(recipe["ItemResult"], "item_lv_mirror_shield")
+        self.assertEqual(dict(recipe["ItemRequirements"]), {
+            "01": "item_sphere;item_lotus_orb;",
+        })
+        material_cost = sum(int(dict(official[name])["ItemCost"])
+                            for name in ("item_sphere", "item_lotus_orb"))
+        self.assertEqual(int(item["ItemCost"]), material_cost + 1)
+
+        modifiers = dict(item["Modifiers"])
+        pending = dict(modifiers["modifier_item_lv_mirror_shield_pending"])
+        status = dict(modifiers[
+            "modifier_item_lv_mirror_shield_consumed_status"])
+        self.assertEqual(status, {
+            "IsHidden": "0", "IsDebuff": "0", "IsPurgable": "0",
+            "RemoveOnDeath": "0",
+        })
+        self.assertEqual(pending["Passive"], "1")
+        self.assertGreater(float(pending["ThinkInterval"]), 0)
+        callbacks = {
+            event: dict(dict(pending[event])["RunScript"])
+            for event in ("OnCreated", "OnIntervalThink")
+        }
+        self.assertEqual(callbacks["OnCreated"], callbacks["OnIntervalThink"])
+        self.assertEqual(callbacks["OnCreated"]["Function"],
+                         "LVMirrorShieldTryAbsorb")
+        source_path = callbacks["OnCreated"]["ScriptFile"]
+        self.assertIn(source_path, self.manifest)
+        source = (RESOURCE / source_path).read_text(encoding="utf-8")
+        self.assertIn('NATIVE_MODIFIER = "modifier_item_mirror_shield"', source)
+        self.assertIn("hero:AddNewModifier", source)
+        self.assertIn("hero:TakeItem(item)", source)
+        self.assertIn("ApplyDataDrivenModifier", source)
+        self.assertIn("state.items[hero:entindex()] = item", source)
+        self.assertNotIn("hero:RemoveItem(item)", source)
+        self.assertNotIn("UTIL_Remove(item)", source)
+        self.assertNotIn("LinkLuaModifier", source)
+        self.assertNotIn("class({})", source)
+
+        localized = []
+        for language in ("english", "schinese"):
+            root = dict(read_kv(
+                RESOURCE / f"resource/localization/abilities_{language}.txt"))
+            pairs = dict(root["lang"])["Tokens"]
+            mirror = [(key.lower(), value) for key, value in pairs
+                      if "lv_mirror_shield" in key.lower()]
+            self.assertEqual(len(mirror), len(dict(mirror)))
+            self.assertTrue(all(value for _, value in mirror))
+            localized.append(dict(mirror))
+        self.assertEqual(localized[0].keys(), localized[1].keys())
+        status_key = "dota_tooltip_modifier_item_lv_mirror_shield_consumed_status"
+        self.assertIn(status_key, localized[0])
+        self.assertIn(status_key + "_description", localized[0])
+        self.assertIn("没有冷却时间", localized[1][status_key + "_description"])
+
     def test_replaced_satanic_and_heart_upgrades_are_reserved(self):
         upgrades = (RESOURCE / "scripts/npc/lv/lv_upgrades.txt").read_text(
             encoding="utf-8-sig")

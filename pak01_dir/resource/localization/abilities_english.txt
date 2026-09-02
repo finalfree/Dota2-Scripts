@@ -18966,6 +18966,16 @@
 		"DOTA_Tooltip_ability_item_lv_satanic_heart_hp_regen"		"%+Max Health Regen"
 		"DOTA_Tooltip_ability_item_lv_satanic_heart_missing_health_regen"		"%+Missing Health Regen"
 
+		// item_sphere + item_lotus_orb consumable fusion
+		"DOTA_Tooltip_Ability_item_lv_mirror_shield"		"Boundless Mirror Shield"
+		"DOTA_Tooltip_Ability_item_recipe_lv_mirror_shield"		"Boundless Mirror Shield Recipe"
+		"DOTA_SearchAlias_Ability_item_lv_mirror_shield"		"linken;lotus;mirror;spell block;spell reflect"
+		"DOTA_Tooltip_ability_item_lv_mirror_shield_Description"		"Fuses Linken's Sphere and Lotus Orb. It is automatically absorbed when it enters a living hero's main inventory, freeing the item slot and discarding both components' stats.<br><br><h1>Permanent Passive: Boundless Echo Shield</h1>Blocks and reflects most targeted spells back to their caster. This effect has no cooldown."
+		"DOTA_Tooltip_ability_item_lv_mirror_shield_Lore"		"The sphere swallowed the orb's echo, leaving behind a mirror that never falls silent."
+		"DOTA_Tooltip_ability_item_lv_mirror_shield_Note0"		"Abilities that do not trigger normal spell block or spell reflection still do not trigger this effect."
+		"DOTA_Tooltip_modifier_item_lv_mirror_shield_consumed_status"		"Boundless Echo Shield"
+		"DOTA_Tooltip_modifier_item_lv_mirror_shield_consumed_status_Description"		"Permanently blocks and reflects most targeted spells with no cooldown."
+
 		// item_wind_waker
 		"DOTA_Tooltip_Ability_item_lv_wind_waker"		"Upgraded Wind Waker"
 		"DOTA_Tooltip_Ability_item_recipe_lv_wind_waker"		"Upgraded Wind Waker Recipe"
