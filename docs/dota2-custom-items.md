@@ -263,6 +263,35 @@ VPKEdit v1 单文件包共 14 个清单文件，CRC、逐文件源码 SHA256 与
 用户随后在普通本地房间反馈“没问题”，据此确认当前组合版本能够完成合成、吸收并产生预期的
 零冷却镜盾效果；未逐项覆盖所有技能、同帧多次施法、英雄和游戏模式，不扩大验证范围。
 
+### 龙息溅射：狂战斧与升级卷轴的可消耗融合
+
+`item_lv_dragon_splash` 由原版 `item_bfury` 或 `item_specialists_array` 和 100 金升级卷轴合成，
+物品标价 4000（按狂战斧路线），物品与配方
+使用 ID `10110/10109`。成品进入存活本体英雄的主装备栏后自动吸收，不保留狂战斧属性，也不
+占用物品格；吸收后永久提供 50 点攻击力、10 点生命恢复和 5 点魔法恢复。
+
+为避免修改官方 `npc_abilities.txt`，新增私有隐藏能力 `lv_black_dragon_splash_attack`（ID
+`10111`），其 `range` 为 500、`damage_percent` 为 100。服务器端 Lua 将该能力添加到英雄并
+挂载引擎内置 `modifier_black_dragon_splash_attack`，再隐藏物品；状态栏图标是纯 KV modifier，
+不使用 `LinkLuaModifier` 或客户端自定义 Lua 类。若当前游戏构建不接受私有能力作为原生
+modifier 的 AbilityValues 来源，脚本会回退为使用隐藏成品物品作为来源，因此仍不需要打包
+官方 `npc_abilities.txt`。
+
+新图标为黑龙利爪与橙色冲击火花的组合：ImageGen 高分辨率原稿位于
+`artwork/item-icons/item_lv_dragon_splash.png`（1254×1254），88×64 运行源图位于
+`artwork/item-icons/lv_dragon_splash.png`，游戏资源为
+`panorama/images/items/lv_dragon_splash_png.vtex_c`。成品与私有被动技能的
+`AbilityTextureName` 均指向 `item_lv_dragon_splash`，因此同一图标会显示在物品栏和永久溅射
+状态栏中。运行图使用 `scripts/icon_tool.py vtexreplace` 编码为 YCoCg-DXT5 单 mip，并强制
+Alpha 为 255。
+
+实测发现部分游戏构建会在英雄死亡时移除原生 `modifier_black_dragon_splash_attack`，但保留
+状态图标及其攻击力、生命恢复、魔法恢复属性。状态 modifier 现每 0.25 秒检查一次；英雄重生
+后若原生溅射缺失，会使用原私有能力或隐藏物品作为来源重新挂载。
+
+当前仅完成 KV/Lua 静态检查与 VPK v1 包校验（18 个清单文件）；私有能力加载、近战/远程触发、
+范围 500、死亡复活后的持续性及原生溅射伤害，仍需在普通自定义房间实测后再记录为已验证。
+
 ### 深渊冰眼：两件升级装备的二次融合
 
 `item_lv_abyssal_skadi` 由原版 `item_abyssal_blade` 和 `item_skadi` 加 1 金卷轴合成，

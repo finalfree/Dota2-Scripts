@@ -21,14 +21,6 @@
   "AbilityValues.bonus_armor": "60",
   "AbilityValues.bonus_attack_speed": "130"
  },
- "item_bfury": {
-  "AbilityCooldown": "2.0",
-  "AbilityValues.cleave_damage_percent": "100",
-  "AbilityValues.cleave_damage_percent_creep": "100",
-  "AbilityValues.cleave_distance": "750",
-  "AbilityValues.cleave_ending_width.value": "560",
-  "AbilityValues.cleave_starting_width.value": "250"
- },
  "item_bloodthorn": {
   "AbilityCooldown": "7",
   "AbilityValues.bonus_attack_speed": "195",

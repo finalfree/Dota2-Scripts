@@ -264,17 +264,13 @@ python scripts/gen_item_upgrades.py --item sheepstick --preview --no-full-copy
 
 ### `item_bfury` — 狂战斧（Battle Fury）
 
-- 升级物品：`item_lv_bfury`（ID `10016`）　升级配方：`item_recipe_lv_bfury`（ID `10015`）
-- 来源：商店　分类：🔴 含机制字段　字段数：6
+- 原升级物品 `item_lv_bfury`（ID `10016`）及其配方已移除。
+- 现由 `item_lv_dragon_splash`（ID `10110`）承接升级路线，配方 `item_recipe_lv_dragon_splash`
+  （ID `10109`）可用 `item_bfury` 或 `item_specialists_array` 加 100 金卷轴合成（物品标价
+  4000，按狂战斧路线）；成品自动
+  吸收并永久提供 500 范围攻击溅射。
 
-| 字段 | 原值 | 目标值 | 增量 | 备注 |
-|---|---|---|---|---|
-| `AbilityCooldown` 🔴 | `4.0` | `2.0` | **-2** |  |
-| `cleave_damage_percent` 🔴 | `60` | `100` | **+40** |  |
-| `cleave_damage_percent_creep` 🔴 | `40` | `100` | **+60** |  |
-| `cleave_distance` 🔴 | `650` | `750` | **+100** |  |
-| `cleave_ending_width.value` 🔴 | `360` | `560` | **+200** |  |
-| `cleave_starting_width.value` 🔴 | `150` | `250` | **+100** |  |
+原狂战斧的 6 项机制字段不再通过升级物品覆盖；普通 `item_bfury` 保持官方属性不变。
 
 ### `item_bloodthorn` — 血棘（Bloodthorn）
 

@@ -591,6 +591,110 @@ class ItemResources(unittest.TestCase):
         self.assertIn(status_key + "_description", localized[0])
         self.assertIn("没有冷却时间", localized[1][status_key + "_description"])
 
+    def test_private_dragon_splash_consumable(self):
+        item = dict(self.custom["item_lv_dragon_splash"])
+        recipe = dict(self.custom["item_recipe_lv_dragon_splash"])
+        skill = dict(self.custom["lv_black_dragon_splash_attack"])
+        official = dict(dict(read_kv(
+            RESOURCE / "scripts/npc/items.txt"))["DOTAAbilities"])
+
+        self.assertEqual(item["ID"], "10110")
+        self.assertEqual(recipe["ID"], "10109")
+        self.assertEqual(skill["ID"], "10111")
+        self.assertEqual(item["BaseClass"], "item_datadriven")
+        self.assertEqual(recipe["ItemResult"], "item_lv_dragon_splash")
+        self.assertEqual(dict(recipe["ItemRequirements"]), {
+            "01": "item_bfury",
+            "02": "item_specialists_array",
+        })
+        self.assertEqual(recipe["ItemCost"], "100")
+        self.assertEqual(int(item["ItemCost"]),
+                         int(recipe["ItemCost"]) + int(dict(official["item_bfury"])["ItemCost"]))
+        self.assertEqual(dict(dict(item["AbilityValues"])["range"])["value"], "500")
+        self.assertEqual(dict(dict(skill["AbilityValues"])["range"])["value"], "500")
+        self.assertEqual(dict(skill["AbilityValues"])["damage_percent"], "100")
+        for values in (dict(item["AbilityValues"]), dict(skill["AbilityValues"])):
+            self.assertEqual(values["bonus_damage"], "50")
+            self.assertEqual(values["bonus_health_regen"], "10")
+            self.assertEqual(values["bonus_mana_regen"], "5")
+        self.assertEqual(item["AbilityTextureName"], "item_lv_dragon_splash")
+        self.assertEqual(skill["AbilityTextureName"], "item_lv_dragon_splash")
+        texture = "panorama/images/items/lv_dragon_splash_png.vtex_c"
+        self.assertIn(texture, self.manifest)
+        compiled_texture = RESOURCE / texture
+        self.assertTrue(compiled_texture.is_file())
+        self.assertEqual(compiled_texture.stat().st_size, 7748)
+        self.assertEqual(
+            hashlib.sha256(compiled_texture.read_bytes()).hexdigest(),
+            "e2c0ba64be8aeb091614828e489ba903425206e865637a0eec43d41091d3f76f",
+        )
+        self.assertTrue((ROOT / "artwork/item-icons/item_lv_dragon_splash.png").is_file())
+        self.assertTrue((ROOT / "artwork/item-icons/lv_dragon_splash.png").is_file())
+
+        modifiers = dict(item["Modifiers"])
+        pending = dict(modifiers["modifier_item_lv_dragon_splash_pending"])
+        status = dict(modifiers["modifier_lv_black_dragon_splash_status"])
+        self.assertEqual(status["IsHidden"], "0")
+        self.assertEqual(status["ThinkInterval"], "0.25")
+        restore_callback = dict(dict(status["OnIntervalThink"])["RunScript"])
+        self.assertEqual(restore_callback["Function"], "LVDragonSplashEnsureActive")
+        self.assertIn(restore_callback["ScriptFile"], self.manifest)
+        self.assertEqual(dict(status["Properties"]), {
+            "MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE": "%bonus_damage",
+            "MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT": "%bonus_health_regen",
+            "MODIFIER_PROPERTY_MANA_REGEN_CONSTANT": "%bonus_mana_regen",
+        })
+        self.assertEqual(pending["Passive"], "1")
+        self.assertGreater(float(pending["ThinkInterval"]), 0)
+        callback = dict(dict(pending["OnCreated"])["RunScript"])
+        self.assertEqual(callback["Function"], "LVDragonSplashTryAbsorb")
+        self.assertIn(callback["ScriptFile"], self.manifest)
+        source = (RESOURCE / callback["ScriptFile"]).read_text(encoding="utf-8")
+        self.assertIn('SKILL_NAME = "lv_black_dragon_splash_attack"', source)
+        self.assertIn('NATIVE_MODIFIER = "modifier_black_dragon_splash_attack"', source)
+        self.assertIn("function LVDragonSplashEnsureActive(keys)", source)
+        self.assertIn("hero:IsAlive()", source)
+        self.assertIn("hero:AddAbility", source)
+        self.assertIn("hero:AddNewModifier", source)
+        self.assertIn("hero:TakeItem(item)", source)
+        self.assertNotIn("LinkLuaModifier", source)
+        self.assertNotIn("scripts/npc/npc_abilities.txt", self.manifest)
+
+        for language in ("english", "schinese"):
+            root = dict(read_kv(
+                RESOURCE / f"resource/localization/abilities_{language}.txt"))
+            pairs = dict(root["lang"])["Tokens"]
+            localized = dict(pairs)
+            for key in (
+                "DOTA_Tooltip_Ability_item_lv_dragon_splash",
+                "DOTA_Tooltip_Ability_item_recipe_lv_dragon_splash",
+                "DOTA_Tooltip_ability_item_lv_dragon_splash_Description",
+                "DOTA_Tooltip_modifier_lv_black_dragon_splash_status",
+                "DOTA_Tooltip_modifier_lv_black_dragon_splash_status_Description",
+            ):
+                self.assertTrue(localized.get(key), (language, key))
+
+    def test_old_bfury_upgrade_is_removed(self):
+        upgrades = (RESOURCE / "scripts/npc/lv/lv_upgrades.txt").read_text(
+            encoding="utf-8-sig")
+        self.assertNotIn('"item_lv_bfury"', upgrades)
+        self.assertNotIn('"item_recipe_lv_bfury"', upgrades)
+
+        upgrade_manifest = (ROOT / "scripts/item_upgrades.json").read_text(
+            encoding="utf-8")
+        self.assertNotIn('"item_bfury"', upgrade_manifest)
+        generator = (ROOT / "scripts/gen_item_upgrades.py").read_text(
+            encoding="utf-8")
+        self.assertIn("'item_bfury'", generator)
+
+        for language in ("english", "schinese"):
+            root = dict(read_kv(
+                RESOURCE / f"resource/localization/abilities_{language}.txt"))
+            pairs = dict(root["lang"])["Tokens"]
+            keys = {key for key, _ in pairs}
+            self.assertNotIn("DOTA_Tooltip_Ability_item_lv_bfury", keys)
+            self.assertNotIn("DOTA_Tooltip_Ability_item_recipe_lv_bfury", keys)
+
     def test_replaced_satanic_and_heart_upgrades_are_reserved(self):
         upgrades = (RESOURCE / "scripts/npc/lv/lv_upgrades.txt").read_text(
             encoding="utf-8-sig")

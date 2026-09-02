@@ -38,8 +38,9 @@ ID_START = 10005
 # 已发布过的条目、以及移到 lv_items.txt 手工维护的条目，都保留 ID 槽位，
 # 避免后续自动生成物品的 ID 整体漂移。
 RESERVED_ID_SLOTS = {
-    'item_abyssal_blade',
-    'item_butterfly',
+	'item_abyssal_blade',
+	'item_bfury',
+	'item_butterfly',
     'item_greater_crit',
     'item_heart',
     'item_kaya_and_sange',

@@ -18482,10 +18482,95 @@
 		"DOTA_Tooltip_Ability_per_hero_level_up_multiple_no_base"	"<span class=\"GameplayVariable\">%s1</span>（每%s3级提升%s2）"
 	
 
+
+		// Battle Fury + upgrade scroll -> private Black Dragon splash
+		"DOTA_Tooltip_Ability_item_lv_dragon_splash"                    "龙息溅射"
+		"DOTA_Tooltip_Ability_item_recipe_lv_dragon_splash"             "龙息溅射配方"
+		"DOTA_SearchAlias_Ability_item_lv_dragon_splash"                "longxi;jian she;black dragon;splash;溅射;黑龙"
+		"DOTA_Tooltip_ability_item_lv_dragon_splash_Description"        "由狂战斧与升级卷轴融合而成。进入存活英雄的主装备栏后自动吸收，不再占用物品格。<br><br><h1>永久被动：龙息溅射</h1>攻击会对目标周围%range%范围内的敌人造成%damage_percent%%%攻击伤害。远程和近战英雄均可触发。<br><br>提供%bonus_damage%点攻击力、%bonus_health_regen%点生命恢复和%bonus_mana_regen%点魔法恢复。"
+		"DOTA_Tooltip_ability_item_lv_dragon_splash_Lore"              "黑龙的爆炸之力被封存在一缕永不熄灭的龙息中。"
+		"DOTA_Tooltip_ability_item_lv_dragon_splash_range"              "溅射范围："
+		"DOTA_Tooltip_ability_item_lv_dragon_splash_damage_percent"     "溅射伤害："
+		"DOTA_Tooltip_ability_item_lv_dragon_splash_bonus_damage"       "+$damage"
+		"DOTA_Tooltip_ability_item_lv_dragon_splash_bonus_health_regen" "+$health_regen"
+		"DOTA_Tooltip_ability_item_lv_dragon_splash_bonus_mana_regen"   "+$mana_regen"
+		"DOTA_Tooltip_modifier_lv_black_dragon_splash_status"           "龙息溅射"
+		"DOTA_Tooltip_modifier_lv_black_dragon_splash_status_Description" "永久攻击溅射，范围 500；远程和近战英雄均可触发。"
+
+		// item_trident
+		"DOTA_Tooltip_Ability_item_lv_trident" 		"三元重戟·升级"
+		"DOTA_Tooltip_Ability_item_recipe_lv_trident" 		"三元重戟·升级配方"
+		"DOTA_Tooltip_ability_item_lv_trident_Description" 		"由散华、夜叉、慧光和金箍棒一起合成。<br><br><h1>被动：纯粹打击</h1>攻击不会落空，并且每次攻击额外造成%pure_damage_attack%点纯粹伤害。攻击距离加成可以与其他装备以及多件本装备叠加。"
+		"DOTA_Tooltip_ability_item_lv_trident_bonus_agility" 		"+$agi"
+		"DOTA_Tooltip_ability_item_lv_trident_bonus_attack_speed" 		"+$attack"
+		"DOTA_Tooltip_ability_item_lv_trident_bonus_intellect" 		"+$int"
+		"DOTA_Tooltip_ability_item_lv_trident_bonus_strength" 		"+$str"
+		"DOTA_Tooltip_ability_item_lv_trident_cast_speed_pct" 		"%+施法速度加成"
+		"DOTA_Tooltip_ability_item_lv_trident_hp_regen_amp" 		"%+生命恢复和吸血增强"
+		"DOTA_Tooltip_ability_item_lv_trident_pure_damage_attack" 		"+纯粹伤害攻击"
+		"DOTA_Tooltip_ability_item_lv_trident_stackable_attack_range" 		"+$attack_range"
+		"DOTA_Tooltip_ability_item_lv_trident_mana_regen_multiplier" 		"%+魔法恢复增强"
+		"DOTA_Tooltip_ability_item_lv_trident_manacost_reduction" 		"%+魔法消耗/魔法损失降低"
+		"DOTA_Tooltip_ability_item_lv_trident_movement_speed_percent_bonus" 		"%+$move_speed"
+		"DOTA_Tooltip_ability_item_lv_trident_slow_resistance" 		"%+<font color='#9ec8e3'>减速抗性</font>"
+		"DOTA_Tooltip_ability_item_lv_trident_spell_amp" 		"%+技能增强"
+		"DOTA_Tooltip_ability_item_lv_trident_spell_lifesteal_amp" 		"%+技能吸血增强"
+		"DOTA_Tooltip_ability_item_lv_trident_status_resistance" 		"%+状态抗性"
+		"DOTA_Tooltip_ability_item_lv_trident_Lore" 		"经由更高层次的技艺淬炼而成，它的力量已远非昔日可比。"
+
+		// item_butterfly + item_greater_crit fusion
+		"DOTA_Tooltip_Ability_item_lv_butterfly_crit" 		"蝶翼之殇"
+		"DOTA_Tooltip_Ability_item_recipe_lv_butterfly_crit" 		"蝶翼之殇配方"
+		"DOTA_SearchAlias_Ability_item_lv_butterfly_crit" 		"dieyizhishang;hudie;daidalusizhishang;baoji;shanbi;蝴蝶;代达罗斯之殇;暴击;闪避"
+		"DOTA_Tooltip_ability_item_lv_butterfly_crit_Description" 		"由蝴蝶和代达罗斯之殇融合而成。<br><br><h1>被动：必然致命一击</h1>对非建筑单位的每次攻击都有%crit_chance%%%几率造成%crit_multiplier%%%伤害，并提供%bonus_evasion%%%闪避。"
+		"DOTA_Tooltip_ability_item_lv_butterfly_crit_Lore" 		"翠绿蝶翼引导着注定致命的锋刃，每一次挥击都通往终结。"
+		"DOTA_Tooltip_ability_item_lv_butterfly_crit_Note0" 		"致命一击对建筑无效。"
+		"DOTA_Tooltip_ability_item_lv_butterfly_crit_Note1" 		"与其他闪避效果为非线性叠加。"
+		"DOTA_Tooltip_ability_item_lv_butterfly_crit_bonus_agility" 		"+$agi"
+		"DOTA_Tooltip_ability_item_lv_butterfly_crit_bonus_attack_speed_pct" 		"%+$attack_pct"
+		"DOTA_Tooltip_ability_item_lv_butterfly_crit_bonus_damage" 		"+$damage"
+		"DOTA_Tooltip_ability_item_lv_butterfly_crit_butterfly_bonus_damage" 		"+$damage"
+		"DOTA_Tooltip_ability_item_lv_butterfly_crit_bonus_evasion" 		"%+$evasion"
+
+		// item_satanic + item_heart fusion
+		"DOTA_Tooltip_Ability_item_lv_satanic_heart" 		"不洁魔心"
+		"DOTA_Tooltip_Ability_item_recipe_lv_satanic_heart" 		"不洁魔心配方"
+		"DOTA_SearchAlias_Ability_item_lv_satanic_heart" 		"bujiemoxin;sadanzhiyeli;kongaozhixin;xixue;liliang;撒旦之邪力;恐鳌之心;吸血;力量"
+		"DOTA_Tooltip_ability_item_lv_satanic_heart_Description" 		"由撒旦之邪力与恐鳌之心融合而成。<br><br><h1>主动：不洁狂热</h1>吸血效果提升至%unholy_lifesteal_total_tooltip%%%，持续%unholy_duration%秒。<br><br>驱散类型：<span class=\"GameplayValues GameplayVariable\">弱驱散</span>\n\n<h1>被动：吸血</h1>攻击者每次攻击都将根据造成伤害的一定百分比回复生命值。\n\n<h1>被动：巨兽之血</h1>生命恢复提升缺失生命值的%missing_health_regen%%%。"
+		"DOTA_Tooltip_ability_item_lv_satanic_heart_Lore" 		"一颗从未停止跳动的心脏，被缚在一把从未停止饮血的利刃之上。"
+		"DOTA_Tooltip_ability_item_lv_satanic_heart_Note0" 		"多个巨兽之血的效果不会叠加。"
+		"DOTA_Tooltip_ability_item_lv_satanic_heart_Note1" 		"多个吸血效果不会叠加。"
+		"DOTA_Tooltip_ability_item_lv_satanic_heart_bonus_strength" 		"+$str"
+		"DOTA_Tooltip_ability_item_lv_satanic_heart_bonus_damage" 		"+$damage"
+		"DOTA_Tooltip_ability_item_lv_satanic_heart_lifesteal_percent" 		"%+$lifesteal"
+		"DOTA_Tooltip_ability_item_lv_satanic_heart_hp_regen" 		"%+最大生命值恢复"
+		"DOTA_Tooltip_ability_item_lv_satanic_heart_missing_health_regen" 		"%+缺失生命值恢复"
+
+		// item_sphere + item_lotus_orb consumable fusion
+		"DOTA_Tooltip_Ability_item_lv_mirror_shield" 		"无间神镜盾"
+		"DOTA_Tooltip_Ability_item_recipe_lv_mirror_shield" 		"无间神镜盾配方"
+		"DOTA_SearchAlias_Ability_item_lv_mirror_shield" 		"wujianshenjingdun;shenjingdun;linken;lotus;mirror;林肯法球;清莲宝珠;神镜盾"
+		"DOTA_Tooltip_ability_item_lv_mirror_shield_Description" 		"由林肯法球和清莲宝珠融合而成。进入存活英雄的主装备栏后自动吸收，不再占用物品格，也不保留两件材料的属性。<br><br><h1>永久被动：无间回音坚盾</h1>抵挡并反弹大多数指向性技能给施法者。此效果没有冷却时间。"
+		"DOTA_Tooltip_ability_item_lv_mirror_shield_Lore" 		"球体吞没了宝珠的回音，只留下永不沉寂的镜面。"
+		"DOTA_Tooltip_ability_item_lv_mirror_shield_Note0" 		"无法触发原版法术抵挡或法术反弹的技能仍不会触发本效果。"
+		"DOTA_Tooltip_modifier_item_lv_mirror_shield_consumed_status" 		"无间回音坚盾"
+		"DOTA_Tooltip_modifier_item_lv_mirror_shield_consumed_status_Description" 		"永久抵挡并反弹大多数指向性技能，没有冷却时间。"
+
+		// 深渊之刃 + 斯嘉蒂之眼融合
+		"DOTA_Tooltip_Ability_item_lv_abyssal_skadi" 		"深渊冰眼"
+		"DOTA_Tooltip_Ability_item_recipe_lv_abyssal_skadi" 		"深渊冰眼配方"
+		"DOTA_SearchAlias_Ability_item_lv_abyssal_skadi" 		"shenyuanbingyan;shenyuanzhiren;sijiadizhiyan;zhongji;xuanyun;jiansukangxing;深渊之刃;斯嘉蒂之眼;重击;眩晕;减速抗性"
+		"DOTA_Tooltip_ability_item_lv_abyssal_skadi_Description" 		"由深渊之刃与斯嘉蒂之眼融合而成。<br><br><h1>主动：强击</h1><font color='#2dd5e4'>击晕</font>一个敌方目标，持续%stun_duration%秒。<br><br>无视减益免疫。\n\n<h1>被动：重击</h1>近战和远程英雄攻击时均有%bash_chance_melee%%%的概率<font color='#2dd5e4'>击晕</font>目标%bash_duration%秒，并额外造成%bonus_chance_damage%点物理伤害。\n\n<h1>被动：霜冻攻击</h1>攻击对敌方近战目标减缓%cold_slow_melee%%%移动速度，对敌方远程目标减缓%cold_slow_ranged%%%移动速度；同时降低%cold_attack_slow_melee%攻击速度和%restoration_reduction%%%生命恢复，持续%cold_duration%秒。"
+		"DOTA_Tooltip_ability_item_lv_abyssal_skadi_Lore" 		"冰眼凝视深渊，直至深渊也被冻结。"
+		"DOTA_Tooltip_ability_item_lv_abyssal_skadi_Note0" 		"重击不会与其他重击效果叠加。"
+		"DOTA_Tooltip_ability_item_lv_abyssal_skadi_Note1" 		"霜冻攻击不会与其他斯嘉蒂之眼的减速效果叠加。"
+		"DOTA_Tooltip_ability_item_lv_abyssal_skadi_bonus_damage" 		"+$damage"
+		"DOTA_Tooltip_ability_item_lv_abyssal_skadi_bonus_all_stats" 		"+$all"
+		"DOTA_Tooltip_ability_item_lv_abyssal_skadi_hp_regen_amp" 		"%+$restoration_amp"
+		"DOTA_Tooltip_ability_item_lv_abyssal_skadi_slow_resistance" 		"%+<font color='#9ec8e3'>减速抗性</font>"
+
 		// >>> BEGIN generated item upgrade tooltips <<<
 		// Generated by scripts/gen_item_localization.py — do not edit by hand.
-
-		// item_abyssal_blade
 
 		// item_aether_lens
 		"DOTA_Tooltip_Ability_item_lv_aether_lens"		"以太透镜·升级"
@@ -18524,17 +18609,6 @@
 		"DOTA_Tooltip_ability_item_lv_assault_Lore"		"在三途川的深处锻造而成，这件地狱盔甲能提高整支军队的护甲和攻击速度。经由更高层次的技艺淬炼后，它的力量已远非昔日可比。"
 		"DOTA_Tooltip_ability_item_lv_assault_bonus_armor"		"+$armor"
 		"DOTA_Tooltip_ability_item_lv_assault_bonus_attack_speed"		"+$attack"
-
-		// item_bfury
-		"DOTA_Tooltip_Ability_item_lv_bfury"		"狂战斧·升级"
-		"DOTA_Tooltip_Ability_item_recipe_lv_bfury"		"狂战斧·升级配方"
-		"DOTA_Tooltip_ability_item_lv_bfury_Description"		"<h1>主动：砍伐</h1>砍伐一根指定树木。\n\n<h1>被动：压制</h1>对非英雄单位进行物理攻击会造成额外伤害，近战英雄为%quelling_bonus%点，远程英雄为%quelling_bonus_ranged%点。\n\n<h1>被动：分裂</h1>普通攻击时对目标周围最远%cleave_distance%距离的锥形区域内敌人造成%cleave_damage_percent%%%物理伤害。对非英雄单位造成%cleave_damage_percent_creep%%%物理伤害。（仅近战有效）"
-		"DOTA_Tooltip_ability_item_lv_bfury_Lore"		"握着这把强大的斧头可以一次砍倒一片敌人。经由更高层次的技艺淬炼后，它的力量已远非昔日可比。"
-		"DOTA_Tooltip_ability_item_lv_bfury_Note0"		"分裂伤害无视减益免疫。"
-		"DOTA_Tooltip_ability_item_lv_bfury_Note1"		"如果存在多个分裂效果，每个分裂的伤害都会单独计算。"
-		"DOTA_Tooltip_ability_item_lv_bfury_bonus_damage"		"+$damage"
-		"DOTA_Tooltip_ability_item_lv_bfury_bonus_health_regen"		"+$hp_regen"
-		"DOTA_Tooltip_ability_item_lv_bfury_bonus_mana_regen"		"+$mana_regen"
 
 		// item_bloodthorn
 		"DOTA_Tooltip_Ability_item_lv_bloodthorn"		"血棘·升级"
@@ -18812,8 +18886,6 @@
 		"DOTA_Tooltip_ability_item_lv_silver_edge_bonus_attack_speed"		"+$attack"
 		"DOTA_Tooltip_ability_item_lv_silver_edge_bonus_damage"		"+$damage"
 
-		// item_skadi
-
 		// item_sphere
 		"DOTA_Tooltip_Ability_item_lv_sphere"		"林肯法球·升级"
 		"DOTA_Tooltip_Ability_item_recipe_lv_sphere"		"林肯法球·升级配方"
@@ -18832,78 +18904,6 @@
 		"DOTA_Tooltip_ability_item_lv_swift_blink_Lore"		"一把聪颖的战刃，可以预见佩戴者的动向并加以实现。经由更高层次的技艺淬炼后，它的力量已远非昔日可比。"
 		"DOTA_Tooltip_ability_item_lv_swift_blink_Note0"		"快速点击两次会将自己往己方泉水方向传送。"
 		"DOTA_Tooltip_ability_item_lv_swift_blink_bonus_agility"		"+$agi"
-
-		// item_trident
-		"DOTA_Tooltip_Ability_item_lv_trident"		"三元重戟·升级"
-		"DOTA_Tooltip_Ability_item_recipe_lv_trident"		"三元重戟·升级配方"
-		"DOTA_Tooltip_ability_item_lv_trident_Description"		"由散华、夜叉、慧光和金箍棒一起合成。<br><br><h1>被动：纯粹打击</h1>攻击不会落空，并且每次攻击额外造成%pure_damage_attack%点纯粹伤害。攻击距离加成可以与其他装备以及多件本装备叠加。"
-		"DOTA_Tooltip_ability_item_lv_trident_bonus_agility"		"+$agi"
-		"DOTA_Tooltip_ability_item_lv_trident_bonus_attack_speed"		"+$attack"
-		"DOTA_Tooltip_ability_item_lv_trident_bonus_intellect"		"+$int"
-		"DOTA_Tooltip_ability_item_lv_trident_bonus_strength"		"+$str"
-		"DOTA_Tooltip_ability_item_lv_trident_cast_speed_pct"		"%+施法速度加成"
-		"DOTA_Tooltip_ability_item_lv_trident_hp_regen_amp"		"%+生命恢复和吸血增强"
-		"DOTA_Tooltip_ability_item_lv_trident_pure_damage_attack"		"+纯粹伤害攻击"
-		"DOTA_Tooltip_ability_item_lv_trident_stackable_attack_range"		"+$attack_range"
-		"DOTA_Tooltip_ability_item_lv_trident_mana_regen_multiplier"		"%+魔法恢复增强"
-		"DOTA_Tooltip_ability_item_lv_trident_manacost_reduction"		"%+魔法消耗/魔法损失降低"
-		"DOTA_Tooltip_ability_item_lv_trident_movement_speed_percent_bonus"		"%+$move_speed"
-		"DOTA_Tooltip_ability_item_lv_trident_slow_resistance"		"%+<font color='#9ec8e3'>减速抗性</font>"
-		"DOTA_Tooltip_ability_item_lv_trident_spell_amp"		"%+技能增强"
-		"DOTA_Tooltip_ability_item_lv_trident_spell_lifesteal_amp"		"%+技能吸血增强"
-		"DOTA_Tooltip_ability_item_lv_trident_status_resistance"		"%+<font color='#b99012'>状态抗性</font>"
-		"DOTA_Tooltip_ability_item_lv_trident_Lore"		"经由更高层次的技艺淬炼而成，它的力量已远非昔日可比。"
-
-		// item_butterfly + item_greater_crit fusion
-		"DOTA_Tooltip_Ability_item_lv_butterfly_crit"		"蝶翼之殇"
-		"DOTA_Tooltip_Ability_item_recipe_lv_butterfly_crit"		"蝶翼之殇配方"
-		"DOTA_SearchAlias_Ability_item_lv_butterfly_crit"		"dieyizhishang;hudie;daidalusizhishang;baoji;shanbi;蝴蝶;代达罗斯之殇;暴击;闪避"
-		"DOTA_Tooltip_ability_item_lv_butterfly_crit_Description"		"由蝴蝶和代达罗斯之殇融合而成。<br><br><h1>被动：必然致命一击</h1>对非建筑单位的每次攻击都有%crit_chance%%%几率造成%crit_multiplier%%%伤害，并提供%bonus_evasion%%%闪避。"
-		"DOTA_Tooltip_ability_item_lv_butterfly_crit_Lore"		"翠绿蝶翼引导着注定致命的锋刃，每一次挥击都通往终结。"
-		"DOTA_Tooltip_ability_item_lv_butterfly_crit_Note0"		"致命一击对建筑无效。"
-		"DOTA_Tooltip_ability_item_lv_butterfly_crit_Note1"		"与其他闪避效果为非线性叠加。"
-		"DOTA_Tooltip_ability_item_lv_butterfly_crit_bonus_agility"		"+$agi"
-		"DOTA_Tooltip_ability_item_lv_butterfly_crit_bonus_attack_speed_pct"		"%+$attack_pct"
-		"DOTA_Tooltip_ability_item_lv_butterfly_crit_bonus_damage"		"+$damage"
-		"DOTA_Tooltip_ability_item_lv_butterfly_crit_butterfly_bonus_damage"		"+$damage"
-		"DOTA_Tooltip_ability_item_lv_butterfly_crit_bonus_evasion"		"%+$evasion"
-
-		// item_satanic + item_heart 融合
-		"DOTA_Tooltip_Ability_item_lv_satanic_heart"		"不洁魔心"
-		"DOTA_Tooltip_Ability_item_recipe_lv_satanic_heart"		"不洁魔心配方"
-		"DOTA_SearchAlias_Ability_item_lv_satanic_heart"		"bujiemoxin;sadanzhiyeli;kongaozhixin;xixue;liliang;撒旦之邪力;恐鳌之心;吸血;力量"
-		"DOTA_Tooltip_ability_item_lv_satanic_heart_Description"		"由撒旦之邪力与恐鳌之心融合而成。<br><br><h1>主动：不洁狂热</h1>吸血效果提升至%unholy_lifesteal_total_tooltip%%%，持续%unholy_duration%秒。<br><br>驱散类型：<span class=\"GameplayValues GameplayVariable\">弱驱散</span>\n\n<h1>被动：吸血</h1>攻击者每次攻击都将根据造成伤害的一定百分比回复生命值。\n\n<h1>被动：巨兽之血</h1>生命恢复提升缺失生命值的%missing_health_regen%%%。"
-		"DOTA_Tooltip_ability_item_lv_satanic_heart_Lore"		"一颗从未停止跳动的心脏，被缚在一把从未停止饮血的利刃之上。"
-		"DOTA_Tooltip_ability_item_lv_satanic_heart_Note0"		"多个巨兽之血的效果不会叠加。"
-		"DOTA_Tooltip_ability_item_lv_satanic_heart_Note1"		"多个吸血效果不会叠加。"
-		"DOTA_Tooltip_ability_item_lv_satanic_heart_bonus_strength"		"+$str"
-		"DOTA_Tooltip_ability_item_lv_satanic_heart_bonus_damage"		"+$damage"
-		"DOTA_Tooltip_ability_item_lv_satanic_heart_lifesteal_percent"		"%+$lifesteal"
-		"DOTA_Tooltip_ability_item_lv_satanic_heart_hp_regen"		"%+最大生命值恢复"
-		"DOTA_Tooltip_ability_item_lv_satanic_heart_missing_health_regen"		"%+缺失生命值恢复"
-
-		// item_sphere + item_lotus_orb consumable fusion
-		"DOTA_Tooltip_Ability_item_lv_mirror_shield"		"无间神镜盾"
-		"DOTA_Tooltip_Ability_item_recipe_lv_mirror_shield"		"无间神镜盾配方"
-		"DOTA_SearchAlias_Ability_item_lv_mirror_shield"		"wujianshenjingdun;shenjingdun;linken;lotus;mirror;林肯法球;清莲宝珠;神镜盾"
-		"DOTA_Tooltip_ability_item_lv_mirror_shield_Description"		"由林肯法球和清莲宝珠融合而成。进入存活英雄的主装备栏后自动吸收，不再占用物品格，也不保留两件材料的属性。<br><br><h1>永久被动：无间回音坚盾</h1>抵挡并反弹大多数指向性技能给施法者。此效果没有冷却时间。"
-		"DOTA_Tooltip_ability_item_lv_mirror_shield_Lore"		"球体吞没了宝珠的回音，只留下永不沉寂的镜面。"
-		"DOTA_Tooltip_ability_item_lv_mirror_shield_Note0"		"无法触发原版法术抵挡或法术反弹的技能仍不会触发本效果。"
-		"DOTA_Tooltip_modifier_item_lv_mirror_shield_consumed_status"		"无间回音坚盾"
-		"DOTA_Tooltip_modifier_item_lv_mirror_shield_consumed_status_Description"		"永久抵挡并反弹大多数指向性技能，没有冷却时间。"
-
-		// 深渊之刃 + 斯嘉蒂之眼融合
-		"DOTA_Tooltip_Ability_item_lv_abyssal_skadi"		"深渊冰眼"
-		"DOTA_Tooltip_Ability_item_recipe_lv_abyssal_skadi"		"深渊冰眼配方"
-		"DOTA_SearchAlias_Ability_item_lv_abyssal_skadi"		"shenyuanbingyan;shenyuanzhiren;sijiadizhiyan;zhongji;xuanyun;jiansukangxing;深渊之刃;斯嘉蒂之眼;重击;眩晕;减速抗性"
-		"DOTA_Tooltip_ability_item_lv_abyssal_skadi_Description"		"由深渊之刃与斯嘉蒂之眼融合而成。<br><br><h1>主动：强击</h1><font color='#2dd5e4'>击晕</font>一个敌方目标，持续%stun_duration%秒。<br><br>无视减益免疫。\n\n<h1>被动：重击</h1>近战和远程英雄攻击时均有%bash_chance_melee%%%的概率<font color='#2dd5e4'>击晕</font>目标%bash_duration%秒，并额外造成%bonus_chance_damage%点物理伤害。\n\n<h1>被动：霜冻攻击</h1>攻击对敌方近战目标减缓%cold_slow_melee%%%移动速度，对敌方远程目标减缓%cold_slow_ranged%%%移动速度；同时降低%cold_attack_slow_melee%攻击速度和%restoration_reduction%%%生命恢复，持续%cold_duration%秒。"
-		"DOTA_Tooltip_ability_item_lv_abyssal_skadi_Lore"		"冰眼凝视深渊，直至深渊也被冻结。"
-		"DOTA_Tooltip_ability_item_lv_abyssal_skadi_Note0"		"重击不会与其他重击效果叠加。"
-		"DOTA_Tooltip_ability_item_lv_abyssal_skadi_Note1"		"霜冻攻击不会与其他斯嘉蒂之眼的减速效果叠加。"
-		"DOTA_Tooltip_ability_item_lv_abyssal_skadi_bonus_damage"		"+$damage"
-		"DOTA_Tooltip_ability_item_lv_abyssal_skadi_bonus_all_stats"		"+$all"
-		"DOTA_Tooltip_ability_item_lv_abyssal_skadi_hp_regen_amp"		"%+$restoration_amp"
-		"DOTA_Tooltip_ability_item_lv_abyssal_skadi_slow_resistance"		"%+<font color='#9ec8e3'>减速抗性</font>"
 
 		// item_wind_waker
 		"DOTA_Tooltip_Ability_item_lv_wind_waker"		"风之杖·升级"

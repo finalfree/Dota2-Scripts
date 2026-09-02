@@ -193,68 +193,6 @@
 	}
 
 	//=================================================================================
-	// Upgrade: item_bfury
-	//=================================================================================
-	"item_lv_bfury"
-	{
-		"ID"				"10016"
-		"BaseClass"			"item_bfury"		// 继承原物品全部行为，无需 lua
-		"AbilityTextureName"		"item_bfury"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
-		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_TREE | DOTA_UNIT_TARGET_CUSTOM"
-		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_CUSTOM"
-		"AbilityCastRange"			"350"
-		"AbilityCastPoint"			"0.0"
-		"ItemShopTags"			"damage;health_regen;mana_regen;hard_to_tag;farming;dps"
-		"ItemQuality"			"epic"
-		"ItemDeclarations"			"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
-		"SuggestLategame"			"1"
-		"ItemPurchasable"		"1"		// 出现在原物品的商店升级树中
-		"ItemCost"			"4900"		// 3900 原物品 + 1000 卷轴
-		"AbilityCooldown"			"2.0"
-
-		"AbilityValues"
-		{
-			"bonus_damage"		"50"
-			"bonus_health_regen"		"7.5"
-			"bonus_mana_regen"		"2.75"
-			"cleave_damage_percent"		"100"
-			"cleave_damage_percent_creep"		"100"
-			"quelling_bonus"		"10"
-			"quelling_bonus_ranged"		"5"
-			"cleave_starting_width"
-			{
-				"value"		"250"
-				"affected_by_aoe_increase"		"1"
-			}
-			"cleave_ending_width"
-			{
-				"value"		"560"
-				"affected_by_aoe_increase"		"1"
-			}
-			"cleave_distance"		"750"
-			"upgraded_cleave_bonus"		"25"
-			"upgraded_damage_bonus"		"15"
-		}
-	}
-
-	"item_recipe_lv_bfury"
-	{
-		"ID"				"10015"
-		"BaseClass"			"item_datadriven"
-		"AbilityTextureName"		"item_recipe_ultimate_scepter_2"
-		"Model"				"models/props_gameplay/recipe.vmdl"
-		"ItemCost"			"1000"
-		"ItemPurchasable"		"1"
-		"ItemRecipe"			"1"
-		"ItemResult"			"item_lv_bfury"
-		"ItemRequirements"
-		{
-			"01"				"item_bfury"
-		}
-	}
-
-	//=================================================================================
 	// Upgrade: item_bloodthorn
 	//=================================================================================
 	"item_lv_bloodthorn"

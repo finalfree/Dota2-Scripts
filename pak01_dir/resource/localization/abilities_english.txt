@@ -18547,10 +18547,95 @@
 		"DOTA_Tooltip_Ability_per_hero_level_up_multiple_no_base"	"<span class=\"GameplayVariable\">%s1</span> (%s2 per %s3 levels)"
 	
 
+
+		// Battle Fury + upgrade scroll -> private Black Dragon splash
+		"DOTA_Tooltip_Ability_item_lv_dragon_splash"                    "Dragon Breath Splash"
+		"DOTA_Tooltip_Ability_item_recipe_lv_dragon_splash"             "Dragon Breath Splash Recipe"
+		"DOTA_SearchAlias_Ability_item_lv_dragon_splash"                "dragon breath;splash;black dragon;cleave"
+		"DOTA_Tooltip_ability_item_lv_dragon_splash_Description"        "Fuses Battle Fury and an upgrade scroll. The item is automatically absorbed by a living hero in the main inventory and no longer occupies an item slot.<br><br><h1>Permanent Passive: Dragon Breath Splash</h1>Attacks deal %damage_percent%%% attack damage to enemies within %range% of the target. Works for both ranged and melee heroes.<br><br>Grants %bonus_damage% attack damage, %bonus_health_regen% health regeneration, and %bonus_mana_regen% mana regeneration."
+		"DOTA_Tooltip_ability_item_lv_dragon_splash_Lore"              "The Black Dragon's explosive power sealed into an unquenchable breath."
+		"DOTA_Tooltip_ability_item_lv_dragon_splash_range"              "SPLASH RADIUS:"
+		"DOTA_Tooltip_ability_item_lv_dragon_splash_damage_percent"     "SPLASH DAMAGE:"
+		"DOTA_Tooltip_ability_item_lv_dragon_splash_bonus_damage"       "+$damage"
+		"DOTA_Tooltip_ability_item_lv_dragon_splash_bonus_health_regen" "+$health_regen"
+		"DOTA_Tooltip_ability_item_lv_dragon_splash_bonus_mana_regen"   "+$mana_regen"
+		"DOTA_Tooltip_modifier_lv_black_dragon_splash_status"           "Dragon Breath Splash"
+		"DOTA_Tooltip_modifier_lv_black_dragon_splash_status_Description" "Permanent attack splash in a 500 radius; works for ranged and melee heroes."
+
+		// item_trident
+		"DOTA_Tooltip_Ability_item_lv_trident" 		"Upgraded Trident"
+		"DOTA_Tooltip_Ability_item_recipe_lv_trident" 		"Upgraded Trident Recipe"
+		"DOTA_Tooltip_ability_item_lv_trident_Description" 		"Combines Sange, Yasha, Kaya and Monkey King Bar together.<br><br><h1>Passive: Pure Strike</h1>Attacks cannot miss, and each attack deals %pure_damage_attack% bonus pure damage. Its attack range bonus stacks with other items and additional copies of this item."
+		"DOTA_Tooltip_ability_item_lv_trident_bonus_agility" 		"+$agi"
+		"DOTA_Tooltip_ability_item_lv_trident_bonus_attack_speed" 		"+$attack"
+		"DOTA_Tooltip_ability_item_lv_trident_bonus_intellect" 		"+$int"
+		"DOTA_Tooltip_ability_item_lv_trident_bonus_strength" 		"+$str"
+		"DOTA_Tooltip_ability_item_lv_trident_cast_speed_pct" 		"%+Cast Speed Bonus"
+		"DOTA_Tooltip_ability_item_lv_trident_hp_regen_amp" 		"%+Health Regen and Lifesteal Amp"
+		"DOTA_Tooltip_ability_item_lv_trident_pure_damage_attack" 		"+Pure Damage Attack"
+		"DOTA_Tooltip_ability_item_lv_trident_stackable_attack_range" 		"+$attack_range"
+		"DOTA_Tooltip_ability_item_lv_trident_mana_regen_multiplier" 		"%+Mana Regen Amplification"
+		"DOTA_Tooltip_ability_item_lv_trident_manacost_reduction" 		"%+Mana Cost/Mana Loss Reduction"
+		"DOTA_Tooltip_ability_item_lv_trident_movement_speed_percent_bonus" 		"%+$move_speed"
+		"DOTA_Tooltip_ability_item_lv_trident_slow_resistance" 		"%+Slow Resistance"
+		"DOTA_Tooltip_ability_item_lv_trident_spell_amp" 		"%+Spell Amplification"
+		"DOTA_Tooltip_ability_item_lv_trident_spell_lifesteal_amp" 		"%+Spell Lifesteal Amplification"
+		"DOTA_Tooltip_ability_item_lv_trident_status_resistance" 		"%+Status Resistance"
+		"DOTA_Tooltip_ability_item_lv_trident_Lore" 		"Tempered by higher craftsmanship, its power far exceeds the original."
+
+		// item_butterfly + item_greater_crit fusion
+		"DOTA_Tooltip_Ability_item_lv_butterfly_crit" 		"Butterfly's Demise"
+		"DOTA_Tooltip_Ability_item_recipe_lv_butterfly_crit" 		"Butterfly's Demise Recipe"
+		"DOTA_SearchAlias_Ability_item_lv_butterfly_crit" 		"butterfly;daedalus;crit;evasion"
+		"DOTA_Tooltip_ability_item_lv_butterfly_crit_Description" 		"Fuses Butterfly and Daedalus together.<br><br><h1>Passive: Perfect Critical Strike</h1>Every attack against a non-building unit has a %crit_chance%%% chance to deal %crit_multiplier%%% damage. Grants %bonus_evasion%%% Evasion."
+		"DOTA_Tooltip_ability_item_lv_butterfly_crit_Lore" 		"Emerald wings guide the edge of a weapon whose every stroke is destined to be fatal."
+		"DOTA_Tooltip_ability_item_lv_butterfly_crit_Note0" 		"Critical Strike does not work against buildings."
+		"DOTA_Tooltip_ability_item_lv_butterfly_crit_Note1" 		"Stacks diminishingly with other sources of Evasion."
+		"DOTA_Tooltip_ability_item_lv_butterfly_crit_bonus_agility" 		"+$agi"
+		"DOTA_Tooltip_ability_item_lv_butterfly_crit_bonus_attack_speed_pct" 		"%+$attack_pct"
+		"DOTA_Tooltip_ability_item_lv_butterfly_crit_bonus_damage" 		"+$damage"
+		"DOTA_Tooltip_ability_item_lv_butterfly_crit_butterfly_bonus_damage" 		"+$damage"
+		"DOTA_Tooltip_ability_item_lv_butterfly_crit_bonus_evasion" 		"%+$evasion"
+
+		// item_satanic + item_heart fusion
+		"DOTA_Tooltip_Ability_item_lv_satanic_heart" 		"Unholy Heart"
+		"DOTA_Tooltip_Ability_item_recipe_lv_satanic_heart" 		"Unholy Heart Recipe"
+		"DOTA_SearchAlias_Ability_item_lv_satanic_heart" 		"satanic;heart;tarrasque;lifesteal;strength"
+		"DOTA_Tooltip_ability_item_lv_satanic_heart_Description" 		"Fuses Satanic and Heart of Tarrasque together.<br><br><h1>Active: Unholy Rage</h1>Increases Lifesteal percentage to %unholy_lifesteal_total_tooltip%%% for %unholy_duration% seconds.<br><br>Dispel Type: <span class=\"GameplayValues GameplayVariable\">Basic Dispel</span>\n\n<h1>Passive: Lifesteal</h1>Heals the attacker for a percentage of physical damage dealt.\n\n<h1>Passive: Behemoth's Blood</h1>Your health regeneration is increased by %missing_health_regen%%% of your missing health."
+		"DOTA_Tooltip_ability_item_lv_satanic_heart_Lore" 		"A heart that never stopped beating, lashed to a blade that never stopped drinking."
+		"DOTA_Tooltip_ability_item_lv_satanic_heart_Note0" 		"Multiple instances of Behemoth's Blood do not stack."
+		"DOTA_Tooltip_ability_item_lv_satanic_heart_Note1" 		"Multiple instances of Lifesteal do not stack."
+		"DOTA_Tooltip_ability_item_lv_satanic_heart_bonus_strength" 		"+$str"
+		"DOTA_Tooltip_ability_item_lv_satanic_heart_bonus_damage" 		"+$damage"
+		"DOTA_Tooltip_ability_item_lv_satanic_heart_lifesteal_percent" 		"%+$lifesteal"
+		"DOTA_Tooltip_ability_item_lv_satanic_heart_hp_regen" 		"%+Max Health Regen"
+		"DOTA_Tooltip_ability_item_lv_satanic_heart_missing_health_regen" 		"%+Missing Health Regen"
+
+		// item_sphere + item_lotus_orb consumable fusion
+		"DOTA_Tooltip_Ability_item_lv_mirror_shield" 		"Boundless Mirror Shield"
+		"DOTA_Tooltip_Ability_item_recipe_lv_mirror_shield" 		"Boundless Mirror Shield Recipe"
+		"DOTA_SearchAlias_Ability_item_lv_mirror_shield" 		"linken;lotus;mirror;spell block;spell reflect"
+		"DOTA_Tooltip_ability_item_lv_mirror_shield_Description" 		"Fuses Linken's Sphere and Lotus Orb. It is automatically absorbed when it enters a living hero's main inventory, freeing the item slot and discarding both components' stats.<br><br><h1>Permanent Passive: Boundless Echo Shield</h1>Blocks and reflects most targeted spells back to their caster. This effect has no cooldown."
+		"DOTA_Tooltip_ability_item_lv_mirror_shield_Lore" 		"The sphere swallowed the orb's echo, leaving behind a mirror that never falls silent."
+		"DOTA_Tooltip_ability_item_lv_mirror_shield_Note0" 		"Abilities that do not trigger normal spell block or spell reflection still do not trigger this effect."
+		"DOTA_Tooltip_modifier_item_lv_mirror_shield_consumed_status" 		"Boundless Echo Shield"
+		"DOTA_Tooltip_modifier_item_lv_mirror_shield_consumed_status_Description" 		"Permanently blocks and reflects most targeted spells with no cooldown."
+
+		// Abyssal Blade + Eye of Skadi fusion
+		"DOTA_Tooltip_Ability_item_lv_abyssal_skadi" 		"Abyssal Eye"
+		"DOTA_Tooltip_Ability_item_recipe_lv_abyssal_skadi" 		"Abyssal Eye Recipe"
+		"DOTA_SearchAlias_Ability_item_lv_abyssal_skadi" 		"abyssal;skadi;eye;bash;stun;cold;slow resistance"
+		"DOTA_Tooltip_ability_item_lv_abyssal_skadi_Description" 		"Fuses Abyssal Blade and Eye of Skadi.<br><br><h1>Active: Overwhelm</h1>Stuns a target enemy unit for %stun_duration% seconds.<br><br>Pierces Debuff Immunity.\n\n<h1>Passive: Bash</h1>Grants melee and ranged heroes a %bash_chance_melee%%% chance on hit to stun the target for %bash_duration% seconds and deal %bonus_chance_damage% bonus physical damage.\n\n<h1>Passive: Cold Attack</h1>Attacks slow enemy movement by %cold_slow_melee%%% against melee targets and %cold_slow_ranged%%% against ranged targets. They also reduce attack speed by %cold_attack_slow_melee% and Health Restoration by %restoration_reduction%%%. Lasts %cold_duration% seconds."
+		"DOTA_Tooltip_ability_item_lv_abyssal_skadi_Lore" 		"The eye stared into the abyss until the abyss froze solid."
+		"DOTA_Tooltip_ability_item_lv_abyssal_skadi_Note0" 		"Bash does not stack with other bash effects."
+		"DOTA_Tooltip_ability_item_lv_abyssal_skadi_Note1" 		"Cold Attack does not stack with other Eye of Skadi slows."
+		"DOTA_Tooltip_ability_item_lv_abyssal_skadi_bonus_damage" 		"+$damage"
+		"DOTA_Tooltip_ability_item_lv_abyssal_skadi_bonus_all_stats" 		"+$all"
+		"DOTA_Tooltip_ability_item_lv_abyssal_skadi_hp_regen_amp" 		"%+$restoration_amp"
+		"DOTA_Tooltip_ability_item_lv_abyssal_skadi_slow_resistance" 		"%+Slow Resistance"
+
 		// >>> BEGIN generated item upgrade tooltips <<<
 		// Generated by scripts/gen_item_localization.py — do not edit by hand.
-
-		// item_abyssal_blade
 
 		// item_aether_lens
 		"DOTA_Tooltip_Ability_item_lv_aether_lens"		"Upgraded Aether Lens"
@@ -18589,17 +18674,6 @@
 		"DOTA_Tooltip_ability_item_lv_assault_Lore"		"Forged in the depths of the nether reaches, this hellish mail provides an army with increased armor and attack speed. Tempered by higher craftsmanship, its power now far exceeds the original."
 		"DOTA_Tooltip_ability_item_lv_assault_bonus_armor"		"+$armor"
 		"DOTA_Tooltip_ability_item_lv_assault_bonus_attack_speed"		"+$attack"
-
-		// item_bfury
-		"DOTA_Tooltip_Ability_item_lv_bfury"		"Upgraded Battle Fury"
-		"DOTA_Tooltip_Ability_item_recipe_lv_bfury"		"Upgraded Battle Fury Recipe"
-		"DOTA_Tooltip_ability_item_lv_bfury_Description"		"<h1>Active: Chop Tree</h1> Destroy a target tree. \n\n<h1>Passive: Quell</h1> Increases attack damage against non-hero units by %quelling_bonus% for melee heroes, and %quelling_bonus_ranged% for ranged. \n\n<h1>Passive: Cleave</h1> Deals %cleave_damage_percent%%% of attack damage as physical damage in a cone up to %cleave_distance% around the target. Deals %cleave_damage_percent_creep%%% against creeps. (Melee Only)"
-		"DOTA_Tooltip_ability_item_lv_bfury_Lore"		"The bearer of this mighty axe gains the ability to cut down swaths of enemies at once. Tempered by higher craftsmanship, its power now far exceeds the original."
-		"DOTA_Tooltip_ability_item_lv_bfury_Note0"		"Cleave damage goes through spell immunity."
-		"DOTA_Tooltip_ability_item_lv_bfury_Note1"		"If multiple sources of Cleave are present, each Cleave's damage is applied separately."
-		"DOTA_Tooltip_ability_item_lv_bfury_bonus_damage"		"+$damage"
-		"DOTA_Tooltip_ability_item_lv_bfury_bonus_health_regen"		"+$hp_regen"
-		"DOTA_Tooltip_ability_item_lv_bfury_bonus_mana_regen"		"+$mana_regen"
 
 		// item_bloodthorn
 		"DOTA_Tooltip_Ability_item_lv_bloodthorn"		"Upgraded Bloodthorn"
@@ -18877,8 +18951,6 @@
 		"DOTA_Tooltip_ability_item_lv_silver_edge_bonus_attack_speed"		"+$attack"
 		"DOTA_Tooltip_ability_item_lv_silver_edge_bonus_damage"		"+$damage"
 
-		// item_skadi
-
 		// item_sphere
 		"DOTA_Tooltip_Ability_item_lv_sphere"		"Upgraded Linken's Sphere"
 		"DOTA_Tooltip_Ability_item_recipe_lv_sphere"		"Upgraded Linken's Sphere Recipe"
@@ -18897,78 +18969,6 @@
 		"DOTA_Tooltip_ability_item_lv_swift_blink_Lore"		"A cunning blade able to anticipate and enable its bearer's movements. Tempered by higher craftsmanship, its power now far exceeds the original."
 		"DOTA_Tooltip_ability_item_lv_swift_blink_Note0"		"Self-casting will cause you to teleport in the direction of your team's fountain."
 		"DOTA_Tooltip_ability_item_lv_swift_blink_bonus_agility"		"+$agi"
-
-		// item_trident
-		"DOTA_Tooltip_Ability_item_lv_trident"		"Upgraded Trident"
-		"DOTA_Tooltip_Ability_item_recipe_lv_trident"		"Upgraded Trident Recipe"
-		"DOTA_Tooltip_ability_item_lv_trident_Description"		"Combines Sange, Yasha, Kaya and Monkey King Bar together.<br><br><h1>Passive: Pure Strike</h1>Attacks cannot miss, and each attack deals %pure_damage_attack% bonus pure damage. Its attack range bonus stacks with other items and additional copies of this item."
-		"DOTA_Tooltip_ability_item_lv_trident_bonus_agility"		"+$agi"
-		"DOTA_Tooltip_ability_item_lv_trident_bonus_attack_speed"		"+$attack"
-		"DOTA_Tooltip_ability_item_lv_trident_bonus_intellect"		"+$int"
-		"DOTA_Tooltip_ability_item_lv_trident_bonus_strength"		"+$str"
-		"DOTA_Tooltip_ability_item_lv_trident_cast_speed_pct"		"%+Cast Speed Bonus"
-		"DOTA_Tooltip_ability_item_lv_trident_hp_regen_amp"		"%+Health Regen and Lifesteal Amp"
-		"DOTA_Tooltip_ability_item_lv_trident_pure_damage_attack"		"+Pure Damage Attack"
-		"DOTA_Tooltip_ability_item_lv_trident_stackable_attack_range"		"+$attack_range"
-		"DOTA_Tooltip_ability_item_lv_trident_mana_regen_multiplier"		"%+Mana Regen Amplification"
-		"DOTA_Tooltip_ability_item_lv_trident_manacost_reduction"		"%+Mana Cost/Mana Loss Reduction"
-		"DOTA_Tooltip_ability_item_lv_trident_movement_speed_percent_bonus"		"%+$move_speed"
-		"DOTA_Tooltip_ability_item_lv_trident_slow_resistance"		"%+Slow Resistance"
-		"DOTA_Tooltip_ability_item_lv_trident_spell_amp"		"%+Spell Amplification"
-		"DOTA_Tooltip_ability_item_lv_trident_spell_lifesteal_amp"		"%+Spell Lifesteal Amplification"
-		"DOTA_Tooltip_ability_item_lv_trident_status_resistance"		"%+Status Resistance"
-		"DOTA_Tooltip_ability_item_lv_trident_Lore"		"Tempered by higher craftsmanship, its power far exceeds the original."
-
-		// item_butterfly + item_greater_crit fusion
-		"DOTA_Tooltip_Ability_item_lv_butterfly_crit"		"Butterfly's Demise"
-		"DOTA_Tooltip_Ability_item_recipe_lv_butterfly_crit"		"Butterfly's Demise Recipe"
-		"DOTA_SearchAlias_Ability_item_lv_butterfly_crit"		"butterfly;daedalus;crit;evasion"
-		"DOTA_Tooltip_ability_item_lv_butterfly_crit_Description"		"Fuses Butterfly and Daedalus together.<br><br><h1>Passive: Perfect Critical Strike</h1>Every attack against a non-building unit has a %crit_chance%%% chance to deal %crit_multiplier%%% damage. Grants %bonus_evasion%%% Evasion."
-		"DOTA_Tooltip_ability_item_lv_butterfly_crit_Lore"		"Emerald wings guide the edge of a weapon whose every stroke is destined to be fatal."
-		"DOTA_Tooltip_ability_item_lv_butterfly_crit_Note0"		"Critical Strike does not work against buildings."
-		"DOTA_Tooltip_ability_item_lv_butterfly_crit_Note1"		"Stacks diminishingly with other sources of Evasion."
-		"DOTA_Tooltip_ability_item_lv_butterfly_crit_bonus_agility"		"+$agi"
-		"DOTA_Tooltip_ability_item_lv_butterfly_crit_bonus_attack_speed_pct"		"%+$attack_pct"
-		"DOTA_Tooltip_ability_item_lv_butterfly_crit_bonus_damage"		"+$damage"
-		"DOTA_Tooltip_ability_item_lv_butterfly_crit_butterfly_bonus_damage"		"+$damage"
-		"DOTA_Tooltip_ability_item_lv_butterfly_crit_bonus_evasion"		"%+$evasion"
-
-		// item_satanic + item_heart fusion
-		"DOTA_Tooltip_Ability_item_lv_satanic_heart"		"Unholy Heart"
-		"DOTA_Tooltip_Ability_item_recipe_lv_satanic_heart"		"Unholy Heart Recipe"
-		"DOTA_SearchAlias_Ability_item_lv_satanic_heart"		"satanic;heart;tarrasque;lifesteal;strength"
-		"DOTA_Tooltip_ability_item_lv_satanic_heart_Description"		"Fuses Satanic and Heart of Tarrasque together.<br><br><h1>Active: Unholy Rage</h1>Increases Lifesteal percentage to %unholy_lifesteal_total_tooltip%%% for %unholy_duration% seconds.<br><br>Dispel Type: <span class=\"GameplayValues GameplayVariable\">Basic Dispel</span>\n\n<h1>Passive: Lifesteal</h1>Heals the attacker for a percentage of physical damage dealt.\n\n<h1>Passive: Behemoth's Blood</h1>Your health regeneration is increased by %missing_health_regen%%% of your missing health."
-		"DOTA_Tooltip_ability_item_lv_satanic_heart_Lore"		"A heart that never stopped beating, lashed to a blade that never stopped drinking."
-		"DOTA_Tooltip_ability_item_lv_satanic_heart_Note0"		"Multiple instances of Behemoth's Blood do not stack."
-		"DOTA_Tooltip_ability_item_lv_satanic_heart_Note1"		"Multiple instances of Lifesteal do not stack."
-		"DOTA_Tooltip_ability_item_lv_satanic_heart_bonus_strength"		"+$str"
-		"DOTA_Tooltip_ability_item_lv_satanic_heart_bonus_damage"		"+$damage"
-		"DOTA_Tooltip_ability_item_lv_satanic_heart_lifesteal_percent"		"%+$lifesteal"
-		"DOTA_Tooltip_ability_item_lv_satanic_heart_hp_regen"		"%+Max Health Regen"
-		"DOTA_Tooltip_ability_item_lv_satanic_heart_missing_health_regen"		"%+Missing Health Regen"
-
-		// item_sphere + item_lotus_orb consumable fusion
-		"DOTA_Tooltip_Ability_item_lv_mirror_shield"		"Boundless Mirror Shield"
-		"DOTA_Tooltip_Ability_item_recipe_lv_mirror_shield"		"Boundless Mirror Shield Recipe"
-		"DOTA_SearchAlias_Ability_item_lv_mirror_shield"		"linken;lotus;mirror;spell block;spell reflect"
-		"DOTA_Tooltip_ability_item_lv_mirror_shield_Description"		"Fuses Linken's Sphere and Lotus Orb. It is automatically absorbed when it enters a living hero's main inventory, freeing the item slot and discarding both components' stats.<br><br><h1>Permanent Passive: Boundless Echo Shield</h1>Blocks and reflects most targeted spells back to their caster. This effect has no cooldown."
-		"DOTA_Tooltip_ability_item_lv_mirror_shield_Lore"		"The sphere swallowed the orb's echo, leaving behind a mirror that never falls silent."
-		"DOTA_Tooltip_ability_item_lv_mirror_shield_Note0"		"Abilities that do not trigger normal spell block or spell reflection still do not trigger this effect."
-		"DOTA_Tooltip_modifier_item_lv_mirror_shield_consumed_status"		"Boundless Echo Shield"
-		"DOTA_Tooltip_modifier_item_lv_mirror_shield_consumed_status_Description"		"Permanently blocks and reflects most targeted spells with no cooldown."
-
-		// Abyssal Blade + Eye of Skadi fusion
-		"DOTA_Tooltip_Ability_item_lv_abyssal_skadi"		"Abyssal Eye"
-		"DOTA_Tooltip_Ability_item_recipe_lv_abyssal_skadi"		"Abyssal Eye Recipe"
-		"DOTA_SearchAlias_Ability_item_lv_abyssal_skadi"		"abyssal;skadi;eye;bash;stun;cold;slow resistance"
-		"DOTA_Tooltip_ability_item_lv_abyssal_skadi_Description"		"Fuses Abyssal Blade and Eye of Skadi.<br><br><h1>Active: Overwhelm</h1>Stuns a target enemy unit for %stun_duration% seconds.<br><br>Pierces Debuff Immunity.\n\n<h1>Passive: Bash</h1>Grants melee and ranged heroes a %bash_chance_melee%%% chance on hit to stun the target for %bash_duration% seconds and deal %bonus_chance_damage% bonus physical damage.\n\n<h1>Passive: Cold Attack</h1>Attacks slow enemy movement by %cold_slow_melee%%% against melee targets and %cold_slow_ranged%%% against ranged targets. They also reduce attack speed by %cold_attack_slow_melee% and Health Restoration by %restoration_reduction%%%. Lasts %cold_duration% seconds."
-		"DOTA_Tooltip_ability_item_lv_abyssal_skadi_Lore"		"The eye stared into the abyss until the abyss froze solid."
-		"DOTA_Tooltip_ability_item_lv_abyssal_skadi_Note0"		"Bash does not stack with other bash effects."
-		"DOTA_Tooltip_ability_item_lv_abyssal_skadi_Note1"		"Cold Attack does not stack with other Eye of Skadi slows."
-		"DOTA_Tooltip_ability_item_lv_abyssal_skadi_bonus_damage"		"+$damage"
-		"DOTA_Tooltip_ability_item_lv_abyssal_skadi_bonus_all_stats"		"+$all"
-		"DOTA_Tooltip_ability_item_lv_abyssal_skadi_hp_regen_amp"		"%+$restoration_amp"
-		"DOTA_Tooltip_ability_item_lv_abyssal_skadi_slow_resistance"		"%+Slow Resistance"
 
 		// item_wind_waker
 		"DOTA_Tooltip_Ability_item_lv_wind_waker"		"Upgraded Wind Waker"

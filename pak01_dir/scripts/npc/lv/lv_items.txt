@@ -631,4 +631,163 @@
 			"01"				"item_abyssal_blade;item_skadi;"
 		}
 	}
+
+	//=================================================================================
+	// Consumable fusion: Battle Fury + upgrade scroll -> permanent 500-radius splash
+	//
+	// The private ability supplies the values to the engine-native Black Dragon
+	// splash modifier.  It is added only to the hero who absorbs the item; the
+	// official black_dragon_splash_attack definition and npc_units.txt are untouched.
+	//=================================================================================
+	"lv_black_dragon_splash_attack"
+	{
+		"ID"                "10111"
+		"BaseClass"         "ability_datadriven"
+		"AbilityBehavior"   "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"MaxLevel"          "1"
+		"IsBreakable"       "1"
+		"AbilityTextureName" "item_lv_dragon_splash"
+
+		"AbilityValues"
+		{
+			"bonus_damage"     "50"
+			"bonus_health_regen" "10"
+			"bonus_mana_regen"  "5"
+			"range"
+			{
+				"value"                     "500"
+				"affected_by_aoe_increase"  "1"
+			}
+			"damage_percent"     "100"
+		}
+
+		// Visible, pure-KV status icon.  Gameplay is provided by the native
+		// modifier attached from item_lv_dragon_splash.lua.
+		"Modifiers"
+		{
+			"modifier_lv_black_dragon_splash_status"
+			{
+				"IsHidden"      "0"
+				"IsDebuff"      "0"
+				"IsPurgable"    "0"
+				"RemoveOnDeath" "0"
+				"ThinkInterval" "0.25"
+				"OnIntervalThink"
+				{
+					"RunScript"
+					{
+						"ScriptFile" "scripts/vscripts/lv/item_lv_dragon_splash.lua"
+						"Function"   "LVDragonSplashEnsureActive"
+					}
+				}
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE"  "%bonus_damage"
+					"MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT"  "%bonus_health_regen"
+					"MODIFIER_PROPERTY_MANA_REGEN_CONSTANT"    "%bonus_mana_regen"
+				}
+			}
+		}
+	}
+
+	"item_lv_dragon_splash"
+	{
+		"ID"                    "10110"
+		"BaseClass"             "item_datadriven"
+		"AbilityTextureName"    "item_lv_dragon_splash"
+		"AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"Model"                 "models/props_gameplay/neutral_box.vmdl"
+		"ItemPurchasable"       "1"
+		"ItemCost"              "4000"   // 3900 狂战斧 + 100 卷轴；行家阵列路线按实际材料价结算
+		"ItemSellable"          "1"
+		"ItemShopTags"          "damage;health_regen;mana_regen;farming;dps"
+		"ItemQuality"           "artifact"
+		"ItemDeclarations"      "DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		"ItemShareability"      "ITEM_NOT_SHAREABLE"
+		"ItemDisassembleRule"   "DOTA_ITEM_DISASSEMBLE_NEVER"
+		"AllowedInBackpack"     "0"
+		"IsTempestDoubleClonable" "0"
+
+		"AbilityValues"
+		{
+			"bonus_damage"          "50"
+			"bonus_health_regen"    "10"
+			"bonus_mana_regen"      "5"
+			"range"
+			{
+				"value"                     "500"
+				"affected_by_aoe_increase"  "1"
+			}
+			"damage_percent"     "100"
+		}
+
+		"Modifiers"
+		{
+			// Used only if the private ability cannot be registered in the
+			// current game build; the item is then retained hidden as provider.
+			"modifier_lv_black_dragon_splash_status"
+			{
+				"IsHidden"      "0"
+				"IsDebuff"      "0"
+				"IsPurgable"    "0"
+				"RemoveOnDeath" "0"
+				"ThinkInterval" "0.25"
+				"OnIntervalThink"
+				{
+					"RunScript"
+					{
+						"ScriptFile" "scripts/vscripts/lv/item_lv_dragon_splash.lua"
+						"Function"   "LVDragonSplashEnsureActive"
+					}
+				}
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE"  "%bonus_damage"
+					"MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT"  "%bonus_health_regen"
+					"MODIFIER_PROPERTY_MANA_REGEN_CONSTANT"    "%bonus_mana_regen"
+				}
+			}
+			"modifier_item_lv_dragon_splash_pending"
+			{
+				"Passive"       "1"
+				"IsHidden"      "1"
+				"IsPurgable"    "0"
+				"ThinkInterval" "0.25"
+				"OnCreated"
+				{
+					"RunScript"
+					{
+						"ScriptFile" "scripts/vscripts/lv/item_lv_dragon_splash.lua"
+						"Function"   "LVDragonSplashTryAbsorb"
+					}
+				}
+				"OnIntervalThink"
+				{
+					"RunScript"
+					{
+						"ScriptFile" "scripts/vscripts/lv/item_lv_dragon_splash.lua"
+						"Function"   "LVDragonSplashTryAbsorb"
+					}
+				}
+			}
+		}
+	}
+
+	"item_recipe_lv_dragon_splash"
+	{
+		"ID"                    "10109"
+		"BaseClass"             "item_datadriven"
+		"AbilityTextureName"    "item_recipe_ultimate_scepter_2"
+		"Model"                 "models/props_gameplay/recipe.vmdl"
+		"ItemCost"              "100"
+		"ItemPurchasable"       "1"
+		"ItemSellable"          "1"
+		"ItemRecipe"            "1"
+		"ItemResult"            "item_lv_dragon_splash"
+		"ItemRequirements"
+		{
+			"01"                    "item_bfury"
+			"02"                    "item_specialists_array"
+		}
+	}
 }
