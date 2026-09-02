@@ -313,6 +313,120 @@ class ItemResources(unittest.TestCase):
         self.assertFalse((RESOURCE /
                           "resource/flash3/images/items/item_lv_butterfly_crit.png").exists())
 
+    def test_satanic_heart_fusion_values_recipe_and_lua(self):
+        item = dict(self.custom["item_lv_satanic_heart"])
+        recipe = dict(self.custom["item_recipe_lv_satanic_heart"])
+        values = dict(item["AbilityValues"])
+        self.assertEqual(item["ID"], "10104")
+        self.assertEqual(recipe["ID"], "10103")
+        self.assertEqual(item["BaseClass"], "item_datadriven")
+        self.assertEqual(item["AbilityTextureName"], "item_lv_satanic_heart")
+        self.assertEqual(item["ItemCost"], "10251")
+        self.assertEqual(item["AbilityCooldown"], "5.0")
+        # bonus_strength is read by BOTH modifier_item_heart and
+        # modifier_item_satanic, so 75 is granted twice.
+        self.assertEqual(values, {
+            "bonus_strength": "75",
+            "bonus_damage": "25",
+            "lifesteal_percent": "30",
+            "hp_regen": "2",
+            "missing_health_regen": "1.5",
+            "unholy_lifesteal_percent": "145",
+            "unholy_lifesteal_total_tooltip": "175",
+            "unholy_duration": "6.0",
+        })
+        self.assertEqual(recipe["ItemCost"], "1")
+        self.assertEqual(recipe["ItemResult"], "item_lv_satanic_heart")
+        self.assertEqual(dict(recipe["ItemRequirements"]), {
+            "01": "item_satanic;item_heart;",
+        })
+
+        controller = dict(dict(item["Modifiers"])[
+            "modifier_item_lv_satanic_heart_controller"])
+        self.assertEqual(controller["Attributes"], "MODIFIER_ATTRIBUTE_MULTIPLE")
+        self.assertNotIn("Properties", controller)
+        callbacks = {
+            event: dict(dict(controller[event])["RunScript"])
+            for event in ("OnCreated", "OnDestroy")
+        }
+        self.assertEqual(callbacks["OnCreated"]["Function"],
+                         "LVSatanicHeartApplyModifiers")
+        self.assertEqual(callbacks["OnDestroy"]["Function"],
+                         "LVSatanicHeartRemoveModifiers")
+        spell = dict(dict(item["OnSpellStart"])["RunScript"])
+        self.assertEqual(spell["Function"], "LVSatanicHeartUnholyRage")
+
+        source_path = callbacks["OnCreated"]["ScriptFile"]
+        self.assertEqual(source_path, spell["ScriptFile"])
+        self.assertIn(source_path, self.manifest)
+        source = (RESOURCE / source_path).read_text(encoding="utf-8")
+        for native in ("modifier_item_satanic", "modifier_item_heart",
+                       "modifier_item_satanic_unholy"):
+            self.assertIn('"%s"' % native, source)
+        self.assertIn("AddNewModifier", source)
+        self.assertIn("duration", source)
+
+        # Vanilla Satanic's C++ OnSpellStart also applies a basic dispel and
+        # plays a sound. item_datadriven never runs that C++, so the Lua has to
+        # redo both.
+        self.assertIn("DOTA_Item.Satanic.Activate", source)
+        purge = re.search(r"hero:Purge\(([^)]*)\)", source)
+        self.assertIsNotNone(purge, "Unholy Rage must apply a basic dispel")
+        # Exact argument list, not just a substring: the outdated signature
+        # (bool, bool, handle, float, bool) would put 0 in slot 4, and 0 is
+        # truthy in Lua, which would turn a basic dispel into one that also
+        # purges stuns.
+        self.assertEqual([a.strip() for a in purge.group(1).split(",")],
+                         ["false", "true", "false", "false", "false"])
+
+        # The dispel/sound helpers must actually be CALLED from OnSpellStart.
+        # Checking the whole file is not enough -- leaving the helper defined but
+        # uncalled would still satisfy every assert above.
+        body = source.split("function LVSatanicHeartUnholyRage", 1)[1]
+        body = body.split("\nend", 1)[0]
+        self.assertIn("basic_dispel(hero)", body, "dispel is never called")
+        self.assertIn("EmitSound", body, "sound is never played")
+        self.assertIn("AddNewModifier", body)
+        self.assertLess(body.index("basic_dispel(hero)"),
+                        body.index("AddNewModifier"),
+                        "dispel must fire before the buff, as vanilla does")
+
+        self.assertNotIn("LinkLuaModifier", source)
+        self.assertNotIn("modifier_item_lv_satanic_heart_effect", source)
+        self.assertNotIn("class({})", source)
+        self.assertTrue((ROOT / "artwork/item-icons/lv_satanic_heart.png").is_file())
+        texture = "panorama/images/items/lv_satanic_heart_png.vtex_c"
+        self.assertIn(texture, self.manifest)
+        compiled_texture = (RESOURCE / texture).read_bytes()
+        self.assertEqual(len(compiled_texture), 7748)
+        self.assertEqual(
+            hashlib.sha256(compiled_texture).hexdigest(),
+            "7666f5f422a42bdf4dcb8391c17f18212b185c8841fae07fe526022f186bacee")
+
+    def test_replaced_satanic_and_heart_upgrades_are_reserved(self):
+        upgrades = (RESOURCE / "scripts/npc/lv/lv_upgrades.txt").read_text(
+            encoding="utf-8-sig")
+        manifest = (ROOT / "scripts/item_upgrades.json").read_text(encoding="utf-8")
+        generator = (ROOT / "scripts/gen_item_upgrades.py").read_text(encoding="utf-8")
+        for name in ("item_satanic", "item_heart"):
+            self.assertNotIn(f'"item_lv_{name[5:]}"', upgrades)
+            self.assertNotIn(f'"item_recipe_lv_{name[5:]}"', upgrades)
+            self.assertNotIn(f'"{name}"', manifest)
+            self.assertIn(repr(name), generator)
+
+        # The fusion item legitimately contains "item_lv_satanic" as a prefix,
+        # so the stale-key check has to exclude it.
+        stale = re.compile(r"item_(?:recipe_)?lv_(?:satanic|heart)(?!_heart)",
+                           re.IGNORECASE)
+        for language in ("english", "schinese"):
+            root = dict(read_kv(RESOURCE / f"resource/localization/abilities_{language}.txt"))
+            pairs = dict(root["lang"])["Tokens"]
+            localized = [(key.lower(), value) for key, value in pairs
+                         if "item_lv_satanic_heart" in key.lower()]
+            self.assertEqual(len(localized), len(dict(localized)))
+            self.assertEqual(len(localized), 11)
+            self.assertFalse(any(stale.search(key) for key, _ in pairs))
+
     def test_replaced_butterfly_and_daedalus_upgrades_are_reserved(self):
         upgrades = (RESOURCE / "scripts/npc/lv/lv_upgrades.txt").read_text(
             encoding="utf-8-sig")

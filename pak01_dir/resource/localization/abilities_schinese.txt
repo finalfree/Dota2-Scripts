@@ -18667,16 +18667,6 @@
 		"DOTA_Tooltip_ability_item_lv_harpoon_bonus_mana_regen"		"+$mana_regen"
 		"DOTA_Tooltip_ability_item_lv_harpoon_bonus_strength"		"+$str"
 
-		// item_heart
-		"DOTA_Tooltip_Ability_item_lv_heart"		"恐鳌之心·升级"
-		"DOTA_Tooltip_Ability_item_recipe_lv_heart"		"恐鳌之心·升级配方"
-		"DOTA_Tooltip_ability_item_lv_heart_Description"		"<h1>被动：巨兽之血</h1>生命恢复提升缺失生命值的%missing_health_regen%%%。"
-		"DOTA_Tooltip_ability_item_lv_heart_Lore"		"保存完好的心脏，来自早已绝种的怪兽，能提升携带者的耐久力。经由更高层次的技艺淬炼后，它的力量已远非昔日可比。"
-		"DOTA_Tooltip_ability_item_lv_heart_Note0"		"多个巨兽之血的效果不会叠加。"
-		"DOTA_Tooltip_ability_item_lv_heart_bonus_health"		"+$health"
-		"DOTA_Tooltip_ability_item_lv_heart_bonus_strength"		"+$str"
-		"DOTA_Tooltip_ability_item_lv_heart_hp_regen"		"%+最大生命值恢复"
-
 		// item_hurricane_pike
 		"DOTA_Tooltip_Ability_item_lv_hurricane_pike"		"飓风长戟·升级"
 		"DOTA_Tooltip_Ability_item_recipe_lv_hurricane_pike"		"飓风长戟·升级配方"
@@ -18800,15 +18790,6 @@
 		"DOTA_Tooltip_ability_item_lv_royale_with_cheese_Description"		"<h1>使用：可口</h1>倒是吃啊！"
 		"DOTA_Tooltip_ability_item_lv_royale_with_cheese_Lore"		"一开始有力量腰带。然后有远行鞋。现在，终于有了，奶酪块。经由更高层次的技艺淬炼后，它的力量已远非昔日可比。"
 
-		// item_satanic
-		"DOTA_Tooltip_Ability_item_lv_satanic"		"撒旦之邪力·升级"
-		"DOTA_Tooltip_Ability_item_recipe_lv_satanic"		"撒旦之邪力·升级配方"
-		"DOTA_Tooltip_ability_item_lv_satanic_Description"		"<h1>主动：不洁狂热</h1>吸血效果提升至%unholy_lifesteal_total_tooltip%%%，持续%unholy_duration%秒。<br><br>驱散类型：<span class=\"GameplayValues GameplayVariable\">弱驱散</span>\n\n<h1>被动：吸血</h1>攻击者每次攻击都将根据造成伤害的一定百分比回复生命值。"
-		"DOTA_Tooltip_ability_item_lv_satanic_Lore"		"无穷的力量，需要你付出灵魂作为代价。经由更高层次的技艺淬炼后，它的力量已远非昔日可比。"
-		"DOTA_Tooltip_ability_item_lv_satanic_bonus_damage"		"+$damage"
-		"DOTA_Tooltip_ability_item_lv_satanic_bonus_strength"		"+$str"
-		"DOTA_Tooltip_ability_item_lv_satanic_lifesteal_percent"		"%+$lifesteal"
-
 		// item_sheepstick
 		"DOTA_Tooltip_Ability_item_lv_sheepstick"		"邪恶镰刀·升级"
 		"DOTA_Tooltip_Ability_item_recipe_lv_sheepstick"		"邪恶镰刀·升级配方"
@@ -18905,6 +18886,20 @@
 		"DOTA_Tooltip_ability_item_lv_butterfly_crit_bonus_damage"		"+$damage"
 		"DOTA_Tooltip_ability_item_lv_butterfly_crit_butterfly_bonus_damage"		"+$damage"
 		"DOTA_Tooltip_ability_item_lv_butterfly_crit_bonus_evasion"		"%+$evasion"
+
+		// item_satanic + item_heart 融合
+		"DOTA_Tooltip_Ability_item_lv_satanic_heart"		"不洁魔心"
+		"DOTA_Tooltip_Ability_item_recipe_lv_satanic_heart"		"不洁魔心配方"
+		"DOTA_SearchAlias_Ability_item_lv_satanic_heart"		"bujiemoxin;sadanzhiyeli;kongaozhixin;xixue;liliang;撒旦之邪力;恐鳌之心;吸血;力量"
+		"DOTA_Tooltip_ability_item_lv_satanic_heart_Description"		"由撒旦之邪力与恐鳌之心融合而成。<br><br><h1>主动：不洁狂热</h1>吸血效果提升至%unholy_lifesteal_total_tooltip%%%，持续%unholy_duration%秒。<br><br>驱散类型：<span class=\"GameplayValues GameplayVariable\">弱驱散</span>\n\n<h1>被动：吸血</h1>攻击者每次攻击都将根据造成伤害的一定百分比回复生命值。\n\n<h1>被动：巨兽之血</h1>生命恢复提升缺失生命值的%missing_health_regen%%%。"
+		"DOTA_Tooltip_ability_item_lv_satanic_heart_Lore"		"一颗从未停止跳动的心脏，被缚在一把从未停止饮血的利刃之上。"
+		"DOTA_Tooltip_ability_item_lv_satanic_heart_Note0"		"多个巨兽之血的效果不会叠加。"
+		"DOTA_Tooltip_ability_item_lv_satanic_heart_Note1"		"多个吸血效果不会叠加。"
+		"DOTA_Tooltip_ability_item_lv_satanic_heart_bonus_strength"		"+$str"
+		"DOTA_Tooltip_ability_item_lv_satanic_heart_bonus_damage"		"+$damage"
+		"DOTA_Tooltip_ability_item_lv_satanic_heart_lifesteal_percent"		"%+$lifesteal"
+		"DOTA_Tooltip_ability_item_lv_satanic_heart_hp_regen"		"%+最大生命值恢复"
+		"DOTA_Tooltip_ability_item_lv_satanic_heart_missing_health_regen"		"%+缺失生命值恢复"
 
 		// item_wind_waker
 		"DOTA_Tooltip_Ability_item_lv_wind_waker"		"风之杖·升级"

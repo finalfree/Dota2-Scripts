@@ -154,6 +154,85 @@ Lua modifier；是否解决普通自定义房间崩溃以及全部属性是否�
 透明素材直接漂在背景上。当前原稿改为左侧翡翠绿、右侧橄榄金黄的较明亮渐变背景；运行时
 图在编译前仍强制 Alpha 为 255，避免继续依赖界面底色。
 
+### 不洁魔心：撒旦之邪力与恐鳌之心融合
+
+`item_lv_satanic_heart` 由原版 `item_satanic` 和 `item_heart` 加 1 金卷轴合成，总价
+10251（5050 + 5200 + 1）。旧的两件独立升级版不再生成，但 `10043/10044` 与
+`10077/10078` ID 槽位继续保留；融合物品使用新 ID `10104`，配方使用 `10103`。
+
+数值采用「顺水推舟」方案：`AbilityValues` 里的 `bonus_strength` 只写 `75`，因为
+`modifier_item_heart` 和 `modifier_item_satanic` 会从同一个物品各读一次这个键，合计
+**150 力量**。这是刻意设计，不是重复计数的 bug——不要为了"修正"而把它改成 150 或 37.5。
+其余数值按来源分工：
+
+| 键 | 值 | 读取方 |
+|---|---|---|
+| `bonus_strength` | `75` | heart + satanic（各一次 → 150） |
+| `hp_regen` / `missing_health_regen` | `2` / `1.5` | `modifier_item_heart` |
+| `bonus_damage` / `lifesteal_percent` | `25` / `30` | `modifier_item_satanic` |
+| `unholy_lifesteal_percent` | `145` | `modifier_item_satanic_unholy` |
+| `unholy_lifesteal_total_tooltip` | `175` | 仅悬停说明 |
+| `unholy_duration` | `6.0` | 需由 Lua 显式传给 buff |
+
+主动技能必须自己重建——**而且不止是 duration**。原生撒旦的
+`CDOTA_Item_Satanic::OnSpellStart`（`server.dll` 中 `0x1549d90`，250 字节，共引用
+`unholy_duration` / `duration` / `modifier_item_satanic_unholy` /
+`DOTA_Item.Satanic.Activate` 四个字符串）一次做了三件事，而 `item_datadriven`
+**不会执行那个 C++ 函数**，三件都得在 `OnSpellStart` 的 Lua 回调里重做：
+
+| 原生 C++ 做的事 | Lua 重建方式 | 漏掉的后果 |
+|---|---|---|
+| 读取 `unholy_duration` 设置 buff 时长 | 显式 `AddNewModifier(..., { duration = ... })` | buff 永不到期 |
+| 对施法者施加**弱驱散** | `hero:Purge(false, true, false, false, false)` | tooltip 承诺了弱驱散却不生效 |
+| 播放 `DOTA_Item.Satanic.Activate` | `hero:EmitSound(...)` | 开启动静全无 |
+
+顺序也有讲究：原版是**先驱散、后上 buff**（Liquipedia：*"The basic dispel
+activates on CAST before the lifesteal boost begins"*）。反过来会让刚上的 buff
+被残留 debuff 顶掉。
+
+### `Purge` 的 Lua 签名是 5 个 bool，不是文档里那套
+
+`server.dll` 里的 Lua 绑定描述原文：
+
+```
+(bool RemovePositiveBuffs, bool RemoveDebuffs, bool BuffsCreatedThisFrameOnly,
+ bool RemoveStuns, bool RemoveExceptions)
+Purge
+Script_Purge
+```
+
+网上流传的 `Purge(bool, bool, handle, float, bool)` 是**过时的**。照它写会踩坑：
+第 4 参是 float 时长，传 `0` 在 Lua 里是 **truthy**，等于把弱驱散升级成连眩晕一起
+解掉，和原版语义不符。弱驱散（只清负面、不清正面、不清眩晕）的正确调用是
+`hero:Purge(false, true, false, false, false)`。
+
+> 通用排查法：任何「原生物品主动技能转成 datadriven 后少效果」的问题，先去
+> `server.dll` 里 grep 该物品的 `CDOTA_Item_Xxx`，用 RIP-relative `lea` 建 xref
+> 反查表定位 `OnSpellStart`，再看它引用了哪些字符串。字符串只覆盖音效/粒子/
+> KV 键名，**驱散这类纯函数调用不留字符串痕迹**，得靠 wiki 交叉验证。
+
+控制器 `modifier_item_lv_satanic_heart_controller` 不提供任何 `Properties`，只负责用
+`RunScript` 挂/卸两个原生 modifier，规避 datadriven `Properties` 只有约 94/409 个键真正
+生效的坑。Lua 文件同样不含 `LinkLuaModifier` 或任何自定义 Lua modifier。
+
+图标沿用官方撒旦图标换色（magma 岩浆红）而非重画，源图
+`artwork/item-icons/lv_satanic_heart.png`（87×64），运行图
+`panorama/images/items/lv_satanic_heart_png.vtex_c`，SHA256
+`7666F5F422A42BDF4DCB8391C17F18212B185C8841FAE07FE526022F186BACEE`。
+官方 panorama 图标是 **YCoCg-DXT5**，但本机新版 `resourcecompiler` 不再生成该编码
+（有 `ConvertToYCoCg` 字符串却不执行，实测输出直 RGB DXT5），因此这份 `.vtex_c` 由
+`scripts/icon_tool.py` 自研编码器把 mip0 编码后 splice 回编译模板。详见
+`scripts/icon_tool.py` 与 `scripts/vtex_inspect.py`。
+
+**游戏内验证进度（2026-09-02 自定义房间实测）：** 150 力量、30% 吸血、主动后 175%
+吸血、6 秒时长、5 秒冷却、2% 最大生命恢复、1.5% 缺失生命恢复**全部正确**，且自定义
+房间未崩溃客户端。
+
+首轮实测漏了弱驱散和音效（根因见上表），已于同日补齐并重新部署。用户随后复测确认：
+开启时能清除自身沉默、减速等可弱驱散负面效果，不清眩晕和自身正面 buff；原版撒旦启动
+音效及 `particles/items2_fx/satanic_buff.vpcf` 粒子均正常。以上结论来自当前自定义房间测试，
+不扩展为全部英雄、全部模式和全部 modifier 交互均已验证。
+
 ## 本地化
 
 在官方 `abilities_*.txt` 的 `Tokens` 块中添加自定义键，简体中文核心示例：

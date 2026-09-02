@@ -40,10 +40,12 @@ ID_START = 10005
 RESERVED_ID_SLOTS = {
     'item_butterfly',
     'item_greater_crit',
+    'item_heart',
     'item_kaya_and_sange',
     'item_monkey_king_bar',
     'item_octarine_core',
     'item_sange_and_yasha',
+    'item_satanic',
     'item_travel_boots',
     'item_travel_boots_2',
     'item_trident',

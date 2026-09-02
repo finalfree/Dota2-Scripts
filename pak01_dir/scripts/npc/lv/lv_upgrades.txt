@@ -904,46 +904,6 @@
 	}
 
 	//=================================================================================
-	// Upgrade: item_heart
-	//=================================================================================
-	"item_lv_heart"
-	{
-		"ID"				"10044"
-		"BaseClass"			"item_heart"		// 继承原物品全部行为，无需 lua
-		"AbilityTextureName"		"item_heart"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"ItemShopTags"			"str;regen_health;health_pool;tank"
-		"ItemQuality"			"epic"
-		"ItemDeclarations"			"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
-		"SuggestLategame"			"1"
-		"ItemPurchasable"		"1"		// 出现在原物品的商店升级树中
-		"ItemCost"			"6200"		// 5200 原物品 + 1000 卷轴
-
-		"AbilityValues"
-		{
-			"bonus_strength"		"100"
-			"hp_regen"		"2"
-			"missing_health_regen"		"1.5"
-		}
-	}
-
-	"item_recipe_lv_heart"
-	{
-		"ID"				"10043"
-		"BaseClass"			"item_datadriven"
-		"AbilityTextureName"		"item_recipe_ultimate_scepter_2"
-		"Model"				"models/props_gameplay/recipe.vmdl"
-		"ItemCost"			"1000"
-		"ItemPurchasable"		"1"
-		"ItemRecipe"			"1"
-		"ItemResult"			"item_lv_heart"
-		"ItemRequirements"
-		{
-			"01"				"item_heart"
-		}
-	}
-
-	//=================================================================================
 	// Upgrade: item_hurricane_pike
 	//=================================================================================
 	"item_lv_hurricane_pike"
@@ -1567,52 +1527,6 @@
 		"ItemRequirements"
 		{
 			"01"				"item_royale_with_cheese"
-		}
-	}
-
-	//=================================================================================
-	// Upgrade: item_satanic
-	//=================================================================================
-	"item_lv_satanic"
-	{
-		"ID"				"10078"
-		"BaseClass"			"item_satanic"		// 继承原物品全部行为，无需 lua
-		"AbilityTextureName"		"item_satanic"
-		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_NO_TARGET"
-		"FightRecapLevel"			"2"
-		"SpellDispellableType"			"SPELL_DISPELLABLE_NO"
-		"ItemShopTags"			"damage;str;armor;unique;hard_to_tag;dps"
-		"ItemQuality"			"artifact"
-		"ItemDeclarations"			"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
-		"SuggestLategame"			"1"
-		"ItemPurchasable"		"1"		// 出现在原物品的商店升级树中
-		"ItemCost"			"6050"		// 5050 原物品 + 1000 卷轴
-		"AbilityCooldown"			"5.0"
-
-		"AbilityValues"
-		{
-			"bonus_strength"		"75"
-			"bonus_damage"		"25"
-			"lifesteal_percent"		"30"
-			"unholy_lifesteal_percent"		"145"
-			"unholy_lifesteal_total_tooltip"		"175"
-			"unholy_duration"		"6.0"
-		}
-	}
-
-	"item_recipe_lv_satanic"
-	{
-		"ID"				"10077"
-		"BaseClass"			"item_datadriven"
-		"AbilityTextureName"		"item_recipe_ultimate_scepter_2"
-		"Model"				"models/props_gameplay/recipe.vmdl"
-		"ItemCost"			"1000"
-		"ItemPurchasable"		"1"
-		"ItemRecipe"			"1"
-		"ItemResult"			"item_lv_satanic"
-		"ItemRequirements"
-		{
-			"01"				"item_satanic"
 		}
 	}
 

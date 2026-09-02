@@ -464,7 +464,8 @@ python scripts/gen_item_upgrades.py --item sheepstick --preview --no-full-copy
 
 ### `item_heart` — 恐鳌之心（Heart of Tarrasque）
 
-- 升级物品：`item_lv_heart`（ID `10044`）　升级配方：`item_recipe_lv_heart`（ID `10043`）
+- 旧升级物品已取消；ID `10043` / `10044` 继续保留，避免后续自动生成 ID 漂移。
+- 目标属性已并入手工维护的融合装备 `item_lv_satanic_heart`（不洁魔心）。
 - 来源：商店　分类：🟢 纯属性　字段数：2
 
 | 字段 | 原值 | 目标值 | 增量 | 备注 |
@@ -678,7 +679,8 @@ python scripts/gen_item_upgrades.py --item sheepstick --preview --no-full-copy
 
 ### `item_satanic` — 撒旦之邪力（Satanic）
 
-- 升级物品：`item_lv_satanic`（ID `10078`）　升级配方：`item_recipe_lv_satanic`（ID `10077`）
+- 旧升级物品已取消；ID `10077` / `10078` 继续保留，避免后续自动生成 ID 漂移。
+- 目标属性已并入手工维护的融合装备 `item_lv_satanic_heart`（不洁魔心）。
 - 来源：商店　分类：🔴 含机制字段　字段数：2
 
 | 字段 | 原值 | 目标值 | 增量 | 备注 |

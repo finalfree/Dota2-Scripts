@@ -18732,16 +18732,6 @@
 		"DOTA_Tooltip_ability_item_lv_harpoon_bonus_mana_regen"		"+$mana_regen"
 		"DOTA_Tooltip_ability_item_lv_harpoon_bonus_strength"		"+$str"
 
-		// item_heart
-		"DOTA_Tooltip_Ability_item_lv_heart"		"Upgraded Heart of Tarrasque"
-		"DOTA_Tooltip_Ability_item_recipe_lv_heart"		"Upgraded Heart of Tarrasque Recipe"
-		"DOTA_Tooltip_ability_item_lv_heart_Description"		"<h1>Passive: Behemoth's Blood</h1>Your health regeneration is increased by %missing_health_regen%%% of your missing health."
-		"DOTA_Tooltip_ability_item_lv_heart_Lore"		"Preserved heart of an extinct monster, it bolsters the bearer's fortitude. Tempered by higher craftsmanship, its power now far exceeds the original."
-		"DOTA_Tooltip_ability_item_lv_heart_Note0"		"Multiple instances of Behemoth's Blood do not stack."
-		"DOTA_Tooltip_ability_item_lv_heart_bonus_health"		"+$health"
-		"DOTA_Tooltip_ability_item_lv_heart_bonus_strength"		"+$str"
-		"DOTA_Tooltip_ability_item_lv_heart_hp_regen"		"%+Max Health Regen"
-
 		// item_hurricane_pike
 		"DOTA_Tooltip_Ability_item_lv_hurricane_pike"		"Upgraded Hurricane Pike"
 		"DOTA_Tooltip_Ability_item_recipe_lv_hurricane_pike"		"Upgraded Hurricane Pike Recipe"
@@ -18865,15 +18855,6 @@
 		"DOTA_Tooltip_ability_item_lv_royale_with_cheese_Description"		"<h1>Use: Scrumptious</h1>Try me!"
 		"DOTA_Tooltip_ability_item_lv_royale_with_cheese_Lore"		"First there was the Belt of Strength. Then there were the Boots of Travel. Now, at long last, the Block of Cheese. Tempered by higher craftsmanship, its power now far exceeds the original."
 
-		// item_satanic
-		"DOTA_Tooltip_Ability_item_lv_satanic"		"Upgraded Satanic"
-		"DOTA_Tooltip_Ability_item_recipe_lv_satanic"		"Upgraded Satanic Recipe"
-		"DOTA_Tooltip_ability_item_lv_satanic_Description"		"<h1>Active: Unholy Rage</h1>Increases Lifesteal percentage to %unholy_lifesteal_total_tooltip%%% for %unholy_duration% seconds. <br><br>Dispel Type: <span class=\"GameplayValues GameplayVariable\">Basic Dispel</span> \n\n<h1>Passive: Lifesteal</h1>Heals the attacker for a percentage of physical damage dealt."
-		"DOTA_Tooltip_ability_item_lv_satanic_Lore"		"Immense power at the cost of your soul. Tempered by higher craftsmanship, its power now far exceeds the original."
-		"DOTA_Tooltip_ability_item_lv_satanic_bonus_damage"		"+$damage"
-		"DOTA_Tooltip_ability_item_lv_satanic_bonus_strength"		"+$str"
-		"DOTA_Tooltip_ability_item_lv_satanic_lifesteal_percent"		"%+$lifesteal"
-
 		// item_sheepstick
 		"DOTA_Tooltip_Ability_item_lv_sheepstick"		"Upgraded Scythe of Vyse"
 		"DOTA_Tooltip_Ability_item_recipe_lv_sheepstick"		"Upgraded Scythe of Vyse Recipe"
@@ -18970,6 +18951,20 @@
 		"DOTA_Tooltip_ability_item_lv_butterfly_crit_bonus_damage"		"+$damage"
 		"DOTA_Tooltip_ability_item_lv_butterfly_crit_butterfly_bonus_damage"		"+$damage"
 		"DOTA_Tooltip_ability_item_lv_butterfly_crit_bonus_evasion"		"%+$evasion"
+
+		// item_satanic + item_heart fusion
+		"DOTA_Tooltip_Ability_item_lv_satanic_heart"		"Unholy Heart"
+		"DOTA_Tooltip_Ability_item_recipe_lv_satanic_heart"		"Unholy Heart Recipe"
+		"DOTA_SearchAlias_Ability_item_lv_satanic_heart"		"satanic;heart;tarrasque;lifesteal;strength"
+		"DOTA_Tooltip_ability_item_lv_satanic_heart_Description"		"Fuses Satanic and Heart of Tarrasque together.<br><br><h1>Active: Unholy Rage</h1>Increases Lifesteal percentage to %unholy_lifesteal_total_tooltip%%% for %unholy_duration% seconds.<br><br>Dispel Type: <span class=\"GameplayValues GameplayVariable\">Basic Dispel</span>\n\n<h1>Passive: Lifesteal</h1>Heals the attacker for a percentage of physical damage dealt.\n\n<h1>Passive: Behemoth's Blood</h1>Your health regeneration is increased by %missing_health_regen%%% of your missing health."
+		"DOTA_Tooltip_ability_item_lv_satanic_heart_Lore"		"A heart that never stopped beating, lashed to a blade that never stopped drinking."
+		"DOTA_Tooltip_ability_item_lv_satanic_heart_Note0"		"Multiple instances of Behemoth's Blood do not stack."
+		"DOTA_Tooltip_ability_item_lv_satanic_heart_Note1"		"Multiple instances of Lifesteal do not stack."
+		"DOTA_Tooltip_ability_item_lv_satanic_heart_bonus_strength"		"+$str"
+		"DOTA_Tooltip_ability_item_lv_satanic_heart_bonus_damage"		"+$damage"
+		"DOTA_Tooltip_ability_item_lv_satanic_heart_lifesteal_percent"		"%+$lifesteal"
+		"DOTA_Tooltip_ability_item_lv_satanic_heart_hp_regen"		"%+Max Health Regen"
+		"DOTA_Tooltip_ability_item_lv_satanic_heart_missing_health_regen"		"%+Missing Health Regen"
 
 		// item_wind_waker
 		"DOTA_Tooltip_Ability_item_lv_wind_waker"		"Upgraded Wind Waker"

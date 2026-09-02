@@ -123,8 +123,16 @@ try {
         Move-Item -LiteralPath $candidate -Destination $outputFile -ErrorAction Stop
     }
 } finally {
-    if (Test-Path -LiteralPath $responsePath -PathType Leaf) { Remove-Item -LiteralPath $responsePath -Force }
-    if (Test-Path -LiteralPath $candidate -PathType Leaf) { Remove-Item -LiteralPath $candidate -Force }
+    # Scratch files only. Some hosts hook Remove-Item (e.g. safe-delete guards) and
+    # throw a terminating error even when the file is gone; that must never abort a
+    # build whose package was already created and verified.
+    foreach ($scratch in @($responsePath, $candidate)) {
+        if (-not (Test-Path -LiteralPath $scratch -PathType Leaf)) { continue }
+        try { Remove-Item -LiteralPath $scratch -Force -ErrorAction Stop } catch { }
+        if (Test-Path -LiteralPath $scratch -PathType Leaf) {
+            Write-Warning "Could not remove scratch file: $scratch"
+        }
+    }
 }
 
 $packageHash = (Get-FileHash -Algorithm SHA256 -LiteralPath $outputFile).Hash

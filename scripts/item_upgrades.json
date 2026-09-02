@@ -123,10 +123,6 @@
   "AbilityValues.passive_cooldown": "2",
   "AbilityValues.pull_distance_pct": "70"
  },
- "item_heart": {
-  "AbilityValues.bonus_strength": "100",
-  "AbilityValues.hp_regen": "2"
- },
  "item_hurricane_pike": {
   "AbilityCooldown": "10.0",
   "AbilityManaCost": "10",
@@ -206,10 +202,6 @@
   "AbilityValues.idle": "0",
   "AbilityValues.shield": "1000",
   "ItemPermanent": "1"
- },
- "item_satanic": {
-  "AbilityCooldown": "5.0",
-  "AbilityValues.bonus_strength": "75"
  },
  "item_sheepstick": {
   "AbilityCastRange": "1800",
