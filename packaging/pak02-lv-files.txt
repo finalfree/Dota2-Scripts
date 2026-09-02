@@ -3,8 +3,14 @@
 scripts/npc/lv/lv_items.txt
 scripts/npc/lv/lv_upgrades.txt
 scripts/vscripts/lv/item_lv_gem.lua
-scripts/vscripts/lv/modifier_lv_gem_consumed.lua
 scripts/vscripts/lv/item_lv_octarine_core.lua
 scripts/vscripts/lv/item_lv_trident.lua
 scripts/vscripts/lv/item_lv_butterfly_crit.lua
+scripts/vscripts/lv/item_lv_satanic_heart.lua
+scripts/vscripts/lv/item_lv_mirror_shield.lua
+scripts/vscripts/lv/item_lv_dragon_splash.lua
+scripts/vscripts/lv/item_lv_abyssal_skadi.lua
 panorama/images/items/lv_butterfly_crit_png.vtex_c
+panorama/images/items/lv_satanic_heart_png.vtex_c
+panorama/images/items/lv_abyssal_skadi_png.vtex_c
+panorama/images/items/lv_dragon_splash_png.vtex_c

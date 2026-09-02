@@ -56,6 +56,11 @@ class ItemResources(unittest.TestCase):
             line.strip() for line in (ROOT / "packaging/items.txt").read_text().splitlines()
             if line.strip() and not line.lstrip().startswith("#")
         }
+        cls.pak02_manifest = {
+            line.strip()
+            for line in (ROOT / "packaging/pak02-lv-files.txt").read_text().splitlines()
+            if line.strip() and not line.lstrip().startswith("#")
+        }
 
     def test_unique_names_keys_and_ids(self):
         def unique(pairs):
@@ -122,6 +127,20 @@ class ItemResources(unittest.TestCase):
             self.assertTrue((RESOURCE / path).is_file(), path)
         entry = (RESOURCE / "scripts/npc/items.txt").read_text(encoding="utf-8-sig")
         self.assertIn('#base "lv/lv_items.txt"', entry)
+
+    def test_pak02_merge_manifest_has_all_lv_payloads(self):
+        # The pak02 merge preserves its own official items, shops and localization.
+        # Everything else from the standalone item package must be injected verbatim.
+        merged_separately_or_preserved = {
+            "scripts/npc/items.txt",
+            "scripts/shops.txt",
+            "resource/localization/abilities_english.txt",
+            "resource/localization/abilities_schinese.txt",
+        }
+        expected = self.manifest - merged_separately_or_preserved
+        self.assertEqual(self.pak02_manifest, expected)
+        for path in self.pak02_manifest:
+            self.assertTrue((RESOURCE / path).is_file(), path)
 
     def test_matching_localization_without_duplicate_keys(self):
         localized = []
