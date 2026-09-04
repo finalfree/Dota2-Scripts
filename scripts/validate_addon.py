@@ -33,7 +33,14 @@ def validate():
     info = dict(dict(read(GAME / 'addoninfo.txt'))['AddonInfo'])
     assert info['maps'] == 'dota' and info['IsPlayable'] == '1'
     assert dict(info['dota'])['MaxPlayers'] == '10'
-    assert (GAME / 'scripts/vscripts/addon_game_mode.lua').is_file()
+    addon_mode = GAME / 'scripts/vscripts/addon_game_mode.lua'
+    bot_draft = GAME / 'scripts/vscripts/lv_bot_draft.lua'
+    notice = GAME / 'THIRD_PARTY_NOTICES.txt'
+    assert addon_mode.is_file() and bot_draft.is_file()
+    assert 'require("lv_bot_draft")' in addon_mode.read_text(encoding='utf-8-sig')
+    notice_text = notice.read_text(encoding='utf-8-sig')
+    assert 'cb814c6c8dc51ed08045d6efd9f4a48147992711' in notice_text
+    assert 'Copyright (c) 2024 Mingyou Xia' in notice_text and 'MIT License' in notice_text
     items = definitions(GAME / 'scripts/npc/npc_items_custom.txt')
     abilities = definitions(GAME / 'scripts/npc/npc_abilities_custom.txt')
     assert items and abilities and not set(items) & set(abilities)

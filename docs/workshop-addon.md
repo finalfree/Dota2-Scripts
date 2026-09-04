@@ -28,7 +28,7 @@
 
 - `npc_items_custom.txt`：直接包含全部 82 个物品/配方定义，手工区与自动生成区共用一个根块，无 `#base`。
 - `npc_abilities_custom.txt`：直接包含黑龙溅射私有能力，定义不变，无 `#base`。
-- `addon_game_mode.lua`：初始化时通过 `lv_standard_rules.lua` 请求免费信使、默认神符逻辑和偷塔保护，再启用机器人思考；策略阶段按真人阵营用 `Tutorial:AddBot()` 只补满对手一方，再请求开启 FretBots。两边都有真人时不加机器人也不开 FretBots；保留 `lv_fill_bots` 作为防重复的手动后备。
+- `addon_game_mode.lua`：初始化时通过 `lv_standard_rules.lua` 请求免费信使、默认神符逻辑和偷塔保护，再启用机器人思考；进入英雄选择后，每名真人完成选择便用 `Tutorial:AddBot()` 在对面回应一个机器人，最后一名真人选完时补满余位。`lv_bot_draft.lua` 结合已知真人阵容、已有机器人阵容和 OHA 一至五号位权重选人，补满后才请求开启 FretBots。两边都有真人时不加机器人也不开 FretBots；保留 `lv_fill_bots` 作为防重复的手动后备。
 - `addoninfo.txt`：原型声明 `maps = dota`，最多 10 人。依赖游戏自带地图，不携带/伪造一份地图文件。
 - `resource/addon_*.txt`：只有自定义 token 和 `addon_game_name`，不包含全量官方文本。
 
@@ -73,15 +73,19 @@ Tools 已通过联接成功启动 addon；后续重新编译出的资源仍须�
 
 4. 检查控制台 `[LV] overforged addon loaded`，没有缺 KV、Lua、纹理等加载错误。
 5. 先验证原版地图/英雄选择/兵线/防御塔/胜负规则，再验证强化装备的升级树、购买、合成、图标和属性。
-6. 真人完成选人、进入策略阶段后，应只在真人对面用 `Tutorial:AddBot()` 补至 5 个机器人，并出现
-   FretBots 欢迎/语言/难度投票提示，无需手输命令。真人在两边时应完全不加机器人，也不启用 FretBots。
+6. 进入英雄选择阶段后，未选英雄时不应加机器人。每名真人完成选择后，对面应增加一个机器人；最后一名真人
+   选完后应一次补至 5 个，并出现 FretBots 欢迎/语言/难度投票提示，无需手输命令。单人局会在唯一真人选完后
+   直接补满 5 个；真人在两边时应完全不加机器人，也不启用 FretBots。控制台应记录 `Mirrored N/M`，最终依次
+   出现 `Added opposing bot position 1` 至 `position 5`；还应看到 OHA 评分数据已加载或位置权重兜底的明确日志。
    `Tutorial:AddBot()` 负责创建指定英雄，不代表选择了 OpenHyperAI；`.OHA` 名称、行为和控制权仍须本轮实测。
 7. OpenHyperAI 独立验证：保留主机的本地 bot 安装；观察实际房间是否提供 Bot Script 选择、脚本加载日志、
    `.OHA` 名称，以及真实对线/施法/出装行为。**此前对 Arcade 房间直接选择 Local Dev Script 的描述未实测。**
    没有入口或机器人站着不动时记录日志，不要在 addon 中直接 `require(bot_generic)`。
 8. 本地通过后才考虑“仅好友可见”的 Workshop 发布。发布后以 Workshop ID 再测，再邀请未装 VPK 的朋友下载验证。
 
-不用为机器人增加强化装备购买逻辑；它们继续用原版出装。此处不复制或修改 OHA 源码。
+不用为机器人增加强化装备购买逻辑；它们继续用原版出装。本项目不复制 OHA 的行为脚本，只在独立模块中适配
+其 MIT 授权的位置权重与弱英雄策略，并在主机已安装 OHA 时读取克制/协同数据；许可证保存在 addon 根目录
+`THIRD_PARTY_NOTICES.txt`。
 
 ## 普通地图规则补齐（2026-09-03，待游戏内验收）
 
@@ -122,7 +126,7 @@ dota_launch_custom_game overforged dota
 ```
 
 地图加载后输入 `jointeam good`，正常选人；不再执行 `dota_force_gamemode 1` 或 `exec lv_test_ap`。
-源码通过现有联接加载，不需要部署 VPK。这次没有改游戏启动参数、持久 cfg 或 OHA 源码。
+源码通过现有联接加载，不需要部署 VPK。这次没有改游戏启动参数、持久 cfg 或主机安装的 OHA 源码。
 
 1. 启动日志有三行 `[LV-RULES] ...=requested`，无 `failed`。界面仍写“自定义游戏模式”是预期。
 2. 英雄进入地图后确认个人信使存在，购买普通物品测试运送；观察双方机器人信使是否出现，不只看一个空闲信使模型。
@@ -178,11 +182,14 @@ spawn group，但插眼时仍出现同一条 `Serialized nonresident asset`，�
 ## 单边对抗机器人与 FretBots
 
 开局流程：`Activate()` 请求上述三个默认规则、关闭真人控制机器人并开启思考 → 等待
-`game_rules_state_change` 到策略阶段 → 统计两队真人 → 若真人仅在一边，则用 `Tutorial:AddBot()` 将另一边补至 5 人 →
+`game_rules_state_change` 到英雄选择阶段 → 统计两队真人 → 监听 `dota_player_pick_hero`，每个真人选择触发对面一个
+`Tutorial:AddBot()` 回应 → 最后一名真人选完后补满对面余位 →
 `SendToServerConsole("sv_cheats 1; dota_bot_allow_human_control 0; script_reload_code bots/fretbots")`。
 如果两边都有真人，则不添加任何机器人，也不请求 FretBots；如果还没有真人，则等待后续状态/手动后备重试。
-在玩家选队和选英雄阶段都不填槽，避免提前占用朋友的位置或英雄；进入 PRE_GAME 后不再自动初始化。
-机器人创建与 FretBots 请求每局各一次，重复事件、重复 `Activate()` 或误输后备命令不会重复加载。
+在 CUSTOM_GAME_SETUP 选队阶段不填槽，避免朋友尚未选队时过早判断；英雄选择开始但真人尚未选择时也不填槽。
+三名真人时，前两次选择各加入一个机器人，第三次选择后从两个补至五个；单人局在唯一一次选择后直接补满。
+进入 PRE_GAME 后不再自动初始化。每个槽位只创建一次，FretBots 只在整队完成后请求一次；重复事件、重复
+`Activate()` 或误输后备命令不会重复加载。
 手动提前启用过 FretBots 时，检测到服务器 Lua 中的 `Flags.isFretBotsInitialized` 也会跳过重载。
 
 这等价于用户已成功使用的手动开启流程，并遵循 [OHA 作者的增强模式说明](https://github.com/forest0xia/dota2bot-OpenHyperAI/discussions/68)。
@@ -197,11 +204,66 @@ local AUTO_FILL_BOTS = true
 local AUTO_ENABLE_FRETBOTS = true
 ```
 
-`lv_fill_bots` 现在与自动流程共用 `Tutorial:AddBot()`：只补真人对面的一队；两边都有真人时不做任何事。
-该 API 必须明确指定英雄，因此当前按大致 1–5 号位顺序从候选池选择，并跳过已经被真人选择的英雄。
+`lv_fill_bots` 现在与自动流程共用 `Tutorial:AddBot()`：只推进真人对面一队当前应有的数量；尚无人选英雄时不填，
+所有真人选完后才补满，两边都有真人时不做任何事。
+该 API 必须明确指定英雄，因此每局从游戏当前 `npc_heroes.txt` 中 `Enabled=1`、具有有效 HeroID 的英雄池
+读取候选，并跳过已经被真人或机器人选择的英雄；读取失败时才使用内置后备池。`lv_bot_draft.lua` 按目标队伍
+槽位顺序使用 OHA 一至五号位权重评分。若 addon 服务器 Lua 能从主机本地 OHA 加载
+`bots/FretBots/matchups_data` 与 `bots/FunLib/aba_matchups`，还会按当前已知真人英雄计算克制分、按先前机器人
+计算协同分，再乘位置权重；否则使用位置权重加随机扰动。为避免固定真人选择长期只遇到同五名英雄，最终抽取
+不照搬 OHA 的前五限制，而从评分前 30 名抽取。排名 `1..5` 权重为 `7/6/6/6/5`，`6..10` 各为 `4`，
+`11..20` 各为 `3`，`21..30` 各为 `2`；总权重 100，前五合计 30%，以多样性为主并保留适度克制。
+默认每队最多优先选择一个 OHA 标记的弱英雄。若已有机器人占据前面槽位，新机器人从下一个位置继续。
+未知的新英雄和零位置权重英雄仅作为无法正常补满时的兜底，避免版本更新直接卡死开局。
+
+这仍然绕过 Bot Script VM 中 OHA 原版 `hero_selection.lua` 的实际调用：`Tutorial:AddBot()` 创建 fake client 时
+英雄已经确定，原版只会处理尚未选英雄的 bot 槽位。本项目只复刻其中可在 addon 服务器侧安全运行的克制、协同、
+位置和弱英雄上限评分，并把最终候选抽取扩到前 30；没有移植随机角色池/标签过滤、聊天 `!pick`/`!ban`、
+CM、1v1 调度或行为脚本。
+移植来源固定为 OHA 提交 `cb814c6c8dc51ed08045d6efd9f4a48147992711`；后续 OHA 更新不会自动覆盖本模块。
 用户旧日志中，引擎曾从 `game/dota/scripts/vscripts/bots` 加载 OHA；因此出现 `.OHA` 仍不是本命令自带 OHA。
-主机本地 OHA 安装必须保留；这里没有自动下载、打包或移植机器人。
-换一台主机、远程服务器或发布 Workshop 后，不保证还能找到这个外部路径，必须另行验证。
+主机本地 OHA 安装必须保留；这里没有自动下载或打包 OHA 的评分数据或机器人行为脚本。换一台主机、远程服务器
+或发布 Workshop 后，不保证还能找到这个外部路径；选人会安全退回位置权重，但战斗行为与完整 OHA 仍须另行验证。
+
+### 选人蒙特卡洛验证（2026-09-04）
+
+`scripts/simulate_bot_draft.py` 通过 Lua 5.1 直接调用实际的 `lv_bot_draft.lua`，不是另写一份 Python 选人实现。
+默认可独立比较位置适配、重复、弱英雄上限和阵容多样性；提供 OHA 仓库或 `bots` 目录后，还会加载
+`FretBots/matchups_data.lua` 与 `FunLib/aba_matchups.lua`。实际 Overforged 阵容使用扩大的前 30 抽取；对照阵容仍按
+OHA 原版的克制、协同、位置乘数、弱英雄惩罚和前五加权规则构造。该参考不复刻 Bot VM 调度、随机角色池和标签过滤。
+
+固定种子对 127 个启用英雄运行 1000 轮、模拟三名真人依次选人（机器人前三选逐次看到 1/2/3 名敌人，
+余下两选看到完整三人）的结果：
+
+- 当前分阶段选人平均位置总分 `214.97/500`，纯随机基线 `114.37/500`，提升 `87.96%`；
+- 五个位置平均权重依次为 `46.87 / 48.12 / 44.85 / 39.59 / 35.53`；
+- 1000 轮产生 1000 套不同阵容；重复英雄、弱英雄上限违规、零位置权重选择均为 0；
+- 当前阵容 OHA 总评分均值 `3.5253`；全知三人阵容且使用 OHA 原版前五抽取的参考值为 `8.2032`。这是主动扩大
+  英雄池后的强度取舍；随机三人阵容下一号位最常见单英雄仅占 `3.30%`，前五名合计 `14.50%`。
+- 固定每局只面对剑圣的额外 1000 轮中，一号位覆盖前 30 候选：最高单英雄 `7.40%`，前五名合计
+  `30.80%`，接近配置目标 30%，同时平均位置总分仍比纯随机高 `107.87%`。
+
+复现基础报告：
+
+```powershell
+python -X utf8 scripts/simulate_bot_draft.py --rounds 1000 --seed 20260904
+```
+
+加入完整 OHA 评分参考（路径可指向仓库根目录或其中的 `bots`）：
+
+```powershell
+python -X utf8 scripts/simulate_bot_draft.py --rounds 1000 --seed 20260904 --enemy-size 3 --oha-root 'D:\path\to\dota2bot-OpenHyperAI'
+```
+
+固定一个真人英雄检查反复游玩时的集中度：
+
+```powershell
+python -X utf8 scripts/simulate_bot_draft.py --rounds 1000 --seed 20260904 --fixed-enemy juggernaut --top 30 --oha-root 'D:\path\to\dota2bot-OpenHyperAI'
+```
+
+脚本带质量门槛：当前策略必须无重复、无弱英雄超限、无零位置选择、平均位置分高于纯随机；同时任一位置的
+单英雄占比不得超过 35%，任一完整阵容占比不得超过 5%，否则返回失败。集中度门槛使用占比而非“不同阵容数/轮数”，
+避免增加模拟轮数后因自然碰撞而误报。模拟不能证明 `Tutorial:AddBot()` 在真实引擎中的槽位顺序、OHA 分路或实战行为。
 
 引擎原本提供 `dota_bot_allow_human_control` 控制真人能否操作机器人；当前 addon 在激活、填槽完成及 FretBots
 命令链中都显式保持为 `0`。此外每次真实英雄生成时，对机器人英雄调用

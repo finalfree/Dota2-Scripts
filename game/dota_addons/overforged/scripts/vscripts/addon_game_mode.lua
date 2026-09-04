@@ -7,11 +7,12 @@ local DEFAULT_TEAM_CAPACITY = 5
 local Log = require("lv_log")
 local StandardRules = require("lv_standard_rules")
 local ModeProbe = require("lv_mode_probe")
+local BotDraft = require("lv_bot_draft")
 
--- Tutorial:AddBot requires an explicit hero. Keep the order roughly aligned
--- with OHA's position 1-5 slot convention and retain fallbacks for collisions
--- with heroes already selected by human players.
-local BOT_HERO_CANDIDATES = {
+-- Tutorial:AddBot requires an explicit hero. The normal path reads the current
+-- enabled hero definitions and lv_bot_draft assigns OHA-style positions 1..5.
+-- These are only fallbacks for an unavailable/malformed npc_heroes.txt.
+local FALLBACK_BOT_HEROES = {
     "npc_dota_hero_juggernaut",
     "npc_dota_hero_nevermore",
     "npc_dota_hero_axe",
@@ -50,12 +51,6 @@ local UTILITY_UNIT_NAMES = {
 local function InBotSetupWindow()
     local state = GameRules:State_Get()
     return state >= DOTA_GAMERULES_STATE_HERO_SELECTION
-        and state < DOTA_GAMERULES_STATE_PRE_GAME
-end
-
-local function InAutomaticBotSetupWindow()
-    local state = GameRules:State_Get()
-    return state >= DOTA_GAMERULES_STATE_STRATEGY_TIME
         and state < DOTA_GAMERULES_STATE_PRE_GAME
 end
 
@@ -187,10 +182,16 @@ local function AllowExecuteOrder(startup, event)
     return true
 end
 
-local function GetTeamPopulation()
+local function GetTeamPopulation(startup)
     local population = {
-        [DOTA_TEAM_GOODGUYS] = {humans = 0, bots = 0, total = 0},
-        [DOTA_TEAM_BADGUYS] = {humans = 0, bots = 0, total = 0},
+        [DOTA_TEAM_GOODGUYS] = {
+            humans = 0, selectedHumans = 0, bots = 0, total = 0,
+            heroes = {}, humanHeroes = {},
+        },
+        [DOTA_TEAM_BADGUYS] = {
+            humans = 0, selectedHumans = 0, bots = 0, total = 0,
+            heroes = {}, humanHeroes = {},
+        },
     }
     local usedHeroes = {}
     local maxPlayers = DOTA_MAX_PLAYERS or 24
@@ -200,7 +201,8 @@ local function GetTeamPopulation()
             local teamPopulation = population[team]
             if teamPopulation ~= nil then
                 teamPopulation.total = teamPopulation.total + 1
-                if PlayerResource:IsFakeClient(playerID) then
+                local isBot = PlayerResource:IsFakeClient(playerID)
+                if isBot then
                     teamPopulation.bots = teamPopulation.bots + 1
                 else
                     teamPopulation.humans = teamPopulation.humans + 1
@@ -208,8 +210,18 @@ local function GetTeamPopulation()
                 local heroOK, heroName = pcall(function()
                     return PlayerResource:GetSelectedHeroName(playerID)
                 end)
-                if heroOK and heroName ~= nil and heroName ~= "" then
+                if not heroOK then heroName = nil end
+                if (heroName == nil or heroName == "")
+                    and not isBot and startup ~= nil and startup.humanHeroSelections ~= nil then
+                    heroName = startup.humanHeroSelections[playerID]
+                end
+                if heroName ~= nil and heroName ~= "" then
                     usedHeroes[heroName] = true
+                    teamPopulation.heroes[heroName] = true
+                    if not isBot then
+                        teamPopulation.selectedHumans = teamPopulation.selectedHumans + 1
+                        teamPopulation.humanHeroes[heroName] = true
+                    end
                 end
             end
         end
@@ -225,11 +237,47 @@ local function GetTeamCapacity(team)
     return DEFAULT_TEAM_CAPACITY
 end
 
-local function FillOpponentBotsOnce(startup)
+local function BuildEnabledHeroCandidates()
+    local candidates = {}
+    local seen = {}
+    local ok, heroData = pcall(function()
+        return LoadKeyValues("scripts/npc/npc_heroes.txt")
+    end)
+    if ok and type(heroData) == "table" then
+        local definitions = heroData.DOTAHeroes or heroData
+        for heroName, definition in pairs(definitions) do
+            if type(heroName) == "string"
+                and string.find(heroName, "^npc_dota_hero_") ~= nil
+                and type(definition) == "table"
+                and tostring(definition.Enabled) == "1"
+                and tonumber(definition.HeroID or 0) > 0 then
+                table.insert(candidates, heroName)
+                seen[heroName] = true
+            end
+        end
+    end
+
+    if #candidates < DEFAULT_TEAM_CAPACITY then
+        for _, heroName in ipairs(FALLBACK_BOT_HEROES) do
+            if not seen[heroName] then
+                table.insert(candidates, heroName)
+                seen[heroName] = true
+            end
+        end
+    end
+
+    for i = #candidates, 2, -1 do
+        local j = RandomInt ~= nil and RandomInt(1, i) or math.random(i)
+        candidates[i], candidates[j] = candidates[j], candidates[i]
+    end
+    return candidates
+end
+
+local function AdvanceOpponentBotDraft(startup)
     if startup.botsPopulating then return false end
     if startup.botSetupComplete then return startup.botSetupHasBots == true end
 
-    local population, usedHeroes = GetTeamPopulation()
+    local population, usedHeroes = GetTeamPopulation(startup)
     local radiantHumans = population[DOTA_TEAM_GOODGUYS].humans
     local direHumans = population[DOTA_TEAM_BADGUYS].humans
     if radiantHumans == 0 and direHumans == 0 then
@@ -244,19 +292,40 @@ local function FillOpponentBotsOnce(startup)
         return false
     end
 
+    local humanTeam = radiantHumans > 0 and DOTA_TEAM_GOODGUYS or DOTA_TEAM_BADGUYS
     local targetTeam = radiantHumans > 0 and DOTA_TEAM_BADGUYS or DOTA_TEAM_GOODGUYS
+    local humans = population[humanTeam]
     local target = population[targetTeam]
-    local needed = math.max(0, GetTeamCapacity(targetTeam) - target.total)
-    if needed == 0 then
+    local capacity = GetTeamCapacity(targetTeam)
+    local allHumansSelected = humans.humans > 0
+        and humans.selectedHumans >= humans.humans
+    -- Mirror each completed human pick with one bot. As soon as the last
+    -- connected human has selected, fill every remaining opposing slot.
+    local desiredTargetSize = allHumansSelected
+        and capacity or math.min(humans.selectedHumans, capacity)
+    local needed = math.max(0, desiredTargetSize - target.total)
+    if needed == 0 and allHumansSelected and target.total >= capacity then
         startup.botSetupComplete = true
         startup.botSetupHasBots = target.bots > 0
         startup.botsPopulated = startup.botSetupHasBots
-        Log("[LV] Opposing team already has no empty slots; no bots were added.")
+        DisableHumanBotControl(startup)
+        Log("[LV] Opposing bot team is complete; no additional bots were needed.")
         return startup.botSetupHasBots
     end
+    if needed == 0 then return false end
     if Tutorial == nil or Tutorial.AddBot == nil then
         Log("[LV] Tutorial:AddBot is unavailable; retry lv_fill_bots before pregame.")
         return false
+    end
+
+    if not startup.botDraftScoringReported then
+        startup.botDraftScoringReported = true
+        if BotDraft.HasOhaScoring() then
+            Log("[LV] OHA matchup/synergy data loaded for staged counter-picks.")
+        else
+            Log("[LV] OHA matchup/synergy data unavailable in server Lua; "
+                .. "using position-weight fallback. " .. BotDraft.GetOhaScoringStatus())
+        end
     end
 
     -- Adding a bot can emit further state/spawn events. Do not start FretBots
@@ -265,19 +334,35 @@ local function FillOpponentBotsOnce(startup)
     local added = 0
     local radiant = targetTeam == DOTA_TEAM_GOODGUYS
     local lastError = nil
-    for _, heroName in ipairs(BOT_HERO_CANDIDATES) do
-        if added >= needed then break end
-        if not usedHeroes[heroName] then
+    local enabledHeroes = BuildEnabledHeroCandidates()
+    local weakHeroCount = BotDraft.CountWeakHeroes(target.heroes)
+    while added < needed and InBotSetupWindow() do
+        -- OHA assigns positions by team-slot order. Existing target players
+        -- occupy the earlier slots, so each newly added bot continues at the
+        -- corresponding 1..5 role instead of drawing from one global pool.
+        local position = ((target.total + added) % DEFAULT_TEAM_CAPACITY) + 1
+        local heroCandidates = BotDraft.GetCandidateOrder(
+            enabledHeroes, usedHeroes, position, weakHeroCount,
+            humans.humanHeroes, target.heroes)
+        local addedThisPosition = false
+        for _, heroName in ipairs(heroCandidates) do
             local ok, result = pcall(function()
                 return Tutorial:AddBot(heroName, "", "unfair", radiant)
             end)
             if ok and result == true then
                 added = added + 1
                 usedHeroes[heroName] = true
+                target.heroes[heroName] = true
+                if BotDraft.IsWeakHero(heroName) then weakHeroCount = weakHeroCount + 1 end
+                addedThisPosition = true
+                Log("[LV] Added opposing bot position " .. tostring(position)
+                    .. " with " .. heroName .. ".")
+                break
             elseif not ok then
                 lastError = result
             end
         end
+        if not addedThisPosition then break end
     end
     startup.botsPopulating = false
 
@@ -287,13 +372,20 @@ local function FillOpponentBotsOnce(startup)
             .. (lastError ~= nil and (": " .. tostring(lastError)) or "."))
         return false
     end
-    startup.botSetupComplete = true
+    local targetSize = target.total + added
     startup.botSetupHasBots = target.bots + added > 0
-    startup.botsPopulated = true
-    DisableHumanBotControl(startup)
-    Log("[LV] Added " .. tostring(added) .. " bots to the human players' opposing team via "
-        .. "Tutorial:AddBot. Bot behavior scripts are still selected by the engine.")
-    return true
+    startup.botsPopulated = startup.botSetupHasBots
+    if allHumansSelected and targetSize >= capacity then
+        startup.botSetupComplete = true
+        DisableHumanBotControl(startup)
+        Log("[LV] Opposing bot team is complete after all "
+            .. tostring(humans.humans) .. " human player(s) selected; FretBots may start.")
+        return startup.botSetupHasBots
+    end
+    Log("[LV] Mirrored " .. tostring(humans.selectedHumans) .. "/"
+        .. tostring(humans.humans) .. " completed human picks with "
+        .. tostring(targetSize) .. " opposing bot(s); waiting for the next human pick.")
+    return false
 end
 
 local function EnableFretBotsOnce(startup)
@@ -380,14 +472,32 @@ function Activate()
     if startup.cosmeticListener ~= nil then
         StopListeningToGameEvent(startup.cosmeticListener)
     end
-    local function OnStateChanged()
-        ModeProbe.Report("state_changed")
-        -- Wait for human teams to be chosen; never fill during custom-game setup.
-        if not InAutomaticBotSetupWindow() then return end
-        if AUTO_FILL_BOTS and not FillOpponentBotsOnce(startup) then return end
+    if startup.heroPickListener ~= nil then
+        StopListeningToGameEvent(startup.heroPickListener)
+    end
+    local function AdvanceBotDraft()
+        if not InBotSetupWindow() then return end
+        if AUTO_FILL_BOTS and not AdvanceOpponentBotDraft(startup) then return end
         EnableFretBotsOnce(startup)
     end
+    local function OnStateChanged()
+        ModeProbe.Report("state_changed")
+        -- This is also a fallback if the pick event preceded PlayerResource's
+        -- selected-hero update or a script reload happened during selection.
+        AdvanceBotDraft()
+    end
     startup.listener = ListenToGameEvent("game_rules_state_change", OnStateChanged, nil)
+    startup.heroPickListener = ListenToGameEvent("dota_player_pick_hero", function(event)
+        local playerID = tonumber(event and (event.player or event.player_id or event.PlayerID))
+        local heroName = event and (event.hero or event.hero_name)
+        if playerID ~= nil and heroName ~= nil and heroName ~= ""
+            and PlayerResource:IsValidPlayerID(playerID)
+            and not PlayerResource:IsFakeClient(playerID) then
+            startup.humanHeroSelections = startup.humanHeroSelections or {}
+            startup.humanHeroSelections[playerID] = heroName
+        end
+        AdvanceBotDraft()
+    end, nil)
     startup.cosmeticListener = ListenToGameEvent("npc_spawned", function(event)
         if event == nil or event.entindex == nil then return end
         local unit = EntIndexToHScript(event.entindex)
@@ -406,7 +516,7 @@ function Activate()
             Log("[LV] Fill bots after hero selection begins, before pregame.")
             return
         end
-        if FillOpponentBotsOnce(startup) then EnableFretBotsOnce(startup) end
-    end, "LV fallback: fill only the human side's opponent team and request FretBots", FCVAR_CHEAT)
+        if AdvanceOpponentBotDraft(startup) then EnableFretBotsOnce(startup) end
+    end, "LV fallback: advance the staged opposing-team bot draft", FCVAR_CHEAT)
     OnStateChanged() -- Also handles activation after the selection event already fired.
 end

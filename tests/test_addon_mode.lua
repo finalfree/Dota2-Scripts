@@ -1,6 +1,7 @@
 -- Engine doubles: verify startup ordering/team policy/idempotence, not actual AI behavior.
 local entry = "game/dota_addons/overforged/scripts/vscripts/addon_game_mode.lua"
 package.path = "game/dota_addons/overforged/scripts/vscripts/?.lua;" .. package.path
+local BotDraft = require("lv_bot_draft")
 FCVAR_CHEAT = 16384
 DOTA_TEAM_GOODGUYS = 2
 DOTA_TEAM_BADGUYS = 3
@@ -16,7 +17,7 @@ local function NewMatch(initialState)
         failConsole = false, rules = {}, ruleCalls = 0, players = {},
         itemPrecache = {}, unitPrecache = {}, asyncPrecache = {}, entities = {},
         modelPrecache = {}, resourcePrecache = {}, shares = {},
-        botControlConvar = true,
+        botControlConvar = true, randomCalls = 0,
     }
     Flags = nil
     local gameMode = {}
@@ -91,6 +92,30 @@ local function NewMatch(initialState)
         if ctx.advanceDuringAdd then ctx.state = 7 end
         return true
     end
+    local enabledHeroNames = {
+        "npc_dota_hero_juggernaut", "npc_dota_hero_nevermore", "npc_dota_hero_axe",
+        "npc_dota_hero_lion", "npc_dota_hero_crystal_maiden", "npc_dota_hero_luna",
+        "npc_dota_hero_viper", "npc_dota_hero_tidehunter", "npc_dota_hero_witch_doctor",
+        "npc_dota_hero_lich", "npc_dota_hero_sven", "npc_dota_hero_dazzle",
+    }
+    ctx.enabledHeroes = {}
+    local heroDefinitions = {
+        npc_dota_hero_base = {Enabled = "0", HeroID = "0"},
+        npc_dota_hero_target_dummy = {Enabled = "0", HeroID = "127"},
+    }
+    for index, heroName in ipairs(enabledHeroNames) do
+        heroDefinitions[heroName] = {Enabled = "1", HeroID = tostring(index)}
+        ctx.enabledHeroes[heroName] = true
+    end
+    LoadKeyValues = function(path)
+        assert(path == "scripts/npc/npc_heroes.txt")
+        return {DOTAHeroes = heroDefinitions}
+    end
+    RandomInt = function(minimum, maximum)
+        assert(minimum == 1 and maximum >= minimum)
+        ctx.randomCalls = ctx.randomCalls + 1
+        return minimum
+    end
     PrecacheItemByNameSync = function(name, context)
         table.insert(ctx.itemPrecache, {name = name, context = context})
     end
@@ -127,7 +152,8 @@ local function NewMatch(initialState)
         end,
     }
     ListenToGameEvent = function(name, callback)
-        assert(name == "game_rules_state_change" or name == "npc_spawned")
+        assert(name == "game_rules_state_change" or name == "npc_spawned"
+            or name == "dota_player_pick_hero")
         ctx.nextListener = ctx.nextListener + 1
         ctx.listeners[ctx.nextListener] = {name = name, callback = callback}
         return ctx.nextListener
@@ -146,6 +172,11 @@ local function NewMatch(initialState)
     end
     function ctx:AddPlayer(playerID, team, isBot, heroName)
         self.players[playerID] = {team = team, isBot = isBot == true, heroName = heroName or ""}
+    end
+    function ctx:SelectHumanHero(playerID, heroName)
+        assert(self.players[playerID] and not self.players[playerID].isBot)
+        self.players[playerID].heroName = heroName
+        self:Emit("dota_player_pick_hero", {player = playerID, hero = heroName})
     end
     function ctx:Transition(state)
         self.state = state
@@ -201,17 +232,45 @@ assert(ctx:IssueOrder(0, {1001}) == false, "block a human order to a bot hero")
 assert(ctx:IssueOrder(1, {1001}) == true, "allow an order issued by the owning bot")
 assert(ctx:IssueOrder(0, {1000}) == true, "allow a human to order their own hero")
 ctx:Transition(3)
-assert(#ctx.addBotCalls == 0, "automatic setup waits until human selection is complete")
+assert(#ctx.addBotCalls == 4 and #ctx.commands == 1,
+    "a selected solo human should complete the opposing bot team")
 ctx:Transition(4)
 assert(#ctx.addBotCalls == 4 and #ctx.commands == 1)
-for _, call in ipairs(ctx.addBotCalls) do
+for index, call in ipairs(ctx.addBotCalls) do
     assert(call.team == DOTA_TEAM_BADGUYS, "only fill the humans' opposing team")
     assert(call.heroName ~= "npc_dota_hero_juggernaut", "avoid an already selected hero")
+    assert(ctx.enabledHeroes[call.heroName], "only pick an enabled current-game hero")
+    assert(BotDraft.GetPositionWeight(call.heroName, index + 1) > 0,
+        "continue OHA position order after the existing position-1 bot")
 end
+assert(ctx.randomCalls > 0, "shuffle the enabled hero pool before adding bots")
 ctx:Transition(4)
 ctx.manual()
 assert(#ctx.addBotCalls == 4 and #ctx.commands == 1, "bot setup is idempotent")
-print("PASS: AddBot fills only the opposing team after hero selection and starts FretBots once")
+print("PASS: single-player selection fills only the opposing team and starts FretBots once")
+
+ctx = NewMatch(3)
+ctx:AddPlayer(0, DOTA_TEAM_GOODGUYS, false)
+ctx:AddPlayer(1, DOTA_TEAM_GOODGUYS, false)
+ctx:AddPlayer(2, DOTA_TEAM_GOODGUYS, false)
+ctx:SelectHumanHero(0, "npc_dota_hero_juggernaut")
+assert(#ctx.addBotCalls == 1 and #ctx.commands == 0,
+    "the first of three human picks should receive exactly one bot response")
+ctx:SelectHumanHero(1, "npc_dota_hero_luna")
+assert(#ctx.addBotCalls == 2 and #ctx.commands == 0,
+    "the second human pick should receive the second bot response")
+ctx:SelectHumanHero(2, "npc_dota_hero_viper")
+assert(#ctx.addBotCalls == 5 and #ctx.commands == 1,
+    "the final human pick should fill all remaining bot slots and start FretBots")
+assert(GameRules.LVBotStartup.botSetupComplete)
+print("PASS: staged draft mirrors each human pick, then fills after every human selected")
+
+ctx = NewMatch(3)
+ctx:AddPlayer(0, DOTA_TEAM_GOODGUYS, false)
+ctx:Emit("dota_player_pick_hero", {player = "0", hero = "npc_dota_hero_juggernaut"})
+assert(#ctx.addBotCalls == 5 and #ctx.commands == 1,
+    "pick-event data should cover an event that arrives before PlayerResource updates")
+print("PASS: hero-pick event cache prevents a PlayerResource timing race")
 
 ctx = NewMatch(2)
 ctx:AddPlayer(0, DOTA_TEAM_GOODGUYS, false)
@@ -222,10 +281,14 @@ assert(GameRules.LVBotStartup.botSetupComplete)
 print("PASS: human players on both teams suppress all automatic bots and FretBots")
 
 ctx = NewMatch(2)
-ctx:AddPlayer(0, DOTA_TEAM_BADGUYS, false)
+ctx:AddPlayer(0, DOTA_TEAM_BADGUYS, false, "npc_dota_hero_juggernaut")
 ctx:Transition(4)
 assert(#ctx.addBotCalls == 5 and #ctx.commands == 1)
-for _, call in ipairs(ctx.addBotCalls) do assert(call.team == DOTA_TEAM_GOODGUYS) end
+for position, call in ipairs(ctx.addBotCalls) do
+    assert(call.team == DOTA_TEAM_GOODGUYS)
+    assert(BotDraft.GetPositionWeight(call.heroName, position) > 0,
+        "a full bot team should be drafted in OHA position order")
+end
 print("PASS: Dire-only humans receive a full Radiant bot opponent team")
 
 ctx = NewMatch(2)
@@ -233,11 +296,15 @@ ctx:Transition(4)
 assert(#ctx.addBotCalls == 0 and #ctx.commands == 0)
 ctx:AddPlayer(0, DOTA_TEAM_GOODGUYS, false)
 ctx.manual()
+assert(#ctx.addBotCalls == 0 and #ctx.commands == 0,
+    "manual fallback must still wait for the human hero")
+ctx.players[0].heroName = "npc_dota_hero_juggernaut"
+ctx.manual()
 assert(#ctx.addBotCalls == 5 and #ctx.commands == 1)
 print("PASS: no-human setup waits and the manual fallback can retry")
 
 ctx = NewMatch(2)
-ctx:AddPlayer(0, DOTA_TEAM_GOODGUYS, false)
+ctx:AddPlayer(0, DOTA_TEAM_GOODGUYS, false, "npc_dota_hero_juggernaut")
 ctx.failAdd = true
 ctx:Transition(4)
 assert(#ctx.addBotCalls == 0 and #ctx.commands == 0)
@@ -248,14 +315,14 @@ assert(#ctx.addBotCalls == 5 and #ctx.commands == 1)
 print("PASS: failed AddBot setup skips FretBots and permits retry")
 
 ctx = NewMatch(2)
-ctx:AddPlayer(0, DOTA_TEAM_GOODGUYS, false)
+ctx:AddPlayer(0, DOTA_TEAM_GOODGUYS, false, "npc_dota_hero_juggernaut")
 ctx.reenterAdd = true
 ctx:Transition(4)
 assert(#ctx.addBotCalls == 5 and #ctx.commands == 1)
 print("PASS: reentrant AddBot events do not duplicate bots or start FretBots early")
 
 ctx = NewMatch(2)
-ctx:AddPlayer(0, DOTA_TEAM_GOODGUYS, false)
+ctx:AddPlayer(0, DOTA_TEAM_GOODGUYS, false, "npc_dota_hero_juggernaut")
 ctx.advanceDuringAdd = true
 ctx:Transition(4)
 assert(#ctx.addBotCalls == 1 and #ctx.commands == 0)
@@ -263,7 +330,7 @@ assert(not GameRules.LVBotStartup.botSetupComplete)
 print("PASS: transition to pregame during AddBot setup stops cleanly without late FretBots")
 
 ctx = NewMatch(2)
-ctx:AddPlayer(0, DOTA_TEAM_GOODGUYS, false)
+ctx:AddPlayer(0, DOTA_TEAM_GOODGUYS, false, "npc_dota_hero_juggernaut")
 Flags = {isFretBotsInitialized = true}
 ctx:Transition(4)
 assert(#ctx.addBotCalls == 5 and #ctx.commands == 0)
@@ -271,7 +338,7 @@ assert(GameRules.LVBotStartup.fretBotsRequested)
 print("PASS: already initialized FretBots is not reloaded")
 
 ctx = NewMatch(2)
-ctx:AddPlayer(0, DOTA_TEAM_GOODGUYS, false)
+ctx:AddPlayer(0, DOTA_TEAM_GOODGUYS, false, "npc_dota_hero_juggernaut")
 ctx.failConsole = true
 ctx:Transition(4)
 assert(#ctx.addBotCalls == 5 and #ctx.commands == 0)
@@ -285,7 +352,7 @@ dofile(entry)
 Activate()
 local listenerCount = 0
 for _ in pairs(ctx.listeners) do listenerCount = listenerCount + 1 end
-assert(listenerCount == 2 and #ctx.addBotCalls == 5 and #ctx.commands == 1)
+assert(listenerCount == 3 and #ctx.addBotCalls == 5 and #ctx.commands == 1)
 assert(ctx.ruleCalls == 6, "reload only reapplies engine flags")
 print("PASS: repeated activation preserves per-match setup guards and replaces listeners")
 
