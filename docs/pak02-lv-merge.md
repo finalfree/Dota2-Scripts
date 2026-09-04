@@ -19,17 +19,17 @@ E:\SteamLibrary\steamapps\common\dota 2 beta\game\dota_lv\pak01_dir.vpk
 1. 在天地星 `scripts/npc/npc_abilities.txt` 最前面加入：
 
    ```text
-   #base "lv/lv_items.txt"
-   #base "lv/lv_upgrades.txt"
+   #base "overforged_abilities.txt"
+   #base "overforged_items.txt"
    ```
 
    天地星原有的三个 `#base Fun/...` 紧随其后。不会复制本项目的完整 `scripts/npc/items.txt`。
 
-2. 按 `packaging/pak02-lv-files.txt` 注入本项目的 LV KV、Lua 和以后列入清单的独立资源。不会用本项目的官方 `shops.txt` 覆盖天地星版本，因此“祝福”和难度工具入口得以保留。
+2. 按 `packaging/pak02-lv-files.txt` 从唯一源码 `game/dota_addons/overforged` 注入 LV KV、Lua、纹理；两个 NPC 包内别名通过 `packaging/npc-sources.json` 读取标准 `npc_*_custom.txt`。不会用本项目的官方 `shops.txt` 覆盖天地星版本，因此“祝福”和难度工具入口得以保留。
 
-3. 将本项目自定义物品对应的中英文 token 合并到 `abilities_*.txt` 的 `Tokens` 块。不是追加在整个文件的最后；追加到根节点之外不会成为 token。脚本会移除目标中同名的 LV token，再在 `Tokens` 结束前写入一份规范化结果。
+3. 从 addon 的 `resource/addon_*.txt` 将自定义物品中英文 token 合并到作者 `abilities_*.txt` 的 `Tokens` 块。若作者缺少对应文件，使用 `pak01_dir` 的完整官方基线作底，不用 addon 小文件替代完整文本。脚本移除目标中同名的 LV token，再在 `Tokens` 结束前写入一份规范化结果。
 
-本地化键由 `lv_items.txt`、`lv_upgrades.txt` 中的实际内部名自动识别，也包含 `DOTA_Tooltip_modifier_lv_*`。源本地化存在重复键时按文件中的最后一个定义取值并报告数量。天地星以后如果新增了与 LV 同名的物品或重复 ID，脚本会停止，不会静默决定使用哪一方。
+本地化键由标准 `npc_items_custom.txt` 中的实际内部名自动识别，也包含 `DOTA_Tooltip_modifier_lv_*`。源本地化存在重复键时按文件中的最后一个定义取值并报告数量。天地星以后如果新增了与 LV 同名的物品或重复 ID，脚本会停止，不会静默决定使用哪一方。
 
 ## 使用方法
 

@@ -1,0 +1,53 @@
+"DOTAAbilities"
+{
+	"lv_black_dragon_splash_attack"
+	{
+		"ID"                "10111"
+		"BaseClass"         "ability_datadriven"
+		"AbilityBehavior"   "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"MaxLevel"          "1"
+		"IsBreakable"       "1"
+		"AbilityTextureName" "item_lv_dragon_splash"
+
+		"AbilityValues"
+		{
+			"bonus_damage"     "50"
+			"bonus_health_regen" "10"
+			"bonus_mana_regen"  "5"
+			"range"
+			{
+				"value"                     "500"
+				"affected_by_aoe_increase"  "1"
+			}
+			"damage_percent"     "100"
+		}
+
+		// Visible, pure-KV status icon.  Gameplay is provided by the native
+		// modifier attached from item_lv_dragon_splash.lua.
+		"Modifiers"
+		{
+			"modifier_lv_black_dragon_splash_status"
+			{
+				"IsHidden"      "0"
+				"IsDebuff"      "0"
+				"IsPurgable"    "0"
+				"RemoveOnDeath" "0"
+				"ThinkInterval" "0.25"
+				"OnIntervalThink"
+				{
+					"RunScript"
+					{
+						"ScriptFile" "scripts/vscripts/lv/item_lv_dragon_splash.lua"
+						"Function"   "LVDragonSplashEnsureActive"
+					}
+				}
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE"  "%bonus_damage"
+					"MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT"  "%bonus_health_regen"
+					"MODIFIER_PROPERTY_MANA_REGEN_CONSTANT"    "%bonus_mana_regen"
+				}
+			}
+		}
+	}
+}

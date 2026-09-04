@@ -1,0 +1,4 @@
+{
+  "scripts/npc/overforged_items.txt": "scripts/npc/npc_items_custom.txt",
+  "scripts/npc/overforged_abilities.txt": "scripts/npc/npc_abilities_custom.txt"
+}

@@ -9,6 +9,19 @@ param(
 
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
+$lvSourceRoot = Join-Path $PSScriptRoot 'game/dota_addons/overforged'
+$npcSources = @{}
+$npcMapping = Get-Content -LiteralPath (Join-Path $PSScriptRoot 'packaging/npc-sources.json') -Raw | ConvertFrom-Json
+foreach ($property in $npcMapping.PSObject.Properties) { $npcSources[$property.Name] = [string]$property.Value }
+
+function Get-LvSourcePath([string]$ArchivePath) {
+    $relative = if ($npcSources.ContainsKey($ArchivePath)) { $npcSources[$ArchivePath] } else { $ArchivePath }
+    $resolved = [IO.Path]::GetFullPath((Join-Path $lvSourceRoot $relative))
+    if (-not $resolved.StartsWith($lvSourceRoot.TrimEnd('\') + '\', [StringComparison]::OrdinalIgnoreCase)) {
+        throw "Source mapping escapes addon: $ArchivePath"
+    }
+    return $resolved
+}
 
 function Invoke-VpkEdit([string[]]$Arguments) {
     $oldPreference = $ErrorActionPreference
@@ -39,11 +52,14 @@ function Get-MaintainedPaths([string]$Path) {
             throw "Invalid merge manifest path: $entry"
         }
         if (-not $seen.Add($relative)) { throw "Duplicate merge manifest path: $entry" }
-        $source = Get-Item -LiteralPath (Join-Path (Join-Path $PSScriptRoot 'pak01_dir') $relative) -Force
+        $source = Get-Item -LiteralPath (Get-LvSourcePath $relative) -Force
         if ($source.PSIsContainer -or ($source.Attributes -band [IO.FileAttributes]::ReparsePoint)) {
             throw "Merge inputs must be regular files: $entry"
         }
         $relative
+    }
+    foreach ($required in $npcSources.Keys) {
+        if ($paths -notcontains $required) { throw "Missing NPC dependency in merge manifest: $required" }
     }
 }
 
@@ -53,7 +69,7 @@ function Get-LvDefinitionInfo([string[]]$Paths) {
     $duplicateNames = [System.Collections.Generic.HashSet[string]]::new([StringComparer]::OrdinalIgnoreCase)
     $duplicateIds = [System.Collections.Generic.HashSet[string]]::new([StringComparer]::Ordinal)
     foreach ($path in $Paths | Where-Object { $_ -like 'scripts/npc/*.txt' -or $_ -like 'scripts/npc/*/*.txt' }) {
-        $text = [IO.File]::ReadAllText((Join-Path (Join-Path $PSScriptRoot 'pak01_dir') $path))
+        $text = [IO.File]::ReadAllText((Get-LvSourcePath $path))
         foreach ($match in [regex]::Matches($text, '(?m)^\s*"(?<name>item_(?:recipe_)?lv_[^"]+)"\s*\r?\n\s*\{')) {
             $name = $match.Groups['name'].Value
             if (-not $names.Add($name)) { $null = $duplicateNames.Add($name) }
@@ -73,8 +89,8 @@ function Get-LvDefinitionInfo([string[]]$Paths) {
 
 function Assert-NoPak02DefinitionCollision([string]$NpcAbilitiesPath, $LvInfo) {
     $npcText = [IO.File]::ReadAllText($NpcAbilitiesPath)
-    if ($npcText -match '(?im)^\s*#base\s+"?lv/') {
-        throw 'BasePak already contains an lv #base entry. Use a fresh author pak02 package, not an earlier merged output.'
+    if ($npcText -match '(?im)^\s*#base\s+"?(?:lv/|overforged_)') {
+        throw 'BasePak already contains LV/Overforged #base entries. Use a fresh author pak02 package, not an earlier merged output.'
     }
     $baseMatches = [regex]::Matches($npcText, '(?im)^\s*#base\s+(?:"(?<quoted>[^"]+)"|(?<plain>\S+))')
     foreach ($baseMatch in $baseMatches) {
@@ -96,7 +112,11 @@ function Assert-NoPak02DefinitionCollision([string]$NpcAbilitiesPath, $LvInfo) {
 function Add-LvBaseLines([string]$Path) {
     $text = [IO.File]::ReadAllText($Path)
     $newline = if ($text.Contains("`r`n")) { "`r`n" } else { "`n" }
-    $prefix = '#base "lv/lv_items.txt"' + $newline + '#base "lv/lv_upgrades.txt"' + $newline
+    $prefix = ''
+    foreach ($archivePath in @($npcSources.Keys | Sort-Object)) {
+        $include = $archivePath.Substring('scripts/npc/'.Length)
+        $prefix += '#base "' + $include + '"' + $newline
+    }
     [IO.File]::WriteAllText($Path, $prefix + $text, [Text.UTF8Encoding]::new($false))
 }
 
@@ -132,7 +152,7 @@ function Find-TokensClose([string]$Text) {
     throw 'Localization Tokens block is not closed.'
 }
 
-function Merge-LvLocalization([string]$SourcePath, [string]$TargetPath, $LvInfo) {
+function Merge-LvLocalization([string]$SourcePath, [string]$TargetPath, $LvInfo, [string]$BaselinePath) {
     $sourceText = [IO.File]::ReadAllText($SourcePath)
     $tokenPattern = '(?m)^[ \t]*"(?<key>(?:\\.|[^"])*)"[ \t]+"(?<value>(?:\\.|[^"])*)"[^\r\n]*'
     $tokens = [System.Collections.Generic.Dictionary[string,string]]::new([StringComparer]::OrdinalIgnoreCase)
@@ -151,7 +171,7 @@ function Merge-LvLocalization([string]$SourcePath, [string]$TargetPath, $LvInfo)
     }
     if ($tokens.Count -eq 0) { throw "No LV localization tokens found in $SourcePath" }
 
-    $baseText = if (Test-Path -LiteralPath $TargetPath -PathType Leaf) { [IO.File]::ReadAllText($TargetPath) } else { $sourceText }
+    $baseText = if (Test-Path -LiteralPath $TargetPath -PathType Leaf) { [IO.File]::ReadAllText($TargetPath) } else { [IO.File]::ReadAllText($BaselinePath) }
     # Remove any existing LV token lines, then add one canonical definition per key inside Tokens.
     $baseText = [regex]::Replace($baseText, $tokenPattern, {
         param($match)
@@ -220,16 +240,17 @@ try {
     Add-LvBaseLines $npcAbilities
 
     foreach ($relative in $paths) {
-        $source = Join-Path (Join-Path $PSScriptRoot 'pak01_dir') $relative
+        $source = Get-LvSourcePath $relative
         $target = Join-Path $staging $relative
         New-Item -ItemType Directory -Path ([IO.Path]::GetDirectoryName($target)) -Force | Out-Null
         Copy-Item -LiteralPath $source -Destination $target -Force
     }
 
     foreach ($language in 'schinese','english') {
-        $source = Join-Path $PSScriptRoot "pak01_dir/resource/localization/abilities_$language.txt"
+        $source = Join-Path $lvSourceRoot "resource/addon_$language.txt"
         $target = Join-Path $staging "resource/localization/abilities_$language.txt"
-        $result = Merge-LvLocalization $source $target $lvInfo
+        $baseline = Join-Path $PSScriptRoot "pak01_dir/resource/localization/abilities_$language.txt"
+        $result = Merge-LvLocalization $source $target $lvInfo $baseline
         Write-Host "Localization ${language}: $($result.Tokens) LV tokens; resolved $($result.SourceDuplicatesResolved) duplicate source definitions."
     }
 

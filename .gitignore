@@ -3,6 +3,11 @@ bin
 pak01_dir.vpk
 pak02_dir.vpk
 pak01_dir/.vpkedit-*.rsp
+game/dota_addons/*/.vpkedit-*.rsp
+**/.vpkedit-*.rsp
+**/tools_thumbnail_cache.sqlite3
+**/readonly_tools_asset_info.bin
+**/tools_asset_info.bin
 .workbuddy-ai
 .workbuddy
 __pycache__/

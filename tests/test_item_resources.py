@@ -7,9 +7,15 @@ from pathlib import Path
 import hashlib
 import re
 import unittest
+import sys
+import tempfile
 
 ROOT = Path(__file__).resolve().parents[1]
-RESOURCE = ROOT / "pak01_dir"
+RESOURCE = ROOT / "game/dota_addons/overforged"
+BASELINE = ROOT / "pak01_dir"
+sys.path.insert(0, str(ROOT / "scripts"))
+from prepare_vpk import prepare
+from gen_item_upgrades import split_generated
 
 
 def read_kv(path):
@@ -48,8 +54,13 @@ def read_kv(path):
 class ItemResources(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.custom_pairs = dict(read_kv(RESOURCE / "scripts/npc/lv/lv_items.txt"))["DOTAAbilities"]
+        cls.custom_pairs = dict(read_kv(RESOURCE / "scripts/npc/npc_items_custom.txt"))["DOTAAbilities"]
+        cls.custom_pairs += dict(read_kv(RESOURCE / "scripts/npc/npc_abilities_custom.txt"))["DOTAAbilities"]
         cls.custom = dict(cls.custom_pairs)
+        (ROOT / "bin").mkdir(exist_ok=True)
+        cls.vpk_temp = tempfile.TemporaryDirectory(prefix="resource-test-", dir=ROOT / "bin")
+        cls.addClassCleanup(cls.vpk_temp.cleanup)
+        cls.vpk_sources = prepare(Path(cls.vpk_temp.name))
         cls.item = dict(cls.custom["item_lv_gem"])
         cls.recipe = dict(cls.custom["item_recipe_lv_gem"])
         cls.manifest = {
@@ -72,7 +83,7 @@ class ItemResources(unittest.TestCase):
         ids = [dict(value)["ID"] for _, value in self.custom_pairs if isinstance(value, list)]
         self.assertEqual(len(ids), len(set(ids)))
         for filename in ("items.txt", "npc_abilities.txt", "npc_ability_ids.txt"):
-            roots = dict(read_kv(RESOURCE / "scripts/npc" / filename))
+            roots = dict(read_kv(BASELINE / "scripts/npc" / filename))
             for pairs in roots.values():
                 if not isinstance(pairs, list):
                     continue
@@ -85,7 +96,7 @@ class ItemResources(unittest.TestCase):
                         self.assertNotIn(fields.get("id"), ids)
 
     def test_recipe_and_total_price(self):
-        official = dict(dict(read_kv(RESOURCE / "scripts/npc/items.txt"))["DOTAAbilities"])
+        official = dict(dict(read_kv(BASELINE / "scripts/npc/items.txt"))["DOTAAbilities"])
         self.assertEqual(self.recipe["ItemResult"], "item_lv_gem")
         self.assertEqual(dict(self.recipe["ItemRequirements"]), {"01": "item_gem"})
         self.assertEqual(int(self.item["ItemCost"]),
@@ -106,11 +117,11 @@ class ItemResources(unittest.TestCase):
             callback = dict(dict(pending[event])["RunScript"])
             path = callback["ScriptFile"]
             self.assertIn(path, self.manifest)
-            source = (RESOURCE / path).read_text()
+            source = (RESOURCE / path).read_text(encoding='utf-8')
             self.assertIn("function " + callback["Function"] + "(keys)", source)
         self.assertNotIn("scripts/vscripts/lv/modifier_lv_gem_consumed.lua", self.manifest)
         self.assertFalse((RESOURCE / "scripts/vscripts/lv/modifier_lv_gem_consumed.lua").exists())
-        source = (RESOURCE / "scripts/vscripts/lv/item_lv_gem.lua").read_text()
+        source = (RESOURCE / "scripts/vscripts/lv/item_lv_gem.lua").read_text(encoding='utf-8')
         self.assertIn('TRUESIGHT = "modifier_truesight"', source)
         self.assertIn('"npc_spawned"', source)
         self.assertIn('"npc_replaced"', source)
@@ -124,9 +135,9 @@ class ItemResources(unittest.TestCase):
         self.assertNotIn("LinkLuaModifier", source)
         self.assertNotIn("modifier_lv_gem_consumed", source)
         for path in self.manifest:
-            self.assertTrue((RESOURCE / path).is_file(), path)
-        entry = (RESOURCE / "scripts/npc/items.txt").read_text(encoding="utf-8-sig")
-        self.assertIn('#base "lv/lv_items.txt"', entry)
+            self.assertTrue(Path(self.vpk_sources[path]).is_file(), path)
+        entry = Path(self.vpk_sources["scripts/npc/items.txt"]).read_text(encoding="utf-8-sig")
+        self.assertIn('#base "overforged_items.txt"', entry)
 
     def test_pak02_merge_manifest_has_all_lv_payloads(self):
         # The pak02 merge preserves its own official items, shops and localization.
@@ -140,12 +151,12 @@ class ItemResources(unittest.TestCase):
         expected = self.manifest - merged_separately_or_preserved
         self.assertEqual(self.pak02_manifest, expected)
         for path in self.pak02_manifest:
-            self.assertTrue((RESOURCE / path).is_file(), path)
+            self.assertTrue(Path(self.vpk_sources[path]).is_file(), path)
 
     def test_matching_localization_without_duplicate_keys(self):
         localized = []
         for language in ("english", "schinese"):
-            root = dict(read_kv(RESOURCE / f"resource/localization/abilities_{language}.txt"))
+            root = dict(read_kv(RESOURCE / f"resource/addon_{language}.txt"))
             pairs = dict(root["lang"])["Tokens"]
             gem = [(key.lower(), value) for key, value in pairs if "lv_gem" in key.lower()]
             self.assertEqual(len(gem), len(dict(gem)))
@@ -163,7 +174,7 @@ class ItemResources(unittest.TestCase):
     def test_octarine_recipe_and_preserved_stats(self):
         item = dict(self.custom["item_lv_octarine_core"])
         recipe = dict(self.custom["item_recipe_lv_octarine_core"])
-        official = dict(dict(read_kv(RESOURCE / "scripts/npc/items.txt"))["DOTAAbilities"])
+        official = dict(dict(read_kv(BASELINE / "scripts/npc/items.txt"))["DOTAAbilities"])
         self.assertEqual(recipe["ItemCost"], "1000")
         self.assertEqual(recipe["ItemResult"], "item_lv_octarine_core")
         self.assertEqual(dict(recipe["ItemRequirements"]), {"01": "item_octarine_core"})
@@ -192,9 +203,9 @@ class ItemResources(unittest.TestCase):
             callback = dict(dict(bridge[event])["RunScript"])
             self.assertEqual(callback["Function"], function)
             self.assertIn(callback["ScriptFile"], self.manifest)
-            source = (RESOURCE / callback["ScriptFile"]).read_text()
+            source = (RESOURCE / callback["ScriptFile"]).read_text(encoding='utf-8')
             self.assertIn("function " + function + "(keys)", source)
-        source = (RESOURCE / "scripts/vscripts/lv/item_lv_octarine_core.lua").read_text()
+        source = (RESOURCE / "scripts/vscripts/lv/item_lv_octarine_core.lua").read_text(encoding='utf-8')
         self.assertIn('NATIVE_RANGE_MODIFIER = "modifier_item_aether_lens"', source)
         self.assertIn("AddNewModifier", source)
         self.assertNotIn("SetContextThink", source)
@@ -205,7 +216,7 @@ class ItemResources(unittest.TestCase):
     def test_octarine_localization_matches_special_value(self):
         localized = []
         for language in ("english", "schinese"):
-            root = dict(read_kv(RESOURCE / f"resource/localization/abilities_{language}.txt"))
+            root = dict(read_kv(RESOURCE / f"resource/addon_{language}.txt"))
             pairs = dict(root["lang"])["Tokens"]
             octarine = [(key.lower(), value) for key, value in pairs if "lv_octarine_core" in key.lower()]
             self.assertEqual(len(octarine), len(dict(octarine)))
@@ -216,7 +227,7 @@ class ItemResources(unittest.TestCase):
         self.assertEqual(localized[0].keys(), localized[1].keys())
 
     def test_trident_is_hand_maintained_in_lv_items(self):
-        lv_items = dict(read_kv(RESOURCE / "scripts/npc/lv/lv_items.txt"))["DOTAAbilities"]
+        lv_items = dict(read_kv(RESOURCE / "scripts/npc/npc_items_custom.txt"))["DOTAAbilities"]
         custom = dict(lv_items)
         self.assertIn("item_lv_trident", custom)
         self.assertIn("item_recipe_lv_trident", custom)
@@ -240,7 +251,7 @@ class ItemResources(unittest.TestCase):
         callback = dict(dict(controller["OnAttackLanded"])["RunScript"])
         self.assertEqual(callback["Function"], "LVTridentApplyPureAttackDamage")
         self.assertIn(callback["ScriptFile"], self.manifest)
-        source = (RESOURCE / callback["ScriptFile"]).read_text()
+        source = (RESOURCE / callback["ScriptFile"]).read_text(encoding='utf-8')
         self.assertIn("function LVTridentApplyPureAttackDamage(keys)", source)
         self.assertIn("ApplyDamage({", source)
         self.assertIn("damage_type = DAMAGE_TYPE_PURE", source)
@@ -256,7 +267,7 @@ class ItemResources(unittest.TestCase):
             "03": "item_sange_and_yasha;item_kaya;item_monkey_king_bar;",
             "04": "item_yasha_and_kaya;item_sange;item_monkey_king_bar;",
         })
-        upgrades = (RESOURCE / "scripts/npc/lv/lv_upgrades.txt").read_text(encoding="utf-8-sig")
+        upgrades = split_generated((RESOURCE / "scripts/npc/npc_items_custom.txt").read_text(encoding="utf-8-sig"))[1]
         self.assertNotIn('"item_lv_trident"', upgrades)
         self.assertNotIn('"item_lv_monkey_king_bar"', upgrades)
         self.assertNotIn('"item_recipe_lv_monkey_king_bar"', upgrades)
@@ -318,7 +329,7 @@ class ItemResources(unittest.TestCase):
         self.assertNotIn("modifier_item_lv_butterfly_crit_effect", source)
         self.assertNotIn("class({})", source)
         self.assertTrue((ROOT / "artwork/item-icons/item_lv_butterfly_crit.png").is_file())
-        self.assertTrue((ROOT / "artwork/item-icons/lv_butterfly_crit.png").is_file())
+        self.assertTrue((ROOT / "content/dota_addons/overforged/panorama/images/items/lv_butterfly_crit.png").is_file())
         texture = "panorama/images/items/lv_butterfly_crit_png.vtex_c"
         self.assertIn(texture, self.manifest)
         compiled_texture = (RESOURCE / texture).read_bytes()
@@ -414,7 +425,7 @@ class ItemResources(unittest.TestCase):
         self.assertNotIn("modifier_item_lv_satanic_heart_effect", source)
         self.assertNotIn("class({})", source)
         self.assertTrue((ROOT / "artwork/item-icons/item_lv_satanic_heart.png").is_file())
-        self.assertTrue((ROOT / "artwork/item-icons/lv_satanic_heart.png").is_file())
+        self.assertTrue((ROOT / "content/dota_addons/overforged/panorama/images/items/lv_satanic_heart.png").is_file())
         texture = "panorama/images/items/lv_satanic_heart_png.vtex_c"
         self.assertIn(texture, self.manifest)
         compiled_texture = (RESOURCE / texture).read_bytes()
@@ -495,7 +506,7 @@ class ItemResources(unittest.TestCase):
         self.assertNotIn("class({})", source)
 
         self.assertTrue((ROOT / "artwork/item-icons/item_lv_abyssal_skadi.png").is_file())
-        self.assertTrue((ROOT / "artwork/item-icons/lv_abyssal_skadi.png").is_file())
+        self.assertTrue((ROOT / "content/dota_addons/overforged/panorama/images/items/lv_abyssal_skadi.png").is_file())
         texture = "panorama/images/items/lv_abyssal_skadi_png.vtex_c"
         self.assertIn(texture, self.manifest)
         compiled_texture = RESOURCE / texture
@@ -508,7 +519,7 @@ class ItemResources(unittest.TestCase):
         localized = []
         for language in ("english", "schinese"):
             root = dict(read_kv(
-                RESOURCE / f"resource/localization/abilities_{language}.txt"))
+                RESOURCE / f"resource/addon_{language}.txt"))
             pairs = dict(root["lang"])["Tokens"]
             fusion = [(key.lower(), value) for key, value in pairs
                       if "item_lv_abyssal_skadi" in key.lower()]
@@ -518,8 +529,7 @@ class ItemResources(unittest.TestCase):
         self.assertEqual(localized[0].keys(), localized[1].keys())
 
     def test_replaced_abyssal_and_skadi_upgrades_are_reserved(self):
-        upgrades = (RESOURCE / "scripts/npc/lv/lv_upgrades.txt").read_text(
-            encoding="utf-8-sig")
+        upgrades = split_generated((RESOURCE / "scripts/npc/npc_items_custom.txt").read_text(encoding="utf-8-sig"))[1]
         manifest = (ROOT / "scripts/item_upgrades.json").read_text(encoding="utf-8")
         generator = (ROOT / "scripts/gen_item_upgrades.py").read_text(encoding="utf-8")
         for name in ("item_abyssal_blade", "item_skadi"):
@@ -531,7 +541,7 @@ class ItemResources(unittest.TestCase):
 
         for language in ("english", "schinese"):
             root = dict(read_kv(
-                RESOURCE / f"resource/localization/abilities_{language}.txt"))
+                RESOURCE / f"resource/addon_{language}.txt"))
             pairs = dict(root["lang"])["Tokens"]
             stale = [key for key, _ in pairs
                      if "item_lv_abyssal_blade" in key.lower()
@@ -544,7 +554,7 @@ class ItemResources(unittest.TestCase):
         item = dict(self.custom["item_lv_mirror_shield"])
         recipe = dict(self.custom["item_recipe_lv_mirror_shield"])
         official = dict(dict(read_kv(
-            RESOURCE / "scripts/npc/items.txt"))["DOTAAbilities"])
+            BASELINE / "scripts/npc/items.txt"))["DOTAAbilities"])
 
         self.assertEqual(item["ID"], "10106")
         self.assertEqual(recipe["ID"], "10105")
@@ -597,7 +607,7 @@ class ItemResources(unittest.TestCase):
         localized = []
         for language in ("english", "schinese"):
             root = dict(read_kv(
-                RESOURCE / f"resource/localization/abilities_{language}.txt"))
+                RESOURCE / f"resource/addon_{language}.txt"))
             pairs = dict(root["lang"])["Tokens"]
             mirror = [(key.lower(), value) for key, value in pairs
                       if "lv_mirror_shield" in key.lower()]
@@ -615,7 +625,7 @@ class ItemResources(unittest.TestCase):
         recipe = dict(self.custom["item_recipe_lv_dragon_splash"])
         skill = dict(self.custom["lv_black_dragon_splash_attack"])
         official = dict(dict(read_kv(
-            RESOURCE / "scripts/npc/items.txt"))["DOTAAbilities"])
+            BASELINE / "scripts/npc/items.txt"))["DOTAAbilities"])
 
         self.assertEqual(item["ID"], "10110")
         self.assertEqual(recipe["ID"], "10109")
@@ -648,7 +658,7 @@ class ItemResources(unittest.TestCase):
             "e2c0ba64be8aeb091614828e489ba903425206e865637a0eec43d41091d3f76f",
         )
         self.assertTrue((ROOT / "artwork/item-icons/item_lv_dragon_splash.png").is_file())
-        self.assertTrue((ROOT / "artwork/item-icons/lv_dragon_splash.png").is_file())
+        self.assertTrue((ROOT / "content/dota_addons/overforged/panorama/images/items/lv_dragon_splash.png").is_file())
 
         modifiers = dict(item["Modifiers"])
         pending = dict(modifiers["modifier_item_lv_dragon_splash_pending"])
@@ -681,7 +691,7 @@ class ItemResources(unittest.TestCase):
 
         for language in ("english", "schinese"):
             root = dict(read_kv(
-                RESOURCE / f"resource/localization/abilities_{language}.txt"))
+                RESOURCE / f"resource/addon_{language}.txt"))
             pairs = dict(root["lang"])["Tokens"]
             localized = dict(pairs)
             for key in (
@@ -694,8 +704,7 @@ class ItemResources(unittest.TestCase):
                 self.assertTrue(localized.get(key), (language, key))
 
     def test_old_bfury_upgrade_is_removed(self):
-        upgrades = (RESOURCE / "scripts/npc/lv/lv_upgrades.txt").read_text(
-            encoding="utf-8-sig")
+        upgrades = split_generated((RESOURCE / "scripts/npc/npc_items_custom.txt").read_text(encoding="utf-8-sig"))[1]
         self.assertNotIn('"item_lv_bfury"', upgrades)
         self.assertNotIn('"item_recipe_lv_bfury"', upgrades)
 
@@ -708,15 +717,14 @@ class ItemResources(unittest.TestCase):
 
         for language in ("english", "schinese"):
             root = dict(read_kv(
-                RESOURCE / f"resource/localization/abilities_{language}.txt"))
+                RESOURCE / f"resource/addon_{language}.txt"))
             pairs = dict(root["lang"])["Tokens"]
             keys = {key for key, _ in pairs}
             self.assertNotIn("DOTA_Tooltip_Ability_item_lv_bfury", keys)
             self.assertNotIn("DOTA_Tooltip_Ability_item_recipe_lv_bfury", keys)
 
     def test_replaced_satanic_and_heart_upgrades_are_reserved(self):
-        upgrades = (RESOURCE / "scripts/npc/lv/lv_upgrades.txt").read_text(
-            encoding="utf-8-sig")
+        upgrades = split_generated((RESOURCE / "scripts/npc/npc_items_custom.txt").read_text(encoding="utf-8-sig"))[1]
         manifest = (ROOT / "scripts/item_upgrades.json").read_text(encoding="utf-8")
         generator = (ROOT / "scripts/gen_item_upgrades.py").read_text(encoding="utf-8")
         for name in ("item_satanic", "item_heart"):
@@ -730,7 +738,7 @@ class ItemResources(unittest.TestCase):
         stale = re.compile(r"item_(?:recipe_)?lv_(?:satanic|heart)(?!_heart)",
                            re.IGNORECASE)
         for language in ("english", "schinese"):
-            root = dict(read_kv(RESOURCE / f"resource/localization/abilities_{language}.txt"))
+            root = dict(read_kv(RESOURCE / f"resource/addon_{language}.txt"))
             pairs = dict(root["lang"])["Tokens"]
             localized = [(key.lower(), value) for key, value in pairs
                          if "item_lv_satanic_heart" in key.lower()]
@@ -739,8 +747,7 @@ class ItemResources(unittest.TestCase):
             self.assertFalse(any(stale.search(key) for key, _ in pairs))
 
     def test_replaced_butterfly_and_daedalus_upgrades_are_reserved(self):
-        upgrades = (RESOURCE / "scripts/npc/lv/lv_upgrades.txt").read_text(
-            encoding="utf-8-sig")
+        upgrades = split_generated((RESOURCE / "scripts/npc/npc_items_custom.txt").read_text(encoding="utf-8-sig"))[1]
         manifest = (ROOT / "scripts/item_upgrades.json").read_text(encoding="utf-8")
         generator = (ROOT / "scripts/gen_item_upgrades.py").read_text(encoding="utf-8")
         for name in ("item_butterfly", "item_greater_crit"):
@@ -749,7 +756,7 @@ class ItemResources(unittest.TestCase):
             self.assertIn(repr(name), generator)
 
         for language in ("english", "schinese"):
-            root = dict(read_kv(RESOURCE / f"resource/localization/abilities_{language}.txt"))
+            root = dict(read_kv(RESOURCE / f"resource/addon_{language}.txt"))
             pairs = dict(root["lang"])["Tokens"]
             localized = [(key.lower(), value) for key, value in pairs
                          if "item_lv_butterfly_crit" in key.lower()]
@@ -763,7 +770,7 @@ class ItemResources(unittest.TestCase):
 
     def test_removed_monkey_king_bar_upgrade_has_no_localization(self):
         for language in ("english", "schinese"):
-            root = dict(read_kv(RESOURCE / f"resource/localization/abilities_{language}.txt"))
+            root = dict(read_kv(RESOURCE / f"resource/addon_{language}.txt"))
             pairs = dict(root["lang"])["Tokens"]
             self.assertFalse(any("item_lv_monkey_king_bar" in key.lower()
                                  or "item_recipe_lv_monkey_king_bar" in key.lower()

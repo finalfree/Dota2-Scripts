@@ -1,5 +1,7 @@
 # Dota 2 新增可合成物品实践记录
 
+> 2026-09-03 Workshop-first 迁移：下文的玩法实测结论和旧路径记录保留为历史证据。当前自定义 KV/Lua 已迁到 `game/dota_addons/overforged`，小图源资源迁到 `content/dota_addons/overforged`；`pak01_dir` 只维护官方基线。新路径、构建和验收以 [Workshop-first 说明](workshop-addon.md) 为准，不能再在旧官方文件内手加自定义内容。
+
 基于本项目 `7.41e` 官方资源基线和本机 `dota_lv` 本地覆盖模组的实践。`main` 保存官方基线，自定义内容在功能分支维护。
 
 ## 合成路线
@@ -329,7 +331,7 @@ Alpha 为 255。
 
 ## 本地化
 
-在官方 `abilities_*.txt` 的 `Tokens` 块中添加自定义键，简体中文核心示例：
+当前在 addon 的 `resource/addon_*.txt` 的 `Tokens` 块中添加自定义键；VPK 构建器自动合入官方完整本地化。简体中文核心示例：
 
 ```text
 "DOTA_Tooltip_Ability_item_lv_octarine_core"              "玲珑心·精粹"
@@ -370,7 +372,7 @@ Alpha 为 255。
 - [ ] 检查当前分支、未提交改动及已有自定义物品，避免覆盖。
 - [ ] 新物品与新配方分别使用独立内部名及不冲突的 ID。
 - [ ] 保留原物品；核对属性字段、配方材料、产物和两种价格。
-- [ ] 在中英文官方本地化基线上增加对应键，不替换成仅含自定义键的文件。
+- [ ] 在 addon 中英文 `addon_*.txt` 增加对应键；由 VPK 构建器生成完整覆盖文本，不直接修改官方基线。
 - [ ] 默认不改 `shops.txt`；通过合成关系树提供购买入口。
 - [ ] 核对打包清单，避免漏掉 `#base` 引入的文件或 Lua 依赖。
 - [ ] 基础覆盖物品不得给英雄挂载自定义 Lua modifier；使用原生 modifier、KV modifier

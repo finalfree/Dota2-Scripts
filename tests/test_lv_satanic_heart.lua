@@ -9,7 +9,7 @@ local server = true
 function print(message) end
 function IsServer() return server end
 
-dofile("pak01_dir/scripts/vscripts/lv/item_lv_satanic_heart.lua")
+dofile("game/dota_addons/overforged/scripts/vscripts/lv/item_lv_satanic_heart.lua")
 
 local NATIVE_MODIFIERS = { "modifier_item_satanic", "modifier_item_heart" }
 local UNHOLY = "modifier_item_satanic_unholy"

@@ -3,7 +3,7 @@
 生成升级物品与配方条目。
 
 用法:
-    python scripts/gen_item_upgrades.py                 # 生成全部（写入 lv_items.txt 同目录的 lv_upgrades.txt）
+    python scripts/gen_item_upgrades.py                 # 只更新 npc_items_custom.txt 的自动生成区
     python scripts/gen_item_upgrades.py --item sheepstick --preview   # 只预览羊刀
 
 设计要点
@@ -13,7 +13,7 @@
 * 默认 --full-copy：把原物品的 AbilityValues 整块抄全、只替换目标值。
   这样无论引擎的 KV 继承是「递归合并」还是「整体替换」，结果都正确。
 * 只覆盖数值，不新增原物品没有的 key（新增 key 在 override 模式下不生效）。
-* 三叉戟和蝶翼之殇是手工维护的融合物品，定义在 lv_items.txt，不属于本文件生成范围。
+* 三叉戟和蝶翼之殇在 npc_items_custom.txt 的手工区，不属于本文件生成范围。
 * 被融合取代的升级物品从生成清单移除，但原 ID 槽位继续保留。
 """
 
@@ -22,20 +22,22 @@ import json
 import os
 import re
 import sys
+from pathlib import Path
+from project_paths import GAME
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ITEMS_TXT = os.path.join(REPO, 'pak01_dir', 'scripts', 'npc', 'items.txt')
-LV_DIR = os.path.join(REPO, 'pak01_dir', 'scripts', 'npc', 'lv')
-OUT_FILE = os.path.join(LV_DIR, 'lv_upgrades.txt')
+OUT_FILE = GAME / 'scripts/npc/npc_items_custom.txt'
+BEGIN_GENERATED = '// BEGIN GENERATED UPGRADES -- scripts/gen_item_upgrades.py'
+END_GENERATED = '// END GENERATED UPGRADES'
 
 # commit 04f0e8e 的实质改动：{item_name: {字段路径: 目标值}}
 # 字段路径中 AbilityValues. 前缀表示 AbilityValues 块内的键
-UPGRADES = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                                       'item_upgrades.json'), encoding='utf-8'))
+UPGRADES = json.loads(Path(__file__).with_name('item_upgrades.json').read_text(encoding='utf-8'))
 
 ID_START = 10005
 
-# 已发布过的条目、以及移到 lv_items.txt 手工维护的条目，都保留 ID 槽位，
+# 已发布过的条目、以及移到标准物品文件手工区的条目，都保留 ID 槽位，
 # 避免后续自动生成物品的 ID 整体漂移。
 RESERVED_ID_SLOTS = {
 	'item_abyssal_blade',
@@ -284,6 +286,26 @@ def gen_item(name, src_block, overrides, item_id, recipe_id, full_copy=True, scr
     return '\n'.join(rlines), '\n'.join(lines)
 
 
+def split_generated(text):
+    """Return prefix/body/suffix; refuse missing, repeated or reversed markers."""
+    markers = []
+    for marker in (BEGIN_GENERATED, END_GENERATED):
+        matches = list(re.finditer(r'(?m)^[ \t]*' + re.escape(marker) + r'[ \t]*(?=\r?$)', text))
+        if len(matches) != 1:
+            raise ValueError('Expected exactly one generated-section marker: ' + marker)
+        markers.append(matches[0])
+    start, end = markers
+    if start.end() >= end.start():
+        raise ValueError('Reversed generated-section markers')
+    return text[:start.end()], text[start.end():end.start()], text[end.start():]
+
+
+def replace_generated(text, body):
+    prefix, _, suffix = split_generated(text)
+    newline = '\r\n' if '\r\n' in text else '\n'
+    return prefix + newline + body.strip('\r\n').replace('\r\n', '\n').replace('\n', newline) + newline + suffix
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--item', help='只生成某一个（item_ 前缀可省略）')
@@ -293,8 +315,10 @@ def main():
     ap.add_argument('--scroll-cost', type=int, default=1000,
                     help='升级卷轴价格，默认 1000（升级物品总价 = 原物品价 + 此值）')
     args = ap.parse_args()
+    if args.item and not args.preview:
+        ap.error('--item requires --preview; a partial run must not erase other generated items')
 
-    items = find_items(Parser(open(ITEMS_TXT, encoding='utf-8-sig', errors='replace').read()).root())
+    items = find_items(Parser(Path(ITEMS_TXT).read_text(encoding='utf-8-sig')).root())
 
     id_slots = sorted(set(UPGRADES) | RESERVED_ID_SLOTS)
     targets = sorted(UPGRADES)
@@ -307,8 +331,7 @@ def main():
     out = ['"DOTAAbilities"', '{', '\t"Version"\t\t"1"', '']
     for name in targets:
         if name not in items:
-            print('  ! items.txt 中找不到 %s，跳过' % name, file=sys.stderr)
-            continue
+            sys.exit('items.txt 中找不到 %s；未写入生成区' % name)
         slot = id_slots.index(name)
         rid, iid = ID_START + 2 * slot, ID_START + 2 * slot + 1
         recipe, item = gen_item(name, items[name], UPGRADES[name], iid, rid,
@@ -327,10 +350,14 @@ def main():
     if args.preview:
         print(text)
         return
-    with open(OUT_FILE, 'w', encoding='utf-8') as f:
-        f.write(text)
+    # Exclude the standalone preview wrapper/Version. Preserve the manual area verbatim.
+    with open(OUT_FILE, encoding='utf-8', newline='') as f:
+        current = f.read()
+    updated = replace_generated(current, '\n'.join(out[4:-1]))
+    with open(OUT_FILE, 'w', encoding='utf-8', newline='') as f:
+        f.write(updated)
     print('已生成 %d 个升级物品 -> %s' % (len(targets), os.path.relpath(OUT_FILE, REPO)))
-    print('注意：生成后需把 lv_upgrades.txt 加入 VPK 打包清单，并补 abilities_schinese.txt 本地化。')
+    print('注意：生成后需核对 addon 本地化；VPK 构建直接读取这份 Workshop 源文件。')
 
 
 if __name__ == '__main__':

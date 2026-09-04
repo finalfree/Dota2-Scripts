@@ -108,7 +108,7 @@ local function new_item(hero, slot)
     return item
 end
 
-dofile("pak01_dir/scripts/vscripts/lv/item_lv_mirror_shield.lua")
+dofile("game/dota_addons/overforged/scripts/vscripts/lv/item_lv_mirror_shield.lua")
 
 -- Successful absorption retains the item entity, frees the slot and installs
 -- both the native gameplay modifier and pure-KV status modifier.

@@ -1,11 +1,9 @@
-# Paths relative to pak01_dir. One file per line; no wildcards or directories.
-# addons: upgraded Octarine Core, experimental Gem absorption, and item upgrade scrolls.
-# items.txt carries the #base lines for lv_items.txt / lv_upgrades.txt, so it must ship.
-# npc_abilities.txt is deliberately NOT listed: item definitions load through items.txt,
-# so the game can keep using the official npc_abilities.txt.
+# VPK archive paths. Shared payloads come directly from the Workshop game tree.
+# items.txt and full abilities localization are generated from the official baseline.
+# The private ability is included through items.txt, preserving the legacy loader.
 scripts/npc/items.txt
-scripts/npc/lv/lv_items.txt
-scripts/npc/lv/lv_upgrades.txt
+scripts/npc/overforged_items.txt
+scripts/npc/overforged_abilities.txt
 scripts/vscripts/lv/item_lv_gem.lua
 scripts/vscripts/lv/item_lv_octarine_core.lua
 scripts/vscripts/lv/item_lv_trident.lua

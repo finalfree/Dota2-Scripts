@@ -8,11 +8,10 @@ param(
 
 $ErrorActionPreference = 'Stop'
 $options = @{
-    SourceRoot = Join-Path $PSScriptRoot 'pak01_dir'
     Manifest = $Manifest
     OutputPath = $OutputPath
     TargetDirectory = $TargetDirectory
     VpkEditCli = $VpkEditCli
     PackageOnly = $PackageOnly
 }
-& (Join-Path $PSScriptRoot 'scripts\Build-Vpk.ps1') @options
+& (Join-Path $PSScriptRoot 'scripts\Build-LvVpk.ps1') @options

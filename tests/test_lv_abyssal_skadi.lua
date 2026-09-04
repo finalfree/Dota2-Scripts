@@ -16,7 +16,7 @@ function ParticleManager:ReleaseParticleIndex(index)
     particles[index].released = true
 end
 
-dofile("pak01_dir/scripts/vscripts/lv/item_lv_abyssal_skadi.lua")
+dofile("game/dota_addons/overforged/scripts/vscripts/lv/item_lv_abyssal_skadi.lua")
 
 local NATIVE_MODIFIERS = {
     "modifier_item_abyssal_blade",

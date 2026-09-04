@@ -49,7 +49,7 @@ function FindUnitsInRadius(team, origin, cache, radius, team_filter, type_filter
     return world
 end
 
-dofile("pak01_dir/scripts/vscripts/lv/item_lv_gem.lua")
+dofile("game/dota_addons/overforged/scripts/vscripts/lv/item_lv_gem.lua")
 
 local next_entindex = 100
 

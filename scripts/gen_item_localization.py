@@ -21,15 +21,17 @@ import json
 import os
 import re
 import sys
+from pathlib import Path
+from project_paths import GAME, BASELINE
+from kv_tools import token_close
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ITEMS_TXT = os.path.join(REPO, 'pak01_dir', 'scripts', 'npc', 'items.txt')
 LOC = {
-    'schinese': os.path.join(REPO, 'pak01_dir', 'resource', 'localization', 'abilities_schinese.txt'),
-    'english': os.path.join(REPO, 'pak01_dir', 'resource', 'localization', 'abilities_english.txt'),
+    'schinese': str(GAME / 'resource/addon_schinese.txt'),
+    'english': str(GAME / 'resource/addon_english.txt'),
 }
-UPGRADES = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                                       'item_upgrades.json'), encoding='utf-8'))
+UPGRADES = json.loads(Path(__file__).with_name('item_upgrades.json').read_text(encoding='utf-8'))
 
 MARKER_BEGIN = '\t\t// >>> BEGIN generated item upgrade tooltips <<<'
 MARKER_END = '\t\t// <<< END generated item upgrade tooltips >>>'
@@ -57,7 +59,7 @@ EXTRA_TOOLTIP_SOURCES = {
 
 
 def item_names():
-    txt = open(ITEMS_TXT, encoding='utf-8-sig', errors='replace').read()
+    txt = Path(ITEMS_TXT).read_text(encoding='utf-8-sig')
     return set(re.findall(r'^\t"(item_[a-z0-9_]+)"\s*$', txt, re.M))
 
 
@@ -131,7 +133,18 @@ def build_block(entries, lang):
                          % (short, LORE_FALLBACK[lang]))
         lines.append('')
     lines.append(MARKER_END)
-    return lines
+    # Valve token names are case-insensitive. Preserve the previous last-wins
+    # semantics (e.g. nullifier lore/Lore) without shipping duplicate definitions.
+    seen, unique = set(), []
+    for line in reversed(lines):
+        match = re.match(r'\s*"([^"]+)"', line)
+        if match:
+            key = match[1].lower()
+            if key in seen:
+                continue
+            seen.add(key)
+        unique.append(line)
+    return list(reversed(unique))
 
 
 def strip_previous(src):
@@ -152,30 +165,18 @@ def strip_previous(src):
 
 
 def process(path, lang, preview=False):
-    src = open(path, encoding='utf-8-sig', errors='replace').read()
+    src = Path(path).read_text(encoding='utf-8-sig')
     src = strip_previous(src)
     names = item_names()
-    entries = collect(src, names)
+    baseline = (BASELINE / f'resource/localization/abilities_{lang}.txt').read_text(encoding='utf-8-sig')
+    entries = collect(baseline, names)
     block = build_block(entries, lang)
 
     # 必须插到 "Tokens" 块内部。
     # 曾经这里写的是「找最后一个 }」，但最后一个 } 是 lang 的闭合而不是 Tokens 的，
     # 结果条目落在 Tokens 之外、游戏根本不加载 —— 物品名和描述全空。
-    m = re.search(r'^[ \t]*"Tokens"[ \t]*$', src, re.M)
-    if not m:
-        sys.exit('无法在 %s 中定位 Tokens 块' % path)
-    depth, end = 0, None
-    for i in range(m.end(), len(src)):
-        if src[i] == '{':
-            depth += 1
-        elif src[i] == '}':
-            depth -= 1
-            if depth == 0:
-                end = i
-                break
-    if end is None:
-        sys.exit('Tokens 块括号不配对：%s' % path)
-    new = (src[:end].rstrip('\n') + '\n\n' + '\n'.join(block) + '\n'
+    end = token_close(src)
+    new = (src[:end].rstrip() + '\n\n' + '\n'.join(block) + '\n\t'
            + src[end:])
 
     if preview:
@@ -183,7 +184,9 @@ def process(path, lang, preview=False):
         return
     with open(path, 'w', encoding='utf-8-sig', newline='') as f:
         f.write(new)
-    print('已更新 %s（%d 个升级物品）' % (os.path.relpath(path, REPO), len(UPGRADES)))
+    path = Path(path).resolve()
+    display = path.relative_to(REPO) if path.is_relative_to(REPO) else path
+    print('已更新 %s（%d 个升级物品）' % (display, len(UPGRADES)))
 
 
 def main():

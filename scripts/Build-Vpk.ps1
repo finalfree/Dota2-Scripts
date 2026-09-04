@@ -6,6 +6,8 @@ param(
     [Parameter(Mandatory = $true)][string]$OutputPath,
     [string]$TargetDirectory,
     [switch]$PackageOnly,
+    [hashtable]$FileMap = @{},
+    [string]$Python = 'python',
     [string]$VpkEditCli = 'vpkeditcli'
 )
 
@@ -80,6 +82,8 @@ if ($entries.Count -eq 0) { throw 'The package file list is empty.' }
 # VPK paths are case-insensitive, but must not use culture-sensitive comparison:
 # legacy mod filenames can contain characters that a culture-aware Hashtable treats as equivalent.
 $expected = [System.Collections.Generic.Dictionary[string,string]]::new([StringComparer]::OrdinalIgnoreCase)
+$resolvedInputs = [System.Collections.Generic.Dictionary[string,string]]::new([StringComparer]::OrdinalIgnoreCase)
+$directEntries = [System.Collections.Generic.List[string]]::new()
 $normalized = [System.Collections.Generic.List[string]]::new()
 $totalBytes = 0L
 foreach ($entry in $entries) {
@@ -90,9 +94,16 @@ foreach ($entry in $entries) {
         throw "Invalid manifest path (use explicit relative file paths): $entry"
     }
     if ($expected.ContainsKey($relative)) { throw "Duplicate manifest path: $entry" }
-    $inputFile = Get-Item -LiteralPath (Join-Path $sourcePath $relative) -Force
+    $sourceFile = if ($FileMap.ContainsKey($relative)) { $FileMap[$relative] } else { Join-Path $sourcePath $relative }
+    $inputFile = Get-Item -LiteralPath $sourceFile -Force
     if ($inputFile.PSIsContainer) { throw "Manifest entries must be files, not directories: $entry" }
     Assert-NoReparsePoint $inputFile.FullName
+    if ($inputFile.FullName -eq $outputFile -or
+        (-not $PackageOnly -and $inputFile.FullName -eq $targetFile)) {
+        throw 'Input, build output and deployment files must be different files.'
+    }
+    $resolvedInputs[$relative] = $inputFile.FullName
+    if ($inputFile.FullName -eq (Join-Path $sourcePath $relative)) { $directEntries.Add($relative) }
     $expected[$relative] = (Get-FileHash -Algorithm SHA256 -LiteralPath $inputFile.FullName).Hash
     $normalized.Add($relative)
     $totalBytes += $inputFile.Length
@@ -103,16 +114,54 @@ $outputDirectory = [IO.Path]::GetDirectoryName($outputFile)
 New-Item -ItemType Directory -Path $outputDirectory -Force | Out-Null
 $buildId = [guid]::NewGuid().ToString('N')
 $candidate = Join-Path $outputDirectory ('.vpkedit-' + $buildId + '.vpk')
+$singleCandidate = Join-Path $outputDirectory ('.vpkedit-' + $buildId + '-single.vpk')
 # Response entries are relative to the response file's directory.
 # Only this tiny UTF-8/LF file lives in SourceRoot; no resources are copied.
 $responsePath = Join-Path $sourcePath ('.vpkedit-' + $buildId + '.rsp')
+$seedPath = $null
+if ($directEntries.Count -eq 0) {
+    # A mapped-only package uses one real input as a temporary seed; no payload copy.
+    $seedInput = Get-Item -LiteralPath $resolvedInputs[$normalized[0]]
+    $seedPath = $seedInput.Name
+    $responsePath = Join-Path $seedInput.Directory.FullName ('.vpkedit-' + $buildId + '.rsp')
+    $directEntries.Add($seedPath)
+}
 try {
-    $responseEntries = [string[]]$normalized
+    $responseEntries = [string[]]$directEntries
     [Array]::Sort($responseEntries, [StringComparer]::Ordinal)
     [IO.File]::WriteAllText($responsePath, ($responseEntries -join "`n") + "`n", [Text.UTF8Encoding]::new($false))
-    Write-Host "Packing $($normalized.Count) files directly from $sourcePath (VPK v1, single file)."
+    Write-Host "Packing $($normalized.Count) files from mapped source paths (VPK v1, single file; no resource staging)."
     Invoke-VpkEdit @('--no-progress', '--type', 'vpk', '--version', '1', '--single-file', '--output', $candidate, ('@' + $responsePath))
     if (-not (Test-Path -LiteralPath $candidate -PathType Leaf)) { throw 'VPKEdit did not create the output package.' }
+    if ($null -ne $seedPath) {
+        Invoke-VpkEdit @('--no-progress', '--single-file', '--remove-file', $seedPath, $candidate)
+    }
+    $mappedArguments = [System.Collections.Generic.List[string]]::new()
+    $mappedArguments.Add('--no-progress')
+    $mappedArguments.Add('--single-file')
+    foreach ($relative in $normalized) {
+        if ($null -eq $seedPath -and $directEntries.Contains($relative)) { continue }
+        $mappedArguments.Add('--add-file')
+        $mappedArguments.Add($resolvedInputs[$relative])
+        $mappedArguments.Add($relative)
+        # Keep below the Windows command-line length limit.
+        if (($mappedArguments -join ' ').Length -gt 12000) {
+            $mappedArguments.Add($candidate)
+            Invoke-VpkEdit ([string[]]$mappedArguments)
+            $mappedArguments.Clear()
+            $mappedArguments.Add('--no-progress')
+            $mappedArguments.Add('--single-file')
+        }
+    }
+    if ($mappedArguments.Count -gt 2) {
+        $mappedArguments.Add($candidate)
+        Invoke-VpkEdit ([string[]]$mappedArguments)
+    }
+    if ($FileMap.Count -gt 0) {
+        & $Python (Join-Path $PSScriptRoot 'flatten_vpk.py') $candidate $singleCandidate
+        if ($LASTEXITCODE -ne 0) { throw 'Failed to fold mapped payloads into a single-file VPK.' }
+        [IO.File]::Replace($singleCandidate, $candidate, [NullString]::Value)
+    }
     Invoke-VpkEdit @('--no-progress', '--verify-checksums', 'files', $candidate)
     & (Join-Path $PSScriptRoot 'Test-VpkPackage.ps1') -Path $candidate -ExpectedFiles $expected
     # Publish only after validation, preserving any previous output on build failure.
@@ -126,7 +175,10 @@ try {
     # Scratch files only. Some hosts hook Remove-Item (e.g. safe-delete guards) and
     # throw a terminating error even when the file is gone; that must never abort a
     # build whose package was already created and verified.
-    foreach ($scratch in @($responsePath, $candidate)) {
+    $shards = @(Get-ChildItem -LiteralPath $outputDirectory -File -Force |
+        Where-Object { $_.Name -match ('^\.vpkedit-' + $buildId + '_\d+\.vpk$') } |
+        ForEach-Object { $_.FullName })
+    foreach ($scratch in @($responsePath, $candidate, $singleCandidate) + $shards) {
         if (-not (Test-Path -LiteralPath $scratch -PathType Leaf)) { continue }
         try { Remove-Item -LiteralPath $scratch -Force -ErrorAction Stop } catch { }
         if (Test-Path -LiteralPath $scratch -PathType Leaf) {

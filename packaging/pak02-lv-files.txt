@@ -1,7 +1,7 @@
-# Files copied from pak01_dir into a fresh pak02 extraction.
+# Archive paths; NPC aliases resolve through npc-sources.json to Workshop sources.
 # npc_abilities.txt and localization are merged separately by Merge-Pak02WithLvItems.ps1.
-scripts/npc/lv/lv_items.txt
-scripts/npc/lv/lv_upgrades.txt
+scripts/npc/overforged_items.txt
+scripts/npc/overforged_abilities.txt
 scripts/vscripts/lv/item_lv_gem.lua
 scripts/vscripts/lv/item_lv_octarine_core.lua
 scripts/vscripts/lv/item_lv_trident.lua
