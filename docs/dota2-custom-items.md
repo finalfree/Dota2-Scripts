@@ -333,11 +333,14 @@ VPKEdit v1 单文件包共 14 个清单文件，CRC、逐文件源码 SHA256 与
 占用物品格；吸收后永久提供 50 点攻击力、10 点生命恢复和 5 点魔法恢复。
 
 为避免修改官方 `npc_abilities.txt`，新增私有隐藏能力 `lv_black_dragon_splash_attack`（ID
-`10111`），其 `range` 为 500、`damage_percent` 为 100。服务器端 Lua 将该能力添加到英雄并
-挂载引擎内置 `modifier_black_dragon_splash_attack`，再隐藏物品；状态栏图标是纯 KV modifier，
-不使用 `LinkLuaModifier` 或客户端自定义 Lua 类。若当前游戏构建不接受私有能力作为原生
-modifier 的 AbilityValues 来源，脚本会回退为使用隐藏成品物品作为来源，因此仍不需要打包
-官方 `npc_abilities.txt`。
+`10111`）。名称保留兼容，但溅射不再使用黑龙原生 modifier；服务器端 Lua 将该能力添加到英雄，
+然后挂载 Valve 的原生 `modifier_item_gunpowder_gauntlets`。私有能力提供
+`splash_radius = 500`、`splash_pct = 100`，因此沿用火药手套的原生溅射路径：每个单位按原始攻击
+伤害独立进行一次护甲结算，不会把主目标已经减甲后的实际伤害再次减甲。龙息原有的 50 点攻击力
+通过独立的 `dragon_bonus_damage` 状态属性提供，避免被原生火药手套的额外魔法伤害字段重复计算。
+状态栏图标不使用 `LinkLuaModifier` 或客户端自定义 Lua 类；若当前游戏构建不接受私有能力作为
+原生 modifier 的来源，脚本会回退为使用隐藏成品物品作为来源，因此仍不需要打包官方
+`npc_abilities.txt`。
 
 新图标为黑龙利爪与橙色冲击火花的组合：ImageGen 高分辨率原稿位于
 `artwork/item-icons/item_lv_dragon_splash.png`（1254×1254），88×64 运行源图位于
@@ -347,12 +350,13 @@ modifier 的 AbilityValues 来源，脚本会回退为使用隐藏成品物品�
 状态栏中。运行图使用 `scripts/icon_tool.py vtexreplace` 编码为 YCoCg-DXT5 单 mip，并强制
 Alpha 为 255。
 
-实测发现部分游戏构建会在英雄死亡时移除原生 `modifier_black_dragon_splash_attack`，但保留
-状态图标及其攻击力、生命恢复、魔法恢复属性。状态 modifier 现每 0.25 秒检查一次；英雄重生
-后若原生溅射缺失，会使用原私有能力或隐藏物品作为来源重新挂载。
+状态 modifier 设置为 `RemoveOnDeath = 0`；Lua 每 `0.25` 秒检查并在死亡复活后补回
+`modifier_item_gunpowder_gauntlets`。如果私有能力创建失败，脚本会回退为使用隐藏成品物品作为
+原生 modifier 的来源。
 
-当前仅完成 KV/Lua 静态检查与 VPK v1 包校验（18 个清单文件）；私有能力加载、近战/远程触发、
-范围 500、死亡复活后的持续性及原生溅射伤害，仍需在普通自定义房间实测后再记录为已验证。
+当前已完成 KV/Lua 静态检查与 VPK v1 包校验（18 个清单文件）；切换到火药手套原生 modifier
+路径后，私有能力加载、近战/远程触发、范围 500、死亡复活后的持续性以及“每个单位一次护甲结算”
+仍需在普通自定义房间实测后再记录为已验证。
 
 ### 深渊冰眼：两件升级装备的二次融合
 

@@ -655,8 +655,12 @@ class ItemResources(unittest.TestCase):
         self.assertEqual(dict(dict(item["AbilityValues"])["range"])["value"], "500")
         self.assertEqual(dict(dict(skill["AbilityValues"])["range"])["value"], "500")
         self.assertEqual(dict(skill["AbilityValues"])["damage_percent"], "100")
+        self.assertEqual(dict(item["AbilityValues"])["bonus_damage"], "50")
+        self.assertEqual(dict(skill["AbilityValues"])["bonus_damage"], "0")
+        self.assertEqual(dict(skill["AbilityValues"])["dragon_bonus_damage"], "50")
+        self.assertEqual(dict(skill["AbilityValues"])["splash_pct"], "100")
+        self.assertEqual(dict(dict(skill["AbilityValues"])["splash_radius"])["value"], "500")
         for values in (dict(item["AbilityValues"]), dict(skill["AbilityValues"])):
-            self.assertEqual(values["bonus_damage"], "50")
             self.assertEqual(values["bonus_health_regen"], "10")
             self.assertEqual(values["bonus_mana_regen"], "5")
         self.assertEqual(item["AbilityTextureName"], "item_lv_dragon_splash")
@@ -682,7 +686,7 @@ class ItemResources(unittest.TestCase):
         self.assertEqual(restore_callback["Function"], "LVDragonSplashEnsureActive")
         self.assertIn(restore_callback["ScriptFile"], self.manifest)
         self.assertEqual(dict(status["Properties"]), {
-            "MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE": "%bonus_damage",
+            "MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE": "%dragon_bonus_damage",
             "MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT": "%bonus_health_regen",
             "MODIFIER_PROPERTY_MANA_REGEN_CONSTANT": "%bonus_mana_regen",
         })
@@ -693,7 +697,7 @@ class ItemResources(unittest.TestCase):
         self.assertIn(callback["ScriptFile"], self.manifest)
         source = (RESOURCE / callback["ScriptFile"]).read_text(encoding="utf-8")
         self.assertIn('SKILL_NAME = "lv_black_dragon_splash_attack"', source)
-        self.assertIn('NATIVE_MODIFIER = "modifier_black_dragon_splash_attack"', source)
+        self.assertIn('NATIVE_MODIFIER = "modifier_item_gunpowder_gauntlets"', source)
         self.assertIn("function LVDragonSplashEnsureActive(keys)", source)
         self.assertIn("hero:IsAlive()", source)
         self.assertIn("hero:AddAbility", source)

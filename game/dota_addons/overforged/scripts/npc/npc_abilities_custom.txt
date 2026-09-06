@@ -8,12 +8,27 @@
 		"MaxLevel"          "1"
 		"IsBreakable"       "1"
 		"AbilityTextureName" "item_lv_dragon_splash"
+		"AbilityCooldown"   "0"
 
+		// The legacy name is kept for item compatibility.  The status below is
+		// only the visible stat/icon carrier; Lua mounts Valve's native
+		// modifier_item_gunpowder_gauntlets for the actual attack behavior.
 		"AbilityValues"
 		{
-			"bonus_damage"     "50"
+			// Keep the Dragon's +50 physical attack damage separate from the
+			// native Gunpowder magical bonus-damage field.
+			"bonus_damage"     "0"
+			"dragon_bonus_damage" "50"
 			"bonus_health_regen" "10"
 			"bonus_mana_regen"  "5"
+			"splash_radius"
+			{
+				"value"                     "500"
+				"affected_by_aoe_increase"  "1"
+			}
+			"splash_pct"       "100"
+
+			// Retained as tooltip-compatible aliases for the old private source.
 			"range"
 			{
 				"value"                     "500"
@@ -22,8 +37,8 @@
 			"damage_percent"     "100"
 		}
 
-		// Visible, pure-KV status icon.  Gameplay is provided by the native
-		// modifier attached from item_lv_dragon_splash.lua.
+		// Visible, pure-KV status icon. Gameplay is provided by the native
+		// Gunpowder modifier; no custom Lua modifier is linked or networked.
 		"Modifiers"
 		{
 			"modifier_lv_black_dragon_splash_status"
@@ -43,7 +58,7 @@
 				}
 				"Properties"
 				{
-					"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE"  "%bonus_damage"
+					"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE"  "%dragon_bonus_damage"
 					"MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT"  "%bonus_health_regen"
 					"MODIFIER_PROPERTY_MANA_REGEN_CONSTANT"    "%bonus_mana_regen"
 				}

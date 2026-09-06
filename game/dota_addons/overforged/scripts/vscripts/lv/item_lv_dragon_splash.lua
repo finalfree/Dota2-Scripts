@@ -1,11 +1,12 @@
 -- Automatic absorption for Battle Fury + upgrade scroll.
 --
 -- The private data-driven ability is added to the absorbing hero and hidden.
--- Its AbilityValues provide the source for Valve's native
--- modifier_black_dragon_splash_attack.  No custom Lua modifier is linked or
--- networked, and the official Black Dragon ability remains unchanged.
+-- The legacy private ability name is retained for compatibility with the
+-- existing item ID and localization keys.  Its values are supplied to
+-- Valve's native Gunpowder Gauntlets modifier, which handles the attack
+-- event and splash damage before per-target armor reduction.
 local SKILL_NAME = "lv_black_dragon_splash_attack"
-local NATIVE_MODIFIER = "modifier_black_dragon_splash_attack"
+local NATIVE_MODIFIER = "modifier_item_gunpowder_gauntlets"
 local STATUS_MODIFIER = "modifier_lv_black_dragon_splash_status"
 
 local function valid(entity)
@@ -86,12 +87,12 @@ local function apply_status(hero, skill)
     return own_modifier(hero, skill, STATUS_MODIFIER)
 end
 
--- The status modifier survives death, but the engine-native Black Dragon
--- modifier does not on every build. Its interval callback restores the native
--- effect after respawn while keeping the same private ability/item as source.
+-- The status modifier survives death, but the native modifier may not on
+-- every build. Restore it after respawn while keeping the private ability or
+-- retained item as its AbilityValues source.
 function LVDragonSplashEnsureActive(keys)
     if not IsServer() then return end
-    local hero = keys and (keys.caster or keys.target)
+    local hero = keys and keys.caster
     local source = keys and keys.ability
     if not valid(hero) or not hero.IsAlive or not hero:IsAlive() then return end
     if not valid(source) then source = find_skill(hero) end
@@ -104,7 +105,7 @@ function LVDragonSplashEnsureActive(keys)
     local restored = own_modifier(hero, source, NATIVE_MODIFIER) or (ok and result or nil)
     if valid(restored) and not hero._lv_dragon_splash_restore_reported then
         hero._lv_dragon_splash_restore_reported = true
-        print("[lv_dragon_splash] restored native splash modifier after respawn")
+        print("[lv_dragon_splash] restored native gunpowder splash modifier after respawn")
     end
 end
 
@@ -162,7 +163,7 @@ function LVDragonSplashTryAbsorb(keys)
         local status = apply_status(hero, source)
 
         -- Some builds expose the native modifier but only accept the item
-        -- entity as its AbilityValues provider.  Retry once with the retained
+        -- entity as its AbilityValues provider. Retry once with the retained
         -- item before giving up on the private-skill path.
         if (not valid(native) or not valid(status)) and source ~= item then
             rollback(hero, source, skill, created)
@@ -178,7 +179,7 @@ function LVDragonSplashTryAbsorb(keys)
             rollback(hero, source, skill, created)
             if not item._lv_dragon_splash_error_reported then
                 item._lv_dragon_splash_error_reported = true
-                print("[lv_dragon_splash] native splash initialization failed; item retained")
+                print("[lv_dragon_splash] native gunpowder splash initialization failed; item retained")
             end
             return nil
         end
@@ -193,7 +194,7 @@ function LVDragonSplashTryAbsorb(keys)
         end
 
         -- Removing an item can also remove modifiers whose Ability is that
-        -- item.  The fallback provider is intentionally retained hidden, so
+        -- item. The fallback provider is intentionally retained hidden, so
         -- rebuild its native/status modifiers if the engine cleaned them up.
         if source == item then
             native = own_modifier(hero, source, NATIVE_MODIFIER)
@@ -213,7 +214,7 @@ function LVDragonSplashTryAbsorb(keys)
 
         item._lv_dragon_splash_consumed = true
         if source == item then hero._lv_dragon_splash_item = item end
-        print("[lv_dragon_splash] absorbed; private 500-radius splash enabled")
+        print("[lv_dragon_splash] absorbed; native gunpowder 100% splash enabled")
         return nil
     end, 0.1)
 end

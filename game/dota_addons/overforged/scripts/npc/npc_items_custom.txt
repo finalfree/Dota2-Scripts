@@ -642,9 +642,9 @@
 	//=================================================================================
 	// Consumable fusion: Battle Fury + upgrade scroll -> permanent 500-radius splash
 	//
-	// The private ability supplies the values to the engine-native Black Dragon
-	// splash modifier.  It is added only to the hero who absorbs the item; the
-	// official black_dragon_splash_attack definition and npc_units.txt are untouched.
+	// The private ability is added only to the hero who absorbs the item. Lua
+	// mounts Valve's native Gunpowder Gauntlets modifier, with 100% splash
+	// damage and the native one-armor-calculation path for every victim.
 	//=================================================================================
 	"item_lv_dragon_splash"
 	{
@@ -667,8 +667,15 @@
 		"AbilityValues"
 		{
 			"bonus_damage"          "50"
+			"dragon_bonus_damage"   "50"
 			"bonus_health_regen"    "10"
 			"bonus_mana_regen"      "5"
+			"splash_radius"
+			{
+				"value"                     "500"
+				"affected_by_aoe_increase"  "1"
+			}
+			"splash_pct"           "100"
 			"range"
 			{
 				"value"                     "500"
@@ -698,7 +705,7 @@
 				}
 				"Properties"
 				{
-					"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE"  "%bonus_damage"
+					"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE"  "%dragon_bonus_damage"
 					"MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT"  "%bonus_health_regen"
 					"MODIFIER_PROPERTY_MANA_REGEN_CONSTANT"    "%bonus_mana_regen"
 				}
