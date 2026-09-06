@@ -1,5 +1,17 @@
 # Overforged · 超限武装：Workshop-first 源码与双发行目标
 
+2026-09-05 发布版更新：Workshop ID 为 `3795453776`。从正式版界面创建本地房间时，
+双方 Bot Script ID 为 `0`，引擎跳过 OHA Bot VM 初始化，但机器人填充和 FretBots 初始化成功。
+用户随后在正式版执行 `dota_launch_custom_game 3795453776 dota`，确认 OHA 加载成功；
+日志证明双方加载主机本地 OHA 并创建 `.OHA` 机器人。两种入口须区分，详见
+[本轮 OHA 加载调查](oha-workshop-investigation.md)。新日志另有无栈 Lua 错误待定位；
+完整 OHA 行为、界面房间修复、朋友客户端和远程服务器仍未验收。
+
+2026-09-05 控制与路线调查：用户确认服务器拒单有效，但敌方机器人选择后的右键体验仍不正常。
+当前自动 FretBots 流程持续开启作弊；引擎控制权重算存在独立的作弊授权路径，可能绕过 bot-control convar。
+应先验证避免持续开启作弊与刷新控制权，再考虑客户端鼠标适配。普通房间 VPK 分发方案一并记录于
+[控制与分发调查](control-and-distribution-investigation.md)，未修改运行代码或切换发行路线。
+
 ## 唯一来源
 
 标准运行目录：`game/dota_addons/overforged/`。
@@ -27,7 +39,7 @@
 ## 加载入口
 
 - `npc_items_custom.txt`：直接包含全部 82 个物品/配方定义，手工区与自动生成区共用一个根块，无 `#base`。
-- `npc_abilities_custom.txt`：直接包含黑龙溅射私有能力，定义不变，无 `#base`。
+- `npc_abilities_custom.txt`：直接包含黑龙溅射与三叉戟补充属性两项私有能力，无 `#base`。三叉戟通过隐藏能力为原生慧夜对剑 modifier 提供独立数值，补充减速抗性/减蓝耗；当前版本已完成用户游戏内验证。
 - `addon_game_mode.lua`：初始化时通过 `lv_standard_rules.lua` 请求免费信使、默认神符逻辑和偷塔保护，再启用机器人思考；进入英雄选择后，每名真人完成选择便用 `Tutorial:AddBot()` 在对面回应一个机器人，最后一名真人选完时补满余位。`lv_bot_draft.lua` 结合已知真人阵容、已有机器人阵容和 OHA 一至五号位权重选人，补满后才请求开启 FretBots。两边都有真人时不加机器人也不开 FretBots；保留 `lv_fill_bots` 作为防重复的手动后备。
 - `addoninfo.txt`：原型声明 `maps = dota`，最多 10 人。依赖游戏自带地图，不携带/伪造一份地图文件。
 - `resource/addon_*.txt`：只有自定义 token 和 `addon_game_name`，不包含全量官方文本。

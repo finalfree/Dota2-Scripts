@@ -22,7 +22,7 @@ class WorkshopLayout(unittest.TestCase):
     def test_static_addon_contract(self):
         count, abilities, keys = validate()
         self.assertGreater(count, 50)
-        self.assertEqual(abilities, 1)
+        self.assertEqual(abilities, 2)
         self.assertGreater(keys, 300)
 
     def test_shared_sources_are_not_staged(self):
@@ -50,7 +50,8 @@ class WorkshopLayout(unittest.TestCase):
         self.assertEqual(GAME.name, 'overforged')
         self.assertFalse((GAME / 'scripts/npc/lv').exists())
         self.assertEqual(len(definitions(GAME / 'scripts/npc/npc_items_custom.txt')), 82)
-        self.assertEqual(len(definitions(GAME / 'scripts/npc/npc_abilities_custom.txt')), 1)
+        self.assertEqual(set(definitions(GAME / 'scripts/npc/npc_abilities_custom.txt')),
+                         {'lv_black_dragon_splash_attack', 'lv_trident_extras'})
         for source in VPK_NPC_SOURCES.values():
             self.assertNotIn('#base', (GAME / source).read_text(encoding='utf-8'))
         for language, title in [('english', 'Overforged'), ('schinese', '超限武装')]:

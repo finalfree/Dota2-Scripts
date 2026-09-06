@@ -98,10 +98,70 @@ modifier property 在普通房间运行时可用。
 当前三叉戟实现不设置 `damage_flags`，也不排除幻象、猴子猴孙或建筑，伤害增强、吸血
 及目标适用性均交给引擎默认伤害规则处理；实际交互仍需逐项在游戏中验证。
 
+### Data-driven 减速抗性（2026-09-06 取证结论）
+
+**`MODIFIER_PROPERTY_SLOW_RESISTANCE` / `MODIFIER_PROPERTY_SLOW_RESISTANCE_STACKING` 在引擎里不存在**，
+不能写进 data-driven `Properties`，也不能在 Lua 的 `DeclareFunctions` 里声明。取证：
+
+- `server.dll` 与 `client.dll` 全文（55 MB + 61 MB）中 `SLOW_RESISTANCE` 子串出现 **0 次**；
+- 引擎 modifier 属性注册表（`server.dll` `0x182975660`，**169 条**，每条 32 字节
+  `{name*, index, 1, meta*}`）里没有任何减速抗性条目；对照 `CASTTIME_PERCENTAGE` 是 index 117、
+  `ATTACK_RANGE_BONUS` 是 104、`MANACOST_PERCENTAGE_STACKING` 是 120，都在表内；
+- 引擎导出的 176 个 `GetModifier*` 回调名里有 `GetModifierPercentageCasttime`、
+  `GetModifierPercentageManacostStacking`、`GetModifierAttackRangeBonus`，但**没有**
+  `GetModifierSlowResistance` 或 `GetModifierSlowResistanceStacking`。
+
+减速抗体由原生 C++ modifier 逐件读取 KV 键 `slow_resistance` 提供（官方 `item_sange` 25、
+`item_kaya_and_sange` 25、`item_sange_and_yasha` 30、`item_abyssal_blade` 30）。所以：
+
+- `item_lv_abyssal_skadi` 的减速抗性生效，是因为它的 `AbilityValues.slow_resistance` 是给原生
+  `modifier_item_abyssal_blade` 读的，与 data-driven `Properties` 完全无关；
+- `item_lv_trident` 把减速抗性写进控制器 `Properties` 必然静默丢失。要修就得改用原生载体
+  （如 `modifier_item_kaya_and_sange`，同时读 `slow_resistance` 与 `manacost_reduction`），
+  并按「借用原生 modifier」的规则用独立隐藏能力作来源、把不需要的键写 `0`，避免与
+  `modifier_item_trident` 的三维/法强等重复叠加。
+
+> 注意：KV 键名本身（`slow_resistance`、`cast_speed_pct`）在 dll 里也搜不到——它们走编译期
+> 哈希符号。**不能用"dll 里没有该字符串"推断 C++ 不读该键**；只有 `MODIFIER_PROPERTY_*`
+> 这种真实指针表里的缺席，才能作为"键不可识别"的证据。
+
 同日用户在福王岛完成当前三叉戟版本的试玩验证：普通攻击距离 `+200` 及装备间叠加
 表现正常；`MODIFIER_STATE_CANNOT_MISS` 能消除低地攻击高地英雄的落空，但不能消除
 低地攻击高地防御塔的落空；加入普通金箍棒后的四条合成路线、100 攻速，以及取消升级
 金箍棒后的当前版本均测试无问题。该结果不等于所有英雄、幻象、建筑和伤害修正交互均已覆盖。
+
+### 三叉戟补充属性接入（2026-09-07，游戏内已验证）
+
+保留 `modifier_item_trident`，另以顶层私有隐藏能力 `lv_trident_extras`（ID `10112`）
+为来源挂载原生 `modifier_item_kaya_and_sange`。补充能力只提供 `slow_resistance = 100`、
+`manacost_reduction = 75`；力量、智力、魔法恢复增强、法强、生命恢复增强均显式设为 `0`。
+修正此前 extras 误嵌套在黑龙溅射能力中的括号层级，两项能力现在同属 `DOTAAbilities`。
+
+物品控制器移除上述减速抗性及减蓝耗 `Properties`，物品同名 `AbilityValues` 保留给 tooltip，
+静态检查要求其与补充能力数值一致。`MANACOST_PERCENTAGE_STACKING` 在引擎注册表中存在，
+不能把它的 data-driven 支持问题等同于减速抗性常量不存在。
+
+同一英雄持有多件三叉戟时，只挂一份补充 modifier；通过物品句柄集合管理生命周期，重复回调
+不会重复计数。最后一件卸下时，仅清理本私有来源的 modifier 和本脚本创建的能力，保留普通
+慧夜对剑效果。补充效果不按三叉戟件数叠加；与其他原生物品的叠加规则由引擎处理。
+
+隐藏能力不自动继承物品的背包/禁用规则，控制器每 `0.25` 秒检查主装备栏、物品及英雄禁用状态，
+仅在需要时挂卸补充效果；死亡期间不补挂，复活后缺失时恢复。状态切换最多有一个检查周期的延迟。
+没有 `LinkLuaModifier` 或客户端自定义 Lua modifier；来源创建失败会输出 `[lv_trident] extras failed`，
+不回退到直接用三叉戟作来源，以免重复增加属性。
+
+本轮六项 Lua 替身场景与全部 Lua 5.1 语法检查通过；Python 45 项检查中 41 项通过，
+四项旧图标长度断言失败（预期 7748，HEAD 与工作区均为 7764 字节，纹理未改动）。三叉戟、
+ID、能力顶层结构与共享打包映射检查通过。以上不证明原生 modifier 接受隐藏能力来源后在
+游戏中实际生效。由用户验证：无其他减耗来源时，100 蓝技能实扣 25；减速下实际移速；
+三维/法强没有重复增加；背包切换、禁用、死亡复活、多件逐一卸下及与普通慧夜对剑同持，
+游戏内均确认无问题。
+
+本轮已确认 Dota 退出后使用 `deploy_items_only.ps1` 部署：VPK v1 单文件包含 18 项，
+CRC、包内各文件源码 SHA256 与目标部署哈希全部通过。包及目标 SHA256 为
+`A8FBA3F71305531CA8602CF25A025091E78977190AA1E557C67D99BA2B026731`；旧包备份为
+`bin/backups/pak01-before-deploy-20260906-233650-e1ec39a8e9f542eeb62ff36cc8114201.vpk`。
+未上传 Workshop；本次游戏内验证由用户完成，结论只覆盖上述场景。
 
 ### 蝶翼之殇：蝴蝶与代达罗斯之殇融合
 

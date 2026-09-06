@@ -50,4 +50,37 @@
 			}
 		}
 	}
+
+	//=========================================================================
+	// Private value source for item_lv_trident.
+	//
+	// Slow resistance is NOT a modifier property: MODIFIER_PROPERTY_SLOW_
+	// RESISTANCE(_STACKING) does not exist in server.dll at all (see
+	// docs/dota2-custom-items.md), so a data-driven "Properties" entry for it
+	// is silently dropped. The only way to grant it is a native C++ modifier
+	// that reads the "slow_resistance" KV key.
+	//
+	// modifier_item_kaya_and_sange supplies slow resistance and mana cost
+	// reduction. Its other values are zero to avoid duplicating Trident stats.
+	// Pass this private ability, NOT the item, as the modifier's value source.
+	//=========================================================================
+	"lv_trident_extras"
+	{
+		"ID"                "10112"
+		"BaseClass"         "ability_datadriven"
+		"AbilityBehavior"   "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_HIDDEN | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE"
+		"MaxLevel"          "1"
+		"AbilityTextureName" "item_trident"
+
+		"AbilityValues"
+		{
+			"bonus_strength"   "0"
+			"bonus_intellect"  "0"
+			"mana_regen_multiplier" "0"
+			"spell_amp"        "0"
+			"hp_regen_amp"     "0"
+			"slow_resistance"  "100"
+			"manacost_reduction" "75"
+		}
+	}
 }

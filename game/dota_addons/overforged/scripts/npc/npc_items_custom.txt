@@ -197,6 +197,15 @@
 				"IsPurgable"		"0"
 				"RemoveOnDeath"	"0"
 				"Attributes"		"MODIFIER_ATTRIBUTE_MULTIPLE"
+				"ThinkInterval"	"0.25"
+				"OnIntervalThink"
+				{
+					"RunScript"
+					{
+						"ScriptFile"	"scripts/vscripts/lv/item_lv_trident.lua"
+						"Function"	"LVTridentRefreshModifiers"
+					}
+				}
 				"OnCreated"
 				{
 					"RunScript"
@@ -223,8 +232,6 @@
 				}
 				"Properties"
 				{
-					"MODIFIER_PROPERTY_SLOW_RESISTANCE_STACKING"       "%slow_resistance"
-					"MODIFIER_PROPERTY_MANACOST_PERCENTAGE_STACKING"   "%manacost_reduction"
 					"MODIFIER_PROPERTY_CASTTIME_PERCENTAGE"            "%cast_speed_pct"
 					"MODIFIER_PROPERTY_ATTACK_RANGE_BONUS"             "%stackable_attack_range"
 				}
