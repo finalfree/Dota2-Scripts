@@ -285,8 +285,8 @@
 		{
 			"bonus_agility"			"100"
 			"bonus_attack_speed_pct"		"30"
-			"bonus_damage"			"188"		// 原生代达罗斯 modifier 读取
-			"butterfly_bonus_damage"		"150"		// KV modifier 另行提供
+			"bonus_damage"			"100"		// 原生代达罗斯 modifier 读取
+			"butterfly_bonus_damage"		"50"		// KV modifier 另行提供
 			"bonus_evasion"			"85"
 			"crit_chance"			"100"
 			"crit_multiplier"			"300"

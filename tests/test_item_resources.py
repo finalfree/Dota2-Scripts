@@ -304,8 +304,8 @@ class ItemResources(unittest.TestCase):
         self.assertEqual(values, {
             "bonus_agility": "100",
             "bonus_attack_speed_pct": "30",
-            "bonus_damage": "188",
-            "butterfly_bonus_damage": "150",
+            "bonus_damage": "100",
+            "butterfly_bonus_damage": "50",
             "bonus_evasion": "85",
             "crit_chance": "100",
             "crit_multiplier": "300",
