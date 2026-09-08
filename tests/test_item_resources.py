@@ -309,6 +309,7 @@ class ItemResources(unittest.TestCase):
             "bonus_evasion": "85",
             "crit_chance": "100",
             "crit_multiplier": "300",
+            "base_attack_time": "1.2",
         })
         self.assertEqual(recipe["ItemCost"], "1")
         self.assertEqual(recipe["ItemResult"], "item_lv_butterfly_crit")
@@ -324,6 +325,7 @@ class ItemResources(unittest.TestCase):
             "MODIFIER_PROPERTY_ATTACKSPEED_PERCENTAGE": "%bonus_attack_speed_pct",
             "MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE": "%butterfly_bonus_damage",
             "MODIFIER_PROPERTY_EVASION_CONSTANT": "%bonus_evasion",
+            "MODIFIER_PROPERTY_BASE_ATTACK_TIME_CONSTANT": "%base_attack_time",
         })
         callbacks = {
             event: dict(dict(controller[event])["RunScript"])

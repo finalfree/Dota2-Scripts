@@ -214,6 +214,22 @@ YCoCg-DXT5 图像数据。对最终 `.vtex_c` 回读得到的 88×64 PNG 已完�
 尚需游戏内实测，不能把纹理解码检查或部署成功视为显示效果已经确认。此前把 88×64 PNG 直接
 放进 `resource/flash3/images/items/` 的做法在 `dota_lv` 基础覆盖模式中只显示黑色，仍不采用。
 
+### 蝶翼之殇 BAT 实验（2026-09-08，Constant 版本待实测）
+
+用户在同为 700 攻速时实测此前 `BASE_ATTACK_TIME_CONSTANT_ADJUST = -0.2` 的 KV
+原型，装备前后面板攻击间隔未改变。本机 `server.dll` 的 Data-Driven 分派函数
+`0x180c65440` 对 `CONSTANT_ADJUST`（index 39）及 `PERCENTAGE`（index 40）进入
+`Unhandled data-driven modifier function %s.` 分支；`CONSTANT`（index 38）有对应处理。
+以上地址对应 DLL SHA256 `76908365d189e2ac12599c4083875cf2b5acace4a7d2dff1dfed0a0f1cdec694`，
+不能把新版 Lua 枚举存在等同于 Data-Driven 支持。
+
+按用户要求，将失败的 ADJUST 项替换为 `MODIFIER_PROPERTY_BASE_ATTACK_TIME_CONSTANT`，
+读取物品 `AbilityValues.base_attack_time = 1.2`。含义是固定 BAT 为 1.2 秒，
+不是减少 1.2 秒；用户接受炼金、巨魔等其他 BAT 来源的优先级交互。本轮沿用既有纯 KV
+控制器与原生暴击 modifier，不添加客户端 Lua modifier，不修改银月之晶。
+无其他 BAT 修正时，700 攻速的理论攻击间隔为 `1.2 / 7 ≈ 0.1714` 秒。
+实测生效。
+
 ### 不洁魔心：撒旦之邪力与恐鳌之心融合
 
 `item_lv_satanic_heart` 由原版 `item_satanic` 和 `item_heart` 加 1 金卷轴合成，总价
