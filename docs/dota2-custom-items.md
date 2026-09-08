@@ -409,6 +409,59 @@ Alpha 为 255。
 `scripts/icon_tool.py vtexreplace` 编码成 YCoCg-DXT5，并强制 Alpha 为 255；该命令复用现有 88×64 单 mip
 编译纹理的 Source 2 结构块，只替换像素 payload。
 
+### 怪蛇之息自动吸收（2026-09-08，待游戏内验收）
+
+`item_lv_hydras_breath` 保留 ID `10048`、配方 ID `10047`、原怪蛇之息加 1000 金
+卷轴的合成路线（总价 6900）。从自动生成区移至标准物品文件手工区，生成器保留原 ID
+槽位；中英文说明同样移至手工区，后续生成不会覆盖吸收逻辑。
+
+成品改为 `item_datadriven`，沿用宝石/镜盾的延迟吸收与 `TakeItem` 隐藏实体方式。
+存活本体英雄的主装备栏可吸收；幻象、克隆、天穹分身、信使及储藏处排除。每英雄一次，
+重复物品保留可售；判重依据已吸收的隐藏物品，不依赖死亡时可能消失的原生 modifier。
+挂载失败或隐藏后丢失效果时清理本物品来源的 modifier 并恢复物品。
+
+服务器挂载 `modifier_hydras_breath`，保留 15 力量、30 敏捷、25 攻击力、
+100% 触发、360 度、最多 10 个额外目标、100% 分裂攻击伤害、20 固定触发附伤，
+以及持续 3 秒、每秒 2.5% 最大生命值的瘴毒。没有自行实现攻击事件或客户端 Lua modifier。
+原生 `base_attack_range` 归零，纯 KV 永久状态通过
+`MODIFIER_PROPERTY_ATTACK_RANGE_BONUS = %permanent_attack_range%` 单独提供 800 射程，
+避免和原生距离重复。状态不可驱散、死亡不移除，每 0.25 秒在英雄存活时补回缺失的原生被动。
+
+Lua 生命周期替身（含隐藏清理、失败回滚、同帧重复合成、复活恢复）和 14 个运行 Lua
+文件的 5.1 语法检查通过。Python 46 项中 42 项通过；4 项为既有图标长度断言
+`7764 != 7748`，本轮没有修改图标。KV、ID、源码映射及生成幂等检查通过。
+这些检查不能证明引擎原生被动接受隐藏 data-driven 来源后的实际攻击行为。
+用户需在普通本地房间验证吸收、属性不重复、800 射程及与三叉戟叠加、远程分裂及瘴毒、
+近战不触发分裂、死亡复活及重复合成。未启动游戏，未上传 Workshop。
+
+生成前后逐项比较发现银月之晶已有运行值为 1000 夜间视野，但生成配置仍为 600；
+本轮同步配置至 1000，保持现有运行行为。最终语义比较确认仅怪蛇之息物品定义改变，
+配方及所有其他物品定义/ID 不变。
+
+本轮已确认 Dota 退出并通过 `deploy_items_only.ps1` 部署。VPK v1 单文件包含 19 项，
+CRC、逐文件源码 SHA256 与目标部署哈希均通过。包和目标 SHA256：
+`3403E74D26F0B376728B759BC2BCCABD5FCF224BF1BF319FF4D9D2F49F0D4C79`。
+旧包备份：`bin/backups/pak01-before-deploy-20260908-134602-198cf38724fe435dbfd5428e5f287d5f.vpk`。
+以上是离线检查和首版部署结果。
+
+用户实测首版未吸收。2026-09-08 14:07:17 的 `console.log` 明确报
+`Attempted to create unknown modifier type modifier_item_hydras_breath!`，随后脚本输出
+`initialization failed; item retained`。因此回调已执行，但原生挂载失败，物品按回滚规则保留。
+首版把 C++ 类 `CDOTA_Modifier_Item_HydrasBreath` 的名称错误地推导为带 `item_` 的
+modifier 名；本机 `server.dll` 和 `client.dll` 实际包含的完整注册名是
+`modifier_hydras_breath`。本轮修正运行脚本和替身中的错误名称；替身测试通过本身
+不能验证引擎是否注册某个名称，今后须单独核对引擎。
+
+已对照狂战升级版 `item_lv_dragon_splash`：它优先用隐藏能力作为原生火药手套 modifier
+的来源，失败时回退隐藏物品；怪蛇目前直接使用隐藏物品，两者均用 `TakeItem` 释放格子，
+由永久 KV 状态在复活后补回原生被动。当前故障发生在隐藏物品之前，修正注册名即可
+处理已证实的失败点，无需为此迁移到隐藏能力方案。修正版吸收及攻击效果仍需游戏实测。
+
+修正版于 2026-09-08 21:51 确认游戏退出后重新部署；生命周期替身、addon 静态检查、
+19 项 VPK v1 CRC/源码 SHA256 和部署哈希通过。当前包 SHA256：
+`FE7CA032D91B828D5C7A5C410E64C210D362F5EE60FB2EFD0E2F3A421A90BBA6`。
+被替换首版备份：`bin/backups/pak01-before-deploy-20260908-215108-9924f0a916e64a3194eeafc039e57290.vpk`。
+
 ## 本地化
 
 当前在 addon 的 `resource/addon_*.txt` 的 `Tokens` 块中添加自定义键；VPK 构建器自动合入官方完整本地化。简体中文核心示例：

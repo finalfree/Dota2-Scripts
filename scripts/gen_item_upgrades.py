@@ -45,6 +45,7 @@ RESERVED_ID_SLOTS = {
 	'item_butterfly',
     'item_greater_crit',
     'item_heart',
+    'item_hydras_breath',
     'item_kaya_and_sange',
     'item_monkey_king_bar',
     'item_octarine_core',

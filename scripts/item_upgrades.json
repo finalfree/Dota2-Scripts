@@ -118,13 +118,6 @@
   "AbilityValues.push_length": "1600",
   "AbilityValues.range_duration": "16"
  },
- "item_hydras_breath": {
-  "AbilityValues.base_attack_range": "650",
-  "AbilityValues.count": "10",
-  "AbilityValues.proc_chance": "100",
-  "AbilityValues.proc_dmg_pct": "100",
-  "AbilityValues.secondary_target_angle": "360"
- },
  "item_lotus_orb": {
   "AbilityCooldown": "5.0",
   "AbilityManaCost": "25",
@@ -149,7 +142,7 @@
  },
  "item_moon_shard": {
   "AbilityValues.consumed_bonus": "200",
-  "AbilityValues.consumed_bonus_night_vision": "600"
+  "AbilityValues.consumed_bonus_night_vision": "1000"
  },
  "item_nullifier": {
   "AbilityValues.bonus_regen": "6",
