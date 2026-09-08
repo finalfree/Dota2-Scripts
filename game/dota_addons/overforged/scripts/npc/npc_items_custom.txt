@@ -91,7 +91,7 @@
 		"ItemResult"						"item_lv_octarine_core"
 		"ItemRequirements"
 		{
-			"01"						"item_octarine_core"
+			"01"						"item_octarine_core;item_aether_lens;item_chasm_stone"
 		}
 	}
 
@@ -105,53 +105,75 @@
 		"AbilityTextureName"			"item_octarine_core"
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 
-		"ItemCost"						"5900"
-		"ItemShopTags"					"move_speed;boost_mana;mana_pool;mana"
-		"ItemQuality"					"rare"
+		"ItemCost"						"9075"
+		"ItemShopTags"					"regen_mana;cast_range;aoe"
+		"ItemQuality"					"consumable"
 		"ItemPurchasable"				"1"
 		"ItemSellable"					"1"
 		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_TO_SPECTATORS"
 		"SuggestLategame"				"1"
+
+		"ItemShareability"      "ITEM_NOT_SHAREABLE"
+		"ItemDisassembleRule"   "DOTA_ITEM_DISASSEMBLE_NEVER"
+		"AllowedInBackpack"     "0"
+		"IsTempestDoubleClonable" "0"
+		"SpeciallyBannedFromNeutralSlot" "1"
 
 		"AbilityValues"
 		{
 			"bonus_cooldown"			"80"
 			"bonus_health"				"450"
 			"bonus_mana"				"450"
-			"bonus_health_regen"		"0"
 			"bonus_mana_regen"			"20"
 			"cast_range_bonus"			"600"
+			"aoe_bonus"				"400"
 		}
 
 		"Modifiers"
 		{
-			"modifier_item_lv_octarine_core"
+			// Permanent cooldown source and HUD status; native modifiers supply
+			// cast range / mana regeneration and Chasm Stone's area bonus.
+			"modifier_item_lv_octarine_core_consumed_status"
+			{
+				"IsHidden"      "0"
+				"IsDebuff"      "0"
+				"IsPurgable"    "0"
+				"RemoveOnDeath" "0"
+				"ThinkInterval" "0.25"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_COOLDOWN_PERCENTAGE" "%bonus_cooldown"
+				}
+				"OnIntervalThink"
+				{
+					"RunScript"
+					{
+						"ScriptFile" "scripts/vscripts/lv/item_lv_octarine_core.lua"
+						"Function"   "LVOctarineEnsureActive"
+					}
+				}
+			}
+			"modifier_item_lv_octarine_core_pending"
 			{
 				"Passive"       "1"
 				"IsHidden"      "1"
 				"IsPurgable"    "0"
-				"RemoveOnDeath" "0"
+				"ThinkInterval" "0.25"
 				"OnCreated"
 				{
 					"RunScript"
 					{
 						"ScriptFile" "scripts/vscripts/lv/item_lv_octarine_core.lua"
-						"Function"   "LVOctarineApplyNativeRange"
+						"Function"   "LVOctarineTryAbsorb"
 					}
 				}
-				"OnDestroy"
+				"OnIntervalThink"
 				{
 					"RunScript"
 					{
 						"ScriptFile" "scripts/vscripts/lv/item_lv_octarine_core.lua"
-						"Function"   "LVOctarineRemoveNativeRange"
+						"Function"   "LVOctarineTryAbsorb"
 					}
-				}
-				"Properties"
-				{
-					"MODIFIER_PROPERTY_HEALTH_BONUS"           "%bonus_health"
-					"MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT" "%bonus_health_regen"
-					"MODIFIER_PROPERTY_COOLDOWN_PERCENTAGE"   "%bonus_cooldown"
 				}
 			}
 		}

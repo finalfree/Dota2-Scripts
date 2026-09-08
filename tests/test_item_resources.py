@@ -199,47 +199,54 @@ class ItemResources(unittest.TestCase):
             self.assertIn('function ' + callback['Function'] + '(keys)', source)
             self.assertNotIn('LinkLuaModifier', source)
 
-    def test_octarine_recipe_and_preserved_stats(self):
+    def test_octarine_recipe_and_permanent_stats(self):
         item = dict(self.custom["item_lv_octarine_core"])
         recipe = dict(self.custom["item_recipe_lv_octarine_core"])
         official = dict(dict(read_kv(BASELINE / "scripts/npc/items.txt"))["DOTAAbilities"])
+        components = ["item_octarine_core", "item_aether_lens", "item_chasm_stone"]
         self.assertEqual(recipe["ItemCost"], "1000")
         self.assertEqual(recipe["ItemResult"], "item_lv_octarine_core")
-        self.assertEqual(dict(recipe["ItemRequirements"]), {"01": "item_octarine_core"})
-        self.assertEqual(int(item["ItemCost"]),
-                         int(recipe["ItemCost"]) + int(dict(official["item_octarine_core"])["ItemCost"]))
+        self.assertEqual(dict(recipe["ItemRequirements"]), {"01": ";".join(components)})
+        self.assertEqual(int(item["ItemCost"]), 1000 + sum(int(dict(official[k])["ItemCost"]) for k in components))
         self.assertEqual(dict(item["AbilityValues"]), {
             "bonus_cooldown": "80", "bonus_health": "450", "bonus_mana": "450",
-            "bonus_health_regen": "0", "bonus_mana_regen": "20", "cast_range_bonus": "600",
+            "bonus_mana_regen": "20", "cast_range_bonus": "600", "aoe_bonus": "400",
         })
 
-    def test_octarine_uses_engine_properties_and_native_range_modifier(self):
+    def test_octarine_permanent_properties_and_absorption_callbacks(self):
         item = dict(self.custom["item_lv_octarine_core"])
         self.assertEqual(item["BaseClass"], "item_datadriven")
         self.assertEqual(item["AbilityBehavior"], "DOTA_ABILITY_BEHAVIOR_PASSIVE")
-        bridge = dict(dict(item["Modifiers"])["modifier_item_lv_octarine_core"])
-        self.assertEqual(bridge["Passive"], "1")
-        self.assertEqual(bridge["RemoveOnDeath"], "0")
-        self.assertNotIn("ThinkInterval", bridge)
-        self.assertEqual(dict(bridge["Properties"]), {
-            "MODIFIER_PROPERTY_HEALTH_BONUS": "%bonus_health",
-            "MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT": "%bonus_health_regen",
+        self.assertEqual(item["AllowedInBackpack"], "0")
+        self.assertEqual(item["IsTempestDoubleClonable"], "0")
+        self.assertEqual(item["SpeciallyBannedFromNeutralSlot"], "1")
+        mods = dict(item["Modifiers"])
+        status = dict(mods["modifier_item_lv_octarine_core_consumed_status"])
+        pending = dict(mods["modifier_item_lv_octarine_core_pending"])
+        self.assertNotIn("Passive", status)
+        self.assertEqual(status["IsHidden"], "0")
+        self.assertEqual(status["RemoveOnDeath"], "0")
+        self.assertEqual(status["IsPurgable"], "0")
+        self.assertEqual(status["ThinkInterval"], "0.25")
+        self.assertEqual(dict(status["Properties"]), {
             "MODIFIER_PROPERTY_COOLDOWN_PERCENTAGE": "%bonus_cooldown",
         })
-        for event, function in (("OnCreated", "LVOctarineApplyNativeRange"),
-                                ("OnDestroy", "LVOctarineRemoveNativeRange")):
-            callback = dict(dict(bridge[event])["RunScript"])
+        self.assertEqual(pending["Passive"], "1")
+        self.assertNotIn("Properties", pending)
+        for block, event, function in ((pending, "OnCreated", "LVOctarineTryAbsorb"),
+                                       (pending, "OnIntervalThink", "LVOctarineTryAbsorb"),
+                                       (status, "OnIntervalThink", "LVOctarineEnsureActive")):
+            callback = dict(dict(block[event])["RunScript"])
             self.assertEqual(callback["Function"], function)
             self.assertIn(callback["ScriptFile"], self.manifest)
             source = (RESOURCE / callback["ScriptFile"]).read_text(encoding='utf-8')
             self.assertIn("function " + function + "(keys)", source)
         source = (RESOURCE / "scripts/vscripts/lv/item_lv_octarine_core.lua").read_text(encoding='utf-8')
-        self.assertIn('NATIVE_RANGE_MODIFIER = "modifier_item_aether_lens"', source)
-        self.assertIn("AddNewModifier", source)
-        self.assertNotIn("SetContextThink", source)
-        self.assertNotIn("SendBuffRefreshToClients", source)
-        self.assertNotIn("scripts/vscripts/lv/modifier_lv_octarine_core.lua", self.manifest)
-        self.assertNotIn("scripts/npc/npc_units.txt", self.manifest)
+        for name in ("modifier_item_aether_lens", "modifier_item_chasm_stone"):
+            self.assertIn('"' + name + '"', source)
+        self.assertNotIn("LinkLuaModifier", source)
+        self.assertNotIn("RemoveItem", source)
+        self.assertNotIn("UTIL_Remove", source)
 
     def test_octarine_localization_matches_special_value(self):
         localized = []
@@ -251,7 +258,12 @@ class ItemResources(unittest.TestCase):
             localized.append(dict(octarine))
             prefix = "dota_tooltip_ability_item_lv_octarine_core_"
             self.assertEqual(localized[-1][prefix + "cast_range_bonus"], "+$cast_range")
-            self.assertIn("%cast_range_bonus%", localized[-1][prefix + "description"])
+            for value in ("cast_range_bonus", "aoe_bonus", "bonus_cooldown", "bonus_mana_regen"):
+                self.assertIn("%" + value + "%", localized[-1][prefix + "description"])
+            status = "dota_tooltip_modifier_item_lv_octarine_core_consumed_status"
+            self.assertTrue(localized[-1][status])
+            for value in ("80", "600", "400", "20"):
+                self.assertIn(value, localized[-1][status + "_description"])
         self.assertEqual(localized[0].keys(), localized[1].keys())
 
     def test_trident_is_hand_maintained_in_lv_items(self):
