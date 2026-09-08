@@ -1842,7 +1842,7 @@
 			"bonus_attack_speed"		"140"
 			"bonus_night_vision"		"400"
 			"consumed_bonus"		"200"
-			"consumed_bonus_night_vision"		"600"
+			"consumed_bonus_night_vision"		"1000"
 		}
 	}
 
