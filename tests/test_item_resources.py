@@ -803,6 +803,66 @@ class ItemResources(unittest.TestCase):
                                  or "item_recipe_lv_monkey_king_bar" in key.lower()
                                  for key, _ in pairs))
 
+    def test_radiance_shivas_guard_fusion_and_three_routes(self):
+        item = dict(self.custom["item_lv_radiance_shivas_guard"])
+        recipe = dict(self.custom["item_recipe_lv_radiance_shivas_guard"])
+        shiva = dict(self.custom["item_lv_shivas_guard"])
+
+        self.assertEqual(item["ID"], "10114")
+        self.assertEqual(recipe["ID"], "10113")
+        self.assertEqual(item["BaseClass"], "item_datadriven")
+        self.assertEqual(item["AbilityBehavior"], "DOTA_ABILITY_BEHAVIOR_PASSIVE")
+        self.assertEqual(item["ItemCost"], "9201")
+        self.assertEqual(recipe["ItemCost"], "1")
+        self.assertEqual(recipe["ItemResult"], "item_lv_radiance_shivas_guard")
+        self.assertEqual(dict(recipe["ItemRequirements"]), {
+            "01": "item_radiance;item_shivas_guard;",
+            "02": "item_lv_radiance",
+            "03": "item_lv_shivas_guard",
+        })
+
+        values = dict(item["AbilityValues"])
+        self.assertEqual(values["bonus_damage"], "100")
+        self.assertEqual(values["evasion"], "90")
+        self.assertEqual(values["bonus_armor"], "50")
+        self.assertEqual(values["bonus_aoe"], "400")
+        self.assertEqual(dict(values["aura_radius"])["value"], "1200")
+        self.assertEqual(dict(values["blast_radius"])["value"], "1200")
+        self.assertEqual(dict(shiva["AbilityValues"])["bonus_aoe"], "400")
+
+        controller = dict(dict(item["Modifiers"])[
+            "modifier_item_lv_radiance_shivas_guard_controller"])
+        callbacks = {
+            event: dict(dict(controller[event])["RunScript"])
+            for event in ("OnCreated", "OnDestroy")
+        }
+        self.assertEqual(callbacks["OnCreated"]["Function"],
+                         "LVRadianceShivasGuardApplyModifiers")
+        self.assertEqual(callbacks["OnDestroy"]["Function"],
+                         "LVRadianceShivasGuardRemoveModifiers")
+        self.assertNotIn("OnSpellStart", item)
+        self.assertNotIn("AbilityCooldown", item)
+        self.assertNotIn("AbilityManaCost", item)
+        source_path = callbacks["OnCreated"]["ScriptFile"]
+        self.assertIn(source_path, self.manifest)
+        source = (RESOURCE / source_path).read_text(encoding="utf-8")
+        for native in ("modifier_item_radiance", "modifier_item_shivas_guard"):
+            self.assertIn('"%s"' % native, source)
+        self.assertNotIn("modifier_item_shivas_guard_thinker", source)
+        self.assertNotIn("LVRadianceShivasGuardArcticBlast", source)
+        self.assertNotIn("LinkLuaModifier", source)
+
+        localized = []
+        for language in ("english", "schinese"):
+            root = dict(read_kv(RESOURCE / f"resource/addon_{language}.txt"))
+            pairs = dict(root["lang"])["Tokens"]
+            fusion = [(key.lower(), value) for key, value in pairs
+                      if "lv_radiance_shivas_guard" in key.lower()]
+            self.assertEqual(len(fusion), len(dict(fusion)))
+            self.assertTrue(all(value for _, value in fusion))
+            localized.append(dict(fusion))
+        self.assertEqual(localized[0].keys(), localized[1].keys())
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)

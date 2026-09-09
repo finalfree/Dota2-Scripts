@@ -611,6 +611,41 @@ modifier 名；本机 `server.dll` 和 `client.dll` 实际包含的完整注册�
 `FE7CA032D91B828D5C7A5C410E64C210D362F5EE60FB2EFD0E2F3A421A90BBA6`。
 被替换首版备份：`bin/backups/pak01-before-deploy-20260908-215108-9924f0a916e64a3194eeafc039e57290.vpk`。
 
+## 辉耀与希瓦融合：霜阳神铠
+
+新增手工物品 `item_lv_radiance_shivas_guard`（ID 10114）及 1 金配方
+`item_recipe_lv_radiance_shivas_guard`（ID 10113），不替换生成区内原有的
+`item_lv_radiance` 与 `item_lv_shivas_guard`。三条配方路径同时保留，并按下列顺序定义：
+
+1. `item_radiance;item_shivas_guard;`；成品标价 9201。
+2. `item_lv_radiance`。
+3. `item_lv_shivas_guard`。
+
+替代路径按其实际材料价合成，不强行补齐总价值。物品通过 data-driven 控制器挂载原生
+`modifier_item_radiance` 和 `modifier_item_shivas_guard`，保留两套属性与被动；辉耀没有开关入口，
+灼烧保持常开。物品现为纯被动，不提供希瓦冲击波主动。
+
+融合物品提供 100 攻击力、90% 闪避、50 护甲、400 作用范围加成；灼烧与霜冷光环
+基础半径统一为 1200。原升级希瓦的 `bonus_aoe` 同步调整为 400，其余既有强化
+（50 护甲、-140 攻速光环、10 秒减速、1200 冲击半径、600 扩张速度）写回生成配置，
+避免重新生成时回退。Lua 替身只能验证原生 modifier 的挂载与清理流程，
+常开灼烧、双被动实际属性及三条路线的游戏内选择优先级仍需实测。
+
+2026-09-09 确认 Dota 已退出后通过 `deploy_items_only.ps1` 部署。VPK v1 单文件包含 20 项，
+CRC、逐文件源码 SHA256 与目标部署哈希均通过。包和目标 SHA256：
+`0938A739DA3B00B335EA0E04DFFA08B0F023827C3AF1BED6CE417184AA7F9918`。
+旧包备份：`bin/backups/pak01-before-deploy-20260909-200214-cbfe682d900942788eaae10815814988.vpk`。
+以上仅为离线检查与部署结果，不视为游戏内行为验证。
+
+用户随后实测属性与被动均生效，但按下主动后游戏严重卡顿且英雄消失。同期
+`console.log` 未记录 Lua 运行错误，却在异常时刻记录 `Entities =`、`Num entities = 0`。
+这与把原生 `modifier_item_shivas_guard_thinker` 直接挂到英雄后，其 thinker 生命周期处理父实体
+相符。为避免再次删除英雄或造成帧阻塞，已移除 `OnSpellStart`、冷却、耗蓝和主动 Lua 路径，
+物品改为 `DOTA_ABILITY_BEHAVIOR_PASSIVE`；全部属性、常开灼烧与霜冷光环保持不变。
+修正版确认 Dota 退出后重新部署；20 项 VPK v1 校验和目标哈希均通过。当前包 SHA256：
+`28F61E6A2066AFFFA78CB77BE0555376D1DF5D85FA8AC54D70609C50AF2E5212`；被替换包备份为
+`bin/backups/pak01-before-deploy-20260909-201159-631673847e0546a8a7f7cf4863e5f355.vpk`。
+
 ## 本地化
 
 当前在 addon 的 `resource/addon_*.txt` 的 `Tokens` 块中添加自定义键；VPK 构建器自动合入官方完整本地化。简体中文核心示例：

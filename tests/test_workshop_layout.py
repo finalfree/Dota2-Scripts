@@ -49,7 +49,7 @@ class WorkshopLayout(unittest.TestCase):
     def test_standard_npc_files_are_self_contained(self):
         self.assertEqual(GAME.name, 'overforged')
         self.assertFalse((GAME / 'scripts/npc/lv').exists())
-        self.assertEqual(len(definitions(GAME / 'scripts/npc/npc_items_custom.txt')), 82)
+        self.assertEqual(len(definitions(GAME / 'scripts/npc/npc_items_custom.txt')), 84)
         self.assertEqual(set(definitions(GAME / 'scripts/npc/npc_abilities_custom.txt')),
                          {'lv_black_dragon_splash_attack', 'lv_trident_extras'})
         for source in VPK_NPC_SOURCES.values():

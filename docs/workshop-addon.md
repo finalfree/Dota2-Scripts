@@ -38,7 +38,7 @@
 
 ## 加载入口
 
-- `npc_items_custom.txt`：直接包含全部 82 个物品/配方定义，手工区与自动生成区共用一个根块，无 `#base`。
+- `npc_items_custom.txt`：直接包含全部 84 个物品/配方定义，手工区与自动生成区共用一个根块，无 `#base`。
 - `npc_abilities_custom.txt`：直接包含黑龙溅射与三叉戟补充属性两项私有能力，无 `#base`。三叉戟通过隐藏能力为原生慧夜对剑 modifier 提供独立数值，补充减速抗性/减蓝耗；当前版本已完成用户游戏内验证。
 - `addon_game_mode.lua`：初始化时通过 `lv_standard_rules.lua` 请求免费信使、默认神符逻辑和偷塔保护，再启用机器人思考；进入英雄选择后，每名真人完成选择便用 `Tutorial:AddBot()` 在对面回应一个机器人，最后一名真人选完时补满余位。`lv_bot_draft.lua` 结合已知真人阵容、已有机器人阵容和 OHA 一至五号位权重选人，补满后才请求开启 FretBots。两边都有真人时不加机器人也不开 FretBots；保留 `lv_fill_bots` 作为防重复的手动后备。
 - `addoninfo.txt`：原型声明 `maps = dota`，最多 10 人。依赖游戏自带地图，不携带/伪造一份地图文件。

@@ -5,7 +5,7 @@
 ## 当前入口
 
 - 运行源码：`game/dota_addons/overforged/`；资源源文件：`content/dota_addons/overforged/`。
-- `scripts/npc/npc_items_custom.txt`：直接包含 82 个物品/配方；自动生成区之外手工维护。
+- `scripts/npc/npc_items_custom.txt`：直接包含 84 个物品/配方；自动生成区之外手工维护。
 - `scripts/npc/npc_abilities_custom.txt`：直接包含 1 个私有能力。
 - 原 `scripts/npc/lv` 的三个 KV 文件已合并后移除；没有第二份维护副本。
 - `scripts/vscripts/lv`、`item_lv_*`、本地化物品 token 和 `lv_mode_status` 等命令保持兼容。

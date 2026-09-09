@@ -11,6 +11,7 @@ scripts/vscripts/lv/item_lv_mirror_shield.lua
 scripts/vscripts/lv/item_lv_hydras_breath.lua
 scripts/vscripts/lv/item_lv_dragon_splash.lua
 scripts/vscripts/lv/item_lv_abyssal_skadi.lua
+scripts/vscripts/lv/item_lv_radiance_shivas_guard.lua
 panorama/images/items/lv_butterfly_crit_png.vtex_c
 panorama/images/items/lv_satanic_heart_png.vtex_c
 panorama/images/items/lv_abyssal_skadi_png.vtex_c

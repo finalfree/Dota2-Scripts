@@ -56,7 +56,7 @@ class UpgradeGeneration(unittest.TestCase):
             old_prefix, _, old_suffix = gen.split_generated(self.source)
             self.assertEqual((prefix, suffix), (old_prefix, old_suffix))
             pairs = dict(parse(first.decode('utf-8')))['DOTAAbilities']
-            self.assertEqual(len([v for _, v in pairs if isinstance(v, list)]), 82)
+            self.assertEqual(len([v for _, v in pairs if isinstance(v, list)]), 84)
 
     def test_partial_write_is_rejected_without_touching_source(self):
         with tempfile.TemporaryDirectory() as folder:

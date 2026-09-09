@@ -896,6 +896,110 @@
 		}
 	}
 
+	//=================================================================================
+	// Fusion: Radiance + Shiva's Guard. The original upgraded items remain available.
+	// Native passive modifiers retain both full stat packages. Radiance has no toggle,
+	// so Burn remains enabled while the item is active in the inventory.
+	//=================================================================================
+	"item_lv_radiance_shivas_guard"
+	{
+		"ID"                    "10114"
+		"BaseClass"             "item_datadriven"
+		"AbilityTextureName"    "item_shivas_guard"
+		"AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"Model"                 "models/props_gameplay/neutral_box.vmdl"
+		"ItemCost"              "9201" // 4700 辉耀 + 4500 希瓦的守护 + 1 卷轴
+		"ItemPurchasable"       "1"
+		"ItemSellable"          "1"
+		"ItemShopTags"          "damage;evasion;armor;hard_to_tag;teamfight;tank;magic_dmg"
+		"ItemQuality"           "artifact"
+		"ItemDeclarations"      "DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		"ItemShareability"      "ITEM_NOT_SHAREABLE"
+		"ItemDisassembleRule"   "DOTA_ITEM_DISASSEMBLE_NEVER"
+		"SuggestLategame"       "1"
+
+		"AbilityValues"
+		{
+			// Upgraded Radiance package
+			"bonus_damage"             "100"
+			"aura_damage"              "160"
+			"aura_damage_illusions"    "100"
+			"upgrade_day_vision"       "250"
+			"evasion"                  "90"
+			"blind_pct"                "0"
+			"illusion_multiplier_pct"  "100"
+
+			// Shared 1200-radius Burn and Freezing Aura
+			"aura_radius"
+			{
+				"value"                     "1200"
+				"affected_by_aoe_increase"  "1"
+			}
+
+			// Upgraded Shiva's Guard package
+			"bonus_hp_regen"            "0"
+			"bonus_armor"               "50"
+			"bonus_aoe"                 "400"
+			"aura_attack_speed"         "-140"
+			"blast_damage"              "260"
+			"blast_movement_speed"      "-40"
+			"blast_debuff_duration"     "10.0"
+			"blast_radius"
+			{
+				"value"                     "1200"
+				"affected_by_aoe_increase"  "1"
+			}
+			"blast_speed"               "600"
+		}
+
+		"Modifiers"
+		{
+			"modifier_item_lv_radiance_shivas_guard_controller"
+			{
+				"Passive"       "1"
+				"IsHidden"      "1"
+				"IsPurgable"    "0"
+				"RemoveOnDeath" "0"
+				"Attributes"    "MODIFIER_ATTRIBUTE_MULTIPLE"
+				"OnCreated"
+				{
+					"RunScript"
+					{
+						"ScriptFile" "scripts/vscripts/lv/item_lv_radiance_shivas_guard.lua"
+						"Function"   "LVRadianceShivasGuardApplyModifiers"
+					}
+				}
+				"OnDestroy"
+				{
+					"RunScript"
+					{
+						"ScriptFile" "scripts/vscripts/lv/item_lv_radiance_shivas_guard.lua"
+						"Function"   "LVRadianceShivasGuardRemoveModifiers"
+					}
+				}
+			}
+		}
+	}
+
+	"item_recipe_lv_radiance_shivas_guard"
+	{
+		"ID"                    "10113"
+		"BaseClass"             "item_datadriven"
+		"AbilityTextureName"    "item_recipe_ultimate_scepter_2"
+		"Model"                 "models/props_gameplay/recipe.vmdl"
+		"ItemCost"              "1"
+		"ItemPurchasable"       "1"
+		"ItemSellable"          "1"
+		"ItemRecipe"            "1"
+		"ItemResult"            "item_lv_radiance_shivas_guard"
+		"ItemRequirements"
+		{
+			"01"                    "item_radiance;item_shivas_guard;"
+			"02"                    "item_lv_radiance"
+			"03"                    "item_lv_shivas_guard"
+		}
+	}
+
 	// BEGIN GENERATED UPGRADES -- scripts/gen_item_upgrades.py
 	//=================================================================================
 	// Upgrade: item_aether_lens
@@ -2326,7 +2430,7 @@
 		{
 			"bonus_hp_regen"		"0"
 			"bonus_armor"		"50"
-			"bonus_aoe"		"500"
+			"bonus_aoe"		"400"
 			"aura_radius"
 			{
 				"value"		"1200"

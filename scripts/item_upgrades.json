@@ -187,7 +187,12 @@
   "AbilityValues.sheep_duration": "5"
  },
  "item_shivas_guard": {
-  "AbilityValues.bonus_aoe": "375"
+  "AbilityValues.aura_attack_speed": "-140",
+  "AbilityValues.blast_debuff_duration": "10.0",
+  "AbilityValues.blast_radius.value": "1200",
+  "AbilityValues.blast_speed": "600",
+  "AbilityValues.bonus_aoe": "400",
+  "AbilityValues.bonus_armor": "50"
  },
  "item_silver_edge": {
   "AbilityCooldown": "10",
