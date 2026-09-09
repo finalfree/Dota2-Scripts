@@ -20,8 +20,8 @@
   layout 或 scripts，只有 `styles/hud/dota_hud_shop.vcss_c`）。UI 是 client.dll 里的自定义面板类
   `ShopItemSection` / `ShopItemSectionItemList`。
 - 所以**改 KV 就够了**，不需要、也不可能靠 Panorama 脚本加入口。
-- 仓库基线 `pak01_dir/scripts/shops.txt` 与实机当前版本逐字节一致（唯一差异是实机文件末尾少一个
-  换行），是最新的，可以直接作为合并基准。
+- 2026-09-10 重新运行 `extract_latest.ps1` 后，仓库基线 `pak01_dir/scripts/shops.txt`
+  与实机当前版本逐字节一致，可以直接作为合并基准。
 
 ## 2. 分类（商店页签）是 C++ 硬编码枚举，不能新增
 

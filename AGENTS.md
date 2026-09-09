@@ -7,7 +7,7 @@
 - 涉及新增物品、配方、商店列表、本地化、资源提取或打包部署时，先阅读 [新增可合成物品实践记录](docs/dota2-custom-items.md)。
 - 涉及源码位置、Workshop、VPK 构建或联接安装时，先阅读 [Workshop-first 开发说明](docs/workshop-addon.md)。不要把自定义副本放回 `pak01_dir`，不要手改 `bin` 生成物。
 - `main` 保存官方提取基线；自定义内容在功能分支维护。不得把自定义物品文本混入官方基线。
-- 提取脚本会覆盖目标文件。先检查分支和未提交改动，不要在实验分支直接用官方提取结果覆盖自定义本地化。
+- `extract_latest.ps1` 只同步官方 `scripts/npc/`、`scripts/shops.txt` 和中英文 `abilities_*.txt`。它先完整提取到 `bin`，校验关键文件后再替换 `pak01_dir`，以便 Git 同时记录官方新增、修改和删除；运行前先处理该目录中的未提交改动。
 - 旧 custom 文件入口仅在试玩验证成功，普通本地房间中未显示；改为 `npc_abilities.txt` 的 `#base` 显式引入后，用户已确认房间中能获取新玲珑心，并确认配方图标修正有效。不要据此宣称全部属性或全部模式都已验证。`shops.txt` 保持官方内容；新增商店分类图标尚未验证成功。
 - 打包使用 VPKEdit CLI，固定 VPK v1 单文件；本机 v2 覆盖包被游戏报告损坏。先阅读 [打包与部署说明](docs/vpk-packaging.md)。`packaging/items.txt` 是包内路径，构建器映射至 addon 源码/官方基线/生成的三个适配文件，不复制共享资源到暂存目录。Modify 产生的分块必须由 `flatten_vpk.py` 收拢并重新通过 CRC/SHA256 校验。旧 `vpk`、`GCFScape` 工具目录已废弃删除。
 - addon 本地 Tools 按名启动 `dota` 地图、物品资源显示，以及旧 `BotPopulate()` 流程中显式开启思考后的 OHA 机器人行动已由用户确认；不扩大为所有 AI 行为均正常。当前实验用 `Tutorial:AddBot()` 只补真人对面的一队：每名真人选英雄后回应一个机器人，最后一名真人选完再补满余位；两边都有真人时不加机器人。addon 内的 `lv_bot_draft.lua` 适配 OHA 提交 `cb814c6` 的一至五号位权重与弱英雄上限，并尝试从主机 OHA 加载纯数据模块以加入克制/协同评分，失败时退回位置权重；为避免阵容固化，最终抽取由 OHA 前五扩大为前 30，前五合计权重 30%。补满后才自动启用 FretBots，未移植 OHA 行为脚本，MIT 声明在 addon 根目录。新流程会启用 `sv_cheats`，战斗行为依赖主机现有本地 OHA 安装，OHA 数据是否能从 addon 服务器 VM 加载、控制权和新阵容分路是否修复均待实测。已发布 Workshop ID、Arcade Bot Script 入口和朋友客户端均未验证。测试前须防止旧 `dota_lv` 包与 addon 重复加载同名同 ID 资源；未经要求不要自动停用用户现有包或公开发布。
