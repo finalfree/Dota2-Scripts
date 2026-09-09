@@ -170,3 +170,14 @@ python -c "import sys; sys.path.insert(0, 'bin/lua-test-runtime'); from lupa.lua
 - 产物及部署目标 SHA256：`78E27A1B8E1539D624370E72910157788948FFB6AA3333D847DA4F45D72C9FF3`。部署目标仍为 `E:\SteamLibrary\steamapps\common\dota 2 beta\game\dota_lv\pak01_dir.vpk`。
 - 旧包备份：`bin/backups/pak01-before-deploy-20260901-161528-eed030166ff344a2baac8a3a9d635f91.vpk`，SHA256 为 `21BCD173E8358EC2F2CC8D5ED0143E4FEBB09E31606CFDD0F3679940D0E569F5`；这是用户已确认全图真视功能正常、尚无新状态图标的版本。
 - 用户完成本轮游戏内复测后反馈“没问题”，据此确认吸收者状态图标、悬停提示及死亡复活后的保留表现正常；这不代表所有游戏模式和特殊边界均已逐项验证。
+
+## 吸收者永久高空视野（2026-09-09，游戏内待验收）
+
+- 本机 7.41e 的 `server.dll` 与 `client.dll` 均注册 `MODIFIER_STATE_FORCED_FLYING_VISION`；夜魔“黑暗飞升”的官方说明也包含顺畅视野。
+- 在现有 `modifier_item_lv_gem_consumed_status` 中启用该状态。它原本已不可驱散且死亡不移除，因此高空视野随吸收状态永久保留，无需新增 Lua modifier 或轮询。
+- 没有启用 `MODIFIER_STATE_FLYING` 或 `MODIFIER_STATE_FLYING_FOR_PATHING_PURPOSES_ONLY`；吸收者应只有高空视野，不获得飞行移动或跨地形能力。
+- 中英文物品、备注和状态图标说明均已更新，仍明确战争迷雾不会被全图揭开。
+- 3 项真视宝石专项检查及完整 20 项资源检查通过。VPK v1 单文件共 19 项，CRC、包内源码 SHA256 与部署目标哈希通过。
+- 包/目标 SHA256：`760BC9CDE7AB654AE7338DDEACB010B8866F695075E8814EF390F9F2B487A608`。
+- 前一版本备份：`bin/backups/pak01-before-deploy-20260909-130055-04e5208610104eb9aac9371f843e6a33.vpk`。
+- 游戏内须验证低地观察高地、树林遮挡、死亡复活以及没有飞行移动等边界。

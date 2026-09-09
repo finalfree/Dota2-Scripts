@@ -38,14 +38,18 @@
 		"SpeciallyBannedFromNeutralSlot" "1"
 		"Modifiers"
 		{
-			// Applied manually after absorption.  It is display-only; gameplay
-			// continues to use the engine-native modifier_truesight on enemies.
+			// Applied manually after absorption. Global detection continues to use
+			// native modifier_truesight; this state gives only the absorber flying vision.
 			"modifier_item_lv_gem_consumed_status"
 			{
 				"IsHidden"      "0"
 				"IsDebuff"      "0"
 				"IsPurgable"    "0"
 				"RemoveOnDeath" "0"
+				"States"
+				{
+					"MODIFIER_STATE_FORCED_FLYING_VISION" "MODIFIER_STATE_VALUE_ENABLED"
+				}
 			}
 			"modifier_item_lv_gem_pending"
 			{

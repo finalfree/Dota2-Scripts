@@ -108,10 +108,16 @@ class ItemResources(unittest.TestCase):
         status = dict(modifiers["modifier_item_lv_gem_consumed_status"])
         self.assertEqual(pending["Passive"], "1")
         self.assertGreater(float(pending["ThinkInterval"]), 0)
+        states = dict(status.pop("States"))
         self.assertEqual(status, {
             "IsHidden": "0", "IsDebuff": "0", "IsPurgable": "0",
             "RemoveOnDeath": "0",
         })
+        self.assertEqual(states, {
+            "MODIFIER_STATE_FORCED_FLYING_VISION": "MODIFIER_STATE_VALUE_ENABLED",
+        })
+        self.assertNotIn("MODIFIER_STATE_FLYING", states)
+        self.assertNotIn("MODIFIER_STATE_FLYING_FOR_PATHING_PURPOSES_ONLY", states)
         for event in ("OnCreated", "OnIntervalThink"):
             callback = dict(dict(pending[event])["RunScript"])
             path = callback["ScriptFile"]
@@ -167,6 +173,7 @@ class ItemResources(unittest.TestCase):
         self.assertIn(status_key, localized[0])
         self.assertIn(status_key + "_description", localized[0])
         self.assertIn("全地图", localized[1][status_key + "_description"])
+        self.assertIn("高空视野", localized[1][status_key + "_description"])
         self.assertNotIn("%radius%", localized[0]["dota_tooltip_ability_item_lv_gem_description"])
         self.assertIn("全地图", localized[1]["dota_tooltip_ability_item_lv_gem_description"])
 
