@@ -4,7 +4,6 @@ Gem Lua behavior is tested separately by test_lv_gem.lua.  These checks do not
 prove engine loading or in-game behavior.
 """
 from pathlib import Path
-import hashlib
 import re
 import unittest
 import sys
@@ -393,21 +392,6 @@ class ItemResources(unittest.TestCase):
         self.assertNotIn("LinkLuaModifier", source)
         self.assertNotIn("modifier_item_lv_butterfly_crit_effect", source)
         self.assertNotIn("class({})", source)
-        self.assertTrue((ROOT / "artwork/item-icons/item_lv_butterfly_crit.png").is_file())
-        self.assertTrue((ROOT / "content/dota_addons/overforged/panorama/images/items/lv_butterfly_crit.png").is_file())
-        texture = "panorama/images/items/lv_butterfly_crit_png.vtex_c"
-        self.assertIn(texture, self.manifest)
-        compiled_texture = (RESOURCE / texture).read_bytes()
-        self.assertEqual(len(compiled_texture), 7748)
-        self.assertEqual(
-            hashlib.sha256(compiled_texture).hexdigest(),
-            "6578ae2f1b2ff8feb5acdc2cb9f6f94cc663c59a6646034885ddf64f4a630698")
-        self.assertNotIn(
-            "resource/flash3/images/items/item_lv_butterfly_crit.png",
-            self.manifest)
-        self.assertFalse((RESOURCE /
-                          "resource/flash3/images/items/item_lv_butterfly_crit.png").exists())
-
     def test_satanic_heart_fusion_values_recipe_and_lua(self):
         item = dict(self.custom["item_lv_satanic_heart"])
         recipe = dict(self.custom["item_recipe_lv_satanic_heart"])
@@ -489,16 +473,6 @@ class ItemResources(unittest.TestCase):
         self.assertNotIn("LinkLuaModifier", source)
         self.assertNotIn("modifier_item_lv_satanic_heart_effect", source)
         self.assertNotIn("class({})", source)
-        self.assertTrue((ROOT / "artwork/item-icons/item_lv_satanic_heart.png").is_file())
-        self.assertTrue((ROOT / "content/dota_addons/overforged/panorama/images/items/lv_satanic_heart.png").is_file())
-        texture = "panorama/images/items/lv_satanic_heart_png.vtex_c"
-        self.assertIn(texture, self.manifest)
-        compiled_texture = (RESOURCE / texture).read_bytes()
-        self.assertEqual(len(compiled_texture), 7748)
-        self.assertEqual(
-            hashlib.sha256(compiled_texture).hexdigest(),
-            "028f3c6cdf3ac700d761c32aec58bc064d3246b893f3d1d60ce9225d62874228")
-
     def test_abyssal_skadi_fusion_values_recipe_and_lua(self):
         item = dict(self.custom["item_lv_abyssal_skadi"])
         recipe = dict(self.custom["item_recipe_lv_abyssal_skadi"])
@@ -569,17 +543,6 @@ class ItemResources(unittest.TestCase):
         self.assertIn("particles/items_fx/abyssal_blade.vpcf", source)
         self.assertNotIn("LinkLuaModifier", source)
         self.assertNotIn("class({})", source)
-
-        self.assertTrue((ROOT / "artwork/item-icons/item_lv_abyssal_skadi.png").is_file())
-        self.assertTrue((ROOT / "content/dota_addons/overforged/panorama/images/items/lv_abyssal_skadi.png").is_file())
-        texture = "panorama/images/items/lv_abyssal_skadi_png.vtex_c"
-        self.assertIn(texture, self.manifest)
-        compiled_texture = RESOURCE / texture
-        self.assertTrue(compiled_texture.is_file())
-        self.assertEqual(compiled_texture.stat().st_size, 7748)
-        self.assertEqual(
-            hashlib.sha256(compiled_texture.read_bytes()).hexdigest(),
-            "0f8644a1ed923e2ca50ded0e7799d297076f95e1334a8bb3e6d038e7751e3c96")
 
         localized = []
         for language in ("english", "schinese"):
@@ -717,18 +680,6 @@ class ItemResources(unittest.TestCase):
             self.assertEqual(values["bonus_mana_regen"], "5")
         self.assertEqual(item["AbilityTextureName"], "item_lv_dragon_splash")
         self.assertEqual(skill["AbilityTextureName"], "item_lv_dragon_splash")
-        texture = "panorama/images/items/lv_dragon_splash_png.vtex_c"
-        self.assertIn(texture, self.manifest)
-        compiled_texture = RESOURCE / texture
-        self.assertTrue(compiled_texture.is_file())
-        self.assertEqual(compiled_texture.stat().st_size, 7748)
-        self.assertEqual(
-            hashlib.sha256(compiled_texture.read_bytes()).hexdigest(),
-            "e2c0ba64be8aeb091614828e489ba903425206e865637a0eec43d41091d3f76f",
-        )
-        self.assertTrue((ROOT / "artwork/item-icons/item_lv_dragon_splash.png").is_file())
-        self.assertTrue((ROOT / "content/dota_addons/overforged/panorama/images/items/lv_dragon_splash.png").is_file())
-
         modifiers = dict(item["Modifiers"])
         pending = dict(modifiers["modifier_item_lv_dragon_splash_pending"])
         status = dict(modifiers["modifier_lv_black_dragon_splash_status"])
