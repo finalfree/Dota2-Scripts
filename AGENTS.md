@@ -2,7 +2,7 @@
 
 本项目采用 Workshop-first：`game/dota_addons/overforged` 是唯一自定义运行源码，`content/dota_addons/overforged` 是资源源文件。`pak01_dir` 只保留官方基线；`dota_lv` VPK 是由同一份 addon 源码适配生成的兼容发行目标。
 
-名称：Overforged / 超限武装。物品及配方直接维护在 `scripts/npc/npc_items_custom.txt`，私有能力在 `npc_abilities_custom.txt`，不再创建 `scripts/npc/lv` 或 `#base` 分拆源文件。物品文件的 `BEGIN/END GENERATED UPGRADES` 区只由生成器更新，其他部分手工维护；`item_lv_*` ID、Lua 路径和本地化键保持兼容。VPK 的两个 NPC 包内别名由 `packaging/npc-sources.json` 映射至这两个标准文件，不另存源码副本。
+名称：Overforged / 超限武装。物品及配方全部手工维护在 `scripts/npc/npc_items_custom.txt`，私有能力在 `npc_abilities_custom.txt`，不再创建 `scripts/npc/lv`、生成区或 `#base` 分拆源文件；`item_lv_*` ID、Lua 路径和本地化键保持兼容。VPK 的两个 NPC 包内别名由 `packaging/npc-sources.json` 映射至这两个标准文件，不另存源码副本。
 
 - 涉及新增物品、配方、商店列表、本地化、资源提取或打包部署时，先阅读 [新增可合成物品实践记录](docs/dota2-custom-items.md)。
 - 涉及源码位置、Workshop、VPK 构建或联接安装时，先阅读 [Workshop-first 开发说明](docs/workshop-addon.md)。不要把自定义副本放回 `pak01_dir`，不要手改 `bin` 生成物。

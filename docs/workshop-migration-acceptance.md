@@ -48,7 +48,7 @@ E:\SteamLibrary\steamapps\common\dota 2 beta\content\dota_addons\lv_upgraded_ite
 
 | 检查 | 结果 |
 | --- | --- |
-| Python 回归 | 35 项通过：资源、ID、目录、适配器、本地化、VPK 收拢与生成器 |
+| Python 回归 | 35 项通过：资源、ID、目录、适配器、本地化与 VPK 收拢 |
 | Lua | 5 个替身测试套件通过，9 个运行文件通过 Lua 5.1 语法检查 |
 | 原打包回归 | 14 项通过 |
 | 映射打包回归 | 跨目录/空格路径、纯映射、预加载、确定性、输入保护和临时文件清理通过 |

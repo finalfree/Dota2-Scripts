@@ -19,26 +19,21 @@
 
 | 改什么 | 只编辑这里 |
 | --- | --- |
-| 手工融合装备及配方 | `game/dota_addons/overforged/scripts/npc/npc_items_custom.txt` 的生成标记区以外 |
-| 自动生成的升级装备 | `scripts/item_upgrades.json`，运行 `scripts/gen_item_upgrades.py` 更新同一物品文件的标记区 |
+| 物品及配方 | `game/dota_addons/overforged/scripts/npc/npc_items_custom.txt`，全部手工维护 |
 | 私有隐藏能力 | `game/dota_addons/overforged/scripts/npc/npc_abilities_custom.txt` |
 | 物品 Lua | `game/dota_addons/overforged/scripts/vscripts/lv/` |
 | 手工名称/描述 | `game/dota_addons/overforged/resource/addon_english.txt`、`addon_schinese.txt` |
-| 自动升级装备描述 | `scripts/gen_item_localization.py`，从官方基线生成 addon 中标记区块 |
 | 88×64 左右的图标源图与 VTEX | `content/dota_addons/overforged/panorama/images/items/` |
 | 现有已验证编译纹理 | `game/dota_addons/overforged/panorama/images/items/` |
 
-自动生成文件/区块不手工改。普通打包不会自动重跑物品/描述生成器，以免无意覆盖调整过的生成结果。
-物品文件仅有一个 `DOTAAbilities` 根块。生成器只替换 `BEGIN GENERATED UPGRADES` 与
-`END GENERATED UPGRADES` 之间的内容，保留前后手工文本；标记缺失、重复或倒序时拒绝写入。
-`--item` 仅允许与 `--preview` 一起使用，避免单物品生成意外清掉其他升级装备。
+物品文件仅有一个 `DOTAAbilities` 根块，所有定义和中英文自定义文本均直接维护，不依赖临时生成器。
 不再维护 `scripts/npc/lv`；`scripts/vscripts/lv` 是现有物品 Lua 路径，与此次 KV 合并无关，继续保留。
 本次未重新编译纹理，保留迁移前 `.vtex_c` 的全部字节；新增两份 VTEX 源描述用于后续 Tools 编译。
 重新编译后需重新做图标显示与哈希基线验收，不能认定新编译器输出必然与旧纹理一致。
 
 ## 加载入口
 
-- `npc_items_custom.txt`：直接包含全部 84 个物品/配方定义，手工区与自动生成区共用一个根块，无 `#base`。
+- `npc_items_custom.txt`：直接包含全部物品/配方定义，手工维护在同一个根块中，无 `#base`。
 - `npc_abilities_custom.txt`：直接包含黑龙溅射与三叉戟补充属性两项私有能力，无 `#base`。三叉戟通过隐藏能力为原生慧夜对剑 modifier 提供独立数值，补充减速抗性/减蓝耗；当前版本已完成用户游戏内验证。
 - `addon_game_mode.lua`：初始化时通过 `lv_standard_rules.lua` 请求免费信使、默认神符逻辑和偷塔保护，再启用机器人思考；进入英雄选择后，每名真人完成选择便用 `Tutorial:AddBot()` 在对面回应一个机器人，最后一名真人选完时补满余位。`lv_bot_draft.lua` 结合已知真人阵容、已有机器人阵容和 OHA 一至五号位权重选人，补满后才请求开启 FretBots。两边都有真人时不加机器人也不开 FretBots；保留 `lv_fill_bots` 作为防重复的手动后备。
 - `addoninfo.txt`：原型声明 `maps = dota`，最多 10 人。依赖游戏自带地图，不携带/伪造一份地图文件。
@@ -307,7 +302,7 @@ Valve 曾收到“本地按 addon 名启动可思考、发布后按 Workshop ID 
 
 `deploy_items_only.ps1` → `Build-LvVpk.ps1` → `prepare_vpk.py` → `Build-Vpk.ps1`。
 
-- `pak01_dir` 保留纯官方基线；生成器不会写回它。
+- `pak01_dir` 保留纯官方基线；构建和打包流程不会写回它。
 - 只在 `bin/vpk-adapter-<ID>` 生成完整 `items.txt`、两份完整官方+LV 本地化，以及映射清单。
 - `items.txt` 引入 `overforged_items.txt` 与 `overforged_abilities.txt` 两个包内别名，保留旧版通过物品入口加载私有能力的方式；不覆盖官方 `npc_abilities.txt`。
 - `packaging/npc-sources.json` 将两个包内别名分别映射至 addon 的 `npc_items_custom.txt` 和 `npc_abilities_custom.txt`。这是同一文件的打包路径映射，不是复制/生成第二套 KV 源码。

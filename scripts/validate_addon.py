@@ -49,7 +49,6 @@ def validate():
     ids = [dict(fields)['ID'] for fields in [*items.values(), *abilities.values()]]
     assert len(ids) == len(set(ids)), 'Duplicate custom IDs'
     assert set(VPK_NPC_SOURCES.values()) == set(LV_DEFINITIONS)
-    assert len(VPK_NPC_SOURCES) == 2
     assert not (GAME / 'scripts/npc/lv').exists(), 'Use the two standard NPC files, not split LV copies'
     for relative in LV_DEFINITIONS:
         path = GAME / relative

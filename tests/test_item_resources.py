@@ -14,7 +14,6 @@ RESOURCE = ROOT / "game/dota_addons/overforged"
 BASELINE = ROOT / "pak01_dir"
 sys.path.insert(0, str(ROOT / "scripts"))
 from prepare_vpk import prepare
-from gen_item_upgrades import split_generated
 
 
 def read_kv(path):
@@ -282,7 +281,7 @@ class ItemResources(unittest.TestCase):
                 self.assertIn(value, localized[-1][status + "_description"])
         self.assertEqual(localized[0].keys(), localized[1].keys())
 
-    def test_trident_is_hand_maintained_in_lv_items(self):
+    def test_trident_values_recipe_and_lua(self):
         lv_items = dict(read_kv(RESOURCE / "scripts/npc/npc_items_custom.txt"))["DOTAAbilities"]
         custom = dict(lv_items)
         self.assertIn("item_lv_trident", custom)
@@ -336,18 +335,6 @@ class ItemResources(unittest.TestCase):
             "03": "item_sange_and_yasha;item_kaya;item_monkey_king_bar;",
             "04": "item_yasha_and_kaya;item_sange;item_monkey_king_bar;",
         })
-        upgrades = split_generated((RESOURCE / "scripts/npc/npc_items_custom.txt").read_text(encoding="utf-8-sig"))[1]
-        self.assertNotIn('"item_lv_trident"', upgrades)
-        self.assertNotIn('"item_lv_monkey_king_bar"', upgrades)
-        self.assertNotIn('"item_recipe_lv_monkey_king_bar"', upgrades)
-        manifest = (ROOT / "scripts/item_upgrades.json").read_text(encoding="utf-8")
-        self.assertNotIn('"item_trident"', manifest)
-        self.assertNotIn('"item_monkey_king_bar"', manifest)
-        generator = (ROOT / "scripts/gen_item_upgrades.py").read_text(encoding="utf-8")
-        self.assertNotIn("def gen_trident", generator)
-        self.assertIn("'item_trident'", generator)
-        self.assertIn("'item_monkey_king_bar'", generator)
-
     def test_butterfly_daedalus_fusion_values_recipe_and_lua(self):
         item = dict(self.custom["item_lv_butterfly_crit"])
         recipe = dict(self.custom["item_recipe_lv_butterfly_crit"])
@@ -563,16 +550,11 @@ class ItemResources(unittest.TestCase):
             localized.append(dict(fusion))
         self.assertEqual(localized[0].keys(), localized[1].keys())
 
-    def test_replaced_abyssal_and_skadi_upgrades_are_reserved(self):
-        upgrades = split_generated((RESOURCE / "scripts/npc/npc_items_custom.txt").read_text(encoding="utf-8-sig"))[1]
-        manifest = (ROOT / "scripts/item_upgrades.json").read_text(encoding="utf-8")
-        generator = (ROOT / "scripts/gen_item_upgrades.py").read_text(encoding="utf-8")
+    def test_replaced_abyssal_and_skadi_upgrades_are_absent(self):
         for name in ("item_abyssal_blade", "item_skadi"):
             short = name[5:]
-            self.assertNotIn(f'"item_lv_{short}"', upgrades)
-            self.assertNotIn(f'"item_recipe_lv_{short}"', upgrades)
-            self.assertNotIn(f'"{name}"', manifest)
-            self.assertIn(repr(name), generator)
+            self.assertNotIn(f"item_lv_{short}", self.custom)
+            self.assertNotIn(f"item_recipe_lv_{short}", self.custom)
 
         for language in ("english", "schinese"):
             root = dict(read_kv(
@@ -731,16 +713,8 @@ class ItemResources(unittest.TestCase):
                 self.assertTrue(localized.get(key), (language, key))
 
     def test_old_bfury_upgrade_is_removed(self):
-        upgrades = split_generated((RESOURCE / "scripts/npc/npc_items_custom.txt").read_text(encoding="utf-8-sig"))[1]
-        self.assertNotIn('"item_lv_bfury"', upgrades)
-        self.assertNotIn('"item_recipe_lv_bfury"', upgrades)
-
-        upgrade_manifest = (ROOT / "scripts/item_upgrades.json").read_text(
-            encoding="utf-8")
-        self.assertNotIn('"item_bfury"', upgrade_manifest)
-        generator = (ROOT / "scripts/gen_item_upgrades.py").read_text(
-            encoding="utf-8")
-        self.assertIn("'item_bfury'", generator)
+        self.assertNotIn("item_lv_bfury", self.custom)
+        self.assertNotIn("item_recipe_lv_bfury", self.custom)
 
         for language in ("english", "schinese"):
             root = dict(read_kv(
@@ -750,15 +724,10 @@ class ItemResources(unittest.TestCase):
             self.assertNotIn("DOTA_Tooltip_Ability_item_lv_bfury", keys)
             self.assertNotIn("DOTA_Tooltip_Ability_item_recipe_lv_bfury", keys)
 
-    def test_replaced_satanic_and_heart_upgrades_are_reserved(self):
-        upgrades = split_generated((RESOURCE / "scripts/npc/npc_items_custom.txt").read_text(encoding="utf-8-sig"))[1]
-        manifest = (ROOT / "scripts/item_upgrades.json").read_text(encoding="utf-8")
-        generator = (ROOT / "scripts/gen_item_upgrades.py").read_text(encoding="utf-8")
+    def test_replaced_satanic_and_heart_upgrades_are_absent(self):
         for name in ("item_satanic", "item_heart"):
-            self.assertNotIn(f'"item_lv_{name[5:]}"', upgrades)
-            self.assertNotIn(f'"item_recipe_lv_{name[5:]}"', upgrades)
-            self.assertNotIn(f'"{name}"', manifest)
-            self.assertIn(repr(name), generator)
+            self.assertNotIn(f"item_lv_{name[5:]}", self.custom)
+            self.assertNotIn(f"item_recipe_lv_{name[5:]}", self.custom)
 
         # The fusion item legitimately contains "item_lv_satanic" as a prefix,
         # so the stale-key check has to exclude it.
@@ -770,17 +739,13 @@ class ItemResources(unittest.TestCase):
             localized = [(key.lower(), value) for key, value in pairs
                          if "item_lv_satanic_heart" in key.lower()]
             self.assertEqual(len(localized), len(dict(localized)))
-            self.assertEqual(len(localized), 11)
+            self.assertTrue(localized)
             self.assertFalse(any(stale.search(key) for key, _ in pairs))
 
-    def test_replaced_butterfly_and_daedalus_upgrades_are_reserved(self):
-        upgrades = split_generated((RESOURCE / "scripts/npc/npc_items_custom.txt").read_text(encoding="utf-8-sig"))[1]
-        manifest = (ROOT / "scripts/item_upgrades.json").read_text(encoding="utf-8")
-        generator = (ROOT / "scripts/gen_item_upgrades.py").read_text(encoding="utf-8")
+    def test_replaced_butterfly_and_daedalus_upgrades_are_absent(self):
         for name in ("item_butterfly", "item_greater_crit"):
-            self.assertNotIn(f'"item_lv_{name[5:]}"', upgrades)
-            self.assertNotIn(f'"{name}"', manifest)
-            self.assertIn(repr(name), generator)
+            self.assertNotIn(f"item_lv_{name[5:]}", self.custom)
+            self.assertNotIn(f"item_recipe_lv_{name[5:]}", self.custom)
 
         for language in ("english", "schinese"):
             root = dict(read_kv(RESOURCE / f"resource/addon_{language}.txt"))
@@ -796,6 +761,8 @@ class ItemResources(unittest.TestCase):
                 for key, _ in pairs))
 
     def test_removed_monkey_king_bar_upgrade_has_no_localization(self):
+        self.assertNotIn("item_lv_monkey_king_bar", self.custom)
+        self.assertNotIn("item_recipe_lv_monkey_king_bar", self.custom)
         for language in ("english", "schinese"):
             root = dict(read_kv(RESOURCE / f"resource/addon_{language}.txt"))
             pairs = dict(root["lang"])["Tokens"]

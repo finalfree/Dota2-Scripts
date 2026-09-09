@@ -1000,7 +1000,7 @@
 		}
 	}
 
-	// BEGIN GENERATED UPGRADES -- scripts/gen_item_upgrades.py
+	// Standalone upgraded items and their recipes.
 	//=================================================================================
 	// Upgrade: item_aether_lens
 	//=================================================================================
@@ -2667,5 +2667,4 @@
 			"01"				"item_wind_waker"
 		}
 	}
-	// END GENERATED UPGRADES
 }

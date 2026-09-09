@@ -8,8 +8,7 @@
 - `content/dota_addons/overforged/`：Workshop Tools 使用的 PNG/VTEX 源资源。
 - `pak01_dir/`：官方提取基线；不得再添加 LV 自定义内容。
 - `artwork/item-icons/item_lv_*.png`：独立高清设计原稿，不直接发布。
-- `scripts/item_upgrades.json`：自动升级装备的生成配置；只更新 `npc_items_custom.txt` 的标记区，手工物品写在标记区之外。
-- `scripts/npc/npc_items_custom.txt` / `npc_abilities_custom.txt`（addon 内）：直接存放物品/配方与能力，不再分拆 `npc/lv` 文件。
+- `scripts/npc/npc_items_custom.txt` / `npc_abilities_custom.txt`（addon 内）：手工存放全部物品、配方与能力，不再分拆 `npc/lv` 文件。
 - `bin/`：生成的适配文件、VPK、测试和备份，不手工维护。
 
 本地启动、物品资源显示及 OHA 机器人行动已由用户确认；仍不代表已发布 Workshop 的兼容性通过。

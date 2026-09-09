@@ -5,7 +5,7 @@
 ## 当前入口
 
 - 运行源码：`game/dota_addons/overforged/`；资源源文件：`content/dota_addons/overforged/`。
-- `scripts/npc/npc_items_custom.txt`：直接包含 84 个物品/配方；自动生成区之外手工维护。
+- `scripts/npc/npc_items_custom.txt`：直接包含全部物品/配方并手工维护。
 - `scripts/npc/npc_abilities_custom.txt`：直接包含 1 个私有能力。
 - 原 `scripts/npc/lv` 的三个 KV 文件已合并后移除；没有第二份维护副本。
 - `scripts/vscripts/lv`、`item_lv_*`、本地化物品 token 和 `lv_mode_status` 等命令保持兼容。
@@ -20,7 +20,6 @@
 - 8 个物品 Lua、4 个编译纹理和 8 个源资源共 20 个文件逐字节相等。
 - 44 项 Python 测试：40 通过；4 个图标大小断言仍失败（期望 7748，实际 7764），改名前也同样失败，未更改纹理或放宽断言。
 - 8 个 Lua 替身套件和 12 个运行文件的 Lua 5.1 语法检查通过。
-- 生成器完整重生成的幂等性、手工区保护、CRLF/LF 保留、异常标记拒写、部分生成拒写均通过。
 - 映射打包回归及 Windows PowerShell 5.1 联接安装/重复运行通过。
 - 增量、全量、天地星合并三种 VPK 均通过 v1 单文件、CRC 和 payload SHA256 校验，均未部署。
 - 增量包全部生效 NPC 数据等于官方基线 + 当前 addon；包内两个别名直接读取标准文件。

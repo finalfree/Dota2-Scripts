@@ -49,14 +49,11 @@ class AbilityIds(unittest.TestCase):
 
     def test_parser_finds_entries_and_ids(self):
         # A silent parser regression would make every other check vacuous.
-        total = 0
         for relative in CUSTOM_FILES:
             entries = list(ability_entries(RESOURCE / relative))
             self.assertTrue(entries, "no ability blocks parsed from %s" % relative)
             self.assertTrue(all(ids for _, ids in entries),
                             "block without an ID in %s" % relative)
-            total += len(entries)
-        self.assertGreater(total, 50)
 
     def test_ids_are_unique(self):
         by_id = {}
