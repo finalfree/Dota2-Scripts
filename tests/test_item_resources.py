@@ -210,7 +210,12 @@ class ItemResources(unittest.TestCase):
         self.assertEqual(int(item["ItemCost"]), 1000 + sum(int(dict(official[k])["ItemCost"]) for k in components))
         self.assertEqual(dict(item["AbilityValues"]), {
             "bonus_cooldown": "80", "bonus_health": "450", "bonus_mana": "450",
-            "bonus_mana_regen": "20", "cast_range_bonus": "600", "aoe_bonus": "400",
+            "bonus_mana_regen": "20", "cast_range_bonus": "600",
+            "buff_duration_bonus": "100",
+            "curiosity_per_spell_cast": "0", "curiosity_duration": "0",
+            "curiosity_per_level": "0", "curiosity_attack_damage": "0",
+            "curiosity_modifier_amp": "100", "curiosity_aoe_bonus": "400",
+            "curiosity_per_kill": "0", "grace_period": "0", "curiosity_factor": "0",
         })
 
     def test_octarine_permanent_properties_and_absorption_callbacks(self):
@@ -229,6 +234,7 @@ class ItemResources(unittest.TestCase):
         self.assertEqual(status["IsPurgable"], "0")
         self.assertEqual(status["ThinkInterval"], "0.25")
         self.assertEqual(dict(status["Properties"]), {
+            "MODIFIER_PROPERTY_HEALTH_BONUS": "%bonus_health",
             "MODIFIER_PROPERTY_COOLDOWN_PERCENTAGE": "%bonus_cooldown",
         })
         self.assertEqual(pending["Passive"], "1")
@@ -242,11 +248,14 @@ class ItemResources(unittest.TestCase):
             source = (RESOURCE / callback["ScriptFile"]).read_text(encoding='utf-8')
             self.assertIn("function " + function + "(keys)", source)
         source = (RESOURCE / "scripts/vscripts/lv/item_lv_octarine_core.lua").read_text(encoding='utf-8')
-        for name in ("modifier_item_aether_lens", "modifier_item_chasm_stone"):
+        for name in ("modifier_item_aether_lens", "modifier_rubick_curiosity"):
             self.assertIn('"' + name + '"', source)
+        self.assertNotIn('"modifier_item_chasm_stone"', source)
         self.assertNotIn("LinkLuaModifier", source)
         self.assertNotIn("RemoveItem", source)
         self.assertNotIn("UTIL_Remove", source)
+        self.assertNotIn("SetModifierGainedFilter", source)
+        self.assertNotIn("SetStackCount", source)
 
     def test_octarine_localization_matches_special_value(self):
         localized = []
@@ -258,7 +267,8 @@ class ItemResources(unittest.TestCase):
             localized.append(dict(octarine))
             prefix = "dota_tooltip_ability_item_lv_octarine_core_"
             self.assertEqual(localized[-1][prefix + "cast_range_bonus"], "+$cast_range")
-            for value in ("cast_range_bonus", "aoe_bonus", "bonus_cooldown", "bonus_mana_regen"):
+            for value in ("cast_range_bonus", "curiosity_aoe_bonus", "bonus_cooldown",
+                          "bonus_mana_regen", "buff_duration_bonus"):
                 self.assertIn("%" + value + "%", localized[-1][prefix + "description"])
             status = "dota_tooltip_modifier_item_lv_octarine_core_consumed_status"
             self.assertTrue(localized[-1][status])

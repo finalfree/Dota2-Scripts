@@ -2,7 +2,7 @@
 function IsServer() return true end
 -- Actual engine-registered name; do not derive this from the item/class name.
 local NATIVE = "modifier_item_aether_lens"
-local AREA = "modifier_item_chasm_stone"
+local CURIOSITY = "modifier_rubick_curiosity"
 local STATUS = "modifier_item_lv_octarine_core_consumed_status"
 local next_id = 1000
 local function fixture()
@@ -33,7 +33,8 @@ local function fixture()
         return m
     end
     function hero:AddNewModifier(caster, item, name, args)
-        assert(caster == self and (name == NATIVE or name == AREA) and args.duration == -1)
+        assert(caster == self and (name == NATIVE or name == CURIOSITY)
+            and args.duration == -1)
         return modifier(item, name)
     end
     function hero:SetContextThink(name, callback, delay)
@@ -91,12 +92,12 @@ do
     assert(item._lv_octarine_core_consumed and hero._lv_octarine_core_item == item)
     assert(LV_OCTARINE_STATE.items[hero.id] == item)
     assert(#hero:FindAllModifiersByName(NATIVE) == 1)
-    assert(#hero:FindAllModifiersByName(AREA) == 1)
+    assert(#hero:FindAllModifiersByName(CURIOSITY) == 1)
     assert(#hero:FindAllModifiersByName(STATUS) == 1)
     absorb(hero, item)
     assert(hero.taken == 1)
     hero:FindAllModifiersByName(NATIVE)[1]:Destroy()
-    hero:FindAllModifiersByName(AREA)[1]:Destroy()
+    hero:FindAllModifiersByName(CURIOSITY)[1]:Destroy()
     hero.alive = false
     LVOctarineEnsureActive({ caster = hero, ability = item })
     assert(#hero:FindAllModifiersByName(NATIVE) == 0)
@@ -107,24 +108,25 @@ do
     assert(hero.slots[1] == duplicate and hero.taken == 1)
     for _ = 1, 3 do LVOctarineEnsureActive({ caster = hero, ability = item }) end
     assert(#hero:FindAllModifiersByName(NATIVE) == 1)
-    assert(#hero:FindAllModifiersByName(AREA) == 1)
+    assert(#hero:FindAllModifiersByName(CURIOSITY) == 1)
     assert(#hero:FindAllModifiersByName(STATUS) == 1)
 end
 
 -- Initialization failure, hiding failure, and failure after TakeItem all roll back.
-for _, failure in ipairs({ "native", "area", "status", "take", "late_native", "late_area", "late_status" }) do
+for _, failure in ipairs({ "native", "curiosity", "status", "take",
+        "late_native", "late_curiosity", "late_status" }) do
     local hero, item = fixture()
     if failure == "native" then hero.fail = NATIVE end
-    if failure == "area" then hero.fail = AREA end
-    if failure == "late_area" then hero.fail_after_take = AREA end
+    if failure == "curiosity" then hero.fail = CURIOSITY end
     if failure == "status" then hero.fail = STATUS end
     if failure == "take" then hero.fail_take = true end
     if failure == "late_native" then hero.fail_after_take = NATIVE end
+    if failure == "late_curiosity" then hero.fail_after_take = CURIOSITY end
     if failure == "late_status" then hero.fail_after_take = STATUS end
     absorb(hero, item)
     assert(hero.slots[0] == item and not item._lv_octarine_core_consumed, failure)
     assert(#hero:FindAllModifiersByName(NATIVE) == 0, failure)
-    assert(#hero:FindAllModifiersByName(AREA) == 0, failure)
+    assert(#hero:FindAllModifiersByName(CURIOSITY) == 0, failure)
     assert(#hero:FindAllModifiersByName(STATUS) == 0, failure)
     assert(hero._lv_octarine_core_item == nil, failure)
 end
@@ -157,25 +159,25 @@ end
 do
     local hero, item = fixture()
     absorb(hero, item)
-    hero:FindAllModifiersByName(AREA)[1]:Destroy()
-    hero.fail = AREA
+    hero:FindAllModifiersByName(CURIOSITY)[1]:Destroy()
+    hero.fail = CURIOSITY
     LVOctarineEnsureActive({ caster = hero, ability = item })
-    assert(#hero:FindAllModifiersByName(AREA) == 0)
+    assert(#hero:FindAllModifiersByName(CURIOSITY) == 0)
     assert(hero._lv_octarine_core_item == item)
     hero.fail = nil
     LVOctarineEnsureActive({ caster = hero, ability = item })
-    assert(#hero:FindAllModifiersByName(AREA) == 1)
+    assert(#hero:FindAllModifiersByName(CURIOSITY) == 1)
 end
 do
     local hero, item = fixture()
     local ordinary = hero:item(1)
     local lens = hero:AddNewModifier(hero, ordinary, NATIVE, { duration = -1 })
-    local stone = hero:AddNewModifier(hero, ordinary, AREA, { duration = -1 })
+    local curiosity = hero:AddNewModifier(hero, ordinary, CURIOSITY, { duration = -1 })
     hero.fail = STATUS
     absorb(hero, item)
-    assert(not lens:IsNull() and not stone:IsNull())
+    assert(not lens:IsNull() and not curiosity:IsNull())
     assert(#hero:FindAllModifiersByName(NATIVE) == 1)
-    assert(#hero:FindAllModifiersByName(AREA) == 1)
+    assert(#hero:FindAllModifiersByName(CURIOSITY) == 1)
     assert(hero.slots[0] == item)
 end
 print("item_lv_octarine_core lifecycle tests passed")

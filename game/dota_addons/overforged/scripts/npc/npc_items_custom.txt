@@ -126,13 +126,25 @@
 			"bonus_mana"				"450"
 			"bonus_mana_regen"			"20"
 			"cast_range_bonus"			"600"
-			"aoe_bonus"				"400"
+			"buff_duration_bonus"		"100"
+
+			// Native modifier_rubick_curiosity value source. Its native base stack
+			// supplies AoE and duration; remove damage and every extra stack source.
+			"curiosity_per_spell_cast"	"0"
+			"curiosity_duration"		"0"
+			"curiosity_per_level"		"0"
+			"curiosity_attack_damage"	"0"
+			"curiosity_modifier_amp"	"100"
+			"curiosity_aoe_bonus"		"400"
+			"curiosity_per_kill"		"0"
+			"grace_period"			"0"
+			"curiosity_factor"		"0"
 		}
 
 		"Modifiers"
 		{
-			// Permanent cooldown source and HUD status; native modifiers supply
-			// cast range / mana regeneration and Chasm Stone's area bonus.
+			// Permanent health/cooldown source and HUD status; native modifiers
+			// supply mana/cast range/regen plus Curiosity's area/duration bonuses.
 			"modifier_item_lv_octarine_core_consumed_status"
 			{
 				"IsHidden"      "0"
@@ -142,6 +154,7 @@
 				"ThinkInterval" "0.25"
 				"Properties"
 				{
+					"MODIFIER_PROPERTY_HEALTH_BONUS" "%bonus_health"
 					"MODIFIER_PROPERTY_COOLDOWN_PERCENTAGE" "%bonus_cooldown"
 				}
 				"OnIntervalThink"

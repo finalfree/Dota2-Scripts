@@ -1,8 +1,10 @@
 -- Like the upgraded Gem, TakeItem frees the slot while retaining the value source.
--- KV supplies cooldown reduction; native Lens supplies range / mana regeneration,
--- and native Chasm Stone supplies AoE. Both engine modifier names were checked
--- in server.dll and client.dll. No client-side Lua modifier is networked.
-local NATIVES = { "modifier_item_aether_lens", "modifier_item_chasm_stone" }
+-- KV supplies health and cooldown reduction; native Lens supplies cast range,
+-- mana and mana regeneration. Rubick's native Curiosity modifier supplies AoE
+-- and buff/debuff duration amplification from its built-in base stack.
+-- All engine modifier names were checked in server.dll and client.dll.
+local CURIOSITY = "modifier_rubick_curiosity"
+local NATIVES = { "modifier_item_aether_lens", CURIOSITY }
 local STATUS = "modifier_item_lv_octarine_core_consumed_status"
 
 LV_OCTARINE_STATE = LV_OCTARINE_STATE or { items = {} }
@@ -43,10 +45,13 @@ local function apply(hero, item, name)
     local existing = own_modifier(hero, item, name)
     if existing then return existing end
     local ok, modifier = pcall(function()
+        local applied
         if name ~= STATUS then
-            return hero:AddNewModifier(hero, item, name, { duration = -1 })
+            applied = hero:AddNewModifier(hero, item, name, { duration = -1 })
+        else
+            applied = item:ApplyDataDrivenModifier(hero, hero, name, { duration = -1 })
         end
-        return item:ApplyDataDrivenModifier(hero, hero, name, { duration = -1 })
+        return applied
     end)
     if not ok then return nil end
     return own_modifier(hero, item, name)

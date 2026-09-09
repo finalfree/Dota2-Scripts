@@ -17,23 +17,22 @@
 
 | 永久属性 | 数值 | 唯一提供方 |
 | --- | --- | --- |
-| 生命值 | +450 | 原生 `modifier_item_chasm_stone` 读取 `bonus_health` |
+| 生命值 | +450 | 永久 KV 状态 `MODIFIER_PROPERTY_HEALTH_BONUS` |
 | 魔法值 | +450 | 原生 `modifier_item_aether_lens` 读取 `bonus_mana` |
 | 冷却缩减 | 80% | 手工施加的永久 KV 状态 `MODIFIER_PROPERTY_COOLDOWN_PERCENTAGE` |
 | 施法距离 | +600 | 原生 `modifier_item_aether_lens` |
 | 魔法恢复 | +20/秒 | 同一原生以太透镜 modifier |
-| 作用范围 | +400 | 原生 `modifier_item_chasm_stone` 读取 `aoe_bonus` |
+| 作用范围 | +400 | 原生 `modifier_rubick_curiosity` 基础层读取 `curiosity_aoe_bonus` |
 
 用户随后要求保留原有生命与魔法加成，`bonus_health` / `bonus_mana` 已从 0 恢复为 450。
-直接由已挂载的两个原生 modifier 提供，不增加 Lua 逻辑，也不在永久 KV 状态中重复添加生命或魔法属性。
-范围增加沿用裂隙之石的技能适用和叠加规则，不自行扩大引擎未支持的技能。
-`modifier_item_chasm_stone` 已在本机 `server.dll` 和 `client.dll` 中核对完整注册名；
-服务器 DLL SHA256 为 `76908365d189e2ac12599c4083875cf2b5acace4a7d2dff1dfed0a0f1cdec694`。
-官方 KV 的 `bonus_health = 0`、`aoe_bonus = 40` 是原生数值键的基线。
+魔法值仍由以太透镜原生 modifier 提供；生命值由现有永久 KV 状态提供。奇心实验加入后，
+原来用于生命和作用范围的 `modifier_item_chasm_stone` 已移除，400 作用范围改由奇心基础层的
+`curiosity_aoe_bonus` 提供。当前引擎 `server.dll` 已核对注册
+`MODIFIER_PROPERTY_HEALTH_BONUS`，因此不需要为这两项继续保留裂隙之石 modifier。
 
 吸收延迟 0.1 秒并重新核对持有者与物品槽；任何来源挂载失败都保留成品并清理本次效果。
 隐藏物品后再次确认并补挂效果，失败则恢复成品。永久状态每 0.25 秒在英雄存活时补回
-缺失的原生 modifier，避免死亡后丢失距离、回蓝或范围；清理仅针对本物品来源。
+缺失的原生 modifier，避免死亡后丢失距离、回蓝、范围或持续时间增强；清理仅针对本物品来源。
 
 Lua 生命周期替身（双来源、隐藏清理、失败回滚、同帧重复合成、复活恢复、恢复失败重试、
 其他物品来源保护）及全部 14 个运行 Lua 文件的 Lua 5.1 语法检查通过。
@@ -53,6 +52,101 @@ addon KV、ID、本地化与打包映射检查通过；Python 46 项中 42 项�
 当前包/目标 SHA256：`618A3AF84A3FA1B424EF3BC775564DE6BD256759CE23A9E78789AE0625D479FA`。
 旧包备份：`bin/backups/pak01-before-deploy-20260908-233250-37dacf40226348bb8b80c9dade98f404.vpk`。
 生命/魔法恢复及其他永久属性的游戏内效果仍待用户验收。
+
+## 精粹：拉比克奇心原生持续时间增强（2026-09-09，游戏内待验收）
+
+用户实测上一版 `SetModifierGainedFilter` 对多种普通增益有效，但龙骑士的古龙形态和
+恐怖利刃的魔化均未延长。控制台中只出现魔化的 0.35 秒变身过渡和 0.1 秒光环施加者事件，
+没有两个英雄的主体变身 modifier 事件，说明这类引擎内部状态没有走该过滤器的常规入口。
+
+用户随后确认拉比克 7.41e 先天技能“奇心”能延长龙骑士、恐怖利刃等主体变身。改为直接
+挂载官方 `modifier_rubick_curiosity`，不用自行声明 `MODIFIER_PROPERTY_BUFF_AMPLIFICATION`。
+私有物品数值把奇心的攻击力、按英雄等级增长、附近敌人施法临时层数和击杀永久层数全部
+设为 0；保留原生 modifier 自带的一层基础奇心，并令该层读取
+`curiosity_modifier_amp = 100` 与 `curiosity_aoe_bonus = 400`。现有 0.25 秒永久状态回调只检查永久属性是否丢失，
+不扫描或修改任何技能 buff，也不改写奇心层数。
+
+奇心原生 modifier 同时声明 `MODIFIER_PROPERTY_BUFF_AMPLIFICATION` 与
+`MODIFIER_PROPERTY_STATUS_RESISTANCE_CASTER`。因此本轮实验会同时给予持有者身上的限时增益
++100% 持续时间，以及持有者对敌人施加的、受状态抗性影响的负面状态 +100% 持续时间。
+这条机制按拉比克自身生效，不再承诺延长持有者施加给未拥有奇心效果的队友的增益。
+
+已删除所有 `SetModifierGainedFilter` 注册、事件改写、modifier 查询和诊断去重代码。
+没有轮询增益、`SetDuration`、逐实例记录、英雄/技能/modifier 白名单。固定时长、无视状态
+抗性的效果仍可能不受影响，因此须重新实测古龙形态、魔化、普通增益与敌方负面状态；离线
+KV/Lua 检查不能证明引擎交互。
+
+上一事件版已部署包/目标 SHA256：
+`2F5EF36C8D60A23C30CEB97E56E27694756342CD7EA96A43F9E6421CFB0BA51B`。
+旧包备份：`bin/backups/pak01-before-deploy-20260909-001853-750e5e40c04a4714b8498eb70cb132b9.vpk`。
+
+`ACAA3CBF8E90B233A3CBCA2085CE3FD02ACB14242E73D35CD410E135660676D6` 是已废弃的直接属性
+实验包，未部署。奇心版完成检查和打包后在下方补记新哈希。
+
+奇心版通过 20 项资源检查中的 16 项；4 项仍是既有纹理长度断言 `7764 != 7748`。
+全部 Lua 替身套件与 14 个运行 Lua 文件的 Lua 5.1 语法检查通过。Dota 退出后已打包并部署；
+19 项 VPK v1 单文件 CRC、包内源码 SHA256 和目标哈希全部通过。包/目标 SHA256：
+`FEDF482F7A265DF7174FC88896C0FEC68CC2478B02599427E93FA1D6E709D408`。
+旧包备份：`bin/backups/pak01-before-deploy-20260909-121011-c6ea544a437342d686329800d4bb1ac4.vpk`。
+用户实测此包对普通增益及变身均生效，但总时长成为 3 倍。结果说明原生奇心已经建立一层
+基础效果，Lua 再调用 `SetStackCount(1)` 实际又增加了一层；每层 100% 时产生了总计 +200%。
+
+修正版删除所有奇心层数写入，只使用原生基础层；所有额外叠层来源仍为 0。再次确认 Dota
+退出后完成部署；VPK v1 单文件共 19 项，CRC、包内源码 SHA256 和目标哈希均通过。
+包/目标 SHA256：
+`2B2FAEDCA5A198C46D915530C246CDBCACE3D4524B02F3F1FFB402878CD4C0B4`。
+被替换的 3 倍实测版备份：
+`bin/backups/pak01-before-deploy-20260909-122250-493b479269da439c8f1276795e5419ec.vpk`。
+用户实测修正版为 +100%，即总时长 2 倍。
+
+随后将原先由 `modifier_item_chasm_stone` 提供的 400 作用范围合并到奇心基础层：
+`curiosity_aoe_bonus = 400`。裂隙之石 modifier 同时承担的 450 生命改由现有永久 KV 状态的
+`MODIFIER_PROPERTY_HEALTH_BONUS` 提供，数值保持不变；当前只需挂载以太透镜和奇心两个原生
+modifier。确认 Dota 退出后重新部署，19 项 VPK v1 的 CRC、包内源码 SHA256 与目标哈希通过。
+包/目标 SHA256：
+`DC4317EC8D364A288761055468203A48E720387C8599D9FCFAE1A0B016457726`。
+被替换的独立裂隙之石 modifier 版本备份：
+`bin/backups/pak01-before-deploy-20260909-122920-0288d2bfdc974622aea2e7af7d22cafe.vpk`。
+用户游戏内实测奇心基础层同时提供 400 作用范围和 100% 持续时间，结果正常。
+随后精简物品与已吸收状态的中英文说明，只显示实际属性，不显示实现来源或实验措辞。
+重新部署后的包/目标 SHA256：
+`F8CA9412680D864167EE5DDFCD2CE0516BF2D43B466DB74E5B8FE79ABCB10260`；
+前一功能相同版本备份：
+`bin/backups/pak01-before-deploy-20260909-123548-a9b5e57a37af4b14821002c82e9efd57.vpk`。
+
+## 精粹：增益持续时间 +100% 轮询实验（2026-09-08，历史，已由奇心原生版替代）
+
+在现有 `item_lv_octarine_core` 上增加 `AbilityValues.buff_duration_bonus = 100`，
+配方、价格和原有永久属性不变。采用**接受者规则**：吸收精粹的本体英雄自身获得的
+友方限时增益延长，包含自己施加的技能和物品增益；给未吸收精粹的队友施法不因此延长。
+按用户要求不设英雄或技能/modifier 白名单，也不按隐藏、可驱散、物品来源或光环分类排除。
+只处理 `duration > 0`、剩余时间大于 0、`IsDebuff() == false` 且施法者存在并同队的状态。
+没有施法者的状态、敌方来源、负面效果和永久状态不处理。
+
+沿用永久 KV 状态的服务器 `RunScript`，检查周期从 0.25 改为 0.1 秒。
+遍历本体 `FindAllModifiers()`，通过通用 `CDOTA_Buff:SetDuration(..., true)`
+追加一次原始时长；例如 20 秒效果在经过 0.1 秒后被发现，剩余 19.9 秒改为 39.9 秒。
+用 modifier 实例和 `GetLastAppliedTime()` 跟踪应用，写入后读取时间戳防止自触发；
+刷新时间戳但时长和到期时间未变时不追加，避免仅更新层数造成倍增。失效实例随扫描清理，
+不重新施加被驱散的效果；死亡期间暂停，复活继续。首次扫描遇到已有增益也追加一份原始时长。
+每种成功修改的 modifier 首次记录 `[lv_octarine_core] buff timer`，用于用户定位生效对象。
+不注册全局 modifier filter，不增加客户端自定义 Lua modifier，不重写原生英雄技能。
+
+接口参考：[ModDota 的 CDOTA_Buff API](https://docs.moddota.com/lua_server/docs)。
+`SetDuration` 是通用 modifier 接口，不能据此推断技能内部的独立计时、模型、子效果、引导或
+召唤物寿命会同步延长。小于扫描间隔的状态可能漏检，光环和其他持续刷新状态可能被引擎重设。
+这些均交由用户大胆实测，未启动或操控游戏，也未宣称全部变身兼容。
+
+离线验证：新增时长替身覆盖自身/友方增益、延迟补偿、重复扫描、同实例重施、仅层数刷新、
+负面/敌方/永久/零时长排除、驱散后重施、死亡复活及单个接口异常隔离；原有生命周期测试和
+全部 14 个运行 Lua 文件语法检查通过。addon 静态检查通过。Python 46 项中 42 项通过，
+其余 4 项仍是既有纹理长度断言 `7764 != 7748`，本次未修改纹理。
+
+确认 Dota 已退出后通过 `deploy_items_only.ps1` 部署；19 项 VPK v1 单文件的 CRC、
+全部 payload 源码 SHA256 和目标部署哈希通过。包及目标 SHA256：
+`39939817F70E30434F0DC88BC005BCB1A11CF54B18FAFEC73D39770FD8F88625`。
+旧包备份：`bin/backups/pak01-before-deploy-20260908-234545-4b7c165f04df43ba8925f046bb829801.vpk`。
+部署校验通过，游戏内验收待用户进行，未上传 Workshop。
 
 ## 初版合成路线与实现（历史，已由上面的永久吸收版取代）
 
