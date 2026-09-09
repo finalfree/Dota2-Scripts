@@ -7,8 +7,13 @@
 ## 玲珑心·精粹永久吸收改版（2026-09-08，游戏内待验收）
 
 当前配方为原版 `item_octarine_core`（4900）+ `item_aether_lens`（2275）+
-`item_chasm_stone`（900）+ `item_recipe_lv_octarine_core`（1000），总价 **9075**。
+`item_chasm_stone`（900）+ `item_recipe_lv_octarine_core`（100），总价 **8175**。
 物品与配方 ID 保持 `10002` / `10001`，标准 addon KV 的手工区维护。
+2026-09-09 将升级卷轴从 1000 金降至 100 金，成品总价同步为 8175。确认 Dota 退出后
+重新部署；19 项 VPK v1 的 CRC、包内源码 SHA256 与目标哈希通过。包/目标 SHA256：
+`A44DC02EC0DE49B3ECB7DEC185CDBBC134FA914AD71663222C9D4DB67FE08593`。
+前一版本备份：
+`bin/backups/pak01-before-deploy-20260909-125106-07465facbecb49f2b94c20745745ebbf.vpk`。
 
 合成后本体英雄主装备栏内自动吸收，释放物品格并显示不可驱散、死亡保留的永久状态。
 沿用升级宝石的 `TakeItem` 隐藏物品实体方式，保留实体作为 KV/原生 modifier 的数值来源，

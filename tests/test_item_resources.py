@@ -203,10 +203,10 @@ class ItemResources(unittest.TestCase):
         recipe = dict(self.custom["item_recipe_lv_octarine_core"])
         official = dict(dict(read_kv(BASELINE / "scripts/npc/items.txt"))["DOTAAbilities"])
         components = ["item_octarine_core", "item_aether_lens", "item_chasm_stone"]
-        self.assertEqual(recipe["ItemCost"], "1000")
+        self.assertEqual(recipe["ItemCost"], "100")
         self.assertEqual(recipe["ItemResult"], "item_lv_octarine_core")
         self.assertEqual(dict(recipe["ItemRequirements"]), {"01": ";".join(components)})
-        self.assertEqual(int(item["ItemCost"]), 1000 + sum(int(dict(official[k])["ItemCost"]) for k in components))
+        self.assertEqual(int(item["ItemCost"]), 100 + sum(int(dict(official[k])["ItemCost"]) for k in components))
         self.assertEqual(dict(item["AbilityValues"]), {
             "bonus_cooldown": "80", "bonus_health": "450", "bonus_mana": "450",
             "bonus_mana_regen": "20", "cast_range_bonus": "600",

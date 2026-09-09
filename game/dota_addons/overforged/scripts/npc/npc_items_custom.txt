@@ -83,7 +83,7 @@
 		"AbilityTextureName"			"item_recipe_octarine_core"
 		"Model"							"models/props_gameplay/recipe.vmdl"
 
-		"ItemCost"						"1000"
+		"ItemCost"						"100"
 		"ItemShopTags"					""
 		"ItemPurchasable"				"1"
 
@@ -105,7 +105,7 @@
 		"AbilityTextureName"			"item_octarine_core"
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 
-		"ItemCost"						"9075"
+		"ItemCost"						"8175"
 		"ItemShopTags"					"regen_mana;cast_range;aoe"
 		"ItemQuality"					"consumable"
 		"ItemPurchasable"				"1"
