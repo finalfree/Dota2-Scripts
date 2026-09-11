@@ -1420,8 +1420,8 @@
 		"ItemDeclarations"			"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
 		"SuggestLategame"			"1"
 		"ItemPurchasable"		"1"		// 出现在原物品的商店升级树中
-		"ItemCost"			"6975"		// 5975 原物品 + 1000 卷轴
-		"AbilityCooldown"			"2"
+		"ItemCost"			"6075"		// 5975 原物品 + 100 卷轴
+		"AbilityCooldown"			"0"
 
 		"AbilityValues"
 		{
@@ -1429,12 +1429,12 @@
 			"bonus_attack_speed"		"100"
 			"bonus_armor"		"28"
 			"bonus_mana_regen"		"10"
-			"projectile_speed"		"500"
+			"projectile_speed"		"700"
 			"int_damage_multiplier"		"1"
-			"slow"		"25"
-			"slow_duration"		"4"
-			"active_mres_reduction"		"50"
-			"passive_cooldown"		"4"
+			"slow"		"50"
+			"slow_duration"		"12"
+			"active_mres_reduction"		"100"
+			"passive_cooldown"		"12"
 		}
 	}
 
@@ -1444,7 +1444,7 @@
 		"BaseClass"			"item_datadriven"
 		"AbilityTextureName"		"item_recipe_ultimate_scepter_2"
 		"Model"				"models/props_gameplay/recipe.vmdl"
-		"ItemCost"			"1000"
+		"ItemCost"			"100"
 		"ItemPurchasable"		"1"
 		"ItemRecipe"			"1"
 		"ItemResult"			"item_lv_devastator"
