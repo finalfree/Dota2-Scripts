@@ -1,7 +1,5 @@
--- Engine substitutes test lifecycle only, not native attack behavior.
+-- Engine substitutes verify lifecycle and attack dispatch, not engine procs.
 function IsServer() return true end
--- Actual engine-registered name; do not derive this from the item/class name.
-local NATIVE = "modifier_hydras_breath"
 local STATUS = "modifier_item_lv_hydras_breath_consumed_status"
 local next_id = 1000
 local function fixture()
@@ -30,10 +28,6 @@ local function fixture()
         function m:Destroy() self.destroyed = true end
         hero.mods[#hero.mods + 1] = m
         return m
-    end
-    function hero:AddNewModifier(caster, item, name, args)
-        assert(caster == self and name == NATIVE and args.duration == -1)
-        return modifier(item, name)
     end
     function hero:SetContextThink(name, callback, delay)
         assert(delay == 0.1)
@@ -89,35 +83,27 @@ do
     assert(hero.slots[0] == nil and hero.taken == 1 and not item:IsNull())
     assert(item._lv_hydras_breath_consumed and hero._lv_hydras_breath_item == item)
     assert(LV_HYDRAS_BREATH_STATE.items[hero.id] == item)
-    assert(#hero:FindAllModifiersByName(NATIVE) == 1)
     assert(#hero:FindAllModifiersByName(STATUS) == 1)
     absorb(hero, item)
     assert(hero.taken == 1)
-    hero:FindAllModifiersByName(NATIVE)[1]:Destroy()
     hero.alive = false
-    LVHydrasBreathEnsureActive({ caster = hero, ability = item })
-    assert(#hero:FindAllModifiersByName(NATIVE) == 0)
+    assert(#hero:FindAllModifiersByName(STATUS) == 1)
     hero.alive = true
-    -- A missing native modifier must not allow a second permanent absorption.
+    -- Death does not discard the absorbed item or its permanent KV status.
     local duplicate = hero:item(1)
     absorb(hero, duplicate)
     assert(hero.slots[1] == duplicate and hero.taken == 1)
-    for _ = 1, 3 do LVHydrasBreathEnsureActive({ caster = hero, ability = item }) end
-    assert(#hero:FindAllModifiersByName(NATIVE) == 1)
     assert(#hero:FindAllModifiersByName(STATUS) == 1)
 end
 
 -- Initialization failure, hiding failure, and failure after TakeItem all roll back.
-for _, failure in ipairs({ "native", "status", "take", "late_native", "late_status" }) do
+for _, failure in ipairs({ "status", "take", "late_status" }) do
     local hero, item = fixture()
-    if failure == "native" then hero.fail = NATIVE end
     if failure == "status" then hero.fail = STATUS end
     if failure == "take" then hero.fail_take = true end
-    if failure == "late_native" then hero.fail_after_take = NATIVE end
     if failure == "late_status" then hero.fail_after_take = STATUS end
     absorb(hero, item)
     assert(hero.slots[0] == item and not item._lv_hydras_breath_consumed, failure)
-    assert(#hero:FindAllModifiersByName(NATIVE) == 0, failure)
     assert(#hero:FindAllModifiersByName(STATUS) == 0, failure)
     assert(hero._lv_hydras_breath_item == nil, failure)
 end
@@ -144,3 +130,77 @@ do
     assert(hero.taken == 1 and hero.slots[1] == duplicate)
 end
 print("item_lv_hydras_breath lifecycle tests passed")
+
+DOTA_UNIT_TARGET_TEAM_ENEMY=1
+DOTA_UNIT_TARGET_HERO=1
+DOTA_UNIT_TARGET_BASIC=2
+DOTA_UNIT_TARGET_FLAG_FOW_VISIBLE=1
+DOTA_UNIT_TARGET_FLAG_NO_INVIS=2
+DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES=4
+DOTA_UNIT_TARGET_FLAG_NOT_ATTACK_IMMUNE=8
+FIND_CLOSEST=0
+local function position(x)
+    return setmetatable({x=x}, {__sub=function(a,b)
+        return {Length2D=function() return math.abs(a.x-b.x) end}
+    end})
+end
+local function target()
+    local t={}
+    function t:IsNull() return false end
+    function t:IsAlive() return not self.dead end
+    function t:GetTeamNumber() return 3 end
+    function t:IsInvulnerable() return self.invulnerable end
+    function t:IsAttackImmune() return self.immune end
+    function t:IsInvisible() return self.invisible end
+    function t:GetAbsOrigin() return position(self.x or 100) end
+    return t
+end
+do
+    local hero,item=fixture()
+    absorb(hero,item)
+    hero.attacks=0
+    function hero:IsRangedAttacker() return not self.melee end
+    function hero:GetTeamNumber() return 2 end
+    function hero:GetAbsOrigin() return position(0) end
+    function hero:Script_GetAttackRange() return 1400 end
+    function hero:CanEntityBeSeenByMyTeam(t) return not t.fog end
+    function item:GetSpecialValueFor(k) return ({count=10,secondary_target_range_bonus=150})[k] end
+    local primary=target()
+    local targets={primary}
+    for i=1,12 do targets[#targets+1]=target() end
+    table.insert(targets,3,targets[2])
+    function FindUnitsInRadius(team,pos,cache,radius,teams,types,flags)
+        assert(radius==1550 and types==3 and flags==15)
+        return targets
+    end
+    function hero:PerformAttack(t,orb,procs,skip,invis,projectile,fake,nevermiss)
+        assert(t~=primary and orb and procs and skip and not invis and projectile and not fake and not nevermiss)
+        self.attacks=self.attacks+1
+        LVHydrasBreathAttack({caster=self,attacker=self,ability=item,target=t})
+        if self.fail_attack then error('test attack failure') end
+    end
+    local keys={caster=hero,attacker=hero,ability=item,target=primary}
+    LVHydrasBreathAttack(keys)
+    assert(hero.attacks==10 and not hero._lv_hydras_breath_attacking)
+    hero.melee=true
+    LVHydrasBreathAttack(keys)
+    assert(hero.attacks==10)
+    hero.melee=false
+    hero.fail_attack=true
+    LVHydrasBreathAttack(keys)
+    assert(hero.attacks==11 and not hero._lv_hydras_breath_attacking)
+    hero.fail_attack=false
+    LVHydrasBreathAttack(keys)
+    assert(hero.attacks==21)
+    targets={primary}
+    for _,flag in ipairs({'dead','invulnerable','immune','invisible','fog'}) do
+        local t=target(); t[flag]=true; targets[#targets+1]=t
+    end
+    local far=target(); far.x=1600; targets[#targets+1]=far
+    LVHydrasBreathAttack(keys)
+    assert(hero.attacks==21)
+    targets[#targets+1]=target()
+    LVHydrasBreathAttack(keys)
+    assert(hero.attacks==22)
+end
+print('Hydra PerformAttack dispatch tests passed (engine substitutes)')

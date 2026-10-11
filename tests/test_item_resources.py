@@ -176,7 +176,7 @@ class ItemResources(unittest.TestCase):
         self.assertNotIn("%radius%", localized[0]["dota_tooltip_ability_item_lv_gem_description"])
         self.assertIn("全地图", localized[1]["dota_tooltip_ability_item_lv_gem_description"])
 
-    def test_hydra_permanent_range_and_native_values(self):
+    def test_hydra_permanent_range_and_multi_attack(self):
         item = dict(self.custom['item_lv_hydras_breath'])
         recipe = dict(self.custom['item_recipe_lv_hydras_breath'])
         self.assertEqual((item['ID'], recipe['ID']), ('10048', '10047'))
@@ -184,19 +184,15 @@ class ItemResources(unittest.TestCase):
         self.assertEqual(dict(recipe['ItemRequirements']), {'01': 'item_hydras_breath'})
         self.assertEqual((item['ItemCost'], recipe['ItemCost']), ('6900', '1000'))
         values = dict(item['AbilityValues'])
-        official = dict(dict(read_kv(BASELINE / 'scripts/npc/items.txt'))['DOTAAbilities'])
-        expected = dict(dict(official['item_hydras_breath'])['AbilityValues'])
-        expected.update(base_attack_range='0', permanent_attack_range='800',
-                        count='10', proc_chance='100', proc_dmg_pct='100',
-                        secondary_target_angle='360')
-        self.assertEqual(values, expected)
+        self.assertEqual(values, dict(permanent_attack_range='800', count='10',
+                                      secondary_target_range_bonus='150'))
         modifiers = dict(item['Modifiers'])
         status = dict(modifiers['modifier_item_lv_hydras_breath_consumed_status'])
         self.assertEqual((status['RemoveOnDeath'], status['IsPurgable']), ('0', '0'))
         self.assertEqual(dict(status['Properties']), {
             'MODIFIER_PROPERTY_ATTACK_RANGE_BONUS': '%permanent_attack_range'})
         pending = dict(modifiers['modifier_item_lv_hydras_breath_pending'])
-        for block, event in ((status, 'OnIntervalThink'), (pending, 'OnCreated'),
+        for block, event in ((status, 'OnAttack'), (pending, 'OnCreated'),
                              (pending, 'OnIntervalThink')):
             callback = dict(dict(block[event])['RunScript'])
             self.assertIn(callback['ScriptFile'], self.manifest)

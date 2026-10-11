@@ -815,22 +815,9 @@
 		"SpeciallyBannedFromNeutralSlot" "1"
 		"AbilityValues"
 		{
-			"strength"                     "15"
-			"agility"                      "30"
-			"damage"                       "25"
-			"base_count"                   "0"
+			"permanent_attack_range"       "800"
 			"count"                        "10"
 			"secondary_target_range_bonus" "150"
-			"secondary_target_angle"       "360"
-			"proc_chance"                  "100"
-			"proc_dmg_pct"                 "100"
-			"proc_dmg_pct_primary_tooltip"  "100"
-			"base_proc_dmg"                "20"
-			"base_attack_range"            "0"
-			"permanent_attack_range"       "800"
-			"poison_duration"              "3"
-			"poison_base_damage"           "0"
-			"poison_damage_per_second"     "2.5"
 		}
 		"Modifiers"
 		{
@@ -840,17 +827,16 @@
 				"IsDebuff"      "0"
 				"IsPurgable"    "0"
 				"RemoveOnDeath" "0"
-				"ThinkInterval" "0.25"
 				"Properties"
 				{
 					"MODIFIER_PROPERTY_ATTACK_RANGE_BONUS" "%permanent_attack_range"
 				}
-				"OnIntervalThink"
+				"OnAttack"
 				{
 					"RunScript"
 					{
 						"ScriptFile" "scripts/vscripts/lv/item_lv_hydras_breath.lua"
-						"Function"   "LVHydrasBreathEnsureActive"
+						"Function"   "LVHydrasBreathAttack"
 					}
 				}
 			}
