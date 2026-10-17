@@ -11,12 +11,18 @@ from urllib.request import Request, urlopen
 
 ROOT = Path(__file__).resolve().parents[1]
 FIRST_RELEASE = 'v0.1.0'
+PACKAGE_NAME = 'pak02_dir.vpk'
+CHECKSUM_NAME = PACKAGE_NAME + '.sha256'
+BUILD_INFO_NAME = PACKAGE_NAME + '.build-info.json'
 
 
-def release_notes(root, tag, repository, commit):
-    if not re.fullmatch(r'v\d+\.\d+\.\d+(?:-[0-9A-Za-z]+(?:[.-][0-9A-Za-z]+)*)?', tag):
+def release_notes(root, tag, repository, commit, test_build=False):
+    if test_build:
+        if not re.fullmatch(r'test-\d+-\d+', tag):
+            raise ValueError('Test release tags must use test-RUN_ID-RUN_ATTEMPT')
+    elif not re.fullmatch(r'v\d+\.\d+\.\d+(?:-[0-9A-Za-z]+(?:[.-][0-9A-Za-z]+)*)?', tag):
         raise ValueError('Use a version tag such as v0.1.0 or v0.2.0-rc.1')
-    if tag == FIRST_RELEASE:
+    if test_build or tag == FIRST_RELEASE:
         notes = (root / 'README.md').read_text(encoding='utf-8-sig')
     else:
         changelog = root / 'CHANGELOG.md'
@@ -49,6 +55,14 @@ def release_notes(root, tag, repository, commit):
     notes = re.sub(r'(\bsrc=")([^"]+)(")',
                    lambda m: m[1] + absolute(m[2], True) + m[3], notes)
     return notes.strip() + '\n'
+
+
+def release_body(notes, tag, repository):
+    base = f'https://github.com/{repository}/releases/download/{tag}'
+    downloads = '\n'.join(f'- [{name}]({base}/{name})'
+                          for name in (PACKAGE_NAME, CHECKSUM_NAME, BUILD_INFO_NAME))
+    heading = '测试版下载' if tag.startswith('test-') else '下载'
+    return f'## {heading}\n\n{downloads}\n\n---\n\n{notes}'
 
 
 def github_get(path):
@@ -85,13 +99,13 @@ def select_artifact(repository, commit, get=github_get):
 
 
 def verify_artifact(directory, commit):
-    expected = {'pak01_dir.vpk', 'SHA256SUMS', 'build-info.json'}
+    expected = {PACKAGE_NAME, CHECKSUM_NAME, BUILD_INFO_NAME}
     if {p.name for p in directory.iterdir()} != expected:
         raise ValueError('Unexpected release artifact contents')
     if any(p.is_symlink() or not p.is_file() for p in directory.iterdir()):
         raise ValueError('Release artifact must contain only regular files')
-    info = json.loads((directory / 'build-info.json').read_text(encoding='utf-8-sig'))
-    package = directory / 'pak01_dir.vpk'
+    info = json.loads((directory / BUILD_INFO_NAME).read_text(encoding='utf-8-sig'))
+    package = directory / PACKAGE_NAME
     if info['commit'] != commit or info['package'] != package.name or info['vpk_version'] != 1:
         raise ValueError('Artifact metadata does not match tagged commit or VPK format')
     with package.open('rb') as source:
@@ -102,9 +116,9 @@ def verify_artifact(directory, commit):
         for chunk in iter(lambda: source.read(1024 * 1024), b''):
             hasher.update(chunk)
         digest = hasher.hexdigest()
-    checksums = (directory / 'SHA256SUMS').read_text(encoding='utf-8-sig').strip()
+    checksums = (directory / CHECKSUM_NAME).read_text(encoding='utf-8-sig').strip()
     if (digest != info['sha256'] or package.stat().st_size != info['size_bytes'] or
-            checksums != f'{digest}  pak01_dir.vpk'):
+            checksums != f'{digest}  {PACKAGE_NAME}'):
         raise ValueError('Release artifact size or SHA256 mismatch')
     print(f'Verified tested artifact for commit {commit}: {digest}')
 
@@ -112,12 +126,16 @@ def verify_artifact(directory, commit):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     commands = parser.add_subparsers(dest='command', required=True)
-    prepare = commands.add_parser('prepare')
-    prepare.add_argument('--tag', required=True)
-    prepare.add_argument('--commit', required=True)
-    prepare.add_argument('--repository', required=True)
-    prepare.add_argument('--notes', type=Path, required=True)
-    prepare.add_argument('--github-output', type=Path, required=True)
+    for command in ('prepare', 'prepare-test'):
+        prepare = commands.add_parser(command)
+        prepare.add_argument('--tag', required=True)
+        prepare.add_argument('--commit', required=True)
+        prepare.add_argument('--repository', required=True)
+        prepare.add_argument('--notes', type=Path, required=True)
+        prepare.add_argument('--github-output', type=Path, required=True)
+        if command == 'prepare-test':
+            prepare.add_argument('--run-id', type=int, required=True)
+            prepare.add_argument('--artifact-id', type=int, required=True)
     verify = commands.add_parser('verify')
     verify.add_argument('--directory', type=Path, required=True)
     verify.add_argument('--commit', required=True)
@@ -125,12 +143,18 @@ def main():
     if args.command == 'verify':
         verify_artifact(args.directory, args.commit)
         return
-    notes = release_notes(ROOT, args.tag, args.repository, args.commit)
-    run_id, artifact_id = select_artifact(args.repository, args.commit)
+    test_build = args.command == 'prepare-test'
+    notes = release_notes(ROOT, args.tag, args.repository, args.commit, test_build=test_build)
+    if test_build:
+        run_id, artifact_id = args.run_id, args.artifact_id
+        if run_id <= 0 or artifact_id <= 0 or not args.tag.startswith(f'test-{run_id}-'):
+            raise ValueError('Test release must reference the current manual build and a valid artifact ID')
+    else:
+        run_id, artifact_id = select_artifact(args.repository, args.commit)
     args.notes.parent.mkdir(parents=True, exist_ok=True)
-    args.notes.write_text(notes, encoding='utf-8')
+    args.notes.write_text(release_body(notes, args.tag, args.repository), encoding='utf-8')
     with args.github_output.open('a', encoding='utf-8') as output:
-        output.write(f'run_id={run_id}\nartifact_id={artifact_id}\n')
+        output.write(f'run_id={run_id}\nartifact_id={artifact_id}\ntag={args.tag}\n')
     print(f'Promoting artifact {artifact_id} from manual run {run_id}')
 
 

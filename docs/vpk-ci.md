@@ -10,25 +10,30 @@ VPKEdit 固定到 `v5.0.0.4`（应用版本 5.0.0 beta 4），下载文件为 `V
 
 更新 CLI 时需要同时更新工作流中的 `VPKEDIT_TAG` 和对应 Linux ZIP 的 `VPKEDIT_SHA256`，并重新检查打包兼容性。
 
-## 先手动构建，再测试
+## 手动构建与测试版发布
 
 1. 将工作流及相关源码提交并推送到 GitHub。普通分支推送不会自动打包或发布。
-2. 进入仓库 **Actions → Build VPK → Run workflow**，选择分支后手动运行。手动运行按钮要求工作流已经存在于默认分支。
-3. 构建成功后，打开该次运行，在 **Artifacts** 中下载 `overforged-vpk-…`，解压后得到：
+2. 进入仓库 **Actions → Build VPK → Run workflow**，选择分支。默认勾选“发布为测试版 Release”，构建成功后会自动发布测试版；取消勾选则只生成 Artifact。手动运行按钮要求工作流已经存在于默认分支。
+3. 测试版使用唯一标签 `test-运行编号-重跑次数`，例如 `test-123456789-1`，指向本次实际构建的提交。发布说明使用该提交的 README，不需要 CHANGELOG；标记为预发布，不占用正式版 latest，也不会再次触发 `v*` 标签工作流。
+4. 从 Release 附件直接下载 VPK 即可测试，无需解压。无论是否发布测试版，工作流也会保留 Artifact，供后续正式版直接复用。
+
+Release 与 Artifact 均包含以下三个文件：
 
 | 文件 | 内容 |
 | --- | --- |
-| `pak01_dir.vpk` | `packaging/items.txt` 指定的装备资源包，VPK v1 单文件 |
-| `SHA256SUMS` | 完整 VPK 文件的 SHA256 |
-| `build-info.json` | 源码提交、构建时间、工作流地址、工具版本、文件大小与哈希 |
+| `pak02_dir.vpk` | `packaging/items.txt` 指定的装备资源包，VPK v1 单文件 |
+| `pak02_dir.vpk.sha256` | 完整 VPK 文件的 SHA256 |
+| `pak02_dir.vpk.build-info.json` | 源码提交、构建时间、工作流地址、工具版本、文件大小与哈希 |
 
-产物保留 14 天。下载通常需要登录并具有仓库访问权限。记下 `build-info.json` 的 `commit`，安装这个 Artifact 中的 VPK 并自行完成游戏内测试；手动构建本身不会创建 Release。
+Release 分别上传这三个原始文件，不上传 ZIP。VPK 最先上传；三个附件使用共同前缀，使 GitHub 按文件名排序时 VPK 位于第一位，发布说明顶部也提供按 VPK、校验、构建信息排列的下载链接。GitHub 自带的 Source code ZIP/TAR 是平台生成的源码快照，不是本工作流上传的分发包。
+
+Artifact 保留 14 天，网页下载仍由 GitHub 打成 ZIP，下载通常需要登录并具有仓库访问权限；需要直接下载单个 VPK 时使用 Release。记下 `pak02_dir.vpk.build-info.json` 的 `commit`，安装并自行完成游戏内测试。
 
 ## 测试通过后，推送版本标签
 
 给测试通过的 **同一个 commit** 打标签并推送。首版使用 `v0.1.0`，发布说明直接读取该提交的 `README.md`，现在不需要创建 `CHANGELOG.md`。
 
-例如在 PowerShell 中，先将下面的提交值替换为 `build-info.json` 中的完整 `commit`，再执行：
+例如在 PowerShell 中，先将下面的提交值替换为 `pak02_dir.vpk.build-info.json` 中的完整 `commit`，再执行：
 
 ```powershell
 $testedCommit = '替换为测试通过的完整提交 SHA'
@@ -41,7 +46,7 @@ git push origin v0.1.0
 1. 检出标签指向的提交，读取对应发布说明。
 2. 找到该提交最近一次成功的手动构建，下载它的 Artifact。
 3. 再次核对 VPK 版本、源码提交、文件大小与 SHA256。
-4. 创建 Release 草稿，附上说明与 `pak01_dir.vpk`、`SHA256SUMS`、`build-info.json`；附件上传完成后自动正式发布。
+4. 创建 Release 草稿，附上说明与上述三个独立文件；附件上传完成后自动正式发布。
 
 发布阶段不重新打包，确保发布的是已供测试的同一份文件。若同一提交有多次手动构建，请测试最近一次成功构建的 Artifact。找不到成功构建、产物过期或文件校验不符时会停止发布；需要重新构建并测试，再重跑失败的标签工作流。
 
@@ -73,9 +78,9 @@ git push origin v0.1.0
 
 工作流依次执行源码静态检查、映射打包回归和装备包构建。沿用现有流程收拢 VPK 分块，并核对 CRC、包内文件清单和各文件源码 SHA256；全部通过后才上传产物。
 
-手动构建调用的是 `scripts/Build-LvVpk.ps1 -PackageOnly`，不需要安装 Dota 2，不会向本地游戏目录部署。只有推送版本标签才会发布 GitHub Release；不会上传 Workshop 或发布网站。构建成功仍需独立进行游戏内验证。
+手动构建调用的是 `scripts/Build-LvVpk.ps1 -PackageOnly`，不需要安装 Dota 2，不会向本地游戏目录部署。手动勾选发布会创建测试版 Release，推送版本标签则发布对应正式版或预发布版；不会上传 Workshop 或发布网站。这里将 CI 分发产物命名为 `pak02_dir.vpk`，本地部署脚本的现有默认路径保持原样。
 
-首次 Linux 云端运行结果需在推送后确认；本机 Windows 检查不能代替 Linux 构建成功记录。
+用户已确认前一版 Linux 云端构建的 VPK 可正常使用；本轮新增的手动测试版发布与附件命名仍需推送后运行验收。
 
 ## 官方资料
 

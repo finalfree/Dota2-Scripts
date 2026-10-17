@@ -2,6 +2,11 @@ name: Build VPK
 
 on:
   workflow_dispatch:
+    inputs:
+      publish_test:
+        description: '发布为测试版 Release（取消则仅生成 Artifact）'
+        type: boolean
+        default: true
   push:
     tags:
       - 'v*'
@@ -19,6 +24,8 @@ jobs:
     name: Package and verify (Linux)
     runs-on: ubuntu-24.04
     timeout-minutes: 20
+    outputs:
+      artifact_id: ${{ steps.upload.outputs.artifact-id }}
     env:
       # The upstream release tag for the locally used 5.0.0 beta 4.
       VPKEDIT_TAG: v5.0.0.4
@@ -71,7 +78,7 @@ jobs:
         run: |
           $ErrorActionPreference = 'Stop'
           $cli = Join-Path $env:RUNNER_TEMP 'vpkedit/vpkeditcli'
-          $output = Join-Path $env:GITHUB_WORKSPACE 'bin/ci-package/pak01_dir.vpk'
+          $output = Join-Path $env:GITHUB_WORKSPACE 'bin/ci-package/pak02_dir.vpk'
           # Call the shared builder directly; CI must never deploy to a game directory.
           ./scripts/Build-LvVpk.ps1 -PackageOnly -OutputPath $output -VpkEditCli $cli
 
@@ -81,7 +88,7 @@ jobs:
           "commit=$commit" | Add-Content -LiteralPath $env:GITHUB_OUTPUT
           $hash = (Get-FileHash -Algorithm SHA256 -LiteralPath $output).Hash.ToLowerInvariant()
           $directory = $package.Directory.FullName
-          [IO.File]::WriteAllText((Join-Path $directory 'SHA256SUMS'), "$hash  pak01_dir.vpk`n")
+          [IO.File]::WriteAllText((Join-Path $directory 'pak02_dir.vpk.sha256'), "$hash  pak02_dir.vpk`n")
           $info = [ordered]@{
             commit = $commit
             ref = $env:GITHUB_REF
@@ -93,7 +100,7 @@ jobs:
             size_bytes = $package.Length
             sha256 = $hash
           }
-          $info | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $directory 'build-info.json') -Encoding utf8
+          $info | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $directory 'pak02_dir.vpk.build-info.json') -Encoding utf8
           @"
           ## Verified VPK package
 
@@ -103,24 +110,29 @@ jobs:
           - SHA256: $hash
           - Checks passed: VPKEdit CRC, package file list, payload SHA256
 
-          Download the artifact below for the VPK, SHA256SUMS and build-info.json.
+          Download the artifact below for pak02_dir.vpk and its checksum/build information.
           "@ | Add-Content -LiteralPath $env:GITHUB_STEP_SUMMARY
 
       - name: Upload verified package
+        id: upload
         uses: actions/upload-artifact@v4
         with:
           name: overforged-vpk-${{ steps.package.outputs.commit }}-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
-            bin/ci-package/pak01_dir.vpk
-            bin/ci-package/SHA256SUMS
-            bin/ci-package/build-info.json
+            bin/ci-package/pak02_dir.vpk
+            bin/ci-package/pak02_dir.vpk.sha256
+            bin/ci-package/pak02_dir.vpk.build-info.json
           if-no-files-found: error
           compression-level: 0
           retention-days: 14
 
   release:
-    name: Publish tested artifact
-    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
+    name: Publish Release
+    needs: package
+    if: >-
+      always() && !cancelled() &&
+      ((github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')) ||
+       (github.event_name == 'workflow_dispatch' && inputs.publish_test && needs.package.result == 'success'))
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     permissions:
@@ -128,13 +140,12 @@ jobs:
       contents: write
     env:
       GH_TOKEN: ${{ github.token }}
-      RELEASE_TAG: ${{ github.ref_name }}
       PYTHONUTF8: '1'
     defaults:
       run:
         shell: bash
     steps:
-      - name: Check out tagged sources
+      - name: Check out release sources
         uses: actions/checkout@v4
         with:
           persist-credentials: false
@@ -144,18 +155,29 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Select successful manual build and prepare release notes
+      - name: Select build and prepare release notes
         id: source
+        env:
+          MANUAL_ARTIFACT_ID: ${{ needs.package.outputs.artifact_id }}
+          VERSION_TAG: ${{ github.ref_name }}
         run: |
           set -euo pipefail
           # Peel annotated tags too: compare commit IDs, not tag object IDs.
           commit="$(git rev-parse HEAD)"
-          python scripts/release_vpk.py prepare \
-            --tag "$RELEASE_TAG" --commit "$commit" \
-            --repository "$GITHUB_REPOSITORY" \
-            --notes bin/release-notes.md --github-output "$GITHUB_OUTPUT"
+          if [[ "$GITHUB_EVENT_NAME" == workflow_dispatch ]]; then
+            python scripts/release_vpk.py prepare-test \
+              --tag "test-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}" \
+              --run-id "$GITHUB_RUN_ID" --artifact-id "$MANUAL_ARTIFACT_ID" \
+              --commit "$commit" --repository "$GITHUB_REPOSITORY" \
+              --notes bin/release-notes.md --github-output "$GITHUB_OUTPUT"
+          else
+            python scripts/release_vpk.py prepare \
+              --tag "$VERSION_TAG" --commit "$commit" \
+              --repository "$GITHUB_REPOSITORY" \
+              --notes bin/release-notes.md --github-output "$GITHUB_OUTPUT"
+          fi
 
-      - name: Download the tested artifact
+      - name: Download selected artifact
         uses: actions/download-artifact@v4
         with:
           artifact-ids: ${{ steps.source.outputs.artifact_id }}
@@ -172,20 +194,28 @@ jobs:
             --commit "$(git rev-parse HEAD)"
 
       - name: Publish GitHub Release
+        env:
+          RELEASE_TAG: ${{ steps.source.outputs.tag }}
         run: |
           set -euo pipefail
           options=()
-          if [[ "$RELEASE_TAG" == *-* ]]; then
+          tag_options=(--verify-tag)
+          if [[ "$GITHUB_EVENT_NAME" == workflow_dispatch ]]; then
+            # Unique test tags are created on the exact build commit, not the branch tip.
+            tag_options=(--target "$(git rev-parse HEAD)")
+          fi
+          if [[ "$GITHUB_EVENT_NAME" == workflow_dispatch || "$RELEASE_TAG" == *-* ]]; then
             options+=(--prerelease --latest=false)
           fi
-          # Never create/move tags or overwrite an existing published release.
+          # Formal version tags must exist; manual test tags are created above.
+          # Existing published releases are never overwritten.
           gh release create "$RELEASE_TAG" --draft \
-            --repo "$GITHUB_REPOSITORY" --verify-tag \
+            --repo "$GITHUB_REPOSITORY" "${tag_options[@]}" \
             --title "$RELEASE_TAG" --notes-file bin/release-notes.md \
             "${options[@]}" \
-            bin/release-package/pak01_dir.vpk \
-            bin/release-package/SHA256SUMS \
-            bin/release-package/build-info.json
+            bin/release-package/pak02_dir.vpk \
+            bin/release-package/pak02_dir.vpk.sha256 \
+            bin/release-package/pak02_dir.vpk.build-info.json
           # Publish only after all three attachments have finished uploading.
           gh release edit "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" \
             --draft=false "${options[@]}"

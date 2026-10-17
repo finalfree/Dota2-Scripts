@@ -161,7 +161,7 @@
 
 详细流程见 [VPK 打包与部署](docs/vpk-packaging.md)。部署脚本会检查游戏进程、备份旧包并校验哈希。
 
-也可以使用 [GitHub Actions 打包与发布](docs/vpk-ci.md)：手动构建后下载 Artifact 测试，确认通过再给同一提交打版本标签，自动将已测试的包发布到 Release。首版 `v0.1.0` 使用本 README 作为发布说明。
+也可以使用 [GitHub Actions 打包与发布](docs/vpk-ci.md)：手动运行时默认发布测试版，直接下载 `pak02_dir.vpk` 即可试用；取消发布选项则只生成 Artifact。测试通过后给同一提交打版本标签，自动发布已测试的包。首版 `v0.1.0` 使用本 README 作为发布说明。
 
 ## 项目资源
 

@@ -5,9 +5,10 @@ from pathlib import Path
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
-from release_vpk import release_notes, select_artifact, verify_artifact
+from release_vpk import release_notes, release_body, select_artifact, verify_artifact, main
 
 
 class ReleaseNotesTests(unittest.TestCase):
@@ -51,6 +52,45 @@ class ReleaseNotesTests(unittest.TestCase):
             with self.subTest(tag=tag), self.assertRaises(ValueError):
                 self.notes(tag)
 
+    def test_test_release_uses_readme_without_changelog(self):
+        (self.root / 'README.md').write_text('# Test build\n', encoding='utf-8')
+        notes = release_notes(self.root, 'test-42-2', 'owner/repo', 'a' * 40, test_build=True)
+        self.assertEqual('# Test build\n', notes)
+        with self.assertRaises(ValueError):
+            release_notes(self.root, 'v0.1.0', 'owner/repo', 'a' * 40, test_build=True)
+
+    def test_release_downloads_are_individual_files_with_vpk_first(self):
+        body = release_body('Notes\n', 'v0.1.0', 'owner/repo')
+        downloads = [line for line in body.splitlines() if line.startswith('- [')]
+        self.assertEqual(3, len(downloads))
+        self.assertEqual('- [pak02_dir.vpk](https://github.com/owner/repo/releases/download/v0.1.0/pak02_dir.vpk)', downloads[0])
+        self.assertNotIn('.zip', body)
+        self.assertEqual('pak02_dir.vpk', sorted(['pak02_dir.vpk.sha256', 'pak02_dir.vpk',
+                                               'pak02_dir.vpk.build-info.json'])[0])
+
+    def test_manual_prepare_uses_current_artifact_without_selecting_history(self):
+        (self.root / 'README.md').write_text('# Test build\n', encoding='utf-8')
+        notes = self.root / 'notes.md'
+        output = self.root / 'output.txt'
+        arguments = ['release_vpk.py', 'prepare-test', '--tag', 'test-42-2',
+                     '--commit', 'abc', '--repository', 'owner/repo', '--run-id', '42',
+                     '--artifact-id', '123', '--notes', str(notes), '--github-output', str(output)]
+        with patch('release_vpk.ROOT', self.root), patch('sys.argv', arguments), patch('release_vpk.select_artifact') as select:
+            main()
+            select.assert_not_called()
+        self.assertEqual('run_id=42\nartifact_id=123\ntag=test-42-2\n', output.read_text(encoding='utf-8'))
+        self.assertIn('## 测试版下载', notes.read_text(encoding='utf-8'))
+
+    def test_manual_prepare_rejects_mismatched_run_or_missing_artifact(self):
+        (self.root / 'README.md').write_text('# Test build\n', encoding='utf-8')
+        for run_id, artifact_id in [('43', '123'), ('42', '0')]:
+            arguments = ['release_vpk.py', 'prepare-test', '--tag', 'test-42-2',
+                         '--commit', 'abc', '--repository', 'owner/repo', '--run-id', run_id,
+                         '--artifact-id', artifact_id, '--notes', str(self.root / 'notes.md'),
+                         '--github-output', str(self.root / 'output.txt')]
+            with self.subTest(run_id=run_id, artifact_id=artifact_id), patch('release_vpk.ROOT', self.root), patch('sys.argv', arguments), self.assertRaises(ValueError):
+                main()
+
 
 class BuildSelectionTests(unittest.TestCase):
     def select(self, runs=None, expired=False, artifact_name=None):
@@ -93,15 +133,15 @@ class ArtifactVerificationTests(unittest.TestCase):
         self.directory = Path(self.temp.name)
         self.data = bytes.fromhex('3412aa5501000000') + b'tested payload'
         self.digest = hashlib.sha256(self.data).hexdigest()
-        self.package = self.directory / 'pak01_dir.vpk'
+        self.package = self.directory / 'pak02_dir.vpk'
         self.package.write_bytes(self.data)
-        self.info = {'commit': 'abc', 'package': 'pak01_dir.vpk', 'vpk_version': 1,
+        self.info = {'commit': 'abc', 'package': 'pak02_dir.vpk', 'vpk_version': 1,
                      'size_bytes': len(self.data), 'sha256': self.digest}
         self.write_info()
-        (self.directory / 'SHA256SUMS').write_text(f'{self.digest}  pak01_dir.vpk\n', encoding='utf-8')
+        (self.directory / 'pak02_dir.vpk.sha256').write_text(f'{self.digest}  pak02_dir.vpk\n', encoding='utf-8')
 
     def write_info(self):
-        (self.directory / 'build-info.json').write_text(json.dumps(self.info), encoding='utf-8-sig')
+        (self.directory / 'pak02_dir.vpk.build-info.json').write_text(json.dumps(self.info), encoding='utf-8-sig')
 
     def test_valid_package_passes(self):
         verify_artifact(self.directory, 'abc')
@@ -114,7 +154,7 @@ class ArtifactVerificationTests(unittest.TestCase):
             verify_artifact(self.directory, 'abc')
 
     def test_modified_checksum_cannot_publish(self):
-        (self.directory / 'SHA256SUMS').write_text('0' * 64 + '  pak01_dir.vpk\n', encoding='utf-8')
+        (self.directory / 'pak02_dir.vpk.sha256').write_text('0' * 64 + '  pak02_dir.vpk\n', encoding='utf-8')
         with self.assertRaises(ValueError):
             verify_artifact(self.directory, 'abc')
 
