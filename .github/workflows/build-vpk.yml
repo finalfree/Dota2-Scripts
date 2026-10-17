@@ -1,0 +1,191 @@
+name: Build VPK
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: build-vpk-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  package:
+    if: github.event_name == 'workflow_dispatch'
+    name: Package and verify (Linux)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      # The upstream release tag for the locally used 5.0.0 beta 4.
+      VPKEDIT_TAG: v5.0.0.4
+      VPKEDIT_SHA256: 66fdc296d637afb771723134a35e8bf532eebd98fb7479dc33b37701b165b981
+      PYTHONUTF8: '1'
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - name: Check out sources
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install official VPKEdit Linux CLI
+        run: |
+          set -euo pipefail
+          archive="$RUNNER_TEMP/vpkedit-linux.zip"
+          tool_dir="$RUNNER_TEMP/vpkedit"
+          curl --fail --location --retry 3 \
+            "https://github.com/craftablescience/VPKEdit/releases/download/${VPKEDIT_TAG}/VPKEdit-Linux-Standalone-gcc-Release.zip" \
+            --output "$archive"
+          printf '%s  %s\n' "$VPKEDIT_SHA256" "$archive" | sha256sum --check
+          mkdir -p "$tool_dir"
+          unzip -q "$archive" -d "$tool_dir"
+          chmod +x "$tool_dir/vpkeditcli"
+          "$tool_dir/vpkeditcli" --help
+          pwsh -NoProfile -Command '$PSVersionTable.PSVersion.ToString()'
+
+      - name: Validate addon sources
+        run: |
+          python -X utf8 scripts/validate_addon.py
+          python -X utf8 -m unittest discover -s tests -p 'test_release_vpk.py' -v
+
+      - name: Exercise mapped packaging and verification
+        shell: pwsh
+        run: |
+          $cli = Join-Path $env:RUNNER_TEMP 'vpkedit/vpkeditcli'
+          ./tests/test_mapped_packaging.ps1 -VpkEditCli $cli
+
+      - name: Build VPK v1 and write checksums
+        id: package
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $cli = Join-Path $env:RUNNER_TEMP 'vpkedit/vpkeditcli'
+          $output = Join-Path $env:GITHUB_WORKSPACE 'bin/ci-package/pak01_dir.vpk'
+          # Call the shared builder directly; CI must never deploy to a game directory.
+          ./scripts/Build-LvVpk.ps1 -PackageOnly -OutputPath $output -VpkEditCli $cli
+
+          $package = Get-Item -LiteralPath $output
+          $commit = (git rev-parse HEAD).Trim()
+          if ($LASTEXITCODE -ne 0) { throw 'Could not resolve source commit' }
+          "commit=$commit" | Add-Content -LiteralPath $env:GITHUB_OUTPUT
+          $hash = (Get-FileHash -Algorithm SHA256 -LiteralPath $output).Hash.ToLowerInvariant()
+          $directory = $package.Directory.FullName
+          [IO.File]::WriteAllText((Join-Path $directory 'SHA256SUMS'), "$hash  pak01_dir.vpk`n")
+          $info = [ordered]@{
+            commit = $commit
+            ref = $env:GITHUB_REF
+            run_url = "$env:GITHUB_SERVER_URL/$env:GITHUB_REPOSITORY/actions/runs/$env:GITHUB_RUN_ID"
+            built_at = [DateTime]::UtcNow.ToString('o')
+            vpkedit_tag = $env:VPKEDIT_TAG
+            vpk_version = 1
+            package = $package.Name
+            size_bytes = $package.Length
+            sha256 = $hash
+          }
+          $info | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $directory 'build-info.json') -Encoding utf8
+          @"
+          ## Verified VPK package
+
+          - Source commit: $commit
+          - Format: VPK v1, single file
+          - Size: $($package.Length) bytes
+          - SHA256: $hash
+          - Checks passed: VPKEdit CRC, package file list, payload SHA256
+
+          Download the artifact below for the VPK, SHA256SUMS and build-info.json.
+          "@ | Add-Content -LiteralPath $env:GITHUB_STEP_SUMMARY
+
+      - name: Upload verified package
+        uses: actions/upload-artifact@v4
+        with:
+          name: overforged-vpk-${{ steps.package.outputs.commit }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            bin/ci-package/pak01_dir.vpk
+            bin/ci-package/SHA256SUMS
+            bin/ci-package/build-info.json
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 14
+
+  release:
+    name: Publish tested artifact
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      actions: read
+      contents: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      RELEASE_TAG: ${{ github.ref_name }}
+      PYTHONUTF8: '1'
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Check out tagged sources
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Select successful manual build and prepare release notes
+        id: source
+        run: |
+          set -euo pipefail
+          # Peel annotated tags too: compare commit IDs, not tag object IDs.
+          commit="$(git rev-parse HEAD)"
+          python scripts/release_vpk.py prepare \
+            --tag "$RELEASE_TAG" --commit "$commit" \
+            --repository "$GITHUB_REPOSITORY" \
+            --notes bin/release-notes.md --github-output "$GITHUB_OUTPUT"
+
+      - name: Download the tested artifact
+        uses: actions/download-artifact@v4
+        with:
+          artifact-ids: ${{ steps.source.outputs.artifact_id }}
+          run-id: ${{ steps.source.outputs.run_id }}
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          path: bin/release-package
+          merge-multiple: true
+
+      - name: Verify artifact matches tagged commit and checksum
+        run: |
+          python scripts/release_vpk.py verify \
+            --directory bin/release-package \
+            --commit "$(git rev-parse HEAD)"
+
+      - name: Publish GitHub Release
+        run: |
+          set -euo pipefail
+          options=()
+          if [[ "$RELEASE_TAG" == *-* ]]; then
+            options+=(--prerelease --latest=false)
+          fi
+          # Never create/move tags or overwrite an existing published release.
+          gh release create "$RELEASE_TAG" --draft \
+            --repo "$GITHUB_REPOSITORY" --verify-tag \
+            --title "$RELEASE_TAG" --notes-file bin/release-notes.md \
+            "${options[@]}" \
+            bin/release-package/pak01_dir.vpk \
+            bin/release-package/SHA256SUMS \
+            bin/release-package/build-info.json
+          # Publish only after all three attachments have finished uploading.
+          gh release edit "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" \
+            --draft=false "${options[@]}"
