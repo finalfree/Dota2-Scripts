@@ -6,6 +6,17 @@
 
 不需要自建 Docker 镜像。GitHub 的 Ubuntu 24.04 构建机已预装 PowerShell；工作流用 `actions/setup-python` 配置 Python 3.12，然后下载 VPKEdit 官方 Linux x86_64 独立发行包。
 
+2026-10-20 将官方 Action 升级为使用 Node.js 24 的版本，并按大版本引用，跟随官方维护的版本标签获得同一大版本内的更新：
+
+| Action | 版本 | 内置运行时 |
+| --- | --- | --- |
+| `actions/checkout` | `v7` | Node.js 24 |
+| `actions/setup-python` | `v7` | Node.js 24 |
+| `actions/upload-artifact` | `v7` | Node.js 24 |
+| `actions/download-artifact` | `v8` | Node.js 24 |
+
+Node.js 是这些 Action 自身的运行时，不需要给打包流程额外安装 Node.js。Node.js 24 Action 要求 Actions Runner 至少为 `2.327.1`，此前云端日志中的 `2.337.0` 满足要求。当前使用的输入参数与 Artifact ID 输出在上述版本中仍受支持；上传继续按默认归档格式保存内部 Artifact，Release 仍分发三个独立文件。
+
 VPKEdit 固定到 `v5.0.0.4`（应用版本 5.0.0 beta 4），下载文件为 `VPKEdit-Linux-Standalone-gcc-Release.zip`。工作流先比对固定 SHA256，再解压使用其中的 `vpkeditcli`，无需安装 GUI。
 
 更新 CLI 时需要同时更新工作流中的 `VPKEDIT_TAG` 和对应 Linux ZIP 的 `VPKEDIT_SHA256`，并重新检查打包兼容性。
