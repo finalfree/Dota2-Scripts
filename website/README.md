@@ -2,6 +2,8 @@
 
 纯 HTML、CSS、JavaScript，无前端框架、依赖安装或服务端逻辑。`dist/` 是可以直接部署的完整网站，图片随站点提供，不依赖外部字体或图片服务。
 
+下一版计划评估简洁的现代框架，将数据和页面组件整理为更易学习、维护的工程；详见 [项目待办](../TODO.md)。迁移前继续使用本文的无构建部署方式。
+
 ## 本地预览
 
 在仓库根目录运行：
@@ -53,6 +55,8 @@ Git 集成的生产分支请选择 `addons`，网站源码在此分支，`main` 
 
 若部署平台提供“安装命令 / 构建命令 / 静态资源目录”这类表单（如 ESA Pages），安装与构建命令都留空；若不允许留空，可分别填 `echo skip`。根目录选择 `website`，静态资源目录填 `dist`，函数文件路径和环境变量留空。此站点没有 `package.json`，不应使用默认的 `npm install` 或 `npm run build`。
 
-下载按钮直接指向 `https://github.com/finalfree/Dota2-Scripts/releases/latest/download/pak02_dir.vpk`，朋友无需先打开版本列表。下载区域采用单栏，安装说明在下载按钮上方展示。VPK 仍由 GitHub Release 分发，不放入站点。
+下载按钮直接指向用户配置的 ESA 加速地址 `https://gh.lighten.top/finalfree/Dota2-Scripts/releases/latest/download/pak02_dir.vpk`，朋友无需先打开版本列表。下载区域采用单栏，安装说明在下载按钮上方展示。VPK 源文件由 GitHub Release 分发，不放入站点。
+
+页头提供 GitHub 图标入口，页脚提供开源仓库卡片，均指向 `https://github.com/finalfree/Dota2-Scripts`。
 
 当前为本地设计预览，未创建云端 Site、部署 Workers 或修改发布工作流。

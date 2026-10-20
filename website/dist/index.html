@@ -14,6 +14,7 @@
 <body>
   <a class="skip-link" href="#main">跳至正文</a>
   <svg class="icon-library" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <symbol id="github" viewBox="0 0 16 16"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82A7.65 7.65 0 0 1 8 3.46c.68 0 1.36.09 2 .26 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></symbol>
     <symbol id="mark" viewBox="0 0 40 44"><path d="M5 3h13L9 17l13-6 13 6-8 8 8 16H22l-7-14-10 9V22l9-8z" fill="currentColor"/></symbol>
     <symbol id="arrow" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.5"/></symbol>
     <symbol id="gem" viewBox="0 0 64 64"><path d="m32 5 21 20-21 34L11 25 32 5Zm0 0 8 20-8 34-8-34m-13 0h42" fill="none" stroke="currentColor" stroke-width="1.5"/></symbol>
@@ -26,7 +27,7 @@
     <div class="header-inner">
       <a class="brand" href="#" aria-label="超限武装首页"><svg><use href="#mark"/></svg><span>OVERFORGED<small>超 限 武 装</small></span></a>
       <nav aria-label="主导航"><a href="#ascension">永久进化</a><a href="#arsenal">融合神装</a><a href="#upgrades">装备图鉴</a></nav>
-      <a class="header-download" href="#download">下载补丁 <span>↗</span></a>
+      <div class="header-actions"><a class="header-github" href="https://github.com/finalfree/Dota2-Scripts" target="_blank" rel="noopener noreferrer" aria-label="在 GitHub 查看超限武装开源仓库" title="GitHub 开源仓库"><svg aria-hidden="true"><use href="#github"/></svg><span>GitHub</span></a><a class="header-download" href="#download">下载补丁 <span>↗</span></a></div>
     </div>
   </header>
 
@@ -87,13 +88,13 @@
             <div class="install-path"><code>X:\SteamLibrary\steamapps\common\dota 2 beta\game\dota_schinese</code></div>
             <p class="installation-note"><code>X:</code> 请替换为你的 Steam 游戏库实际所在盘符。最终文件位置为上述目录下的 <code>pak02_dir.vpk</code>。</p>
           </div>
-          <a class="button button-primary" href="https://github.com/finalfree/Dota2-Scripts/releases/latest/download/pak02_dir.vpk">下载补丁包 <svg><use href="#arrow"/></svg></a>
+          <a class="button button-primary" href="https://gh.lighten.top/finalfree/Dota2-Scripts/releases/latest/download/pak02_dir.vpk">下载补丁包 <svg><use href="#arrow"/></svg></a>
         </div>
       </div>
     </section>
   </main>
 
-  <footer class="container"><a class="brand footer-brand" href="#"><svg><use href="#mark"/></svg><span>OVERFORGED<small>超 限 武 装</small></span></a><p>玩家创作的 Dota 2 本地装备模组。<br>Dota 2 及相关商标归 Valve 所有，本项目与 Valve 无关联。</p><a href="https://github.com/finalfree/Dota2-Scripts" target="_blank" rel="noopener noreferrer">项目源码 ↗</a></footer>
+  <footer class="container"><a class="brand footer-brand" href="#"><svg><use href="#mark"/></svg><span>OVERFORGED<small>超 限 武 装</small></span></a><p>玩家创作的 Dota 2 本地装备模组。<br>Dota 2 及相关商标归 Valve 所有，本项目与 Valve 无关联。</p><a class="footer-github" href="https://github.com/finalfree/Dota2-Scripts" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true"><use href="#github"/></svg><span><strong>GitHub 开源仓库</strong><small>finalfree / Dota2-Scripts</small></span><span class="repo-arrow" aria-hidden="true">↗</span></a></footer>
 
   <dialog id="item-dialog" aria-labelledby="dialog-title"><button class="dialog-close" aria-label="关闭装备详情">×</button><div id="dialog-content"></div></dialog>
   <noscript><p class="noscript">启用 JavaScript 可查看完整装备图鉴与详情。你也可以<a href="https://github.com/finalfree/Dota2-Scripts">在 GitHub 查看完整说明</a>。</p></noscript>
