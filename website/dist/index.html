@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#101112">
+  <meta name="description" content="超限武装 Overforged：Dota 2 本地装备补丁。探索融合神装、永久吸收能力与完整升级数值。">
+  <title>超限武装 OVERFORGED — 神装之上，再铸极限</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+  <script src="data.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">跳至正文</a>
+  <svg class="icon-library" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <symbol id="mark" viewBox="0 0 40 44"><path d="M5 3h13L9 17l13-6 13 6-8 8 8 16H22l-7-14-10 9V22l9-8z" fill="currentColor"/></symbol>
+    <symbol id="arrow" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.5"/></symbol>
+    <symbol id="gem" viewBox="0 0 64 64"><path d="m32 5 21 20-21 34L11 25 32 5Zm0 0 8 20-8 34-8-34m-13 0h42" fill="none" stroke="currentColor" stroke-width="1.5"/></symbol>
+    <symbol id="eye" viewBox="0 0 64 64"><path d="M5 32S16 14 32 14s27 18 27 18-11 18-27 18S5 32 5 32Z" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="32" cy="32" r="10" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M32 6v8m0 36v8M8 12l9 9m30 22 9 9M56 12l-9 9M17 43l-9 9" stroke="currentColor" stroke-width="1.5"/></symbol>
+    <symbol id="shield" viewBox="0 0 64 64"><path d="m32 5 23 9v18c0 14-23 26-23 26S9 46 9 32V14L32 5Zm0 0v53M15 29h34M23 19l18 24M41 19 23 43" fill="none" stroke="currentColor" stroke-width="1.5"/></symbol>
+    <symbol id="hydra" viewBox="0 0 64 64"><path d="M32 57V24m0 17L15 28V10l8 6m9 13L49 16V7l-8 6M32 19l-8-8 8-6 8 6-8 8M15 22 7 16v16l8 9m34-17 8 8v12l-8-8M23 57h18" fill="none" stroke="currentColor" stroke-width="1.5"/></symbol>
+  </svg>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="#" aria-label="超限武装首页"><svg><use href="#mark"/></svg><span>OVERFORGED<small>超 限 武 装</small></span></a>
+      <nav aria-label="主导航"><a href="#ascension">永久进化</a><a href="#arsenal">融合神装</a><a href="#upgrades">装备图鉴</a></nav>
+      <a class="header-download" href="#download">下载补丁 <span>↗</span></a>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-art" aria-hidden="true"><img src="assets/trident-hero.png" alt="" fetchpriority="high"><div class="art-grid"></div><span class="orbit orbit-one"></span><span class="orbit orbit-two"></span></div>
+      <div class="embers" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="container hero-content">
+        <p class="eyebrow"><span></span> DOTA 2 · CUSTOM EQUIPMENT PATCH</p>
+        <h1 id="hero-title">神装之上<span>再铸极限<span class="period">。</span></span></h1>
+        <p class="hero-description"><strong>80% 状态抗性，让控制难以留住你。</strong><br>三元重戟重铸登场，融合三剑与金箍棒的力量。</p>
+        <div class="hero-actions"><a class="button button-primary" href="#ascension">探索超限武装 <svg><use href="#arrow"/></svg></a><a class="button button-quiet" href="#download">下载 VPK 补丁 <span>↗</span></a></div>
+        <div class="hero-meta"><span><b>42</b> 装备条目</span><i></i><span><b>10</b> 核心重铸</span><i></i><span class="meta-platform">本地 VPK 模组</span></div>
+      </div>
+      <button class="hero-weapon trident-feature" data-detail="三元重戟·升级" aria-label="查看三元重戟升级详情"><span class="tiny-label">FEATURED WEAPON / TRIDENT</span><strong>三元重戟 · 升级</strong><span class="hero-resistance"><b>80<small>%</small></b><span>状态抗性<small>压缩控制时间，掌握战场主动。</small></span></span><span class="weapon-line">攻击不会落空 · 每次附加 100 纯粹伤害 <b>↗</b></span></button>
+      <div class="hero-foot container"><span>为突破而锻造 <i>FORGED BEYOND LIMITS</i></span><a href="#ascension" aria-label="向下探索">向下探索 <span>↓</span></a></div>
+    </section>
+
+    <section id="ascension" class="section ascension container" aria-labelledby="ascension-title">
+      <div class="section-heading"><div><p class="eyebrow"><span class="section-number">01 /</span> PERMANENT ASCENSION</p><h2 id="ascension-title">力量入体，不再占格。</h2></div><p class="section-intro">把装备锻造成英雄的一部分。<br>自动吸收，永久获得属于你的超限能力。</p></div>
+      <div class="ascension-grid">
+        <button class="ascension-card violet" data-detail="玲珑心·精粹"><span class="item-tag">永久吸收 · 法术核心</span><svg class="rune"><use href="#gem"/></svg><h3>玲珑心<span>· 精粹</span></h3><p>法术不再等待，战场由你延展。</p><div class="stat-pair"><span><strong>80<small>%</small></strong>冷却缩减</span><span><strong>+100<small>%</small></strong>效果持续时间</span></div><span class="card-bottom">施法距离 +600 · 作用范围 +400 <b>↗</b></span></button>
+        <button class="ascension-card jade" data-detail="真视宝石·永恒"><span class="item-tag">团队永久真视</span><svg class="rune"><use href="#eye"/></svg><h3>真视宝石<span>· 永恒</span></h3><p>让暗处的威胁，无所遁形。</p><div class="stat-pair"><span><strong class="word-stat">全地图</strong>己方队伍真视侦测</span></div><span class="card-bottom">每队吸收一次 · 吸收者获高空视野 <b>↗</b></span></button>
+        <button class="ascension-card silver" data-detail="无间神镜盾"><span class="item-tag">永久吸收 · 法术反制</span><svg class="rune"><use href="#shield"/></svg><h3>无间神镜盾</h3><p>你施于我的，终将归还于你。</p><div class="stat-pair"><span><strong>0<small>s</small></strong>抵挡与反弹冷却</span></div><span class="card-bottom">抵挡并反弹大多数指向性技能 <b>↗</b></span></button>
+        <button class="ascension-card amber" data-detail="怪蛇之息·升级"><span class="item-tag">永久吸收 · 远程多重攻击</span><svg class="rune"><use href="#hydra"/></svg><h3>怪蛇之息<span>· 升级</span></h3><p>一箭所指，十方皆敌。</p><div class="stat-pair"><span><strong>+800</strong>攻击距离</span><span><strong>10</strong>额外攻击目标</span></div><span class="card-bottom">远程多重攻击 · 可触发攻击特效 <b>↗</b></span></button>
+      </div>
+      <p class="section-note"><span>◇</span> 真视侦测不会揭开战争迷雾。吸收条件、适用单位及叠加限制，点击装备查看完整说明。</p>
+    </section>
+
+    <section id="arsenal" class="section arsenal" aria-labelledby="arsenal-title"><div class="container">
+      <div class="section-heading"><div><p class="eyebrow"><span class="section-number">02 /</span> THE REFORGED ARSENAL</p><h2 id="arsenal-title">传奇相融，锋芒再生。</h2></div><p class="section-intro">熟悉的神装，全新的力量。<br>四件专属原画，四种战场答案。</p></div>
+      <div class="weapon-grid" id="weapon-grid"></div>
+      <div class="fusion-strip"><div class="fusion-title"><span class="tiny-label">MORE TO FORGE</span><h3>不止于此。</h3></div><button data-detail="三元重戟·升级"><span class="fusion-symbol">✣</span><span><b>三元重戟 · 升级</b><small>80% 状态抗性。三剑与金箍棒融合，必中攻击附加纯粹伤害。</small></span><span class="fusion-stat">80% <small>状态抗性</small></span><span>↗</span></button><button data-detail="霜阳神铠"><span class="fusion-symbol frost">❋</span><span><b>霜阳神铠</b><small>辉耀与希瓦的守护融合。灼烧与霜冷光环常驻。</small></span><span class="fusion-stat">1200 <small>光环范围</small></span><span>↗</span></button></div>
+    </div></section>
+
+    <section id="upgrades" class="section container upgrades" aria-labelledby="upgrades-title">
+      <div class="section-heading"><div><p class="eyebrow"><span class="section-number">03 /</span> EVERY EDGE, SHARPENED</p><h2 id="upgrades-title">熟悉的装备，更进一步。</h2></div><p class="section-intro">把数值交给图鉴，把战场留给你。<br>以下直接展示升级后的属性与技能数值。</p></div>
+      <div class="catalog-toolbar"><div class="filters" role="group" aria-label="按装备定位筛选"><button class="active" data-filter="全部" aria-pressed="true">全部装备</button><button data-filter="物理输出" aria-pressed="false">物理输出</button><button data-filter="法术强化" aria-pressed="false">法术强化</button><button data-filter="防御续航" aria-pressed="false">防御续航</button><button data-filter="机动控制" aria-pressed="false">机动控制</button></div><label class="search-box"><span aria-hidden="true">⌕</span><input type="search" id="item-search" placeholder="搜索装备或属性…" aria-label="搜索装备或属性"><kbd>/</kbd></label></div>
+      <div class="catalog-meta"><span id="result-count" role="status" aria-live="polite">全部升级装备</span><span>价格单位：金 <i>·</i> 达贡多级入口合并展示</span></div>
+      <div class="table-wrap"><table><thead><tr><th scope="col">装备</th><th scope="col">合成总价</th><th scope="col">升级后的主要数值</th></tr></thead><tbody id="upgrade-rows"></tbody></table><p id="empty-state" hidden>暂时没有匹配的装备。试试其他关键词，或切换到全部装备。</p></div>
+      <button class="show-more" id="show-more" aria-expanded="false">展开全部装备 <span>＋</span></button>
+      <p class="section-note">数值整理自项目当前配置。特定技能交互与叠加效果，以游戏实际表现为准。</p>
+    </section>
+
+    <section id="download" class="download-section" aria-labelledby="download-title">
+      <div class="container download-inner">
+        <div class="download-copy">
+          <p class="eyebrow">YOUR NEXT BUILD STARTS HERE</p>
+          <h2 id="download-title">下一场，带上超限武装。</h2>
+          <p>先看安装说明，再下载最新版补丁。</p>
+          <div class="installation">
+            <div class="installation-heading"><span class="tiny-label">INSTALLATION / 安装说明</span><h3>三步，进入战场。</h3></div>
+            <ol>
+              <li><b>01</b><span>点击下方按钮下载 <code>pak02_dir.vpk</code>，并完全退出 Dota 2。</span></li>
+              <li><b>02</b><span>将补丁包放入下面的文件夹；若已有同名文件，先备份再替换。</span></li>
+              <li><b>03</b><span>安装完成后重新启动游戏。</span></li>
+            </ol>
+            <div class="install-path"><code>X:\SteamLibrary\steamapps\common\dota 2 beta\game\dota_schinese</code></div>
+            <p class="installation-note"><code>X:</code> 请替换为你的 Steam 游戏库实际所在盘符。最终文件位置为上述目录下的 <code>pak02_dir.vpk</code>。</p>
+          </div>
+          <a class="button button-primary" href="https://github.com/finalfree/Dota2-Scripts/releases/latest/download/pak02_dir.vpk">下载补丁包 <svg><use href="#arrow"/></svg></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="container"><a class="brand footer-brand" href="#"><svg><use href="#mark"/></svg><span>OVERFORGED<small>超 限 武 装</small></span></a><p>玩家创作的 Dota 2 本地装备模组。<br>Dota 2 及相关商标归 Valve 所有，本项目与 Valve 无关联。</p><a href="https://github.com/finalfree/Dota2-Scripts" target="_blank" rel="noopener noreferrer">项目源码 ↗</a></footer>
+
+  <dialog id="item-dialog" aria-labelledby="dialog-title"><button class="dialog-close" aria-label="关闭装备详情">×</button><div id="dialog-content"></div></dialog>
+  <noscript><p class="noscript">启用 JavaScript 可查看完整装备图鉴与详情。你也可以<a href="https://github.com/finalfree/Dota2-Scripts">在 GitHub 查看完整说明</a>。</p></noscript>
+</body>
+</html>

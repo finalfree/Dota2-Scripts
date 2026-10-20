@@ -165,6 +165,7 @@
 
 ## 项目资源
 
+- [装备展示网站与预览说明](website/README.md)
 - [装备与配方配置](game/dota_addons/overforged/scripts/npc/npc_items_custom.txt)
 - [中文装备说明](game/dota_addons/overforged/resource/addon_schinese.txt)
 - [专属图标原图](artwork/item-icons)

@@ -1,0 +1,254 @@
+[
+  {
+    "file": "assets/items/aether_lens.png",
+    "source": "panorama/images/items/aether_lens_png.vtex_c",
+    "source_crc32": "c831cc5b",
+    "width": 88,
+    "height": 64
+  },
+  {
+    "file": "assets/items/angels_demise.png",
+    "source": "panorama/images/items/angels_demise_png.vtex_c",
+    "source_crc32": "15f4f071",
+    "width": 88,
+    "height": 64
+  },
+  {
+    "file": "assets/items/arcane_blink.png",
+    "source": "panorama/images/items/arcane_blink_png.vtex_c",
+    "source_crc32": "4b59fde3",
+    "width": 88,
+    "height": 64
+  },
+  {
+    "file": "assets/items/assault.png",
+    "source": "panorama/images/items/assault_png.vtex_c",
+    "source_crc32": "a0b2a86f",
+    "width": 88,
+    "height": 64
+  },
+  {
+    "file": "assets/items/bloodthorn.png",
+    "source": "panorama/images/items/bloodthorn_png.vtex_c",
+    "source_crc32": "18cf9999",
+    "width": 88,
+    "height": 64
+  },
+  {
+    "file": "assets/items/dagon_5.png",
+    "source": "panorama/images/items/dagon_5_png.vtex_c",
+    "source_crc32": "5f5cb564",
+    "width": 88,
+    "height": 64
+  },
+  {
+    "file": "assets/items/desolator.png",
+    "source": "panorama/images/items/desolator_png.vtex_c",
+    "source_crc32": "cad5fc53",
+    "width": 88,
+    "height": 64
+  },
+  {
+    "file": "assets/items/devastator.png",
+    "source": "panorama/images/items/devastator_png.vtex_c",
+    "source_crc32": "1c25a7b2",
+    "width": 88,
+    "height": 64
+  },
+  {
+    "file": "assets/items/disperser.png",
+    "source": "panorama/images/items/disperser_png.vtex_c",
+    "source_crc32": "cf1a57cf",
+    "width": 88,
+    "height": 63
+  },
+  {
+    "file": "assets/items/eternal_shroud.png",
+    "source": "panorama/images/items/eternal_shroud_png.vtex_c",
+    "source_crc32": "6db9f952",
+    "width": 88,
+    "height": 64
+  },
+  {
+    "file": "assets/items/ethereal_blade.png",
+    "source": "panorama/images/items/ethereal_blade_png.vtex_c",
+    "source_crc32": "f77c6948",
+    "width": 88,
+    "height": 64
+  },
+  {
+    "file": "assets/items/gem.png",
+    "source": "panorama/images/items/gem_png.vtex_c",
+    "source_crc32": "0133f151",
+    "width": 88,
+    "height": 64
+  },
+  {
+    "file": "assets/items/gungir.png",
+    "source": "panorama/images/items/gungir_png.vtex_c",
+    "source_crc32": "509db20c",
+    "width": 88,
+    "height": 64
+  },
+  {
+    "file": "assets/items/gunpowder_gauntlets.png",
+    "source": "panorama/images/items/gunpowder_gauntlets_png.vtex_c",
+    "source_crc32": "4fc25b8e",
+    "width": 88,
+    "height": 64
+  },
+  {
+    "file": "assets/items/harpoon.png",
+    "source": "panorama/images/items/harpoon_png.vtex_c",
+    "source_crc32": "0959646f",
+    "width": 88,
+    "height": 64
+  },
+  {
+    "file": "assets/items/hurricane_pike.png",
+    "source": "panorama/images/items/hurricane_pike_png.vtex_c",
+    "source_crc32": "aa3ed214",
+    "width": 88,
+    "height": 64
+  },
+  {
+    "file": "assets/items/hydras_breath.png",
+    "source": "panorama/images/items/hydras_breath_png.vtex_c",
+    "source_crc32": "67600e9b",
+    "width": 88,
+    "height": 64
+  },
+  {
+    "file": "assets/items/lotus_orb.png",
+    "source": "panorama/images/items/lotus_orb_png.vtex_c",
+    "source_crc32": "4119ad58",
+    "width": 88,
+    "height": 64
+  },
+  {
+    "file": "assets/items/manta.png",
+    "source": "panorama/images/items/manta_png.vtex_c",
+    "source_crc32": "20f590e4",
+    "width": 88,
+    "height": 64
+  },
+  {
+    "file": "assets/items/mirror_shield.png",
+    "source": "panorama/images/items/mirror_shield_png.vtex_c",
+    "source_crc32": "80e460b0",
+    "width": 88,
+    "height": 64
+  },
+  {
+    "file": "assets/items/mjollnir.png",
+    "source": "panorama/images/items/mjollnir_png.vtex_c",
+    "source_crc32": "9218d087",
+    "width": 88,
+    "height": 64
+  },
+  {
+    "file": "assets/items/moon_shard.png",
+    "source": "panorama/images/items/moon_shard_png.vtex_c",
+    "source_crc32": "8a8edaa0",
+    "width": 88,
+    "height": 64
+  },
+  {
+    "file": "assets/items/nullifier.png",
+    "source": "panorama/images/items/nullifier_png.vtex_c",
+    "source_crc32": "a893beae",
+    "width": 86,
+    "height": 62
+  },
+  {
+    "file": "assets/items/octarine_core.png",
+    "source": "panorama/images/items/octarine_core_png.vtex_c",
+    "source_crc32": "be075f36",
+    "width": 88,
+    "height": 64
+  },
+  {
+    "file": "assets/items/overwhelming_blink.png",
+    "source": "panorama/images/items/overwhelming_blink_png.vtex_c",
+    "source_crc32": "ff6521e8",
+    "width": 88,
+    "height": 64
+  },
+  {
+    "file": "assets/items/radiance.png",
+    "source": "panorama/images/items/radiance_png.vtex_c",
+    "source_crc32": "4eea01b2",
+    "width": 88,
+    "height": 64
+  },
+  {
+    "file": "assets/items/rapier.png",
+    "source": "panorama/images/items/rapier_png.vtex_c",
+    "source_crc32": "4ef7cf13",
+    "width": 88,
+    "height": 64
+  },
+  {
+    "file": "assets/items/revenants_brooch.png",
+    "source": "panorama/images/items/revenants_brooch_png.vtex_c",
+    "source_crc32": "426c5d3f",
+    "width": 88,
+    "height": 64
+  },
+  {
+    "file": "assets/items/royale_with_cheese.png",
+    "source": "panorama/images/items/royale_with_cheese_png.vtex_c",
+    "source_crc32": "eb1e8aee",
+    "width": 88,
+    "height": 64
+  },
+  {
+    "file": "assets/items/sheepstick.png",
+    "source": "panorama/images/items/sheepstick_png.vtex_c",
+    "source_crc32": "6b6c9882",
+    "width": 88,
+    "height": 64
+  },
+  {
+    "file": "assets/items/shivas_guard.png",
+    "source": "panorama/images/items/shivas_guard_png.vtex_c",
+    "source_crc32": "6a13389a",
+    "width": 88,
+    "height": 64
+  },
+  {
+    "file": "assets/items/silver_edge.png",
+    "source": "panorama/images/items/silver_edge_png.vtex_c",
+    "source_crc32": "8f5a722b",
+    "width": 88,
+    "height": 64
+  },
+  {
+    "file": "assets/items/sphere.png",
+    "source": "panorama/images/items/sphere_png.vtex_c",
+    "source_crc32": "e47ecd54",
+    "width": 88,
+    "height": 64
+  },
+  {
+    "file": "assets/items/swift_blink.png",
+    "source": "panorama/images/items/swift_blink_png.vtex_c",
+    "source_crc32": "21c8ed6e",
+    "width": 88,
+    "height": 64
+  },
+  {
+    "file": "assets/items/trident.png",
+    "source": "panorama/images/items/trident_png.vtex_c",
+    "source_crc32": "84e0f406",
+    "width": 88,
+    "height": 64
+  },
+  {
+    "file": "assets/items/wind_waker.png",
+    "source": "panorama/images/items/wind_waker_png.vtex_c",
+    "source_crc32": "9d0926ac",
+    "width": 88,
+    "height": 64
+  }
+]
