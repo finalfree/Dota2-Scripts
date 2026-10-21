@@ -5,7 +5,7 @@ param(
     [string]$Manifest = (Join-Path (Split-Path $PSScriptRoot -Parent) 'packaging/items.txt'),
     [Parameter(Mandatory=$true)][string]$OutputPath,
     [string]$TargetDirectory,
-    [string]$TargetFileName = 'pak01_dir.vpk',
+    [string]$TargetFileName = 'pak02_dir.vpk',
     [string]$VpkEditCli = 'vpkeditcli',
     [string]$Python = 'python'
 )

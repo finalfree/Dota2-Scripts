@@ -1,5 +1,7 @@
 # 项目工作入口
 
+- `game/dota_schinese/pak01_dir.vpk` 是官方语言资源索引（VPK v2，关联 `pak01_000.vpk` 等分块），不得被模组覆盖或删除。单机模组统一使用 `pak02_dir.vpk`，联机使用 `pak03_dir.vpk`。2026-10-21 误覆盖后已从 `bin/backups/pak01-before-deploy-20261021-144740-1622c2f6b18448389a14d5b2ece28d86.vpk` 恢复，备份及恢复 SHA256 为 `DC098EE7EE81C4695BFA7EE84FC7946BD974763075D3F35DC9DDA27CA09D7E4A`；官方分块未改动。
+
 ## 独立联机版源码（用户明确要求，2026-10-21）
 
 单机全装备版继续维护 `game/dota_addons/overforged`；联机稳定版独立维护

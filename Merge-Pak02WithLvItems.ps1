@@ -2,7 +2,7 @@ param(
     [switch]$PackageOnly,
     [string]$BasePak = (Join-Path $PSScriptRoot 'pak02_dir.vpk'),
     [string]$Manifest = (Join-Path $PSScriptRoot 'packaging\pak02-lv-files.txt'),
-    [string]$OutputPath = (Join-Path $PSScriptRoot 'bin\pak01_merged_dir.vpk'),
+    [string]$OutputPath = (Join-Path $PSScriptRoot 'bin\merged\pak02_dir.vpk'),
     [string]$TargetDirectory = 'E:\SteamLibrary\steamapps\common\dota 2 beta\game\dota_schinese',
     [string]$VpkEditCli = 'vpkeditcli'
 )
@@ -222,7 +222,7 @@ if (-not $PackageOnly) {
     if (-not $targetDirectoryItem.PSIsContainer -or ($targetDirectoryItem.Attributes -band [IO.FileAttributes]::ReparsePoint)) {
         throw 'Deployment target must be a real directory, not a file or reparse point.'
     }
-    $targetFile = Join-Path $targetDirectoryItem.FullName 'pak01_dir.vpk'
+    $targetFile = Join-Path $targetDirectoryItem.FullName 'pak02_dir.vpk'
     if ($targetFile -eq $outputFile -or $targetFile -eq $baseFile.FullName) { throw 'Build, base, and deployment files must be different paths.' }
 }
 $workRoot = Join-Path (Join-Path $PSScriptRoot 'bin') ('pak02-merge-' + [guid]::NewGuid().ToString('N'))
@@ -278,14 +278,14 @@ try {
     if (Test-Path -LiteralPath $targetFile -PathType Leaf) {
         $backupDirectory = Join-Path $PSScriptRoot 'bin/backups'
         New-Item -ItemType Directory -Path $backupDirectory -Force | Out-Null
-        $backup = Join-Path $backupDirectory ('pak01-before-pak02-merge-' + (Get-Date -Format 'yyyyMMdd-HHmmss') + '-' + [guid]::NewGuid().ToString('N') + '.vpk')
+        $backup = Join-Path $backupDirectory ('pak02-before-pak02-merge-' + (Get-Date -Format 'yyyyMMdd-HHmmss') + '-' + [guid]::NewGuid().ToString('N') + '.vpk')
         Copy-Item -LiteralPath $targetFile -Destination $backup
         if ((Get-FileHash -Algorithm SHA256 -LiteralPath $backup).Hash -ne (Get-FileHash -Algorithm SHA256 -LiteralPath $targetFile).Hash) { throw 'Backup verification failed.' }
         Write-Host "Previous deployment backup: $backup"
     }
     Copy-Item -LiteralPath $outputFile -Destination $targetFile -Force
     if ((Get-FileHash -Algorithm SHA256 -LiteralPath $targetFile).Hash -ne $outputHash) { throw 'Deployment hash mismatch.' }
-    Write-Host "Deployed as pak01_dir.vpk and hash-verified: $targetFile"
+    Write-Host "Deployed as pak02_dir.vpk and hash-verified: $targetFile"
     Write-Host 'In-game verification is still required.'
 } finally {
     if (Test-Path -LiteralPath $workRoot -PathType Container) {

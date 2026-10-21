@@ -163,7 +163,7 @@ v1.1.0 提供两份独立补丁，请按玩法选择：
 
 单机：`./deploy_items_only.ps1`；联机：`./deploy_multiplayer.ps1`。
 默认部署目录为 `E:\SteamLibrary\steamapps\common\dota 2 beta\game\dota_schinese`；
-联机部署文件名为 `pak03_dir.vpk`，本地单机部署入口仍使用 `pak01_dir.vpk`，Release 单机产物为 `pak02_dir.vpk`。
+单机本地打包、部署与 CI/Release 统一使用 `pak02_dir.vpk`，联机统一使用 `pak03_dir.vpk`。
 加 `-PackageOnly` 仅生成补丁包，不部署。
 
 

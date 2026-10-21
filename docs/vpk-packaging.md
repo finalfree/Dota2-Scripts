@@ -41,13 +41,13 @@
 未部署、未启动游戏、未发布 Workshop。
 
 ```powershell
-.\deploy_items_only.ps1 -PackageOnly     # 增量：bin/pak01_dir.vpk
-.\deploy_all.ps1 -PackageOnly            # 全量：仓库根 pak01_dir.vpk
-.\Merge-Pak02WithLvItems.ps1 -PackageOnly # 天地星合并：bin/pak01_merged_dir.vpk
+.\deploy_items_only.ps1 -PackageOnly     # 增量：bin/pak02_dir.vpk
+.\deploy_all.ps1 -PackageOnly            # 全量：bin/all/pak02_dir.vpk
+.\Merge-Pak02WithLvItems.ps1 -PackageOnly # 天地星合并：bin/merged/pak02_dir.vpk
 ```
 
 去掉 `-PackageOnly` 会在确认 Dota 已退出后，备份并部署至已配置的
-`E:\SteamLibrary\steamapps\common\dota 2 beta\game\dota_schinese\pak01_dir.vpk`。
+`E:\SteamLibrary\steamapps\common\dota 2 beta\game\dota_schinese\pak02_dir.vpk`。
 仍支持 `-OutputPath`、`-TargetDirectory`、`-VpkEditCli`；增量支持 `-Manifest`。
 不会自动终止游戏，不修改官方 `game/dota/pak01_dir.vpk` 或 `gameinfo.gi`。
 不要用独立增量包覆盖需要保留的天地星合并版；这种情况下应使用合并入口。

@@ -21,6 +21,7 @@
 ### 打包、发布与网站
 
 - 新增 `deploy_multiplayer.ps1`：默认打包并部署 Pak03，`-PackageOnly` 仅打包。
+- 单机本地打包及部署名称统一为 `pak02_dir.vpk`，联机为 `pak03_dir.vpk`，与 CI 一致。
 - 所有本地补丁部署入口统一使用 `game/dota_schinese` 目录，部署前检查游戏退出、备份旧包并校验哈希。
 - GitHub Actions 同时构建并发布 `pak02_dir.vpk`、`pak03_dir.vpk`，每份附带 SHA256 和构建信息。
 - 正式发布仍复用同一提交的成功手动构建，发布前必须校验两份包，不重新构建或使用其他提交产物。

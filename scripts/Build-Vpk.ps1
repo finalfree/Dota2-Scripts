@@ -199,7 +199,7 @@ if (Get-Process -Name dota2 -ErrorAction SilentlyContinue) { throw 'Package buil
 if (Test-Path -LiteralPath $targetFile -PathType Leaf) {
     $backupDirectory = Join-Path (Split-Path $PSScriptRoot -Parent) 'bin\backups'
     New-Item -ItemType Directory -Path $backupDirectory -Force | Out-Null
-    $backup = Join-Path $backupDirectory ('pak01-before-deploy-' + (Get-Date -Format 'yyyyMMdd-HHmmss') + '-' + $buildId + '.vpk')
+    $backup = Join-Path $backupDirectory ([IO.Path]::GetFileNameWithoutExtension($TargetFileName) + '-before-deploy-' + (Get-Date -Format 'yyyyMMdd-HHmmss') + '-' + $buildId + '.vpk')
     Copy-Item -LiteralPath $targetFile -Destination $backup -ErrorAction Stop
     if ((Get-FileHash -Algorithm SHA256 -LiteralPath $backup).Hash -ne (Get-FileHash -Algorithm SHA256 -LiteralPath $targetFile).Hash) {
         throw 'Backup verification failed; deployment was skipped.'
