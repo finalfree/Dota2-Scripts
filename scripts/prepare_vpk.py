@@ -39,6 +39,9 @@ def prepare(output, manifest=ROOT / 'packaging/items.txt', all_files=False, prof
     if multiplayer:
         from multiplayer_profile import MULTIPLAYER_GAME
     source_root = MULTIPLAYER_GAME if multiplayer else GAME
+    if multiplayer:
+        from validate_equipment import validate_equipment
+        validate_equipment(source_root)
     if multiplayer and all_files:
         raise ValueError('Multiplayer profile does not support full baseline packaging')
     npc_sources = {'scripts/npc/overforged_items.txt': 'scripts/npc/npc_items_custom.txt'} if multiplayer else VPK_NPC_SOURCES

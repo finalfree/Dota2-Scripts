@@ -30,6 +30,8 @@ def definitions(entry, stack=()):
 
 
 def validate():
+    from validate_equipment import validate_equipment
+    validate_equipment(GAME)
     info = dict(dict(read(GAME / 'addoninfo.txt'))['AddonInfo'])
     assert info['maps'] == 'dota' and info['IsPlayable'] == '1'
     assert dict(info['dota'])['MaxPlayers'] == '10'

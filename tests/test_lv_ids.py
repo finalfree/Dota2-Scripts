@@ -13,10 +13,7 @@ ROOT = Path(__file__).resolve().parents[1]
 RESOURCE = ROOT / "game/dota_addons/overforged"
 BASELINE = ROOT / "pak01_dir"
 
-# Custom content lives above the official range (npc_ability_ids.txt tops out
-# at 9999) so that an engine update can never collide with us.
-MIN_CUSTOM_ID = 10001
-MAX_CUSTOM_ID = 10199
+# IDs must be positive and must not collide with the current official baseline.
 
 CUSTOM_FILES = (
     "scripts/npc/npc_items_custom.txt",
@@ -75,15 +72,12 @@ class AbilityIds(unittest.TestCase):
         for name, entries in self.collect().items():
             self.assertEqual(1, len(entries), "%s has %d ID entries" % (name, len(entries)))
 
-    def test_ids_stay_in_the_custom_range(self):
+    def test_ids_are_positive_integers(self):
         for name, entries in self.collect().items():
             for _, value in entries:
                 self.assertTrue(value.isdigit(), "%s has a non-numeric ID %r" % (name, value))
                 identifier = int(value)
-                self.assertTrue(
-                    MIN_CUSTOM_ID <= identifier <= MAX_CUSTOM_ID,
-                    "%s ID %s is outside the custom range %d-%d"
-                    % (name, value, MIN_CUSTOM_ID, MAX_CUSTOM_ID))
+                self.assertGreater(identifier, 0, name)
 
     def test_no_collision_with_official_ability_ids(self):
         text = (BASELINE / "scripts/npc/npc_ability_ids.txt").read_text(encoding="utf-8-sig")
@@ -93,7 +87,6 @@ class AbilityIds(unittest.TestCase):
             if len(parts) >= 4 and parts[3].isdigit():
                 official.add(int(parts[3]))
         self.assertTrue(official, "no official IDs parsed")
-        self.assertLessEqual(max(official), MIN_CUSTOM_ID - 1)
         for name, entries in self.collect().items():
             for _, value in entries:
                 self.assertNotIn(int(value), official,

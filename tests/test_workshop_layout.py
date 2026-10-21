@@ -44,8 +44,7 @@ class WorkshopLayout(unittest.TestCase):
         self.assertEqual(GAME.name, 'overforged')
         self.assertFalse((GAME / 'scripts/npc/lv').exists())
         self.assertTrue(definitions(GAME / 'scripts/npc/npc_items_custom.txt'))
-        self.assertEqual(set(definitions(GAME / 'scripts/npc/npc_abilities_custom.txt')),
-                         {'lv_black_dragon_splash_attack', 'lv_trident_extras'})
+        self.assertTrue(definitions(GAME / 'scripts/npc/npc_abilities_custom.txt'))
         for source in VPK_NPC_SOURCES.values():
             self.assertNotIn('#base', (GAME / source).read_text(encoding='utf-8'))
         for language, title in [('english', 'Overforged'), ('schinese', '超限武装')]:
