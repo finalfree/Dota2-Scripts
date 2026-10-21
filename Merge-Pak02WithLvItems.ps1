@@ -3,7 +3,7 @@ param(
     [string]$BasePak = (Join-Path $PSScriptRoot 'pak02_dir.vpk'),
     [string]$Manifest = (Join-Path $PSScriptRoot 'packaging\pak02-lv-files.txt'),
     [string]$OutputPath = (Join-Path $PSScriptRoot 'bin\pak01_merged_dir.vpk'),
-    [string]$TargetDirectory = 'E:\SteamLibrary\steamapps\common\dota 2 beta\game\dota_lv',
+    [string]$TargetDirectory = 'E:\SteamLibrary\steamapps\common\dota 2 beta\game\dota_schinese',
     [string]$VpkEditCli = 'vpkeditcli'
 )
 
@@ -232,6 +232,9 @@ New-Item -ItemType Directory -Path $workRoot -Force | Out-Null
 try {
     Invoke-VpkEdit @('--no-progress', '--verify-checksums', 'files', $baseFile.FullName)
     $expanded = & (Join-Path $PSScriptRoot 'scripts\Expand-VpkV1.ps1') -Path $baseFile.FullName -Destination $staging
+    $shopPath = Join-Path $staging 'scripts/shops.txt'
+    & python (Join-Path $PSScriptRoot 'scripts/merge_shops.py') $shopPath (Join-Path $lvSourceRoot 'scripts/shops.txt') $shopPath
+    if ($LASTEXITCODE -ne 0) { throw 'Shop additions merge failed.' }
     Write-Host "Expanded base pak02: $($expanded.FileCount) files."
 
     $npcAbilities = Join-Path $staging 'scripts/npc/npc_abilities.txt'

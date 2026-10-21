@@ -73,7 +73,7 @@ def validate():
         assert source.is_file(), source
         for png in re.findall(r'"m_fileName"\s*"string"\s*"([^"]+)"', source.read_text(encoding='utf-8')):
             assert (CONTENT / png).is_file(), png
-    for relative in (*VPK_NPC_SOURCES, 'scripts/npc/items.txt', 'scripts/npc/npc_heroes.txt', 'scripts/shops.txt',
+    for relative in (*VPK_NPC_SOURCES, 'scripts/npc/items.txt', 'scripts/npc/npc_heroes.txt',
                      'resource/localization/abilities_english.txt', 'scripts/vscripts/bots'):
         assert not (GAME / relative).exists(), 'Forbidden baseline/bot copy in addon: ' + relative
     return len(items), len(abilities), len(keys_by_language[0]) - 1

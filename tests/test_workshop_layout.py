@@ -29,7 +29,7 @@ class WorkshopLayout(unittest.TestCase):
                 if '/lv/' in path or path.endswith('.vtex_c'):
                     self.assertEqual(Path(source), GAME / path)
             files = {p.relative_to(folder).as_posix() for p in Path(folder).rglob('*') if p.is_file()}
-            self.assertEqual(files, {'file-map.json', 'scripts/npc/items.txt',
+            self.assertEqual(files, {'file-map.json', 'scripts/npc/items.txt', 'scripts/shops.txt',
                 'resource/localization/abilities_english.txt', 'resource/localization/abilities_schinese.txt'})
             self.assertNotIn('addoninfo.txt', mapping)
             self.assertNotIn('cfg/lv_test_ap.cfg', mapping)

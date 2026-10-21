@@ -14,6 +14,7 @@ FIRST_RELEASE = 'v0.1.0'
 PACKAGE_NAME = 'pak02_dir.vpk'
 CHECKSUM_NAME = PACKAGE_NAME + '.sha256'
 BUILD_INFO_NAME = PACKAGE_NAME + '.build-info.json'
+PACKAGE_NAMES = ('pak02_dir.vpk', 'pak03_dir.vpk')
 
 
 def release_notes(root, tag, repository, commit, test_build=False):
@@ -60,7 +61,8 @@ def release_notes(root, tag, repository, commit, test_build=False):
 def release_body(notes, tag, repository):
     base = f'https://github.com/{repository}/releases/download/{tag}'
     downloads = '\n'.join(f'- [{name}]({base}/{name})'
-                          for name in (PACKAGE_NAME, CHECKSUM_NAME, BUILD_INFO_NAME))
+                          for package in PACKAGE_NAMES
+                          for name in (package, package + '.sha256', package + '.build-info.json'))
     heading = '测试版下载' if tag.startswith('test-') else '下载'
     return f'## {heading}\n\n{downloads}\n\n---\n\n{notes}'
 
@@ -99,13 +101,19 @@ def select_artifact(repository, commit, get=github_get):
 
 
 def verify_artifact(directory, commit):
-    expected = {PACKAGE_NAME, CHECKSUM_NAME, BUILD_INFO_NAME}
+    expected = {name for package in PACKAGE_NAMES
+                for name in (package, package + '.sha256', package + '.build-info.json')}
     if {p.name for p in directory.iterdir()} != expected:
         raise ValueError('Unexpected release artifact contents')
     if any(p.is_symlink() or not p.is_file() for p in directory.iterdir()):
         raise ValueError('Release artifact must contain only regular files')
-    info = json.loads((directory / BUILD_INFO_NAME).read_text(encoding='utf-8-sig'))
-    package = directory / PACKAGE_NAME
+    for package_name in PACKAGE_NAMES:
+        verify_package(directory, commit, package_name)
+
+
+def verify_package(directory, commit, package_name):
+    info = json.loads((directory / (package_name + '.build-info.json')).read_text(encoding='utf-8-sig'))
+    package = directory / package_name
     if info['commit'] != commit or info['package'] != package.name or info['vpk_version'] != 1:
         raise ValueError('Artifact metadata does not match tagged commit or VPK format')
     with package.open('rb') as source:
@@ -116,9 +124,9 @@ def verify_artifact(directory, commit):
         for chunk in iter(lambda: source.read(1024 * 1024), b''):
             hasher.update(chunk)
         digest = hasher.hexdigest()
-    checksums = (directory / CHECKSUM_NAME).read_text(encoding='utf-8-sig').strip()
+    checksums = (directory / (package_name + '.sha256')).read_text(encoding='utf-8-sig').strip()
     if (digest != info['sha256'] or package.stat().st_size != info['size_bytes'] or
-            checksums != f'{digest}  {PACKAGE_NAME}'):
+            checksums != f'{digest}  {package_name}'):
         raise ValueError('Release artifact size or SHA256 mismatch')
     print(f'Verified tested artifact for commit {commit}: {digest}')
 

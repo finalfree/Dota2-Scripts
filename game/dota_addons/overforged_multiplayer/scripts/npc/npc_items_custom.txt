@@ -1,0 +1,55 @@
+"DOTAAbilities"
+{
+	"Version"		"1"
+	"item_lv_gem"
+	{
+		"ID"		"10004"
+		"BaseClass"		"item_datadriven"
+		"AbilityTextureName"		"item_gem"
+		"AbilityBehavior"		"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"Model"		"models/props_gameplay/gem01.vmdl"
+		"ItemCost"		"0"
+		"ItemShopTags"		"see_invis"
+		"ItemQuality"		"consumable"
+		"ItemPurchasable"		"1"
+		"ItemSellable"		"1"
+		"ItemShareability"		"ITEM_NOT_SHAREABLE"
+		"ItemDisassembleRule"		"DOTA_ITEM_DISASSEMBLE_NEVER"
+		"AllowedInBackpack"		"0"
+		"IsTempestDoubleClonable"		"0"
+		"SpeciallyBannedFromNeutralSlot"		"1"
+		"Modifiers"
+		{
+			"modifier_item_lv_gem_consumed_status"
+			{
+				"IsHidden"		"0"
+				"IsDebuff"		"0"
+				"IsPurgable"		"0"
+				"RemoveOnDeath"		"0"
+			}
+			"modifier_item_lv_gem_pending"
+			{
+				"Passive"		"1"
+				"IsHidden"		"1"
+				"IsPurgable"		"0"
+				"ThinkInterval"		"0.25"
+				"OnCreated"
+				{
+					"RunScript"
+					{
+						"ScriptFile"		"scripts/vscripts/lv/item_lv_gem.lua"
+						"Function"		"LVGemTryAbsorb"
+					}
+				}
+				"OnIntervalThink"
+				{
+					"RunScript"
+					{
+						"ScriptFile"		"scripts/vscripts/lv/item_lv_gem.lua"
+						"Function"		"LVGemTryAbsorb"
+					}
+				}
+			}
+		}
+	}
+}

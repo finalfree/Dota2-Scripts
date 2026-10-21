@@ -60,7 +60,6 @@ class ItemResources(unittest.TestCase):
         cls.addClassCleanup(cls.vpk_temp.cleanup)
         cls.vpk_sources = prepare(Path(cls.vpk_temp.name))
         cls.item = dict(cls.custom["item_lv_gem"])
-        cls.recipe = dict(cls.custom["item_recipe_lv_gem"])
         cls.manifest = {
             line.strip() for line in (ROOT / "packaging/items.txt").read_text().splitlines()
             if line.strip() and not line.lstrip().startswith("#")
@@ -94,11 +93,11 @@ class ItemResources(unittest.TestCase):
                         self.assertNotIn(fields.get("id"), ids)
 
     def test_recipe_and_total_price(self):
-        official = dict(dict(read_kv(BASELINE / "scripts/npc/items.txt"))["DOTAAbilities"])
-        self.assertEqual(self.recipe["ItemResult"], "item_lv_gem")
-        self.assertEqual(dict(self.recipe["ItemRequirements"]), {"01": "item_gem"})
-        self.assertEqual(int(self.item["ItemCost"]),
-                         int(self.recipe["ItemCost"]) + int(dict(official["item_gem"])["ItemCost"]))
+        self.assertNotIn('item_recipe_lv_gem', self.custom)
+        self.assertEqual(self.item['ItemCost'], '0')
+        self.assertEqual(self.item['ItemPurchasable'], '1')
+        shops = dict(dict(read_kv(Path(self.vpk_sources['scripts/shops.txt'])))['dota_shops'])
+        self.assertEqual(shops['consumables'].count(('item', 'item_lv_gem')), 1)
 
     def test_passive_callbacks_and_packaged_dependencies(self):
         self.assertEqual(self.item["AbilityBehavior"], "DOTA_ABILITY_BEHAVIOR_PASSIVE")
@@ -646,12 +645,12 @@ class ItemResources(unittest.TestCase):
         self.assertEqual(item["BaseClass"], "item_datadriven")
         self.assertEqual(recipe["ItemResult"], "item_lv_dragon_splash")
         self.assertEqual(dict(recipe["ItemRequirements"]), {
-            "01": "item_bfury",
-            "02": "item_specialists_array",
+            "01": "item_specialists_array",
+            "02": "item_bfury",
         })
         self.assertEqual(recipe["ItemCost"], "100")
         self.assertEqual(int(item["ItemCost"]),
-                         int(recipe["ItemCost"]) + int(dict(official["item_bfury"])["ItemCost"]))
+                         int(recipe["ItemCost"]) + int(dict(official["item_specialists_array"])["ItemCost"]))
         self.assertEqual(dict(dict(item["AbilityValues"])["range"])["value"], "500")
         self.assertEqual(dict(dict(skill["AbilityValues"])["range"])["value"], "500")
         self.assertEqual(dict(skill["AbilityValues"])["damage_percent"], "100")

@@ -1,0 +1,7 @@
+# Multiplayer profile: independent sources in game/dota_addons/overforged_multiplayer.
+scripts/npc/items.txt
+scripts/npc/overforged_items.txt
+scripts/vscripts/lv/item_lv_gem.lua
+scripts/shops.txt
+resource/localization/abilities_english.txt
+resource/localization/abilities_schinese.txt

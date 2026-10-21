@@ -62,7 +62,7 @@ class ReleaseNotesTests(unittest.TestCase):
     def test_release_downloads_are_individual_files_with_vpk_first(self):
         body = release_body('Notes\n', 'v0.1.0', 'owner/repo')
         downloads = [line for line in body.splitlines() if line.startswith('- [')]
-        self.assertEqual(3, len(downloads))
+        self.assertEqual(6, len(downloads))
         self.assertEqual('- [pak02_dir.vpk](https://github.com/owner/repo/releases/download/v0.1.0/pak02_dir.vpk)', downloads[0])
         self.assertNotIn('.zip', body)
         self.assertEqual('pak02_dir.vpk', sorted(['pak02_dir.vpk.sha256', 'pak02_dir.vpk',
@@ -138,6 +138,10 @@ class ArtifactVerificationTests(unittest.TestCase):
         self.info = {'commit': 'abc', 'package': 'pak02_dir.vpk', 'vpk_version': 1,
                      'size_bytes': len(self.data), 'sha256': self.digest}
         self.write_info()
+        multiplayer_info = {**self.info, 'package': 'pak03_dir.vpk'}
+        (self.directory / 'pak03_dir.vpk').write_bytes(self.data)
+        (self.directory / 'pak03_dir.vpk.build-info.json').write_text(json.dumps(multiplayer_info), encoding='utf-8')
+        (self.directory / 'pak03_dir.vpk.sha256').write_text(f'{self.digest}  pak03_dir.vpk\n', encoding='utf-8')
         (self.directory / 'pak02_dir.vpk.sha256').write_text(f'{self.digest}  pak02_dir.vpk\n', encoding='utf-8')
 
     def write_info(self):
@@ -150,6 +154,15 @@ class ArtifactVerificationTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             verify_artifact(self.directory, 'other')
         self.package.write_bytes(self.data + b'modified')
+        with self.assertRaises(ValueError):
+            verify_artifact(self.directory, 'abc')
+
+    def test_missing_or_modified_multiplayer_package_cannot_publish(self):
+        package = self.directory / 'pak03_dir.vpk'
+        package.write_bytes(self.data + b'changed')
+        with self.assertRaises(ValueError):
+            verify_artifact(self.directory, 'abc')
+        package.unlink()
         with self.assertRaises(ValueError):
             verify_artifact(self.directory, 'abc')
 

@@ -6,7 +6,7 @@ const weapons = [
   {name:'蝶翼之殇',key:'butterfly_crit',tag:'必然致命',recipe:'蝴蝶 + 代达罗斯之殇',description:'蝶翼引导锋刃，每一次挥击都通往终结。基础攻击间隔设为 1.2 秒，让锋芒更快抵达。',stats:[['1.2s','基础攻击间隔'],['100%','暴击概率'],['300%','暴击伤害'],['85%','闪避']]},
   {name:'不洁魔心',key:'satanic_heart',tag:'不灭狂热',recipe:'撒旦之邪力 + 恐鳌之心',description:'让从未停跳的心，驱动从未饱饮的利刃。吸血与生命恢复，化为持续作战的底气。',stats:[['175%','主动吸血'],['5s','主动冷却'],['+75','力量']]},
   {name:'深渊冰眼',key:'abyssal_skadi',tag:'冰封深渊',recipe:'深渊之刃 + 斯嘉蒂之眼',description:'当深渊也被冻结，每一次进攻都是压制。融合主动强击、被动重击与霜冻攻击。',stats:[['25%','重击概率'],['100%','减速抗性'],['+100','全属性']]},
-  {name:'龙息溅射',key:'dragon_splash',tag:'永久攻击溅射',recipe:'狂战斧或行家阵列 + 升级配方',description:'将黑龙之息融入血脉。自动吸收，近战与远程攻击均可释放永久范围溅射。',stats:[['500','溅射范围'],['100%','溅射伤害'],['0','占用物品格']]}
+  {name:'龙息溅射',key:'dragon_splash',tag:'永久攻击溅射',recipe:'行家阵列 + 100 金卷轴（优先）；狂战斧 + 100 金卷轴',description:'将黑龙之息融入血脉。自动吸收，近战与远程攻击均可释放永久范围溅射。',stats:[['500','溅射范围'],['100%','溅射伤害'],['0','占用物品格']]}
 ];
 
 function element(tag, className, text) {
@@ -84,7 +84,7 @@ document.addEventListener('click', event => {
   const identity = element('div','dialog-identity');
   identity.append(itemIcon(item,'dialog-item-icon'),title);
   body.append(element('p','eyebrow','OVERFORGED / EQUIPMENT ARCHIVE'),identity,element('p','dialog-price',`成品配置标价 · ${item.price.toLocaleString('en-US')} 金`));
-  const recipe = item.details.find(detail => detail.startsWith('合成：'));
+  const recipe = item.details.find(detail => (detail.startsWith('合成：') || detail.startsWith('购买：')));
   if (recipe) body.append(element('p','dialog-recipe',recipe));
   const list = element('ul');
   item.highlights.forEach(highlight => {
@@ -95,7 +95,7 @@ document.addEventListener('click', event => {
   body.append(list);
   const attributes = item.details.find(detail => detail.startsWith('属性：'));
   if (attributes) body.append(element('p','dialog-attributes',attributes));
-  const supplementary = item.details.filter(detail => !detail.startsWith('合成：') && !detail.startsWith('属性：')).join(' ');
+  const supplementary = item.details.filter(detail => !(detail.startsWith('合成：') || detail.startsWith('购买：')) && !detail.startsWith('属性：')).join(' ');
   const notes = element('details','dialog-notes');
   notes.append(element('summary','','完整效果与使用说明'),element('p','',supplementary));
   body.append(notes,element('p','item-note','替代合成路线的实际材料花费可能不同。技能交互以游戏实际效果为准。'));

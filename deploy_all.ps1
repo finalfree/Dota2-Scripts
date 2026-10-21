@@ -1,7 +1,7 @@
 param(
     [switch]$PackageOnly,
     [string]$OutputPath = (Join-Path $PSScriptRoot 'pak01_dir.vpk'),
-    [string]$TargetDirectory = 'E:\SteamLibrary\steamapps\common\dota 2 beta\game\dota_lv',
+    [string]$TargetDirectory = 'E:\SteamLibrary\steamapps\common\dota 2 beta\game\dota_schinese',
     [string]$VpkEditCli = 'vpkeditcli'
 )
 

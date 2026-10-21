@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#101112">
   <meta name="description" content="超限武装 Overforged：Dota 2 本地装备补丁。探索融合神装、永久吸收能力与完整升级数值。">
-  <title>超限武装 OVERFORGED — 神装之上，再铸极限</title>
+  <title>超限武装 v1.1.0 · 单机版 — OVERFORGED</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="style.css">
   <script src="data.js" defer></script>
@@ -26,6 +26,7 @@
   <header class="site-header">
     <div class="header-inner">
       <a class="brand" href="#" aria-label="超限武装首页"><svg><use href="#mark"/></svg><span>OVERFORGED<small>超 限 武 装</small></span></a>
+      <div class="edition-switch" role="group" aria-label="选择模组版本"><a href="index.html" aria-current="page">单机版</a><a href="multiplayer.html">联机版</a></div>
       <nav aria-label="主导航"><a href="#ascension">永久进化</a><a href="#arsenal">融合神装</a><a href="#upgrades">装备图鉴</a></nav>
       <div class="header-actions"><a class="header-github" href="https://github.com/finalfree/Dota2-Scripts" target="_blank" rel="noopener noreferrer" aria-label="在 GitHub 查看超限武装开源仓库" title="GitHub 开源仓库"><svg aria-hidden="true"><use href="#github"/></svg><span>GitHub</span></a><a class="header-download" href="#download">下载补丁 <span>↗</span></a></div>
     </div>
@@ -36,7 +37,7 @@
       <div class="hero-art" aria-hidden="true"><img src="assets/trident-hero.png" alt="" fetchpriority="high"><div class="art-grid"></div><span class="orbit orbit-one"></span><span class="orbit orbit-two"></span></div>
       <div class="embers" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
       <div class="container hero-content">
-        <p class="eyebrow"><span></span> DOTA 2 · CUSTOM EQUIPMENT PATCH</p>
+        <p class="eyebrow"><span></span> V1.1.0 · 单机版 · CUSTOM EQUIPMENT PATCH</p>
         <h1 id="hero-title">神装之上<span>再铸极限<span class="period">。</span></span></h1>
         <p class="hero-description"><strong>80% 状态抗性，让控制难以留住你。</strong><br>三元重戟重铸登场，融合三剑与金箍棒的力量。</p>
         <div class="hero-actions"><a class="button button-primary" href="#ascension">探索超限武装 <svg><use href="#arrow"/></svg></a><a class="button button-quiet" href="#download">下载 VPK 补丁 <span>↗</span></a></div>
@@ -50,7 +51,7 @@
       <div class="section-heading"><div><p class="eyebrow"><span class="section-number">01 /</span> PERMANENT ASCENSION</p><h2 id="ascension-title">力量入体，不再占格。</h2></div><p class="section-intro">把装备锻造成英雄的一部分。<br>自动吸收，永久获得属于你的超限能力。</p></div>
       <div class="ascension-grid">
         <button class="ascension-card violet" data-detail="玲珑心·精粹"><span class="item-tag">永久吸收 · 法术核心</span><svg class="rune"><use href="#gem"/></svg><h3>玲珑心<span>· 精粹</span></h3><p>法术不再等待，战场由你延展。</p><div class="stat-pair"><span><strong>80<small>%</small></strong>冷却缩减</span><span><strong>+100<small>%</small></strong>效果持续时间</span></div><span class="card-bottom">施法距离 +600 · 作用范围 +400 <b>↗</b></span></button>
-        <button class="ascension-card jade" data-detail="真视宝石·永恒"><span class="item-tag">团队永久真视</span><svg class="rune"><use href="#eye"/></svg><h3>真视宝石<span>· 永恒</span></h3><p>让暗处的威胁，无所遁形。</p><div class="stat-pair"><span><strong class="word-stat">全地图</strong>己方队伍真视侦测</span></div><span class="card-bottom">每队吸收一次 · 吸收者获高空视野 <b>↗</b></span></button>
+        <button class="ascension-card jade" data-detail="真视宝石·永恒"><span class="item-tag">团队永久真视</span><svg class="rune"><use href="#eye"/></svg><h3>真视宝石<span>· 永恒</span></h3><p>让暗处的威胁，无所遁形。</p><div class="stat-pair"><span><strong class="word-stat">全地图</strong>己方队伍真视侦测</span></div><span class="card-bottom">0 金直接购买 · 吸收者获高空视野 <b>↗</b></span></button>
         <button class="ascension-card silver" data-detail="无间神镜盾"><span class="item-tag">永久吸收 · 法术反制</span><svg class="rune"><use href="#shield"/></svg><h3>无间神镜盾</h3><p>你施于我的，终将归还于你。</p><div class="stat-pair"><span><strong>0<small>s</small></strong>抵挡与反弹冷却</span></div><span class="card-bottom">抵挡并反弹大多数指向性技能 <b>↗</b></span></button>
         <button class="ascension-card amber" data-detail="怪蛇之息·升级"><span class="item-tag">永久吸收 · 远程多重攻击</span><svg class="rune"><use href="#hydra"/></svg><h3>怪蛇之息<span>· 升级</span></h3><p>一箭所指，十方皆敌。</p><div class="stat-pair"><span><strong>+800</strong>攻击距离</span><span><strong>10</strong>额外攻击目标</span></div><span class="card-bottom">远程多重攻击 · 可触发攻击特效 <b>↗</b></span></button>
       </div>
@@ -72,6 +73,11 @@
       <p class="section-note">数值整理自项目当前配置。特定技能交互与叠加效果，以游戏实际表现为准。</p>
     </section>
 
+    <section class="section container release-update" aria-labelledby="release-update-title">
+      <p class="eyebrow">V1.1.0 / 2026.10.21</p><h2 id="release-update-title">这次更新</h2>
+      <p>真视宝石改为 0 金成品直售，删除升级配方；单机版保留高空视野。龙息溅射优先使用行家阵列 + 100 金卷轴，狂战斧 + 100 金卷轴作为第二路线。</p>
+      <p>新增独立联机版，仅包含免费全图反隐宝石。<a href="multiplayer.html">查看联机版 →</a></p>
+    </section>
     <section id="download" class="download-section" aria-labelledby="download-title">
       <div class="container download-inner">
         <div class="download-copy">

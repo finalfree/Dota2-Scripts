@@ -5,6 +5,41 @@
 
 ## 入口与输出
 
+### 联机轻量版（2026-10-21）
+
+运行 `./deploy_multiplayer.ps1`，默认打包并部署，输出 `bin/multiplayer/pak03_dir.vpk`。
+使用 `-PackageOnly` 可仅打包。默认部署目标为
+`E:\SteamLibrary\steamapps\common\dota 2 beta\game\dota_schinese\pak03_dir.vpk`；
+沿用退出游戏检查、旧包备份和部署哈希校验。可用 `-TargetDirectory` 指定其他目录。
+支持 `-OutputPath`、`-VpkEditCli`、`-Python`。原来的全装备入口和源码定义不变。
+
+当前只选择 `item_lv_gem`（兼容 ID 10004），成品 0 金币，在商店消耗品分类直接出售；
+无需原版宝石或配方，进入存活本体英雄主栏后沿用原逻辑自动吸收。每队一次，重复物品保留可出售。
+保留死亡不移除的状态图标和隐藏物品实体，去掉该状态的高空视野，只留下全队全图原生真视。
+真视不揭开战争迷雾。脚本按购买者所在队伍启用，不额外限制购买者为主机。
+
+联机稳定版源码独立维护在 `game/dota_addons/overforged_multiplayer`：
+
+- `scripts/npc/npc_items_custom.txt`：仅宝石，手工维护 0 金价格和无高空视野的状态。
+- `scripts/vscripts/lv/item_lv_gem.lua`：独立反隐逻辑，不自动同步单机版变化。
+- `resource/addon_english.txt`、`resource/addon_schinese.txt`：独立说明。
+- `scripts/shops.txt`：独立新增商店条目，构建时与官方商店合并。
+
+`packaging/multiplayer.txt` 限定六个包内文件。物品 KV 和 Lua 直接映射联机源码，
+不再读取单机装备或在构建时抽取/改写宝石。共用的只有通用打包工具和官方基线。
+`items.txt` 加载入口、完整官方加联机本地化以及商店合并仍是必要的 VPK 适配产物。
+
+**不能靠改名 Pak03 自动合并装备。** VPK 中同一路径的文件有覆盖关系，不会逐个合并 KV 条目。
+本包包含完整的 `scripts/npc/items.txt`、`scripts/shops.txt` 和中英本地化；若 Pak02 也包含这些路径，
+就会冲突。与旧超限武装包还共用宝石 ID、别名路径和 Lua 路径。要组合必须在构建时合并这些数据，
+不能仅将两个包并排摆放来保证两套功能均生效。未检查任意外部 Pak02 的具体内容或验证其加载顺序。
+联机轻量玩法应使用本包替换旧全装备自定义包；不要覆盖官方游戏基线。此入口不会自动替换任何已安装包。
+
+本次六文件 VPK v1 单文件 CRC 和 payload SHA256 校验通过；专门的 profile 隔离测试通过。
+用户反馈此前宝石吸收后仅显示 buff 时，未装补丁的玩家查看装备不会崩溃；崩溃来自其他装备。
+新版本的商店入口、0 金购买、去掉高空视野、未装补丁队友共享及死亡复活效果仍待用户实测。
+未部署、未启动游戏、未发布 Workshop。
+
 ```powershell
 .\deploy_items_only.ps1 -PackageOnly     # 增量：bin/pak01_dir.vpk
 .\deploy_all.ps1 -PackageOnly            # 全量：仓库根 pak01_dir.vpk
@@ -12,7 +47,7 @@
 ```
 
 去掉 `-PackageOnly` 会在确认 Dota 已退出后，备份并部署至已配置的
-`E:\SteamLibrary\steamapps\common\dota 2 beta\game\dota_lv\pak01_dir.vpk`。
+`E:\SteamLibrary\steamapps\common\dota 2 beta\game\dota_schinese\pak01_dir.vpk`。
 仍支持 `-OutputPath`、`-TargetDirectory`、`-VpkEditCli`；增量支持 `-Manifest`。
 不会自动终止游戏，不修改官方 `game/dota/pak01_dir.vpk` 或 `gameinfo.gi`。
 不要用独立增量包覆盖需要保留的天地星合并版；这种情况下应使用合并入口。

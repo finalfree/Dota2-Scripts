@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#101112">
+  <meta name="description" content="超限武装 Overforged：Dota 2 本地装备补丁。联机轻量版仅提供 0 金币全队反隐宝石，无高空视野或其他装备强化。">
+  <title>超限武装 v1.1.0 · 联机版 — OVERFORGED</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">跳至正文</a>
+  <svg class="icon-library" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <symbol id="github" viewBox="0 0 16 16"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82A7.65 7.65 0 0 1 8 3.46c.68 0 1.36.09 2 .26 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></symbol>
+    <symbol id="mark" viewBox="0 0 40 44"><path d="M5 3h13L9 17l13-6 13 6-8 8 8 16H22l-7-14-10 9V22l9-8z" fill="currentColor"/></symbol>
+    <symbol id="arrow" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.5"/></symbol>
+    <symbol id="gem" viewBox="0 0 64 64"><path d="m32 5 21 20-21 34L11 25 32 5Zm0 0 8 20-8 34-8-34m-13 0h42" fill="none" stroke="currentColor" stroke-width="1.5"/></symbol>
+    <symbol id="eye" viewBox="0 0 64 64"><path d="M5 32S16 14 32 14s27 18 27 18-11 18-27 18S5 32 5 32Z" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="32" cy="32" r="10" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M32 6v8m0 36v8M8 12l9 9m30 22 9 9M56 12l-9 9M17 43l-9 9" stroke="currentColor" stroke-width="1.5"/></symbol>
+    <symbol id="shield" viewBox="0 0 64 64"><path d="m32 5 23 9v18c0 14-23 26-23 26S9 46 9 32V14L32 5Zm0 0v53M15 29h34M23 19l18 24M41 19 23 43" fill="none" stroke="currentColor" stroke-width="1.5"/></symbol>
+    <symbol id="hydra" viewBox="0 0 64 64"><path d="M32 57V24m0 17L15 28V10l8 6m9 13L49 16V7l-8 6M32 19l-8-8 8-6 8 6-8 8M15 22 7 16v16l8 9m34-17 8 8v12l-8-8M23 57h18" fill="none" stroke="currentColor" stroke-width="1.5"/></symbol>
+  </svg>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="#" aria-label="超限武装首页"><svg><use href="#mark"/></svg><span>OVERFORGED<small>超 限 武 装</small></span></a>
+      <div class="edition-switch" role="group" aria-label="选择模组版本"><a href="index.html">单机版</a><a href="multiplayer.html" aria-current="page">联机版</a></div>
+      <nav aria-label="主导航"><a href="#gem-details">真视宝石</a><a href="#updates">更新记录</a></nav>
+      <div class="header-actions"><a class="header-github" href="https://github.com/finalfree/Dota2-Scripts" target="_blank" rel="noopener noreferrer" aria-label="在 GitHub 查看超限武装开源仓库" title="GitHub 开源仓库"><svg aria-hidden="true"><use href="#github"/></svg><span>GitHub</span></a><a class="header-download" href="#download">下载补丁 <span>↗</span></a></div>
+    </div>
+  </header>
+
+  <main id="main" class="multiplayer-page">
+    <section class="container multiplayer-hero" aria-labelledby="multiplayer-title">
+      <div><p class="eyebrow">V1.1.0 · 联机版 · ONE ITEM, ONE PURPOSE</p>
+      <h1 id="multiplayer-title">一起开黑，<br><span>让隐身无处藏。</span></h1>
+      <p class="hero-description">只带上一颗宝石。<br>保留全队反隐，不加入单机版的其他装备强化。</p>
+      <div class="hero-actions"><a class="button button-primary" href="#download">下载联机版 Pak03 <span>↗</span></a><a class="button button-quiet" href="index.html">查看单机版 →</a></div></div>
+      <div class="multiplayer-gem-art"><img src="assets/items/gem.png" alt="真视宝石游戏图标" width="264" height="192"><span>真视宝石 · 永恒</span><strong>0 <small>金币</small></strong></div>
+    </section>
+    <section id="gem-details" class="section container" aria-labelledby="gem-title">
+      <p class="eyebrow">THE MULTIPLAYER EDITION / 仅此一件</p><h2 id="gem-title">真视宝石 · 永恒</h2>
+      <div class="multiplayer-features">
+        <article><h3>免费成品</h3><p>商店“消耗品”分类直接购买，价格 0 金。无需原版宝石或配方。</p></article>
+        <article><h3>全队全图反隐</h3><p>每队吸收一次，己方队伍永久获得全地图真视侦测。敌人仍需在己方正常视野内才能被看见。</p></article>
+        <article><h3>自动吸收</h3><p>进入存活本体英雄的主装备栏后自动吸收，释放物品格，保留状态图标；死亡后效果保留。</p></article>
+      </div>
+      <p class="section-note">无高空视野，不揭开战争迷雾，不包含其他装备强化。幻象、克隆体和信使不能吸收；储藏处内不吸收。同队重复购买不会叠加。</p>
+    </section>
+    <section id="updates" class="section container release-update" aria-labelledby="updates-title"><p class="eyebrow">V1.1.0 / 2026.10.21</p><h2 id="updates-title">独立联机版，首次加入。</h2><p>宝石以 0 金成品加入商店，去掉高空视野。联机版使用独立源码维护，并以 Pak03 单独发布。</p><p>本次新版本的商店显示及未安装补丁队友的共享效果，仍需游戏内验收。</p></section>
+    <section id="download" class="download-section" aria-labelledby="download-title"><div class="container download-inner"><div class="download-copy">
+      <p class="eyebrow">MULTIPLAYER / PAK03</p><h2 id="download-title">给下一场开黑，带颗宝石。</h2><p>由开房间的主机安装并购买，启用所在队伍的反隐。</p>
+      <div class="installation"><div class="installation-heading"><span class="tiny-label">INSTALLATION / 安装说明</span><h3>三步，准备开局。</h3></div><ol>
+      <li><b>01</b><span>下载 <code>pak03_dir.vpk</code>，完全退出 Dota 2。</span></li>
+      <li><b>02</b><span>将补丁放入下方目录，同名文件先备份。请选择对应版本使用；与其他装备包并放不保证功能叠加。</span></li>
+      <li><b>03</b><span>重启游戏并创建本地房间，主机英雄在消耗品分类购买 0 金宝石，进入主装备栏后自动吸收。</span></li></ol>
+      <div class="install-path"><code>X:\SteamLibrary\steamapps\common\dota 2 beta\game\dota_schinese</code></div>
+      <p class="installation-note"><code>X:</code> 替换为你的 Steam 游戏库盘符。最终文件为该目录下的 <code>pak03_dir.vpk</code>。</p></div>
+      <a class="button button-primary" href="https://gh.lighten.top/finalfree/Dota2-Scripts/releases/latest/download/pak03_dir.vpk">下载联机版补丁 <svg><use href="#arrow"/></svg></a>
+    </div></div></section>
+  </main>
+  <footer class="container"><a class="brand footer-brand" href="#"><svg><use href="#mark"/></svg><span>OVERFORGED<small>超 限 武 装</small></span></a><p>玩家创作的 Dota 2 本地装备模组。<br>Dota 2 及相关商标归 Valve 所有，本项目与 Valve 无关联。</p><a class="footer-github" href="https://github.com/finalfree/Dota2-Scripts" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true"><use href="#github"/></svg><span><strong>GitHub 开源仓库</strong><small>finalfree / Dota2-Scripts</small></span><span class="repo-arrow" aria-hidden="true">↗</span></a></footer>
+
+
+</body>
+</html>

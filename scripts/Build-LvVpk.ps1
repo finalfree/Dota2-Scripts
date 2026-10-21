@@ -1,9 +1,11 @@
 param(
     [switch]$PackageOnly,
     [switch]$All,
+    [ValidateSet('standard', 'multiplayer')][string]$Profile = 'standard',
     [string]$Manifest = (Join-Path (Split-Path $PSScriptRoot -Parent) 'packaging/items.txt'),
     [Parameter(Mandatory=$true)][string]$OutputPath,
     [string]$TargetDirectory,
+    [string]$TargetFileName = 'pak01_dir.vpk',
     [string]$VpkEditCli = 'vpkeditcli',
     [string]$Python = 'python'
 )
@@ -13,7 +15,7 @@ if (-not $PackageOnly -and (Get-Process -Name dota2 -ErrorAction SilentlyContinu
     throw 'Please fully exit Dota 2 before deploying, or use -PackageOnly.'
 }
 $generated = Join-Path $repo ('bin/vpk-adapter-' + [guid]::NewGuid().ToString('N'))
-$arguments = @((Join-Path $PSScriptRoot 'prepare_vpk.py'), '--output', $generated, '--manifest', $Manifest)
+$arguments = @((Join-Path $PSScriptRoot 'prepare_vpk.py'), '--output', $generated, '--manifest', $Manifest, '--profile', $Profile)
 if ($All) { $arguments += '--all' }
 & $Python @arguments
 if ($LASTEXITCODE -ne 0) { throw 'VPK adapter generation failed. Previous package was not changed.' }
@@ -26,9 +28,13 @@ $options = @{
     FileMap = $map
     OutputPath = $OutputPath
     TargetDirectory = $TargetDirectory
+    TargetFileName = $TargetFileName
     PackageOnly = $PackageOnly
     VpkEditCli = $VpkEditCli
     Python = $Python
+}
+if ($Profile -eq 'multiplayer') {
+    $options.SourceRoot = Join-Path $repo 'game/dota_addons/overforged_multiplayer'
 }
 if ($All) {
     # Still an explicit list: do not accidentally include addoninfo or bot scripts.

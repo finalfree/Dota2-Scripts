@@ -1,0 +1,14 @@
+"lang"
+{
+	"Language"		"schinese"
+	"Tokens"
+	{
+		"DOTA_Tooltip_Ability_item_lv_gem"		"真视宝石·永恒"
+		"DOTA_SearchAlias_Ability_item_lv_gem"		"gem;zhenshi;baoshi;yongheng;真视;宝石;永恒"
+		"DOTA_Tooltip_ability_item_lv_gem_Description"		"<h1>被动：自动吸收</h1>免费购买成品，进入存活英雄的主装备栏后自动吸收，不占物品格。永久为己方队伍提供全地图真视侦测。"
+		"DOTA_Tooltip_ability_item_lv_gem_Note0"		"每支队伍只能吸收一次。重复合成的物品不会被消耗，也不叠加真视；可出售。幻象、克隆体和信使不能吸收。"
+		"DOTA_Tooltip_ability_item_lv_gem_Note1"		"不提供高空视野，也不能看见战争迷雾中的敌人。不保留原宝石的主动现形技能；储藏处内不吸收。"
+		"DOTA_Tooltip_modifier_item_lv_gem_consumed_status"		"永恒真视"
+		"DOTA_Tooltip_modifier_item_lv_gem_consumed_status_Description"		"己方队伍永久拥有全地图真视侦测；不能看见战争迷雾中的敌人。"
+	}
+}

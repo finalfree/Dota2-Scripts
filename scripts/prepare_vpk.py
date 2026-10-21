@@ -25,8 +25,9 @@ def manifest_paths(path):
     return [p.replace('\\', '/') for p in paths]
 
 
-def prepare(output, manifest=ROOT / 'packaging/items.txt', all_files=False):
-    validate()
+def prepare(output, manifest=ROOT / 'packaging/items.txt', all_files=False, profile='standard'):
+    if profile == 'standard':
+        validate()
     output = Path(output).resolve()
     if not output.is_relative_to(ROOT / 'bin'):
         raise ValueError('Generated adapters must be inside this repository bin directory')
@@ -34,6 +35,13 @@ def prepare(output, manifest=ROOT / 'packaging/items.txt', all_files=False):
     if output.is_symlink():
         raise ValueError('Generated adapter directory must not be a link')
     entries = manifest_paths(manifest)
+    multiplayer = profile == 'multiplayer'
+    if multiplayer:
+        from multiplayer_profile import MULTIPLAYER_GAME
+    source_root = MULTIPLAYER_GAME if multiplayer else GAME
+    if multiplayer and all_files:
+        raise ValueError('Multiplayer profile does not support full baseline packaging')
+    npc_sources = {'scripts/npc/overforged_items.txt': 'scripts/npc/npc_items_custom.txt'} if multiplayer else VPK_NPC_SOURCES
     if all_files:
         entries = sorted(set(entries) | {
             p.relative_to(BASELINE).as_posix() for p in BASELINE.rglob('*')
@@ -42,7 +50,7 @@ def prepare(output, manifest=ROOT / 'packaging/items.txt', all_files=False):
     for entry in entries:
         if entry in LV_DEFINITIONS or entry in ('addoninfo.txt', 'scripts/vscripts/addon_game_mode.lua'):
             raise ValueError(f'Addon entrypoint is not a legacy VPK payload: {entry}')
-        candidate = GAME / VPK_NPC_SOURCES.get(entry, entry)
+        candidate = source_root / npc_sources.get(entry, entry)
         if entry == 'scripts/npc/items.txt':
             baseline = (BASELINE / entry).read_text(encoding='utf-8-sig')
             if any(k == '#base' and ('lv/' in v or 'overforged' in v or '_custom' in v)
@@ -51,24 +59,32 @@ def prepare(output, manifest=ROOT / 'packaging/items.txt', all_files=False):
             candidate = output / entry
             candidate.parent.mkdir(parents=True, exist_ok=True)
             bases = ''.join(f'#base "{p.removeprefix("scripts/npc/")}"\n'
-                            for p in VPK_NPC_SOURCES)
+                            for p in npc_sources)
             candidate.write_text(bases + '\n' + baseline, encoding='utf-8', newline='\n')
+        elif entry == 'scripts/shops.txt' and (source_root / entry).is_file():
+            from merge_shops import merge_shops
+            candidate = output / entry
+            candidate.parent.mkdir(parents=True, exist_ok=True)
+            candidate.write_text(merge_shops(BASELINE / entry, source_root / entry),
+                                 encoding='utf-8', newline='\n')
         elif entry.startswith('resource/localization/abilities_'):
             lang = Path(entry).stem.removeprefix('abilities_')
-            addon = GAME / f'resource/addon_{lang}.txt'
+            addon = source_root / f'resource/addon_{lang}.txt'
             candidate = output / entry
             candidate.parent.mkdir(parents=True, exist_ok=True)
             merged = merge_localization((BASELINE / entry).read_text(encoding='utf-8-sig'),
                                         addon.read_text(encoding='utf-8-sig'))
             candidate.write_text(merged, encoding='utf-8-sig', newline='\n')
         elif not candidate.is_file():
+            if multiplayer:
+                raise ValueError(f'Missing independent multiplayer source: {entry}')
             candidate = BASELINE / entry
         if not candidate.is_file():
             raise ValueError(f'Missing source for {entry}')
         sources[entry] = str(candidate.resolve())
     # Dependencies must not silently fall out of a user-supplied manifest.
     if 'scripts/npc/items.txt' in sources:
-        for entry in VPK_NPC_SOURCES:
+        for entry in npc_sources:
             if entry not in sources:
                 raise ValueError(f'Missing generated items.txt dependency: {entry}')
     (output / 'file-map.json').write_text(json.dumps(sources, indent=2), encoding='utf-8')
@@ -80,6 +96,7 @@ if __name__ == '__main__':
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--manifest', type=Path, default=ROOT / 'packaging/items.txt')
     parser.add_argument('--all', action='store_true')
+    parser.add_argument('--profile', choices=('standard', 'multiplayer'), default='standard')
     args = parser.parse_args()
-    files = prepare(args.output, args.manifest, args.all)
+    files = prepare(args.output, args.manifest, args.all, args.profile)
     print(f'Prepared {len(files)} source mappings; shared Lua/KV/textures were not copied.')

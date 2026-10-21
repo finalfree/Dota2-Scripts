@@ -5,6 +5,7 @@ param(
     [Parameter(Mandatory = $true, ParameterSetName = 'All')][switch]$All,
     [Parameter(Mandatory = $true)][string]$OutputPath,
     [string]$TargetDirectory,
+    [ValidatePattern('^pak[0-9]+_dir\.vpk$')][string]$TargetFileName = 'pak01_dir.vpk',
     [switch]$PackageOnly,
     [hashtable]$FileMap = @{},
     [string]$Python = 'python',
@@ -60,7 +61,7 @@ if (-not $PackageOnly) {
         throw 'Deployment target directory does not exist. Use -PackageOnly to just build.'
     }
     Assert-NoReparsePoint $TargetDirectory
-    $targetFile = Join-Path ((Get-Item -LiteralPath $TargetDirectory).FullName) 'pak01_dir.vpk'
+    $targetFile = Join-Path ((Get-Item -LiteralPath $TargetDirectory).FullName) $TargetFileName
     if ($targetFile -eq $outputFile) { throw 'Build output and deployment target must be different files.' }
     if (Test-Path -LiteralPath $targetFile) {
         if (Test-Path -LiteralPath $targetFile -PathType Container) { throw 'Deployment target is a directory, not a file.' }

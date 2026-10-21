@@ -2,23 +2,7 @@
 {
 	"Version"		"1"
 
-	// Experimental: Gem + recipe -> automatic, global native True Sight.
-	"item_recipe_lv_gem"
-	{
-		"ID"                    "10003"
-		"BaseClass"             "item_datadriven"
-		"AbilityTextureName"    "item_recipe_ultimate_scepter_2"
-		"Model"                 "models/props_gameplay/recipe.vmdl"
-		"ItemCost"              "800"
-		"ItemPurchasable"       "1"
-		"ItemRecipe"            "1"
-		"ItemResult"            "item_lv_gem"
-		"ItemRequirements"
-		{
-			"01"                "item_gem"
-		}
-	}
-
+	// Standalone free Gem; retains singleplayer global True Sight and flying vision.
 	"item_lv_gem"
 	{
 		"ID"                    "10004"
@@ -26,7 +10,7 @@
 		"AbilityTextureName"    "item_gem"
 		"AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"Model"                 "models/props_gameplay/gem01.vmdl"
-		"ItemCost"              "1700"
+		"ItemCost"              "0"
 		"ItemShopTags"          "see_invis"
 		"ItemQuality"           "consumable"
 		"ItemPurchasable"       "1"
@@ -695,7 +679,7 @@
 		"AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"Model"                 "models/props_gameplay/neutral_box.vmdl"
 		"ItemPurchasable"       "1"
-		"ItemCost"              "4000"   // 3900 狂战斧 + 100 卷轴；行家阵列路线按实际材料价结算
+		"ItemCost"              "2650"   // 2550 行家阵列 + 100 卷轴；狂战斧路线按实际材料价结算
 		"ItemSellable"          "1"
 		"ItemShopTags"          "damage;health_regen;mana_regen;farming;dps"
 		"ItemQuality"           "artifact"
@@ -790,8 +774,8 @@
 		"ItemResult"            "item_lv_dragon_splash"
 		"ItemRequirements"
 		{
-			"01"                    "item_bfury"
-			"02"                    "item_specialists_array"
+			"01"                    "item_specialists_array"
+			"02"                    "item_bfury"
 		}
 	}
 

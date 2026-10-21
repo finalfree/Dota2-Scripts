@@ -65,6 +65,7 @@ jobs:
         run: |
           python -X utf8 scripts/validate_addon.py
           python -X utf8 -m unittest discover -s tests -p 'test_release_vpk.py' -v
+          python -X utf8 -m unittest discover -s tests -p 'test_multiplayer_profile.py' -v
 
       - name: Exercise mapped packaging and verification
         shell: pwsh
@@ -78,40 +79,32 @@ jobs:
         run: |
           $ErrorActionPreference = 'Stop'
           $cli = Join-Path $env:RUNNER_TEMP 'vpkedit/vpkeditcli'
-          $output = Join-Path $env:GITHUB_WORKSPACE 'bin/ci-package/pak02_dir.vpk'
-          # Call the shared builder directly; CI must never deploy to a game directory.
-          ./scripts/Build-LvVpk.ps1 -PackageOnly -OutputPath $output -VpkEditCli $cli
-
-          $package = Get-Item -LiteralPath $output
+          $directory = Join-Path $env:GITHUB_WORKSPACE 'bin/ci-package'
           $commit = (git rev-parse HEAD).Trim()
           if ($LASTEXITCODE -ne 0) { throw 'Could not resolve source commit' }
           "commit=$commit" | Add-Content -LiteralPath $env:GITHUB_OUTPUT
-          $hash = (Get-FileHash -Algorithm SHA256 -LiteralPath $output).Hash.ToLowerInvariant()
-          $directory = $package.Directory.FullName
-          [IO.File]::WriteAllText((Join-Path $directory 'pak02_dir.vpk.sha256'), "$hash  pak02_dir.vpk`n")
-          $info = [ordered]@{
-            commit = $commit
-            ref = $env:GITHUB_REF
-            run_url = "$env:GITHUB_SERVER_URL/$env:GITHUB_REPOSITORY/actions/runs/$env:GITHUB_RUN_ID"
-            built_at = [DateTime]::UtcNow.ToString('o')
-            vpkedit_tag = $env:VPKEDIT_TAG
-            vpk_version = 1
-            package = $package.Name
-            size_bytes = $package.Length
-            sha256 = $hash
+          # Both entries explicitly package only: runners must never deploy.
+          ./scripts/Build-LvVpk.ps1 -PackageOnly -OutputPath (Join-Path $directory 'pak02_dir.vpk') -VpkEditCli $cli
+          ./deploy_multiplayer.ps1 -PackageOnly -OutputPath (Join-Path $directory 'pak03_dir.vpk') -VpkEditCli $cli
+          foreach ($name in @('pak02_dir.vpk', 'pak03_dir.vpk')) {
+            $output = Join-Path $directory $name
+            $package = Get-Item -LiteralPath $output
+            $hash = (Get-FileHash -Algorithm SHA256 -LiteralPath $output).Hash.ToLowerInvariant()
+            [IO.File]::WriteAllText((Join-Path $directory "$name.sha256"), "$hash  $name`n")
+            $info = [ordered]@{
+              commit = $commit
+              ref = $env:GITHUB_REF
+              run_url = "$env:GITHUB_SERVER_URL/$env:GITHUB_REPOSITORY/actions/runs/$env:GITHUB_RUN_ID"
+              built_at = [DateTime]::UtcNow.ToString('o')
+              vpkedit_tag = $env:VPKEDIT_TAG
+              vpk_version = 1
+              package = $name
+              size_bytes = $package.Length
+              sha256 = $hash
+            }
+            $info | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $directory "$name.build-info.json") -Encoding utf8
+            "### $name`n- Commit: $commit`n- VPK v1, CRC and payload SHA256 verified`n- SHA256: $hash" | Add-Content -LiteralPath $env:GITHUB_STEP_SUMMARY
           }
-          $info | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $directory 'pak02_dir.vpk.build-info.json') -Encoding utf8
-          @"
-          ## Verified VPK package
-
-          - Source commit: $commit
-          - Format: VPK v1, single file
-          - Size: $($package.Length) bytes
-          - SHA256: $hash
-          - Checks passed: VPKEdit CRC, package file list, payload SHA256
-
-          Download the artifact below for pak02_dir.vpk and its checksum/build information.
-          "@ | Add-Content -LiteralPath $env:GITHUB_STEP_SUMMARY
 
       - name: Upload verified package
         id: upload
@@ -122,6 +115,9 @@ jobs:
             bin/ci-package/pak02_dir.vpk
             bin/ci-package/pak02_dir.vpk.sha256
             bin/ci-package/pak02_dir.vpk.build-info.json
+            bin/ci-package/pak03_dir.vpk
+            bin/ci-package/pak03_dir.vpk.sha256
+            bin/ci-package/pak03_dir.vpk.build-info.json
           if-no-files-found: error
           compression-level: 0
           retention-days: 14
@@ -215,7 +211,10 @@ jobs:
             "${options[@]}" \
             bin/release-package/pak02_dir.vpk \
             bin/release-package/pak02_dir.vpk.sha256 \
-            bin/release-package/pak02_dir.vpk.build-info.json
-          # Publish only after all three attachments have finished uploading.
+            bin/release-package/pak02_dir.vpk.build-info.json \
+            bin/release-package/pak03_dir.vpk \
+            bin/release-package/pak03_dir.vpk.sha256 \
+            bin/release-package/pak03_dir.vpk.build-info.json
+          # Publish only after all six attachments have finished uploading.
           gh release edit "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" \
             --draft=false "${options[@]}"

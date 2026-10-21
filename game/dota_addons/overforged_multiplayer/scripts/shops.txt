@@ -1,0 +1,7 @@
+"dota_shops"
+{
+	"consumables"
+	{
+		"item" "item_lv_gem"
+	}
+}
