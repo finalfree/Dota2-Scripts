@@ -12,3 +12,5 @@ game/dota_addons/*/.vpkedit-*.rsp
 .workbuddy
 __pycache__/
 *.py[cod]
+website/node_modules/
+website/.astro/

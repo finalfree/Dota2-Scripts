@@ -1,13 +1,9 @@
 'use strict';
 
-const data = window.OVERFORGED_DATA;
+import data from '../data/equipment.json';
+import { weapons } from '../data/weapons.js';
 const featured = new Map(data.featured.map(item => [item.name, item]));
-const weapons = [
-  {name:'蝶翼之殇',key:'butterfly_crit',tag:'必然致命',recipe:'蝴蝶 + 代达罗斯之殇',description:'蝶翼引导锋刃，每一次挥击都通往终结。基础攻击间隔设为 1.2 秒，让锋芒更快抵达。',stats:[['1.2s','基础攻击间隔'],['100%','暴击概率'],['300%','暴击伤害'],['85%','闪避']]},
-  {name:'不洁魔心',key:'satanic_heart',tag:'不灭狂热',recipe:'撒旦之邪力 + 恐鳌之心',description:'让从未停跳的心，驱动从未饱饮的利刃。吸血与生命恢复，化为持续作战的底气。',stats:[['175%','主动吸血'],['5s','主动冷却'],['+75','力量']]},
-  {name:'深渊冰眼',key:'abyssal_skadi',tag:'冰封深渊',recipe:'深渊之刃 + 斯嘉蒂之眼',description:'当深渊也被冻结，每一次进攻都是压制。融合主动强击、被动重击与霜冻攻击。',stats:[['25%','重击概率'],['100%','减速抗性'],['+100','全属性']]},
-  {name:'龙息溅射',key:'dragon_splash',tag:'永久攻击溅射',recipe:'行家阵列 + 100 金卷轴（优先）；狂战斧 + 100 金卷轴',description:'将黑龙之息融入血脉。自动吸收，近战与远程攻击均可释放永久范围溅射。',stats:[['500','溅射范围'],['100%','溅射伤害'],['0','占用物品格']]}
-];
+
 
 function element(tag, className, text) {
   const node = document.createElement(tag);
@@ -33,34 +29,6 @@ document.querySelectorAll('.ascension-card').forEach(card => {
 document.querySelectorAll('.fusion-strip [data-detail]').forEach(button => {
   const item = featured.get(button.dataset.detail);
   button.querySelector('.fusion-symbol').replaceWith(itemIcon(item,'fusion-item-icon'));
-});
-
-const weaponGrid = document.querySelector('#weapon-grid');
-weapons.forEach((weapon, index) => {
-  const item = featured.get(weapon.name);
-  const button = element('button','weapon-card');
-  button.dataset.detail = weapon.name;
-  button.setAttribute('aria-label', `查看${weapon.name}：配方、属性与效果`);
-  const picture = element('div','weapon-image');
-  const img = element('img');
-  img.src = `assets/item_lv_${weapon.key}.png`;
-  img.alt = `${weapon.name}专属原画`;
-  img.loading = 'lazy';
-  img.width = 1470;
-  img.height = 1070;
-  picture.append(img,element('span','item-tag',weapon.tag),element('span','weapon-number',`0${index+1} / 04`));
-  const info = element('div','weapon-info');
-  const title = element('div','weapon-title');
-  title.append(element('h3','',weapon.name),element('span','price',item.price.toLocaleString('en-US')));
-  const stats = element('div','weapon-stats');
-  weapon.stats.forEach(([value,label]) => {
-    const stat = element('span');
-    stat.append(element('b','',value),element('span','',label));
-    stats.append(stat);
-  });
-  info.append(title,element('p','recipe',weapon.recipe),element('p','weapon-description',weapon.description),stats,element('span','detail-arrow','↗'));
-  button.append(picture,info);
-  weaponGrid.append(button);
 });
 
 const dialog = document.querySelector('#item-dialog');
@@ -165,12 +133,3 @@ document.addEventListener('keydown',event => {
 });
 renderCatalog();
 
-if ('IntersectionObserver' in window) {
-  const links = [...document.querySelectorAll('nav a')];
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) links.forEach(link => link.classList.toggle('current', link.hash === `#${entry.target.id}`));
-    });
-  }, {rootMargin:'-20% 0px -55% 0px'});
-  ['ascension','arsenal','upgrades'].forEach(id => observer.observe(document.getElementById(id)));
-}

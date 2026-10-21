@@ -1,0 +1,18 @@
+---
+const { multiplayer = false } = Astro.props;
+const links = multiplayer ? [['#gem-details', '真视宝石'], ['#updates', '更新记录']] : [['#ascension', '永久进化'], ['#arsenal', '融合神装'], ['#upgrades', '装备图鉴']];
+---
+<header class="site-header">
+    <div class="header-inner">
+      <div class="header-identity"><a class="brand" href="#" aria-label="超限武装首页"><svg><use href="#mark"/></svg><span>OVERFORGED<small>超 限 武 装</small></span></a>
+        <a class="edition-toggle" href={multiplayer ? './index.html' : './multiplayer.html'} aria-label={`当前为${multiplayer ? '联机版' : '单机版'}，点击切换到${multiplayer ? '单机版' : '联机版'}`}>
+          <span class="edition-current">{multiplayer ? '联机版' : '单机版'}</span>
+          <span class="edition-action" aria-hidden="true"><svg viewBox="0 0 20 20"><path d="M3 6h13m-4-3 4 3-4 3M17 14H4m4-3-4 3 4 3" /></svg></span>
+          <span class="edition-tooltip" aria-hidden="true">切换到{multiplayer ? '单机版' : '联机版'}</span>
+        </a>
+      </div>
+      <nav aria-label="主导航">{links.map(([href, label]) => <a href={href}>{label}</a>)}</nav>
+      <div class="header-actions">
+<a class="header-github" href="https://github.com/finalfree/Dota2-Scripts" target="_blank" rel="noopener noreferrer" aria-label="在 GitHub 查看超限武装开源仓库" title="GitHub 开源仓库"><svg aria-hidden="true"><use href="#github"/></svg><span>GitHub</span></a><a class="header-download" href="#download">下载补丁 <span>↗</span></a></div>
+    </div>
+</header>

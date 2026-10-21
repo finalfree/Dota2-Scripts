@@ -1,4 +1,4 @@
-window.OVERFORGED_DATA = {
+{
   "featured": [
     {
       "name": "真视宝石·永恒",
@@ -469,4 +469,4 @@ window.OVERFORGED_DATA = {
       "icon": "assets/items/wind_waker.png"
     }
   ]
-};
+}

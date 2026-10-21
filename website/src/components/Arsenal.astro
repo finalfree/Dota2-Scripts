@@ -1,0 +1,10 @@
+---
+import WeaponCard from './WeaponCard.astro';
+import { weapons } from '../data/weapons.js';
+import data from '../data/equipment.json';
+---
+<section id="arsenal" class="section arsenal" aria-labelledby="arsenal-title"><div class="container">
+      <div class="section-heading"><div><p class="eyebrow"><span class="section-number">02 /</span> THE REFORGED ARSENAL</p><h2 id="arsenal-title">传奇相融，锋芒再生。</h2></div><p class="section-intro">熟悉的神装，全新的力量。<br>四件专属原画，四种战场答案。</p></div>
+      <div class="weapon-grid" id="weapon-grid">{weapons.map((weapon, index) => <WeaponCard weapon={weapon} index={index} item={data.featured.find(item => item.name === weapon.name)} />)}</div>
+      <div class="fusion-strip"><div class="fusion-title"><span class="tiny-label">MORE TO FORGE</span><h3>不止于此。</h3></div><button data-detail="三元重戟·升级"><span class="fusion-symbol">✣</span><span><b>三元重戟 · 升级</b><small>80% 状态抗性。三剑与金箍棒融合，必中攻击附加纯粹伤害。</small></span><span class="fusion-stat">80% <small>状态抗性</small></span><span>↗</span></button><button data-detail="霜阳神铠"><span class="fusion-symbol frost">❋</span><span><b>霜阳神铠</b><small>辉耀与希瓦的守护融合。灼烧与霜冷光环常驻。</small></span><span class="fusion-stat">1200 <small>光环范围</small></span><span>↗</span></button></div>
+    </div></section>

@@ -1,0 +1,16 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import MultiplayerHero from '../components/MultiplayerHero.astro';
+import MultiplayerFeatures from '../components/MultiplayerFeatures.astro';
+import MultiplayerUpdates from '../components/MultiplayerUpdates.astro';
+import MultiplayerDownload from '../components/MultiplayerDownload.astro';
+---
+<SiteLayout title="超限武装 v0.1.1 · 联机版 — OVERFORGED" description="超限武装 Overforged：Dota 2 本地装备补丁。联机轻量版仅提供 0 金币全队反隐宝石，无高空视野或其他装备强化。" multiplayer={true}>
+  <main id="main" class="multiplayer-page">
+    <MultiplayerHero />
+    <MultiplayerFeatures />
+    <MultiplayerUpdates />
+    <MultiplayerDownload />
+  </main>
+  
+</SiteLayout>

@@ -1,0 +1,18 @@
+{
+  "name": "overforged-website",
+  "private": true,
+  "version": "0.1.1",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev --host 127.0.0.1",
+    "build": "astro build",
+    "preview": "astro preview --host 127.0.0.1",
+    "sync:content": "python sync-content.py"
+  },
+  "engines": {
+    "node": ">=22.22.0"
+  },
+  "dependencies": {
+    "astro": "^7.4.1"
+  }
+}

@@ -1,0 +1,11 @@
+---
+import data from '../data/equipment.json';
+---
+<section id="upgrades" class="section container upgrades" aria-labelledby="upgrades-title">
+      <div class="section-heading"><div><p class="eyebrow"><span class="section-number">03 /</span> EVERY EDGE, SHARPENED</p><h2 id="upgrades-title">熟悉的装备，更进一步。</h2></div><p class="section-intro">把数值交给图鉴，把战场留给你。<br>以下直接展示升级后的属性与技能数值。</p></div>
+      <div class="catalog-toolbar"><div class="filters" role="group" aria-label="按装备定位筛选"><button class="active" data-filter="全部" aria-pressed="true">全部装备</button><button data-filter="物理输出" aria-pressed="false">物理输出</button><button data-filter="法术强化" aria-pressed="false">法术强化</button><button data-filter="防御续航" aria-pressed="false">防御续航</button><button data-filter="机动控制" aria-pressed="false">机动控制</button></div><label class="search-box"><span aria-hidden="true">⌕</span><input type="search" id="item-search" placeholder="搜索装备或属性…" aria-label="搜索装备或属性"><kbd>/</kbd></label></div>
+      <div class="catalog-meta"><span id="result-count" role="status" aria-live="polite">全部升级装备</span><span>价格单位：金 <i>·</i> 达贡多级入口合并展示</span></div>
+      <div class="table-wrap"><table><thead><tr><th scope="col">装备</th><th scope="col">合成总价</th><th scope="col">升级后的主要数值</th></tr></thead><tbody id="upgrade-rows">{data.upgrades.map(item => <tr><td><div class="catalog-item"><img class="catalog-item-icon" src={item.icon} alt={`${item.name}游戏图标`} width="55" height="40" loading="lazy" /><span class="catalog-item-name">{item.name}<span class="category">{item.category}</span></span></div></td><td>{item.price}</td><td>{item.stats}</td></tr>)}</tbody></table><p id="empty-state" hidden>暂时没有匹配的装备。试试其他关键词，或切换到全部装备。</p></div>
+      <button class="show-more" id="show-more" aria-expanded="false">展开全部装备 <span>＋</span></button>
+      <p class="section-note">数值整理自项目当前配置。特定技能交互与叠加效果，以游戏实际表现为准。</p>
+    </section>

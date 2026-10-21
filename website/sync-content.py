@@ -6,7 +6,9 @@ import shutil
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
-DIST = Path(__file__).resolve().parent / 'dist'
+WEBSITE = Path(__file__).resolve().parent
+DATA = WEBSITE / 'src/data'
+PUBLIC = WEBSITE / 'public'
 README = (ROOT / 'README.md').read_text(encoding='utf-8')
 sys.path.insert(0, str(ROOT / 'scripts'))
 from kv_tools import read, tokens
@@ -63,10 +65,10 @@ def main():
         category = '物理输出' if base in physical else '防御续航' if base in defense else '机动控制' if base in mobility else '法术强化'
         upgrades.append({'name': name, 'price': price, 'stats': stats, 'category': category, 'icon': icon(name)})
     assert len(featured) == 10 and len(upgrades) == 31
-    DIST.mkdir(parents=True, exist_ok=True)
-    (DIST / 'data.js').write_text('window.OVERFORGED_DATA = ' + json.dumps(
-        {'featured': featured, 'upgrades': upgrades}, ensure_ascii=False, indent=2) + ';\n', encoding='utf-8')
-    assets = DIST / 'assets'
+    DATA.mkdir(parents=True, exist_ok=True)
+    (DATA / 'equipment.json').write_text(json.dumps(
+        {'featured': featured, 'upgrades': upgrades}, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+    assets = PUBLIC / 'assets'
     assets.mkdir(exist_ok=True)
     for key in ('butterfly_crit', 'satanic_heart', 'abyssal_skadi', 'dragon_splash'):
         name = f'item_lv_{key}.png'

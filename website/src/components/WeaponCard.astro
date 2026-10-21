@@ -1,0 +1,15 @@
+---
+const { weapon, item, index } = Astro.props;
+---
+<button class="weapon-card" data-detail={weapon.name} aria-label={`查看${weapon.name}：配方、属性与效果`}>
+  <div class="weapon-image">
+    <img src={`assets/item_lv_${weapon.key}.png`} alt={`${weapon.name}专属原画`} loading="lazy" width="1470" height="1070" />
+    <span class="item-tag">{weapon.tag}</span><span class="weapon-number">0{index + 1} / 04</span>
+  </div>
+  <div class="weapon-info">
+    <div class="weapon-title"><h3>{weapon.name}</h3><span class="price">{item.price.toLocaleString('en-US')}</span></div>
+    <p class="recipe">{weapon.recipe}</p><p class="weapon-description">{weapon.description}</p>
+    <div class="weapon-stats">{weapon.stats.map(([value, label]) => <span><b>{value}</b><span>{label}</span></span>)}</div>
+    <span class="detail-arrow">↗</span>
+  </div>
+</button>

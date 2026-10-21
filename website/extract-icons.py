@@ -7,7 +7,8 @@ import sys
 import zlib
 
 ROOT = Path(__file__).resolve().parents[1]
-DIST = ROOT / 'website/dist'
+PUBLIC = ROOT / 'website/public'
+DATA = ROOT / 'website/src/data/equipment.json'
 sys.path.insert(0, str(ROOT / 'scripts'))
 from icon_tool import png_write, vtex_read
 from vpk_list import parse_tree, ARCHIVE_DIR_PACK
@@ -18,7 +19,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('source_vpk', type=Path)
     args = parser.parse_args()
-    data = json.loads((DIST / 'data.js').read_text(encoding='utf-8').removeprefix('window.OVERFORGED_DATA = ').rstrip(';\n'))
+    data = json.loads(DATA.read_text(encoding='utf-8'))
     icons = sorted({item['icon'] for section in data.values() for item in section if item['icon'].startswith('assets/items/')})
     entries = {entry[0]: entry for entry in parse_tree(str(args.source_vpk))}
     manifest = []
@@ -54,7 +55,7 @@ def main():
             compiled = scratch / (Path(icon).stem + '.vtex_c')
             compiled.write_bytes(blob)
             width, height, pixels, _ = vtex_read(str(compiled))
-        output = DIST / icon
+        output = PUBLIC / icon
         output.parent.mkdir(parents=True, exist_ok=True)
         png_write(str(output), width, height, pixels)
         manifest.append({'file': icon, 'source': source_path, 'source_crc32': f'{crc:08x}', 'width': width, 'height': height})
