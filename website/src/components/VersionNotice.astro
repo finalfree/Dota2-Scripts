@@ -1,0 +1,37 @@
+<aside class="version-banner" data-version-banner aria-label="版本适配公告">
+  <div class="banner-inner">
+    <p><strong>已适配 Dota 2 7.42</strong><span class="banner-separator" aria-hidden="true">·</span><a href="#download">请下载新版补丁</a></p>
+    <button type="button" aria-label="关闭版本适配公告" title="关闭公告"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15" /></svg></button>
+  </div>
+</aside>
+<script is:inline>
+  (() => {
+    const banner = document.querySelector('[data-version-banner]');
+    const key = 'overforged-7.42-banner-dismissed';
+    try { if (sessionStorage.getItem(key) === '1') banner.hidden = true; } catch {}
+    banner.querySelector('button').addEventListener('click', () => {
+      banner.hidden = true;
+      try { sessionStorage.setItem(key, '1'); } catch {}
+      document.querySelector('.header-download')?.focus({ preventScroll: true });
+    });
+  })();
+</script>
+<style>
+  .version-banner { background: #542820; color: #f3dfd6; border-bottom: 1px solid #c7785833; font-family: var(--sans); }
+  .version-banner[hidden] { display: none; }
+  .banner-inner { position: relative; width: min(100% - 40px, 1240px); min-height: 36px; margin: 0 auto; display: flex; align-items: center; justify-content: center; padding: 7px 32px; }
+  .banner-inner p { display: flex; flex-wrap: wrap; justify-content: center; gap: 0 12px; margin: 0; font-size: 14px; line-height: 1.6; }
+  .banner-inner strong { font-weight: 600; }
+  .banner-separator { color: #c78d78; }
+  .banner-inner a { color: #f3dfd6; text-decoration: underline; text-decoration-color: #d6a08b80; text-underline-offset: 3px; }
+  .banner-inner a:hover { color: #fff; text-decoration-color: currentColor; }
+  .banner-inner button { position: absolute; right: 0; top: 50%; transform: translateY(-50%); display: grid; place-items: center; width: 32px; height: 32px; padding: 0; border: 0; border-radius: 4px; background: transparent; color: #dcb7a8; cursor: pointer; }
+  .banner-inner button:hover { color: #fff; background: #ffffff0d; }
+  .banner-inner button svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; }
+  .banner-inner :focus-visible { outline: 2px solid #f2c48b; outline-offset: 3px; }
+  @media (max-width: 480px) {
+    .banner-inner { width: calc(100% - 24px); padding: 8px 32px 8px 12px; }
+    .banner-inner p { gap: 0 7px; }
+    .banner-separator { display: none; }
+  }
+</style>

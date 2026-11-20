@@ -1,7 +1,9 @@
 ---
+import VersionNotice from "./VersionNotice.astro";
 const { multiplayer = false } = Astro.props;
 const links = multiplayer ? [['#gem-details', '真视宝石'], ['#updates', '更新记录']] : [['#ascension', '永久进化'], ['#arsenal', '融合神装'], ['#upgrades', '装备图鉴']];
 ---
+<VersionNotice />
 <header class="site-header">
     <div class="header-inner">
       <div class="header-identity"><a class="brand" href="#" aria-label="超限武装首页"><svg><use href="#mark"/></svg><span>OVERFORGED<small>超 限 武 装</small></span></a>
